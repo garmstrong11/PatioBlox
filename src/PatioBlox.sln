@@ -1,7 +1,31 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsoleDedup", "PatioBlox.ConsoleDedup\PatioBlox.ConsoleDedup.csproj", "{8196D1A6-01C5-499A-9F99-EA3EE6D0E9B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.Domain", "PatioBlox.Domain\PatioBlox.Domain.csproj", "{EE2D384E-C9F8-4AF3-A9C0-A6A7C1ED4B3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.DataImport", "PatioBlox.DataImport\PatioBlox.DataImport.csproj", "{26020B4A-6431-4A93-802C-1845E7592458}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8196D1A6-01C5-499A-9F99-EA3EE6D0E9B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8196D1A6-01C5-499A-9F99-EA3EE6D0E9B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8196D1A6-01C5-499A-9F99-EA3EE6D0E9B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8196D1A6-01C5-499A-9F99-EA3EE6D0E9B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE2D384E-C9F8-4AF3-A9C0-A6A7C1ED4B3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE2D384E-C9F8-4AF3-A9C0-A6A7C1ED4B3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE2D384E-C9F8-4AF3-A9C0-A6A7C1ED4B3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE2D384E-C9F8-4AF3-A9C0-A6A7C1ED4B3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26020B4A-6431-4A93-802C-1845E7592458}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26020B4A-6431-4A93-802C-1845E7592458}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26020B4A-6431-4A93-802C-1845E7592458}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26020B4A-6431-4A93-802C-1845E7592458}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
