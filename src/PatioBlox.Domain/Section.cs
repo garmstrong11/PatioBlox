@@ -13,7 +13,7 @@
 		public Patch Patch { get; set; }
 		public int PatchId { get; set; }
 
-		public bool SectionEqual(Section other)
+		public bool PatioBlocksEqual(Section other)
 		{
 			return PatioBlocks.SequenceEqual(other.PatioBlocks);
 		}

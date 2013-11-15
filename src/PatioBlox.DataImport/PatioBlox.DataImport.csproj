@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Importer.cs" />
     <Compile Include="LegacyImporter.cs" />
+    <Compile Include="PatchImporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

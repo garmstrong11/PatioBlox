@@ -26,7 +26,7 @@
 			var sec1 = new Section {Id = 1, Index = 1, Name = "sec1", PatioBlocks = blox1};
 			var sec2 = new Section { Id = 2, Index = 2, Name = "sec2", PatioBlocks = blox2 };
 
-			sec1.SectionEqual(sec2).Should().BeTrue();
+			sec1.PatioBlocksEqual(sec2).Should().BeTrue();
 		}
 
 		[Test]
@@ -38,7 +38,7 @@
 			var sec1 = new Section { Id = 1, Index = 1, Name = "sec1", PatioBlocks = blox1 };
 			var sec2 = new Section { Id = 2, Index = 2, Name = "sec2", PatioBlocks = blox2 };
 
-			sec1.SectionEqual(sec2).Should().BeFalse();
+			sec1.PatioBlocksEqual(sec2).Should().BeFalse();
 		}
 
 		[Test]
@@ -50,7 +50,7 @@
 			var sec1 = new Section { Id = 1, Index = 1, Name = "sec1", PatioBlocks = blox1 };
 			var sec2 = new Section { Id = 2, Index = 2, Name = "sec2", PatioBlocks = blox2 };
 
-			sec1.SectionEqual(sec2).Should().BeFalse();
+			sec1.PatioBlocksEqual(sec2).Should().BeFalse();
 		}
 	}
 }
