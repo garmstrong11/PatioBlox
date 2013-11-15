@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
+	using DataExport;
 	using DataImport;
 	using Domain;
 
@@ -11,26 +12,43 @@
 	{
 		private static void Main(string[] args)
 		{
+			const string dataPath = @"F:\Lowes\Patio Blocks 2014\factory\data\orig";
+			const string supportPath = @"\\san\AraxiVolume_SAN\Jobs\Lowes_PatioBlocks_1ups\UserDefinedFolders\Support_2013";
+
 			var paths = new List<string>
 			{
-				@"F:\Lowes\Patio Blocks 2014\Patio Block_2014 by Patch.xlsx",
-				@"F:\Lowes\Patio Blocks 2014\Patio Block_2014 by Patch2.xlsx"
+				Path.Combine(dataPath, "Patio Block_2014 by Patch.xlsx"),
+				Path.Combine(dataPath, "Patio Block_2014 by Patch2.xlsx")
 			};
-			var importer = new Importer(paths);
-			var outPath = @"F:\Lowes\Patio Blocks 2014\BloxOut.txt";
 
-			Console.WriteLine(importer.SheetCount.ToString());
+			var legacyPath = new List<string> {Path.Combine(dataPath, "11_2013 Legacy1up.xlsx")};
+
+			var importer = new Importer(paths);
+			var legacyImporter = new LegacyImporter(legacyPath);
+
+
+			//Console.WriteLine(importer.SheetCount.ToString());
 			var blokList = importer.PatioBlocks;
 			var distinctBlox = blokList.Distinct()
 				.OrderBy(b => b.ItemNumber)
 				.ThenBy(b => b.Barcode)
 				.ToList();
 
-			var outStr = distinctBlox.Select(b => b.ToString()).ToList();
-			outStr.Insert(0, PatioBlock.HeaderLine);
+			var legacyBlox = legacyImporter.PatioBlocks;
 
-			Console.WriteLine("Number of blocks: {0}", blokList.Count);
-			File.WriteAllLines(outPath, outStr);
+			var blender = new LegacyDataMerger();
+			var blox = blender.MergeData(distinctBlox, legacyBlox);
+
+			//var outStr = distinctBlox.Select(b => b.ToString()).ToList();
+			//outStr.Insert(0, PatioBlock.HeaderLine);
+
+			//Console.WriteLine("Number of blocks: {0}", blokList.Count);
+			//File.WriteAllLines(outPath, outStr);
+
+			var exporter = new FlexCelReporter();
+			exporter.OutputPath = @"F:\Lowes\Patio Blocks 2014\BloxOut.xlsx";
+			exporter.Blox = blox;
+			exporter.Run();
 		}
 	}
 }

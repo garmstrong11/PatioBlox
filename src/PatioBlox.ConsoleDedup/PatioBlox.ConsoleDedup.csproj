@@ -48,6 +48,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PatioBlox.DataExport\PatioBlox.DataExport.csproj">
+      <Project>{580be206-7e2c-4cc4-8e61-20c24dad7c18}</Project>
+      <Name>PatioBlox.DataExport</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PatioBlox.DataImport\PatioBlox.DataImport.csproj">
       <Project>{26020b4a-6431-4a93-802c-1845e7592458}</Project>
       <Name>PatioBlox.DataImport</Name>
