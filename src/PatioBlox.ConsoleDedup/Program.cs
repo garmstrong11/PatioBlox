@@ -6,6 +6,7 @@
 	using System.Linq;
 	using DataExport;
 	using DataImport;
+	using DataImport.Comparers;
 	using Domain;
 
 	internal class Program
@@ -13,7 +14,6 @@
 		private static void Main(string[] args)
 		{
 			const string dataPath = @"F:\Lowes\Patio Blocks 2014\factory\data\orig";
-			const string supportPath = @"\\san\AraxiVolume_SAN\Jobs\Lowes_PatioBlocks_1ups\UserDefinedFolders\Support_2013";
 
 			var paths = new List<string>
 			{
@@ -23,32 +23,49 @@
 
 			var legacyPath = new List<string> {Path.Combine(dataPath, "11_2013 Legacy1up.xlsx")};
 
-			var importer = new Importer(paths);
-			var legacyImporter = new LegacyImporter(legacyPath);
+			var importer = new PatioBlockImporter(paths);
+			var legacyImporter = new LegacyPatioBlockImporter(legacyPath);
 
-
-			//Console.WriteLine(importer.SheetCount.ToString());
 			var blokList = importer.PatioBlocks;
-			var distinctBlox = blokList.Distinct()
+			var distinctBlox = blokList.Distinct(new PatioBlockEqualityComparer())
 				.OrderBy(b => b.ItemNumber)
 				.ThenBy(b => b.Barcode)
 				.ToList();
 
-			var legacyBlox = legacyImporter.PatioBlocks;
+			var violators = importer.ItemBarcodeViolations
+				.Select(v => new ViolationPatioBlock(v)
+					{
+					AppearsOn = String.Join(", ", importer.BlockAppearsOnPatches(v))
+					})
+				.ToList();
+
+			var violationReporter = new ViolationReporter
+			{
+				TemplatePath = "Template_Violations.xlsx",
+				OutputPath = @"F:\Lowes\Patio Blocks 2014\Mismatches.xlsx",
+				Blox = violators
+			};
+
+			violationReporter.Run();
+
+			var oneUps = distinctBlox
+				.Select(b => new OneUpPatioBlock(b))
+				.OrderBy(b => b.ItemNumber)
+				.ToList();
+
+			var legacyBlox = legacyImporter.ImportLegacyPatioBlox();
 
 			var blender = new LegacyDataMerger();
-			var blox = blender.MergeData(distinctBlox, legacyBlox);
+			var blox = blender.MergeData(oneUps, legacyBlox);
 
-			//var outStr = distinctBlox.Select(b => b.ToString()).ToList();
-			//outStr.Insert(0, PatioBlock.HeaderLine);
+			var oneUpReporter = new OneUpReporter
+				{
+				TemplatePath = "Template_1up.xlsx",
+				OutputPath = @"F:\Lowes\Patio Blocks 2014\BloxOut.xlsx",
+				Blox = blox
+				};
 
-			//Console.WriteLine("Number of blocks: {0}", blokList.Count);
-			//File.WriteAllLines(outPath, outStr);
-
-			var exporter = new FlexCelReporter();
-			exporter.OutputPath = @"F:\Lowes\Patio Blocks 2014\BloxOut.xlsx";
-			exporter.Blox = blox;
-			exporter.Run();
+			oneUpReporter.Run();
 		}
 	}
 }

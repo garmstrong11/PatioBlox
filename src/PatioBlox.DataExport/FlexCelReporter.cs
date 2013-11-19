@@ -10,15 +10,18 @@
 
 	public class FlexCelReporter : IDisposable
 	{
-		private readonly FlexCelReport _report;
+		protected readonly FlexCelReport Report;
+		private static string _templateName;
+
 		public FlexCelReporter()
 		{
-			_report = new FlexCelReport(true);
+			Report = new FlexCelReport(true);
 		}
 
-		private static string TemplatePath
+		public string TemplatePath
 		{
-			get
+			get { return _templateName; }
+			set
 			{
 				var assemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
 
@@ -30,53 +33,44 @@
 				assemblyPath = assemblyPath.Replace(@"file:\", "");
 
 				var appRoot = Path.Combine(assemblyPath, "..", "..", "..");
-				var templatePath = Path.Combine(appRoot, @"PatioBlox.DataExport\Templates\Template_1up.xlsx");
+				var templatePath = Path.Combine(appRoot, @"PatioBlox.DataExport\Templates", value);
 
 				if (!File.Exists(templatePath))
 				{
 					throw new FileNotFoundException("Unable to find Excel report template");
 				}
 
-				return templatePath;
+				_templateName = templatePath;
 			}
 		}
 
-		public List<PatioBlock> Blox { get; set; }
+		//public List<OneUpPatioBlock> Blox { get; set; }
 
 		public string OutputPath { get; set; }
 
-		public async Task RunAsync()
+		//public virtual async Task RunAsync()
+		//{
+		//	if (Blox == null)
+		//	{
+		//		throw new InvalidDataException("Blox should not be null");
+		//	}
+
+		//	if (Blox.Count == 0) return;
+
+		//	await Task.Run(() =>
+		//	{
+		//		Report.AddTable("Blox", Blox);
+		//		Report.Run(TemplatePath, OutputPath);
+		//	});
+		//}
+
+		public virtual void Run()
 		{
-			if (Blox == null)
-			{
-				throw new InvalidDataException("Blox should not be null");
-			}
-
-			if (Blox.Count == 0) return;
-
-			await Task.Run(() =>
-			{
-				_report.AddTable("Blox", Blox);
-				_report.Run(TemplatePath, OutputPath);
-			});
-		}
-
-		public void Run()
-		{
-			if (Blox == null)
-			{
-				throw new InvalidDataException("Blox should not be null");
-			}
-
-			if (Blox.Count == 0) return;
-
-			_report.AddTable("Blox", Blox);
-			_report.Run(TemplatePath, OutputPath);
 		}
 
 		public void Dispose()
 		{
-			_report.Dispose();
+			Report.Dispose();
 		}
 	}
 }

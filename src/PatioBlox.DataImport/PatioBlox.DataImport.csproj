@@ -40,9 +40,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Importer.cs" />
-    <Compile Include="LegacyImporter.cs" />
-    <Compile Include="PatchImporter.cs" />
+    <Compile Include="AttributeFinder.cs" />
+    <Compile Include="BlockAttributes.cs" />
+    <Compile Include="Comparers\ItemBarcodeDescEqualityComparer.cs" />
+    <Compile Include="Comparers\ItemBarcodeEqualityComparer.cs" />
+    <Compile Include="Comparers\PatioBlockEqualityComparer.cs" />
+    <Compile Include="DescriptionProcessor.cs" />
+    <Compile Include="PatioBlockImporter.cs" />
+    <Compile Include="LegacyPatioBlockImporter.cs" />
+    <Compile Include="PatchPatioBlockImporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -51,6 +57,7 @@
       <Name>PatioBlox.Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

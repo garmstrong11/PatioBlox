@@ -6,7 +6,7 @@
 
 	public class LegacyDataMerger
 	{
-		public List<PatioBlock> MergeData(List<PatioBlock> currentBlox, List<PatioBlock> legacyBlox)
+		public List<OneUpPatioBlock> MergeData(List<OneUpPatioBlock> currentBlox, List<LegacyPatioBlock> legacyBlox)
 		{
 			foreach (var blok in currentBlox) {
 				var legacyBlok = legacyBlox
@@ -15,9 +15,9 @@
 
 				if (legacyBlok == null) continue;
 
-				blok.Name = legacyBlok.Name;
+				//blok.Name = legacyBlok.Name;
 				//blok.Size = legacyBlok.Size;
-				blok.Color = legacyBlok.Color;
+				//blok.Color = legacyBlok.Color;
 				blok.Image = legacyBlok.Image;
 			}
 			

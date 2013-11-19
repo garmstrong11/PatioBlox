@@ -4,20 +4,20 @@
 	using System.Collections.Generic;
 	using Domain;
 
-	public class LegacyImporter : Importer
+	public class LegacyPatioBlockImporter : PatioBlockImporter
 	{
-		public LegacyImporter(List<string> filePaths) : base(filePaths)
+		public LegacyPatioBlockImporter(List<string> filePaths) : base(filePaths)
 		{
 		}
 
-		protected override List<PatioBlock> ImportPatioBlox()
+		public List<LegacyPatioBlock> ImportLegacyPatioBlox()
 		{
-			var blox = new List<PatioBlock>();
+			var blox = new List<LegacyPatioBlock>();
 
 			foreach (var xlsFile in _xlsFiles) {
 				xlsFile.ActiveSheet = 1;
 				for (var row = 2; row <= xlsFile.RowCount; row++) {
-					var blok = new PatioBlock();
+					var blok = new LegacyPatioBlock();
 
 					var val = xlsFile.GetCellValue(row, 5);
 					blok.ItemNumber = val != null ? Convert.ToInt32(val) : 0;

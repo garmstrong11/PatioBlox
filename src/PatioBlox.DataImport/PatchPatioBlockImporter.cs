@@ -2,12 +2,11 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.Text.RegularExpressions;
 	using Domain;
 
-	public class PatchImporter : Importer
+	public class PatchPatioBlockImporter : PatioBlockImporter
 	{
-		public PatchImporter(List<string> filePaths) : base(filePaths)
+		public PatchPatioBlockImporter(List<string> filePaths) : base(filePaths)
 		{
 		}
 
@@ -80,8 +79,8 @@
 						resultList.Add(patch);
 					}
 				}
-				return resultList;
 			}
+			return resultList;
 		}
 	}
 }

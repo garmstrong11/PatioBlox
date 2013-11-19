@@ -9,16 +9,12 @@
 		public string Barcode { get; set; }
 		public string Patch { get; set; }
 
-		public string Name { get; set; }
-		public string Size { get; set; }
-		public string Color { get; set; }
 		public int Sequence { get; set; }
-		public string Image { get; set; }
 
 		public override string ToString()
 		{
-			return string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t",
-				ItemNumber, Barcode, Description, PalletQuantity, Id);
+			return string.Format("{0}_{1}_{2}_{3}",
+				ItemNumber, Barcode, Description, PalletQuantity);
 		}
 
 		public override bool Equals(object obj)
@@ -35,15 +31,15 @@
 
 		public override int GetHashCode()
 		{
-			return (ItemNumber + Barcode).GetHashCode();
-		}
-
-		public static string HeaderLine
-		{
-			get
+			unchecked
 			{
-				return string.Format("{0}\t{1}\t{2}\t{3}\t{4}\t",
-				"ItemNumber", "Barcode", "Description", "PalletQuantity", "Id"); 
+				var hash = 17;
+				hash = hash * 23 + ItemNumber;
+				hash = hash * 19 + Barcode.GetHashCode();
+				hash = hash * 23 + Description.GetHashCode();
+				hash = hash * 19 + PalletQuantity.GetHashCode();
+
+				return hash;
 			}
 		}
 	}
