@@ -178,15 +178,15 @@
 			}
 		}
 
-		private static ILookup<string, string> ImageDict
-		{
-			get
-			{
-				const string supportPath = @"\\san\AraxiVolume_SAN\Jobs\Lowes_PatioBlocks_1ups\UserDefinedFolders\Support_2013";
+		//private static ILookup<string, string> ImageDict
+		//{
+		//	get
+		//	{
+		//		const string supportPath = @"\\san\AraxiVolume_SAN\Jobs\Lowes_PatioBlocks_1ups\UserDefinedFolders\Support_2013";
 
-				return Directory.GetFiles(supportPath, "*.*", SearchOption.AllDirectories)
-					.ToLookup(Path.GetFileNameWithoutExtension, Path.GetFileName);
-			}
-		}
+		//		return Directory.GetFiles(supportPath, "*.*", SearchOption.AllDirectories)
+		//			.ToLookup(Path.GetFileNameWithoutExtension, Path.GetFileName);
+		//	}
+		//}
 	}
 }

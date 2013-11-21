@@ -56,12 +56,6 @@
 						val = xl.GetCellValue(row, 7);
 						block.Description = val != null ? val.ToString() : string.Empty;
 
-						//var blockAttributes = DescriptionProcessor.Process(block.Description);
-						////block.Size = val != null ? DeriveSize(val.ToString()) : string.Empty;
-						//block.Size = blockAttributes.Size;
-						//block.Name = blockAttributes.Name;
-						//block.Color = blockAttributes.Color;
-
 						resultList.Add(block);
 					}
 				}
@@ -72,20 +66,20 @@
 
 		public List<PatioBlock> DistinctPatioBlocks
 		{
-			get { return PatioBlocks.Distinct().ToList(); }
+			get { return PatioBlocks.Distinct(new ItemBarcodeEqualityComparer()).ToList(); }
 		}
 
 		public List<PatioBlock> ItemBarcodeViolations
 		{
 			get
 			{
-				var itemBarcodeBlox = PatioBlocks.Distinct(new ItemBarcodeEqualityComparer());
-				var violatorItems = DistinctPatioBlocks
-					.Except(itemBarcodeBlox)
+				var allPropertiesBlox = PatioBlocks.Distinct(new AllPropertiesPatioBlockEqualityComparer()).ToList();
+				var violatorItems = allPropertiesBlox
+					.Except(DistinctPatioBlocks, new AllPropertiesPatioBlockEqualityComparer())
 					.Select(b => b.ItemNumber)
 					.ToList();
 
-				return DistinctPatioBlocks
+				return allPropertiesBlox
 					.Where(b => violatorItems.Contains(b.ItemNumber))
 					.OrderBy(b => b.ItemNumber)
 					.ToList();
@@ -95,7 +89,10 @@
 		public List<string> BlockAppearsOnPatches(PatioBlock block)
 		{
 			return PatioBlocks
-				.Where(b => b.Equals(block))
+				.Where(b => b.Barcode == block.Barcode 
+					&& b.Description == block.Description
+					&& b.ItemNumber == block.ItemNumber
+					&& b.PalletQuantity == block.PalletQuantity)
 				.OrderBy(b => b.Id)
 				.Select(b => b.Id)
 				.ToList();

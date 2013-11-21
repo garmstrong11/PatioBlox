@@ -27,7 +27,7 @@
 			var legacyImporter = new LegacyPatioBlockImporter(legacyPath);
 
 			var blokList = importer.PatioBlocks;
-			var distinctBlox = blokList.Distinct(new PatioBlockEqualityComparer())
+			var distinctBlox = blokList.Distinct(new AllPropertiesPatioBlockEqualityComparer())
 				.OrderBy(b => b.ItemNumber)
 				.ThenBy(b => b.Barcode)
 				.ToList();
@@ -57,6 +57,7 @@
 
 			var blender = new LegacyDataMerger();
 			var blox = blender.MergeData(oneUps, legacyBlox);
+			blox = MismatchResolver.ResolveMismatches(blox);
 
 			var oneUpReporter = new OneUpReporter
 				{

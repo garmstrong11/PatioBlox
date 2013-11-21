@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{26020B4A-6431-4A93-802C-1845E7592458}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{9EE25FFF-7929-451F-9CA9-241FAA5E32D7}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PatioBlox.DataImport</RootNamespace>
-    <AssemblyName>PatioBlox.DataImport</AssemblyName>
+    <RootNamespace>PatioBlox.ConsolePatchData</RootNamespace>
+    <AssemblyName>PatioBlox.ConsolePatchData</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,7 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlexCel, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cb8f6080e6d5a4d6, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -40,26 +41,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeFinder.cs" />
-    <Compile Include="BlockAttributes.cs" />
-    <Compile Include="Comparers\AllPropertiesOneUpEqualityComparer.cs" />
-    <Compile Include="Comparers\ItemBarcodeDescEqualityComparer.cs" />
-    <Compile Include="Comparers\ItemBarcodeEqualityComparer.cs" />
-    <Compile Include="Comparers\AllPropertiesPatioBlockEqualityComparer.cs" />
-    <Compile Include="DescriptionProcessor.cs" />
-    <Compile Include="MismatchResolver.cs" />
-    <Compile Include="PatioBlockImporter.cs" />
-    <Compile Include="LegacyPatioBlockImporter.cs" />
-    <Compile Include="PatchPatioBlockImporter.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PatioBlox.DataExport\PatioBlox.DataExport.csproj">
+      <Project>{580be206-7e2c-4cc4-8e61-20c24dad7c18}</Project>
+      <Name>PatioBlox.DataExport</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox.DataImport\PatioBlox.DataImport.csproj">
+      <Project>{26020b4a-6431-4a93-802c-1845e7592458}</Project>
+      <Name>PatioBlox.DataImport</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PatioBlox.Domain\PatioBlox.Domain.csproj">
       <Project>{ee2d384e-c9f8-4af3-a9c0-a6a7c1ed4b3b}</Project>
       <Name>PatioBlox.Domain</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
