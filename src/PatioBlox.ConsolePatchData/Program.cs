@@ -4,7 +4,9 @@
 	using System.Collections.Generic;
 	using System.IO;
 	using System.Linq;
+	using DataExport;
 	using DataImport;
+	using Domain;
 
 	internal class Program
 	{
@@ -18,9 +20,27 @@
 				Path.Combine(dataPath, "Patio Block_2014 by Patch2.xlsx")
 				};
 
-			var importer = new PatchPatioBlockImporter(paths);
+			var storeListPath = new List<string>
+				{
+				Path.Combine(dataPath, "storeListBasic.xls")
+				};
+
+			var stores = new StoreListImporter(storeListPath);
+
+			var importer = new PatchPatioBlockImporter(paths, stores);
 
 			var patches = importer.ImportPatches();
+
+			//var matcher = new PatchMatcher(patches);
+			//var matchList = matcher.MatchedPatches;
+
+			var reporter = new PatchReporter
+				{
+				TemplatePath = "Template_PatchReport.xlsx",
+				OutputPath = @"F:\Lowes\Patio Blocks 2014\PageCount.xlsx",
+				Patches = patches
+				};
+			reporter.Run();
 
 			var patchDict = patches.ToDictionary(p => p.Name);
 

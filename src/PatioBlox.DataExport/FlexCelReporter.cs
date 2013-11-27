@@ -1,11 +1,8 @@
 ﻿namespace PatioBlox.DataExport
 {
 	using System;
-	using System.Collections.Generic;
 	using System.IO;
 	using System.Reflection;
-	using System.Threading.Tasks;
-	using Domain;
 	using FlexCel.Report;
 
 	public class FlexCelReporter : IDisposable

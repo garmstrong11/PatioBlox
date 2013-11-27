@@ -2,11 +2,34 @@
 {
 	public class PatioBlock
 	{
+		private string _barcode;
+		private string _description;
 		public string Id { get; set; }
 		public int ItemNumber { get; set; }
-		public string Description { get; set; }
+		public ApprovalStatus ApprovalStatus { get; set; }
+
+		public string ApprovalStatusString
+		{
+			get
+			{
+				return ApprovalStatus.ToString();
+			}
+		}
+
+		public string Description
+		{
+			get { return _description; }
+			set { _description = value.Trim(); }
+		}
+
 		public string PalletQuantity { get; set; }
-		public string Barcode { get; set; }
+
+		public string Barcode
+		{
+			get { return _barcode; }
+			set { _barcode = value.Trim(); }
+		}
+
 		public string Patch { get; set; }
 		public Section Section { get; set; }
 		public int SectionId { get; set; }
@@ -26,8 +49,6 @@
 			if (item == null) return false;
 
 			return ItemNumber == item.ItemNumber
-			       //&& Description == item.Description
-			       //&& PalletQuantity == item.PalletQuantity
 			       && Barcode == item.Barcode;
 		}
 
@@ -38,8 +59,6 @@
 				var hash = 17;
 				hash = hash * 23 + ItemNumber;
 				hash = hash * 19 + Barcode.GetHashCode();
-				//hash = hash * 23 + Description.GetHashCode();
-				//hash = hash * 19 + PalletQuantity.GetHashCode();
 
 				return hash;
 			}

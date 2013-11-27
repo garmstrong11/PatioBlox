@@ -6,8 +6,12 @@
 
 	public class PatchPatioBlockImporter : PatioBlockImporter
 	{
-		public PatchPatioBlockImporter(List<string> filePaths) : base(filePaths)
+		private readonly StoreListImporter _stores;
+
+		public PatchPatioBlockImporter(List<string> filePaths, StoreListImporter stores) 
+			: base(filePaths)
 		{
+			_stores = stores;
 		}
 
 		public List<Patch> ImportPatches()
@@ -26,6 +30,10 @@
 						Name = patchName,
 						Id = patchCount++
 						};
+
+					int storeCount;
+					var hasCount = _stores.PatchStoreCounts.TryGetValue(patchName, out storeCount);
+					if (hasCount) patch.StoreCount = storeCount;
 
 					var rowCount = xl.RowCount;
 					var row = 15;

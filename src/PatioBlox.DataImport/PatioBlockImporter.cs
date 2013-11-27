@@ -56,6 +56,8 @@
 						val = xl.GetCellValue(row, 7);
 						block.Description = val != null ? val.ToString() : string.Empty;
 
+						block.ApprovalStatus = ApprovalStatus.Pending;
+
 						resultList.Add(block);
 					}
 				}

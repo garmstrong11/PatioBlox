@@ -16,7 +16,7 @@
 			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 80097 && b.Description == "FULTON 4INX11.5IN WALNUT WALL BLK"));
 			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 548616 && b.Description == "16X6 COUNTRY MANOR RETAINING WALL"));
 			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 548924 && b.Description == "A+R LUXORA 3-IN Color TBD"));
-			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 548951 && b.Description == "A+R LUXORA 3-IN Color TBD"));
+			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 548951 && b.Description == "A+R LUXORA 3-IN H CM CAP"));
 			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 548958 && b.Description == "A+R LUXORA 16-IN CM WALL"));
 			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 548987 && b.Description == "A+R LUXORA 6-IN TAN/GRAY CM WALL"));
 			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 549001 && b.Description == "A+R INSIGNIA 4INX12IN COLOR TBD"));

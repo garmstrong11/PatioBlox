@@ -43,11 +43,13 @@
     <Compile Include="FlexCelReporter.cs" />
     <Compile Include="LegacyDataMerger.cs" />
     <Compile Include="OneUpReporter.cs" />
+    <Compile Include="PatchReporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViolationReporter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Templates\Template_1up.xlsx" />
+    <None Include="Templates\Template_PatchReport.xlsx" />
     <None Include="Templates\Template_Violations.xlsx" />
   </ItemGroup>
   <ItemGroup>
