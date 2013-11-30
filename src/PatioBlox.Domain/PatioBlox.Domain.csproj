@@ -41,6 +41,9 @@
   <ItemGroup>
     <Compile Include="ApprovalStatus.cs" />
     <Compile Include="AttributeFinder.cs" />
+    <Compile Include="Barcode.cs" />
+    <Compile Include="BarcodeType.cs" />
+    <Compile Include="IBarcode.cs" />
     <Compile Include="LegacyPatioBlock.cs" />
     <Compile Include="OneUpPatioBlock.cs" />
     <Compile Include="Patch.cs" />

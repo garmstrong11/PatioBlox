@@ -48,7 +48,7 @@
 							};
 
 						val = xl.GetCellValue(row, 9);
-						block.Barcode = val != null ? val.ToString() : String.Empty;
+						block.Barcode = val != null ? new Barcode(val.ToString()) : new Barcode(String.Empty);
 							
 						val = xl.GetCellValue(row, 8);
 						block.PalletQuantity = val != null ? val.ToString() : string.Empty;
@@ -88,10 +88,20 @@
 			}
 		}
 
+		public List<PatioBlock> BarcodeViolations
+		{
+			get
+			{
+				return DistinctPatioBlocks
+					.Where(b => b.Barcode.BarcodeType == BarcodeType.Invalid)
+					.ToList();
+			}
+		}
+
 		public List<string> BlockAppearsOnPatches(PatioBlock block)
 		{
 			return PatioBlocks
-				.Where(b => b.Barcode == block.Barcode 
+				.Where(b => b.Barcode.Equals(block.Barcode)
 					&& b.Description == block.Description
 					&& b.ItemNumber == block.ItemNumber
 					&& b.PalletQuantity == block.PalletQuantity)

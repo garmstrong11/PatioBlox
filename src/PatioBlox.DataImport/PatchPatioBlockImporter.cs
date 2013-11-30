@@ -86,7 +86,7 @@
 							};
 
 						val = xl.GetCellValue(row, 9);
-						block.Barcode = val != null ? val.ToString() : "Barcode missing!";
+						block.Barcode = val != null ? new Barcode(val.ToString()) : new Barcode(String.Empty);
 
 						val = xl.GetCellValue(row, 8);
 						block.PalletQuantity = val != null ? val.ToString() : string.Empty;

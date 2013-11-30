@@ -4,7 +4,7 @@
 	using System.IO;
 	using Domain;
 
-	public class ViolationReporter : FlexCelReporter
+	public class ViolationReporter : FlexCelReporter<ViolationPatioBlock>
 	{
 		public List<ViolationPatioBlock> Blox { get; set; }
 

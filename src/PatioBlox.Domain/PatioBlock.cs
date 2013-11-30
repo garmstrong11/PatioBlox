@@ -2,7 +2,6 @@
 {
 	public class PatioBlock
 	{
-		private string _barcode;
 		private string _description;
 		public string Id { get; set; }
 		public int ItemNumber { get; set; }
@@ -24,11 +23,7 @@
 
 		public string PalletQuantity { get; set; }
 
-		public string Barcode
-		{
-			get { return _barcode; }
-			set { _barcode = value.Trim(); }
-		}
+		public IBarcode Barcode { get; set; }
 
 		public string Patch { get; set; }
 		public Section Section { get; set; }

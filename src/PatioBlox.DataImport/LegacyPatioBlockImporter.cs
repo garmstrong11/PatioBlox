@@ -38,7 +38,7 @@
 					blok.PalletQuantity = val != null ? val.ToString() : string.Empty;
 
 					val = xlsFile.GetCellValue(row, 12);
-					blok.Barcode = val != null ? val.ToString() : string.Empty;
+					blok.Barcode = val != null ? new Barcode(val.ToString()) : new Barcode(string.Empty);
 
 					val = xlsFile.GetCellValue(row, 21);
 					blok.Image = val != null ? val.ToString() : string.Empty;

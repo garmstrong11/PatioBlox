@@ -34,11 +34,11 @@
 			//var matcher = new PatchMatcher(patches);
 			//var matchList = matcher.MatchedPatches;
 
-			var reporter = new PatchReporter
+			var reporter = new FlexCelReporter<Patch>
 				{
 				TemplatePath = "Template_PatchReport.xlsx",
 				OutputPath = @"F:\Lowes\Patio Blocks 2014\PageCount.xlsx",
-				Patches = patches
+				Items = patches
 				};
 			reporter.Run();
 

@@ -29,7 +29,7 @@
 			var blokList = importer.PatioBlocks;
 			var distinctBlox = blokList.Distinct(new AllPropertiesPatioBlockEqualityComparer())
 				.OrderBy(b => b.ItemNumber)
-				.ThenBy(b => b.Barcode)
+				//.ThenBy(b => b.Barcode)
 				.ToList();
 
 			var violators = importer.ItemBarcodeViolations
@@ -39,14 +39,30 @@
 					})
 				.ToList();
 
-			var violationReporter = new ViolationReporter
-			{
+			var violationReporter = new FlexCelReporter<ViolationPatioBlock>
+				{
 				TemplatePath = "Template_Violations.xlsx",
 				OutputPath = @"F:\Lowes\Patio Blocks 2014\Mismatches.xlsx",
-				Blox = violators
+				Items = violators
 			};
 
 			violationReporter.Run();
+
+			violators = importer.BarcodeViolations
+				.Select(v => new ViolationPatioBlock(v)
+					{
+					AppearsOn = String.Join(", ", importer.BlockAppearsOnPatches(v))
+					})
+				.ToList();
+
+			var barcodeReporter = new FlexCelReporter<ViolationPatioBlock>
+				{
+				TemplatePath = "Template_Violations.xlsx",
+				OutputPath = @"F:\Lowes\Patio Blocks 2014\Bad Barcodes.xlsx",
+				Items = violators
+				};
+
+			barcodeReporter.Run();
 
 			var oneUps = distinctBlox
 				.Select(b => new OneUpPatioBlock(b))
@@ -59,11 +75,11 @@
 			var blox = blender.MergeData(oneUps, legacyBlox);
 			blox = MismatchResolver.ResolveMismatches(blox);
 
-			var oneUpReporter = new OneUpReporter
+			var oneUpReporter = new FlexCelReporter<OneUpPatioBlock>
 				{
 				TemplatePath = "Template_1up.xlsx",
 				OutputPath = @"F:\Lowes\Patio Blocks 2014\BloxOut.xlsx",
-				Blox = blox
+				Items = blox
 				};
 
 			oneUpReporter.Run();

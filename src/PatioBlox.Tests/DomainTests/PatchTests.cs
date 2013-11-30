@@ -9,13 +9,13 @@
 	public class PatchTests
 	{
 		private readonly PatioBlock _blok1 = new PatioBlock 
-			{ ItemNumber = 1, Barcode = "ABC", PalletQuantity = "12", Description = "Desc" };
+			{ ItemNumber = 1, Barcode = new Barcode("ABC"), PalletQuantity = "12", Description = "Desc" };
 
 		private readonly PatioBlock _blok2 = new PatioBlock 
-			{ ItemNumber = 2, Barcode = "DEF", PalletQuantity = "12", Description = "Desc" };
+			{ ItemNumber = 2, Barcode = new Barcode("DEF"), PalletQuantity = "12", Description = "Desc" };
 
 		private readonly PatioBlock _blok3 = new PatioBlock 
-			{ ItemNumber = 3, Barcode = "GHI", PalletQuantity = "12", Description = "Desc" };
+			{ ItemNumber = 3, Barcode = new Barcode("GHI"), PalletQuantity = "12", Description = "Desc" };
 		
 		[Test]
 		public void SectionsEqual_returns_true_when_PatioBlocks_match_in_content_and_order()
@@ -118,6 +118,31 @@
 			};
 
 			patch1.SectionsEqual(patch2).Should().BeFalse();
+		}
+
+		[Test]
+		public void ToMetrixString_returns_correct_metrix_csv_string()
+		{
+			var patch = new Patch
+				{
+				Name = "AC",
+				StoreCount = 2,
+				Id = 0,
+				Sections = new List<Section>
+					{
+					new Section {Name = "Paper", PatioBlocks = new List<PatioBlock> {_blok1, _blok2, _blok3, _blok1, _blok1}},
+					new Section {Name = "Scissors", PatioBlocks = new List<PatioBlock> {_blok2, _blok3, _blok2, _blok2, _blok2}},
+					}
+				};
+
+			var expected = "AC_01,1,24,8.5,5.5,,,AC_01.pdf,,,,,,,,\n";
+			expected += "AC_02,1,24,8.5,5.5,,,AC_02.pdf,,,,,,,,\n";
+			expected += "AC_03,1,24,8.5,5.5,,,AC_03.pdf,,,,,,,,\n";
+			expected += "AC_04,1,24,8.5,5.5,,,AC_04.pdf,,,,,,,,\n";
+
+			var actual = patch.ToMetrixString();
+
+			actual.Should().Be(expected);
 		}
 	}
 }

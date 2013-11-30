@@ -1,5 +1,6 @@
 ﻿namespace PatioBlox.Domain
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 
@@ -35,6 +36,23 @@
 			}
 		}
 
+		public string ToMetrixString()
+		{
+			const string artWidth = "8.5";
+			const string artHeight = "5.5";
+			const string format = "{0},1,{1},{2},{3},,,{0}.pdf,,,,,,,,\n";
+
+			var copyCount = (12 * StoreCount).ToString();
+			var result = string.Empty;
+
+			for (var i = 0; i < PageCount; i++) {
+				var pageName = string.Format("{0}_{1}", Name, (i + 1).ToString("00"));
+				result += String.Format(format,    pageName, copyCount, artWidth, artHeight);
+			}
+			
+			return result;
+		}
+
 		public bool SectionsEqual(Patch other)
 		{
 			if (Sections.Count != other.Sections.Count) return false;
@@ -49,6 +67,18 @@
 			if (other == null) return false;
 
 			return SectionsEqual(other) && Id == other.Id && Name == other.Name;
+		}
+
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				var hash = 17;
+				hash = hash * 23 + Id;
+				hash = hash * 19 + Name.GetHashCode();
+
+				return hash;
+			}
 		}
 	}
 }

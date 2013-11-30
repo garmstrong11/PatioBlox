@@ -8,7 +8,7 @@
 		public bool Equals(PatioBlock x, PatioBlock y)
 		{
 			return x.ItemNumber == y.ItemNumber
-						 && x.Barcode == y.Barcode
+						 && x.Barcode.Equals(y.Barcode)
 						 && x.Description == y.Description
 			       && x.PalletQuantity == y.PalletQuantity;
 		}

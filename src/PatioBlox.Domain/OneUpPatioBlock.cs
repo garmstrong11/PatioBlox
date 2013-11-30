@@ -24,12 +24,12 @@
 		{
 			Id = blok.Id;
 			ItemNumber = blok.ItemNumber;
-			Description = blok.Description.Replace("BLEND", "");
+			Description = blok.Description;
 			PalletQuantity = blok.PalletQuantity;
 			Barcode = blok.Barcode;
 			Patch = blok.Patch;
 
-			_remnant = Description;
+			_remnant = Description.Replace("BLEND", "");
 			_size = DeriveSize(Description);
 			_vendor = Derive(AttributeType.Vendor);
 			_category = ProcessCategory(Derive(AttributeType.Category));

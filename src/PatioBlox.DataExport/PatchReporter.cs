@@ -4,7 +4,7 @@
 	using System.IO;
 	using Domain;
 
-	public class PatchReporter : FlexCelReporter
+	public class PatchReporter : FlexCelReporter<Patch>
 	{
 		public List<Patch> Patches { get; set; }
 

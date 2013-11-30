@@ -9,13 +9,13 @@
 	public class SectionTests
 	{
 		private readonly PatioBlock _blok1 = new PatioBlock
-			{ItemNumber = 1, Barcode = "ABC", PalletQuantity = "12", Description = "Desc"};
+			{ItemNumber = 1, Barcode = new Barcode("ABC"), PalletQuantity = "12", Description = "Desc"};
 
 		private readonly PatioBlock _blok2 = new PatioBlock
-			{ItemNumber = 2, Barcode = "DEF", PalletQuantity = "12", Description = "Desc"};
+			{ItemNumber = 2, Barcode = new Barcode("DEF"), PalletQuantity = "12", Description = "Desc"};
 
 		private readonly PatioBlock _blok3 = new PatioBlock
-			{ItemNumber = 3, Barcode = "GHI", PalletQuantity = "12", Description = "Desc"};
+			{ItemNumber = 3, Barcode = new Barcode("GHI"), PalletQuantity = "12", Description = "Desc"};
 		
 		[Test]
 		public void SectionEquals_returns_true_when_sequence_members_are_identical_in_Content_and_order()
