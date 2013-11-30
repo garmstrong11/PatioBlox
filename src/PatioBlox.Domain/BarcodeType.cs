@@ -2,6 +2,6 @@
 {
 	public enum BarcodeType
 	{
-		Upc, Ean13, Invalid
+		Upc, Ean13, Unknown
 	}
 }

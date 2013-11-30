@@ -93,7 +93,7 @@
 			get
 			{
 				return DistinctPatioBlocks
-					.Where(b => b.Barcode.BarcodeType == BarcodeType.Invalid)
+					.Where(b => !b.Barcode.IsValid)
 					.ToList();
 			}
 		}

@@ -38,13 +38,24 @@
 		}
 
 		[Test]
-		public void BarcodeType_is_Invalid_if_input_contains_alpha()
+		public void BarcodeType_is_Unknown_if_input_contains_alpha()
 		{
-			var str = "890152a206056";
+			const string str = "890152a206056";
+			var bc = new Barcode(str);
+			//var expected = String.Format("{0} contains invalid characters", str);
+
+			bc.BarcodeType.Should().Be(BarcodeType.Unknown);
+			//Assert.AreEqual(expected, bc.Message);
+		}
+
+		[Test]
+		public void Message_is_correct()
+		{
+			const string str = "89015a206056";
 			var bc = new Barcode(str);
 
-			bc.BarcodeType.Should().Be(BarcodeType.Invalid);
-			//bc.Message.Should().Be(String.Format("{0} contains invald characters", str));
+			var expected = String.Format("{0} contains invalid characters", str);
+			Assert.AreEqual(expected, bc.Message);
 		}
 
 		[Test]
@@ -56,22 +67,22 @@
 		}
 
 		[Test]
-		public void BarcodeType_is_Invalid_if_input_is_less_than_12_char()
+		public void BarcodeType_is_Unknown_if_input_is_less_than_12_char()
 		{
 			var str = "89015262060";
 			var bc = new Barcode(str);
 
-			bc.BarcodeType.Should().Be(BarcodeType.Invalid);
+			bc.BarcodeType.Should().Be(BarcodeType.Unknown);
 			//bc.Message.Should().Be(String.Format("{0} has incorrect length of {1}", str, str.Length));
 		}
 
 		[Test]
-		public void BarcodeType_is_Invalid_if_input_is_greater_than_13_char()
+		public void BarcodeType_is_Unknown_if_input_is_greater_than_13_char()
 		{
 			var str = "89015262060794";
 			var bc = new Barcode(str);
 
-			bc.BarcodeType.Should().Be(BarcodeType.Invalid);
+			bc.BarcodeType.Should().Be(BarcodeType.Unknown);
 			//bc.Message.Should().Be(String.Format("{0} has incorrect length of {1}", str, str.Length));
 		}
 
