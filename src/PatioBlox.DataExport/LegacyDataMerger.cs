@@ -18,7 +18,7 @@
 				//blok.Name = legacyBlok.Name;
 				//blok.Size = legacyBlok.Size;
 				//blok.Color = legacyBlok.Color;
-				blok.Image = legacyBlok.Image;
+				//blok.Image = legacyBlok.Image;
 			}
 			
 			return currentBlox;

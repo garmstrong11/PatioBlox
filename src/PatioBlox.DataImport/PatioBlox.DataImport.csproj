@@ -40,13 +40,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttributeFinder.cs" />
-    <Compile Include="BlockAttributes.cs" />
     <Compile Include="Comparers\AllPropertiesOneUpEqualityComparer.cs" />
     <Compile Include="Comparers\ItemBarcodeDescEqualityComparer.cs" />
     <Compile Include="Comparers\ItemBarcodeEqualityComparer.cs" />
     <Compile Include="Comparers\AllPropertiesPatioBlockEqualityComparer.cs" />
-    <Compile Include="DescriptionProcessor.cs" />
     <Compile Include="MismatchResolver.cs" />
     <Compile Include="PatchMatcher.cs" />
     <Compile Include="PatioBlockImporter.cs" />

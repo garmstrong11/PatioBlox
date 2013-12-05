@@ -9,83 +9,63 @@
 	public class Barcode : IBarcode
 	{
 		private readonly string _orig = "";
-		private readonly int _len;
-		private readonly bool _isNumeric;
-		private readonly bool _isValidLength;
-
+		
 		public Barcode(string str)
 		{
-			if (!String.IsNullOrEmpty(str)) {
-				_orig = str.Trim();
-				_len = _orig.Length;
+			if (String.IsNullOrWhiteSpace(str)) {
+				BarcodeType = BarcodeType.Unknown;
+				IsValid = false;
+				Message = "Barcode Missing";
+				return;
 			}
 
-			_isNumeric = Regex.IsMatch(_orig, @"^\d+$");
-			_isValidLength = (_len == 12 || _len == 13);
-			BarcodeType = SetBarcodeType();
+			_orig = str.Trim();
+			var len = _orig.Length;
+			var originalCheckDigit = _orig.Substring(_orig.Length - 1);
+
+			IsValid = true;
+			Message = String.Empty;
+
+			var isNumeric = Regex.IsMatch(_orig, @"^\d+$");
+			var isValidLength = (len == 12 || len == 13);
+
+			if (isValidLength && isNumeric) {
+				BarcodeType = len == 12 ? BarcodeType.Upc : BarcodeType.Ean13;
+
+				var chekString = _orig.Substring(0, _orig.Length - 1);
+				var calculatedCheckDigit = ((10 - (GetInts(chekString).Sum() % 10)) % 10).ToString(Thread.CurrentThread.CurrentCulture);
+
+				if (calculatedCheckDigit == originalCheckDigit) return;
+
+				IsValid = false;
+				Message = String.Format("{0} has incorrect Check Digit of {1}. Correct check digit is {2}",
+					_orig, originalCheckDigit, calculatedCheckDigit);
+			}
+
+			else {
+				BarcodeType = BarcodeType.Unknown;
+
+				if (!isValidLength)
+				{
+					Message = String.Format("{0} has incorrect length of {1}", _orig, len);
+				}
+
+				if (!isNumeric)
+				{
+					Message = String.Format("{0} contains invalid characters", _orig);
+				}
+
+				IsValid = false;
+			}
 		}
 
 		public BarcodeType BarcodeType { get; private set;}
-
-		public bool IsValid
-		{
-			get
-			{
-				if (!_isValidLength) {
-					Message = String.Format("{0} has incorrect length of {1}", _orig, _len);
-					return false;
-				}
-
-				if (!_isNumeric) {
-					Message = String.Format("{0} contains invalid characters", _orig);
-					return false;
-				}
-
-				if (CalculatedCheckDigit != OriginalCheckDigit) {
-					Message = String.Format("{0} has incorrect Check Digit of {1}. Correct check digit is {2}",
-						_orig, OriginalCheckDigit, CalculatedCheckDigit);
-					return false;
-				}
-
-				return true;
-			}
-			
-		}
-
-		public string OriginalCheckDigit {
-			get
-			{
-				return _orig.Substring(_orig.Length - 1);
-			}
-		}
-
-		public string CalculatedCheckDigit
-		{
-			get
-			{
-				var chekValue = _orig.Substring(0, _orig.Length - 1);
-				return ((10 - (GetInts(chekValue).Sum() % 10)) %10).ToString(Thread.CurrentThread.CurrentCulture);
-			}
-		}
+		public bool IsValid { get; private set; }
+		public string Message { get; private set; }
 
 		public override string ToString()
 		{
 			return String.IsNullOrEmpty(Message) ? _orig : Message;
-		}
-
-		private BarcodeType SetBarcodeType()
-		{
-			if (!_isValidLength) return BarcodeType.Unknown;
-			if (!_isNumeric) return BarcodeType.Unknown;
-
-			switch (_len) {
-				case 12:
-					return BarcodeType.Upc;
-				case 13:
-					return BarcodeType.Ean13;
-				default:
-					return BarcodeType.Unknown;
-			}
 		}
 
 		private IEnumerable<int> GetInts(string upc)
@@ -102,8 +82,6 @@
 				}
 			}
 		}
-
-		public string Message { get; private set; }
 
 		public override bool Equals(object obj)
 		{

@@ -113,7 +113,7 @@
 						new AttributeFinder
 						{
 						Type = AttributeType.Category,
-						SearchExpression = @"(STEPPING *|PATIO *|FLAG *|DUTCH *)?(COBBLE *|GRAND *|SAND *|ASPEN *|LAREDO *|DURANGO *|LEXINGTON MINI *|YORK *|FOOTNOTES *|PORTAGE *|CANYON *|DUTCH *|EVE?RE?ST WA?LL *|PINNACLE *|RIVERWALK |MINI *|LAKE *|FOURCBBLE *|GERMAN ANTIQUE *|BRICKFACE *)?STO?NE? ?$",
+						SearchExpression = @"(STEPPING *|PATIO *|FLAG *|DUTCH *)?(COBBLE *|GRAND *|SAND *|ASPEN *|LAREDO *|DURANGO *|LEXINGTON MINI *|YORK *|FOOTNOTES *|PORTAGE *|CANYON *|DUTCH *|EVE?RE?ST WA?LL *|PINNACLE *|RIVERWALK |MINI *|LAKE *|FOURCBBLE *|GERMAN ANTIQUE *|BRICKFACE *|PRISM *)?STO?NE? ?$",
 						Expansion = ""
 						},
 						new AttributeFinder
@@ -188,6 +188,18 @@
 						SearchExpression = @"SQ ?FT",
 						Expansion = " SqFt"
 						},
+						new AttributeFinder
+							{
+							Type = AttributeType.Color,
+							SearchExpression = @"([^ ]+/[^ ]+)",
+							Expansion = ""
+							},
+						new AttributeFinder
+							{
+							Type = AttributeType.Color,
+							SearchExpression = @"/?(BROWN|\bTAN|CHAR(COAL)|GRAY|ASH(LAND|BERRY)|OAK( ?RUN)?|ADOBE|DESERT|SAND\b|COPPER|BUFF|EVERGLADE|ALLEGHENY|HARVEST|\bRED|DARK|BLACK|GOLD( ?RUSH)?|WHITE|ROSE|LIMESTONE|ARCADIAN|BRITT|CHANDLER|TERRACOTTA|WALNUT|CUMBERLAND|TRANQUIL|DUNCAN|SMOKE|PEACH|JAXON|FREDRICKSON|CAPPUCC?INO|VERANDA|SIERRA|BASALT|AUTUMN|PEYTON|SUNSET|SONOMA|GRIGIO)/?( BLE?N?D)?",
+							Expansion = ""
+							}
 					};
 			}
 		}
@@ -195,6 +207,6 @@
 
 	public enum AttributeType
 	{
-		Vendor, Category, Unit
+		Vendor, Category, Unit, Color
 	}
 }

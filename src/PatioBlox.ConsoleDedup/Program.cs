@@ -8,12 +8,17 @@
 	using DataImport;
 	using DataImport.Comparers;
 	using Domain;
+	//using folders = Domain.Properties.Settings;
 
 	internal class Program
 	{
 		private static void Main(string[] args)
 		{
-			const string dataPath = @"F:\Lowes\Patio Blocks 2014\factory\data\orig";
+			var defaults = Domain.Properties.Settings.Default;
+
+			var dataPath =  Path.Combine(
+				defaults.FactoryRootPath,
+				defaults.SubpathData);
 
 			var paths = new List<string>
 			{
@@ -21,15 +26,12 @@
 				Path.Combine(dataPath, "Patio Block_2014 by Patch2.xlsx")
 			};
 
-			var legacyPath = new List<string> {Path.Combine(dataPath, "11_2013 Legacy1up.xlsx")};
-
 			var importer = new PatioBlockImporter(paths);
-			var legacyImporter = new LegacyPatioBlockImporter(legacyPath);
 
 			var blokList = importer.PatioBlocks;
 			var distinctBlox = blokList.Distinct(new AllPropertiesPatioBlockEqualityComparer())
 				.OrderBy(b => b.ItemNumber)
-				//.ThenBy(b => b.Barcode)
+				.ThenBy(b => b.Barcode.ToString())
 				.ToList();
 
 			var violators = importer.ItemBarcodeViolations
@@ -42,9 +44,12 @@
 			var violationReporter = new FlexCelReporter<ViolationPatioBlock>
 				{
 				TemplatePath = "Template_Violations.xlsx",
-				OutputPath = @"F:\Lowes\Patio Blocks 2014\Mismatches.xlsx",
+				OutputPath = Path.Combine(
+					defaults.FactoryRootPath, 
+					defaults.SubPathReport, 
+					"Mismatches.xlsx"),
 				Items = violators
-			};
+				};
 
 			violationReporter.Run();
 
@@ -58,7 +63,10 @@
 			var barcodeReporter = new FlexCelReporter<ViolationPatioBlock>
 				{
 				TemplatePath = "Template_Violations.xlsx",
-				OutputPath = @"F:\Lowes\Patio Blocks 2014\Bad Barcodes.xlsx",
+				OutputPath = Path.Combine(
+					defaults.FactoryRootPath,
+					defaults.SubPathReport, 
+					"Bad Barcodes.xlsx"),
 				Items = violators
 				};
 
@@ -69,16 +77,15 @@
 				.OrderBy(b => b.ItemNumber)
 				.ToList();
 
-			var legacyBlox = legacyImporter.ImportLegacyPatioBlox();
-
-			var blender = new LegacyDataMerger();
-			var blox = blender.MergeData(oneUps, legacyBlox);
-			blox = MismatchResolver.ResolveMismatches(blox);
+			var blox = MismatchResolver.ResolveMismatches(oneUps);
 
 			var oneUpReporter = new FlexCelReporter<OneUpPatioBlock>
 				{
 				TemplatePath = "Template_1up.xlsx",
-				OutputPath = @"F:\Lowes\Patio Blocks 2014\BloxOut.xlsx",
+				OutputPath = Path.Combine(
+					defaults.FactoryRootPath,
+					defaults.SubPathReport, 
+					"BloxOut.xlsx"),
 				Items = blox
 				};
 

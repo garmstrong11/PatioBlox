@@ -5,6 +5,7 @@
 	using System.IO;
 	using System.Linq;
 	using System.Text.RegularExpressions;
+	using Properties;
 
 	public class OneUpPatioBlock : PatioBlock
 	{
@@ -14,11 +15,13 @@
 		private readonly string _size;
 		private readonly string _category;
 		private readonly string _color;
-		//private const string SupportPath = @"\\san\AraxiVolume_SAN\Jobs\Lowes_PatioBlocks_1ups\UserDefinedFolders\Support_2013";
 
-		//private static readonly ILookup<string, string> ImageLookup = 
-		//	Directory.GetFiles(SupportPath, "*.*", SearchOption.AllDirectories)
-		//		.ToLookup(Path.GetFileNameWithoutExtension, Path.GetFileName);
+		private static readonly string SupportPath = Path.Combine(
+			Settings.Default.FactoryRootPath, Settings.Default.SubpathSupport);
+
+		private static readonly ILookup<string, string> ImageLookup =
+			Directory.GetFiles(SupportPath, "*.psd", SearchOption.AllDirectories)
+				.ToLookup(Path.GetFileNameWithoutExtension, Path.GetFileName);
 
 		public OneUpPatioBlock(PatioBlock blok)
 		{
@@ -29,11 +32,11 @@
 			Barcode = blok.Barcode;
 			Patch = blok.Patch;
 
-			_remnant = Description.Replace("BLEND", "");
+			_remnant = Description;
 			_size = DeriveSize(Description);
 			_vendor = Derive(AttributeType.Vendor);
-			_category = ProcessCategory(Derive(AttributeType.Category));
-			_color = _remnant.Trim();
+			_color = Derive(AttributeType.Color);
+			_category = ProcessCategory(_remnant);
 		}
 
 		public string Name
@@ -59,21 +62,21 @@
 			get { return TitleCase(_color.Trim()); }
 		}
 
-		//public string Image
-		//{
-		//	get
-		//	{
-		//		return ImageLookup[ItemNumber.ToString()].FirstOrDefault();
-		//	}
-		//}
+		public string Image
+		{
+			get
+			{
+				return ImageLookup[ItemNumber.ToString()].FirstOrDefault();
+			}
+		}
 
-		public string Image { get; set; }
+		//public string Image { get; set; }
 
 		private static string ProcessCategory(string cat)
 		{
 			if (String.IsNullOrWhiteSpace(cat)) return "";
 
-			var trimmy = Regex.Replace(cat, @"\s\s+", "").Trim();
+			var trimmy = Regex.Replace(cat, @"\s\s+", " ").Trim();
 			var title = TitleCase(trimmy);
 
 			var dict = new Dictionary<string, string>
@@ -177,16 +180,5 @@
 				if (wordSeparators.Contains(c)) newWord = true;
 			}
 		}
-
-		//private static ILookup<string, string> ImageDict
-		//{
-		//	get
-		//	{
-		//		const string supportPath = @"\\san\AraxiVolume_SAN\Jobs\Lowes_PatioBlocks_1ups\UserDefinedFolders\Support_2013";
-
-		//		return Directory.GetFiles(supportPath, "*.*", SearchOption.AllDirectories)
-		//			.ToLookup(Path.GetFileNameWithoutExtension, Path.GetFileName);
-		//	}
-		//}
 	}
 }

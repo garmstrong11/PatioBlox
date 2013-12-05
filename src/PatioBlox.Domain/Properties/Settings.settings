@@ -1,0 +1,18 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PatioBlox.Domain.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FactoryRootPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">F:\Lowes\Patio Blocks 2014\factory</Value>
+    </Setting>
+    <Setting Name="SubpathSupport" Type="System.String" Scope="User">
+      <Value Profile="(Default)">support</Value>
+    </Setting>
+    <Setting Name="SubpathData" Type="System.String" Scope="User">
+      <Value Profile="(Default)">data</Value>
+    </Setting>
+    <Setting Name="SubPathReport" Type="System.String" Scope="User">
+      <Value Profile="(Default)">report</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
