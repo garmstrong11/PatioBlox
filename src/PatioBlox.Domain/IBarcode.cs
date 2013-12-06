@@ -5,5 +5,6 @@
 		BarcodeType BarcodeType { get; }
 		bool IsValid { get; }
 		string Message { get; }
+		string Value { get; }
 	}
 }

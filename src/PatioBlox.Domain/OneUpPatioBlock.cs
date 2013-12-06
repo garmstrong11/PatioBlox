@@ -12,9 +12,7 @@
 		private static readonly List<AttributeFinder> Finders = AttributeFinder.Finders;
 		private string _remnant;
 		private readonly string _vendor;
-		private readonly string _size;
 		private readonly string _category;
-		private readonly string _color;
 
 		private static readonly string SupportPath = Path.Combine(
 			Settings.Default.FactoryRootPath, Settings.Default.SubpathSupport);
@@ -33,44 +31,48 @@
 			Patch = blok.Patch;
 
 			_remnant = Description;
-			_size = DeriveSize(Description);
+			Size = DeriveSize(Description);
 			_vendor = Derive(AttributeType.Vendor);
-			_color = Derive(AttributeType.Color);
+			Color = TitleCase(Derive(AttributeType.Color));
 			_category = ProcessCategory(_remnant);
+
+			Name = SetName();
+			Image = ImageLookup[ItemNumber.ToString()].FirstOrDefault();
+			ApprovalStatus = ApprovalStatus.Pending;
 		}
 
-		public string Name
+		public OneUpPatioBlock()
+		{
+		}
+
+		public ApprovalStatus ApprovalStatus { get; set; }
+
+		public string ApprovalStatusString
 		{
 			get
 			{
-				var vendorEmpty = string.IsNullOrWhiteSpace(_vendor);
-				var categoryEmpty = string.IsNullOrWhiteSpace(_category);
-
-				var joiner = (vendorEmpty || categoryEmpty) ? "" : "|";
-
-				return string.Format("{0}{1}{2}", _vendor, joiner, _category);
+				return ApprovalStatus.ToString();
 			}
 		}
 
-		public string Size
+		private string SetName()
 		{
-			get { return _size; }
+			var vendorEmpty = string.IsNullOrWhiteSpace(_vendor);
+			var categoryEmpty = string.IsNullOrWhiteSpace(_category);
+
+			var joiner = (vendorEmpty || categoryEmpty) ? "" : "|";
+
+			return string.Format("{0}{1}{2}", _vendor, joiner, _category);
 		}
 
-		public string Color
-		{
-			get { return TitleCase(_color.Trim()); }
-		}
+		public string Name { get; set; }
 
-		public string Image
-		{
-			get
-			{
-				return ImageLookup[ItemNumber.ToString()].FirstOrDefault();
-			}
-		}
+		public string Size { get; set; }
 
-		//public string Image { get; set; }
+		public string Color { get; set; }
+
+		public string Image { get; set; }
+
 
 		private static string ProcessCategory(string cat)
 		{
@@ -112,7 +114,7 @@
 				_remnant = _remnant.Replace(foundVal, "");
 			}
 
-			return result;
+			return result.Trim();
 		}
 
 		private string DeriveSize(string desc)

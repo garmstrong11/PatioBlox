@@ -8,7 +8,6 @@
 	using DataImport;
 	using DataImport.Comparers;
 	using Domain;
-	//using folders = Domain.Properties.Settings;
 
 	internal class Program
 	{

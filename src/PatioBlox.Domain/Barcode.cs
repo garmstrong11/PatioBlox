@@ -25,12 +25,14 @@
 
 			IsValid = true;
 			Message = String.Empty;
+			Value = String.Empty;
 
 			var isNumeric = Regex.IsMatch(_orig, @"^\d+$");
 			var isValidLength = (len == 12 || len == 13);
 
 			if (isValidLength && isNumeric) {
 				BarcodeType = len == 12 ? BarcodeType.Upc : BarcodeType.Ean13;
+				Value = _orig;
 
 				var chekString = _orig.Substring(0, _orig.Length - 1);
 				var calculatedCheckDigit = ((10 - (GetInts(chekString).Sum() % 10)) % 10).ToString(Thread.CurrentThread.CurrentCulture);
@@ -62,6 +64,8 @@
 		public BarcodeType BarcodeType { get; private set;}
 		public bool IsValid { get; private set; }
 		public string Message { get; private set; }
+
+		public string Value { get; private set; }
 
 		public override string ToString()
 		{

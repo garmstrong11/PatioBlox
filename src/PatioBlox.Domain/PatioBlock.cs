@@ -5,15 +5,6 @@
 		private string _description;
 		public string Id { get; set; }
 		public int ItemNumber { get; set; }
-		public ApprovalStatus ApprovalStatus { get; set; }
-
-		public string ApprovalStatusString
-		{
-			get
-			{
-				return ApprovalStatus.ToString();
-			}
-		}
 
 		public string Description
 		{

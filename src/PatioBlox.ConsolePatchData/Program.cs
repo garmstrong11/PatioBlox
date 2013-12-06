@@ -12,7 +12,11 @@
 	{
 		private static void Main(string[] args)
 		{
-			const string dataPath = @"F:\Lowes\Patio Blocks 2014\factory\data\orig";
+			var defaults = Domain.Properties.Settings.Default;
+
+			var dataPath = Path.Combine(
+				defaults.FactoryRootPath,
+				defaults.SubpathData);
 
 			var paths = new List<string>
 				{
@@ -37,7 +41,10 @@
 			var reporter = new FlexCelReporter<Patch>
 				{
 				TemplatePath = "Template_PatchReport.xlsx",
-				OutputPath = @"F:\Lowes\Patio Blocks 2014\PageCount.xlsx",
+				OutputPath = Path.Combine(
+					defaults.FactoryRootPath,
+					defaults.SubPathReport,
+					"PageCount.xlsx"),
 				Items = patches
 				};
 			reporter.Run();

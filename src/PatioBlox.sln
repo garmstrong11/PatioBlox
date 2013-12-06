@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.Tests", "PatioBlo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsolePatchData", "PatioBlox.ConsolePatchData\PatioBlox.ConsolePatchData.csproj", "{9EE25FFF-7929-451F-9CA9-241FAA5E32D7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsoleOneUpImportExport", "PatioBlox.ConsoleOneUpImportExport\PatioBlox.ConsoleOneUpImportExport.csproj", "{2B5A08AC-5672-4F42-96CD-777940E033AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +45,10 @@ Global
 		{9EE25FFF-7929-451F-9CA9-241FAA5E32D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EE25FFF-7929-451F-9CA9-241FAA5E32D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EE25FFF-7929-451F-9CA9-241FAA5E32D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
