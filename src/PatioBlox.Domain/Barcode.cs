@@ -7,41 +7,39 @@
 	using System.Threading;
 
 	public class Barcode : IBarcode
-	{
-		private readonly string _orig = "";
-		
+	{	
 		public Barcode(string str)
 		{
-			if (String.IsNullOrWhiteSpace(str)) {
+      IsValid = true;
+      Message = String.Empty;
+
+      if (String.IsNullOrWhiteSpace(str)) {
 				BarcodeType = BarcodeType.Unknown;
 				IsValid = false;
 				Message = "Barcode Missing";
+			  Value = String.Empty;
 				return;
 			}
 
-			_orig = str.Trim();
-			var len = _orig.Length;
-			var originalCheckDigit = _orig.Substring(_orig.Length - 1);
+			Value = str.Trim();
 
-			IsValid = true;
-			Message = String.Empty;
-			Value = String.Empty;
+			var len = Value.Length;
+			var originalCheckDigit = Value.Substring(Value.Length - 1);
 
-			var isNumeric = Regex.IsMatch(_orig, @"^\d+$");
+			var isNumeric = Regex.IsMatch(Value, @"^\d+$");
 			var isValidLength = (len == 12 || len == 13);
 
 			if (isValidLength && isNumeric) {
 				BarcodeType = len == 12 ? BarcodeType.Upc : BarcodeType.Ean13;
-				Value = _orig;
 
-				var chekString = _orig.Substring(0, _orig.Length - 1);
+				var chekString = Value.Substring(0, Value.Length - 1);
 				var calculatedCheckDigit = ((10 - (GetInts(chekString).Sum() % 10)) % 10).ToString(Thread.CurrentThread.CurrentCulture);
 
 				if (calculatedCheckDigit == originalCheckDigit) return;
 
 				IsValid = false;
 				Message = String.Format("{0} has incorrect Check Digit of {1}. Correct check digit is {2}",
-					_orig, originalCheckDigit, calculatedCheckDigit);
+					Value, originalCheckDigit, calculatedCheckDigit);
 			}
 
 			else {
@@ -49,12 +47,12 @@
 
 				if (!isValidLength)
 				{
-					Message = String.Format("{0} has incorrect length of {1}", _orig, len);
+					Message = String.Format("{0} has incorrect length of {1}", Value, len);
 				}
 
 				if (!isNumeric)
 				{
-					Message = String.Format("{0} contains invalid characters", _orig);
+					Message = String.Format("{0} contains invalid characters", Value);
 				}
 
 				IsValid = false;
@@ -69,7 +67,7 @@
 
 		public override string ToString()
 		{
-			return String.IsNullOrEmpty(Message) ? _orig : Message;
+			return String.IsNullOrEmpty(Message) ? Value : Message;
 		}
 
 		private IEnumerable<int> GetInts(string upc)

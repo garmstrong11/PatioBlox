@@ -1,68 +1,71 @@
 ﻿namespace PatioBlox.DataImport
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using Domain;
+  using Domain;
+  using System;
+  using System.Collections.Generic;
 
 	public class OneUpImporter : PatioBlockImporter
 	{
 		public OneUpImporter(List<string> filePaths) : base(filePaths)
 		{
+		  Blocks = MakeBlokList();
 		}
 
-		public Dictionary<string, OneUpPatioBlock> BlockDict
-		{
-			get
-			{
-				var blox = new List<OneUpPatioBlock>();
+	  public List<OneUpPatioBlock> Blocks { get; private set; } 
 
-				foreach (var xlsFile in _xlsFiles) {
-					for (var row = 2; row < xlsFile.RowCount; row++) {
-						var val = xlsFile.GetCellValue(row, 1);
-						var blok = new OneUpPatioBlock();
+	  private List<OneUpPatioBlock> MakeBlokList()
+	  {
+      var blox = new List<OneUpPatioBlock>();
 
-						if(val == null) continue;
+      foreach (var xlsFile in _xlsFiles)
+      {
+        for (var row = 2; row < xlsFile.RowCount; row++)
+        {
+          var val = xlsFile.GetCellValue(row, 1);
+          var blok = new OneUpPatioBlock();
 
-						blok.ItemNumber = Convert.ToInt32(val);
+          if (val == null) continue;
 
-						val = xlsFile.GetCellValue(row, 2);
-						blok.Description = val != null ? val.ToString() : "";
+          blok.ItemNumber = Convert.ToInt32(val);
 
-						val = xlsFile.GetCellValue(row, 3);
-						blok.Name = val != null ? val.ToString() : "";
+          val = xlsFile.GetCellValue(row, 2);
+          blok.Description = val != null ? val.ToString() : "";
 
-						val = xlsFile.GetCellValue(row, 4);
-						blok.Size = val != null ? val.ToString() : "";
+          val = xlsFile.GetCellValue(row, 3);
+          blok.Name = val != null ? val.ToString() : "";
 
-						val = xlsFile.GetCellValue(row, 5);
-						blok.Color = val != null ? val.ToString() : "";
+          val = xlsFile.GetCellValue(row, 4);
+          blok.Size = val != null ? val.ToString() : "";
 
-						val = xlsFile.GetCellValue(row, 6);
-						blok.PalletQuantity = val != null ? val.ToString() : "";
+          val = xlsFile.GetCellValue(row, 5);
+          blok.Color = val != null ? val.ToString() : "";
 
-						val = xlsFile.GetCellValue(row, 7);
-						blok.Barcode = val != null ? new Barcode(val.ToString()) : new Barcode("");
+          val = xlsFile.GetCellValue(row, 6);
+          blok.PalletQuantity = val != null ? val.ToString() : "";
 
-						val = xlsFile.GetCellValue(row, 8);
-						blok.Image = val != null ? val.ToString() : "";
+          val = xlsFile.GetCellValue(row, 7);
+          blok.Barcode = val != null ? new Barcode(val.ToString()) : new Barcode("");
 
-						val = xlsFile.GetCellValue(row, 9);
+          val = xlsFile.GetCellValue(row, 8);
+          blok.Image = val != null ? val.ToString() : "";
 
-						if (val != null) {
-							var str = val.ToString();
-							blok.ApprovalStatus = (ApprovalStatus) Enum.Parse(typeof (ApprovalStatus), str, true);
-						}
-						else {
-							blok.ApprovalStatus = ApprovalStatus.Pending;
-						}
+          val = xlsFile.GetCellValue(row, 9);
 
-						blox.Add(blok);
-					}
-				}
+          if (val != null)
+          {
+            var str = val.ToString();
+            blok.ApprovalStatus = (ApprovalStatus)Enum.Parse(typeof(ApprovalStatus), str, true);
+          }
+          else
+          {
+            blok.ApprovalStatus = ApprovalStatus.Pending;
+          }
 
-				return blox.ToDictionary( k => String.Format("{0}_{1}", k.ItemNumber, k.Barcode.ToString()));
-			}
-		}
+          blox.Add(blok);
+        }
+      }
+
+      return blox;
+	  } 
 	}
 }

@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="FactoryRootPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">F:\Lowes\Patio Blocks 2014\factory</Value>
+      <Value Profile="(Default)">C:\Users\gma\Documents\Lowes\Patio Blocks 2014\factory</Value>
     </Setting>
     <Setting Name="SubpathSupport" Type="System.String" Scope="User">
       <Value Profile="(Default)">support</Value>
