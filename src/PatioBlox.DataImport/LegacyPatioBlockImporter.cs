@@ -14,7 +14,7 @@
 		{
 			var blox = new List<LegacyPatioBlock>();
 
-			foreach (var xlsFile in _xlsFiles) {
+			foreach (var xlsFile in XlsFiles) {
 				xlsFile.ActiveSheet = 1;
 				for (var row = 2; row <= xlsFile.RowCount; row++) {
 					var blok = new LegacyPatioBlock();

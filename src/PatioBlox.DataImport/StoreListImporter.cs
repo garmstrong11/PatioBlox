@@ -17,7 +17,7 @@
 			{
 				var stores = new List<Store>();
 
-				foreach (var xlsFile in _xlsFiles) {
+				foreach (var xlsFile in XlsFiles) {
 					for (var row = 2; row <= xlsFile.RowCount; row++) {
 						var val = xlsFile.GetCellValue(row, 8);
 						var patchName = "";

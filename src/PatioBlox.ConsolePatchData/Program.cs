@@ -3,14 +3,13 @@
 	using System;
 	using System.Collections.Generic;
 	using System.IO;
-	using System.Linq;
 	using DataExport;
 	using DataImport;
 	using Domain;
 
 	internal class Program
 	{
-		private static void Main(string[] args)
+		private static void Main()
 		{
 			var defaults = Domain.Properties.Settings.Default;
 
@@ -41,15 +40,22 @@
 			var reporter = new FlexCelReporter<Patch>
 				{
 				TemplatePath = "Template_PatchReport.xlsx",
-				OutputPath = Path.Combine(
-					defaults.FactoryRootPath,
-					defaults.SubPathReport,
-					"PageCount.xlsx"),
+				OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubPathReport, "PageCount.xlsx"),
 				Items = patches
 				};
 			reporter.Run();
 
-			var patchDict = patches.ToDictionary(p => p.Name);
+			var exporter = new PatchJsonExporter(patches)
+				{
+				OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubpathJsx, "Patches.jsx")
+				};
+			exporter.ExportToJsonFile();
+
+			var metrix = new PatchMetrixCsvExporter(patches)
+				{
+				OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubPathReport, "PatchPages.csv")
+				};
+			metrix.ExportToCsv();
 
 			Console.WriteLine("Job contains {0} patches", patches.Count);
 		}

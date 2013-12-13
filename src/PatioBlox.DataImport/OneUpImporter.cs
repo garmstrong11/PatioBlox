@@ -17,9 +17,9 @@
 	  {
       var blox = new List<OneUpPatioBlock>();
 
-      foreach (var xlsFile in _xlsFiles)
+      foreach (var xlsFile in XlsFiles)
       {
-        for (var row = 2; row < xlsFile.RowCount; row++)
+        for (var row = 2; row <= xlsFile.RowCount; row++)
         {
           var val = xlsFile.GetCellValue(row, 1);
           var blok = new OneUpPatioBlock();

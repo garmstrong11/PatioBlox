@@ -9,12 +9,12 @@
 
 	public class PatioBlockImporter
 	{
-		protected readonly List<XlsFile> _xlsFiles;
+		protected readonly List<XlsFile> XlsFiles;
 
 		public PatioBlockImporter(List<string> filePaths)
 		{
-			_xlsFiles = new List<XlsFile>();
-			filePaths.ForEach(f => _xlsFiles.Add(new XlsFile(f, false)));
+			XlsFiles = new List<XlsFile>();
+			filePaths.ForEach(f => XlsFiles.Add(new XlsFile(f, false)));
 		}
 
 		public List<PatioBlock> PatioBlocks
@@ -29,7 +29,7 @@
 		{
 			var resultList = new List<PatioBlock>();
 
-			foreach (var xl in _xlsFiles) {
+			foreach (var xl in XlsFiles) {
 				for (var sheet = 1; sheet <= xl.SheetCount; sheet++) {
 					xl.ActiveSheet = sheet;
 					var patchName = xl.SheetName;
@@ -114,7 +114,7 @@
 		{
 			get
 			{
-				return _xlsFiles.Sum(xlsFile => xlsFile.SheetCount);
+				return XlsFiles.Sum(xlsFile => xlsFile.SheetCount);
 			}
 		}
 	}

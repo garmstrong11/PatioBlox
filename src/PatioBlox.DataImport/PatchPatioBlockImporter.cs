@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq;
 	using Domain;
 
 	public class PatchPatioBlockImporter : PatioBlockImporter
@@ -20,7 +21,7 @@
 			var patchCount = 0;
 			var sectionId = 0;
 
-			foreach (var xl in _xlsFiles) {
+			foreach (var xl in XlsFiles) {
 				for (var sheet = 1; sheet <= xl.SheetCount; sheet++) {
 					xl.ActiveSheet = sheet;
 					var patchName = xl.SheetName;
@@ -38,14 +39,14 @@
 					var rowCount = xl.RowCount;
 					var row = 15;
 					var val = xl.GetCellValue(row, 2);
-					var sectionName = val != null ? xl.GetCellValue(row, 2).ToString() : "UnknownSection";
+					var sectionName = val != null ? xl.GetCellValue(row, 2).ToString() : "Unknown Section";
 					var sectionIndex = 0;
 
 					var section = new Section
 						{
 						Id = sectionId++,
 						Index = sectionIndex++,
-						Name = sectionName,
+						Name = TitleCase(sectionName),
 						Patch = patch,
 						PatchId = patch.Id
 						};
@@ -67,7 +68,7 @@
 									{
 									Id = sectionId++,
 									Index = sectionIndex++,
-									Name = sectionName,
+									Name = TitleCase(sectionName),
 									Patch = patch,
 									PatchId = patch.Id
 									};
@@ -101,6 +102,23 @@
 				}
 			}
 			return resultList;
+		}
+
+		private static string TitleCase(string s)
+		{
+			return string.IsNullOrWhiteSpace(s) ? "" : new string(CharsToTitleCase(s).ToArray());
+		}
+
+		private static IEnumerable<char> CharsToTitleCase(string s)
+		{
+			var wordSeparators = new List<char> { ' ', '/', '\'' };
+			var newWord = true;
+			foreach (var c in s)
+			{
+				if (newWord) { yield return Char.ToUpper(c); newWord = false; }
+				else yield return Char.ToLower(c);
+				if (wordSeparators.Contains(c)) newWord = true;
+			}
 		}
 	}
 }

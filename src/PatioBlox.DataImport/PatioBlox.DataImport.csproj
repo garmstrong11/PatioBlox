@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlexCel, Version=6.1.0.0, Culture=neutral, PublicKeyToken=cb8f6080e6d5a4d6, processorArchitecture=MSIL" />
+    <Reference Include="FlexCel, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cb8f6080e6d5a4d6, processorArchitecture=MSIL" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.5.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -49,7 +49,6 @@
     <Compile Include="Comparers\AllPropertiesPatioBlockEqualityComparer.cs" />
     <Compile Include="MismatchResolver.cs" />
     <Compile Include="OneUpImporter.cs" />
-    <Compile Include="OneUpImporterJson.cs" />
     <Compile Include="PatchMatcher.cs" />
     <Compile Include="PatioBlockImporter.cs" />
     <Compile Include="LegacyPatioBlockImporter.cs" />
