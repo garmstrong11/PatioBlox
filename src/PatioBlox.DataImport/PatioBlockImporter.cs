@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Text.RegularExpressions;
 	using Comparers;
 	using Domain;
 	using FlexCel.XlsAdapter;
@@ -33,9 +34,29 @@
 				for (var sheet = 1; sheet <= xl.SheetCount; sheet++) {
 					xl.ActiveSheet = sheet;
 					var patchName = xl.SheetName;
-
 					var rowCount = xl.RowCount;
-					for (var row = 15; row <= rowCount; row++) {
+					var startRow = 1;
+
+					for (var i = 1; i <= rowCount; i ++) {
+						var anchorCandidate = xl.GetCellValue(i, 5);
+						if (anchorCandidate == null) continue;
+
+						if ((string) anchorCandidate != "Item #") continue;
+
+						for (var j = i + 1; j <= rowCount; j++) {
+							var chekVal = xl.GetCellValue(j, 5);
+
+							if (chekVal == null) continue;
+							if (!Regex.IsMatch(chekVal.ToString(), @"^[\d\.]+$")) continue;
+
+							startRow = j;
+							break;
+						}
+
+						break;
+					}
+
+					for (var row = startRow; row <= rowCount; row++) {
 						var val = xl.GetCellValue(row, 5);
 
 						if (val == null) continue;
