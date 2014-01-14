@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="FactoryRootPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">F:\Lowes\Patio Blocks 2014\factory</Value>
+      <Value Profile="(Default)">\\SAN\AraxiVolume_InSiteJobs\Jobs\Lowes US 2014 Patio Blocks\UserDefinedFolders\PatchAreas\factory</Value>
     </Setting>
     <Setting Name="SubpathSupport" Type="System.String" Scope="User">
       <Value Profile="(Default)">support</Value>
@@ -16,6 +16,33 @@
     </Setting>
     <Setting Name="SubpathJsx" Type="System.String" Scope="User">
       <Value Profile="(Default)">jsx</Value>
+    </Setting>
+    <Setting Name="SubPathTemplateSlot" Type="System.String" Scope="User">
+      <Value Profile="(Default)">template\slot</Value>
+    </Setting>
+    <Setting Name="SubPathTemplateComposite" Type="System.String" Scope="User">
+      <Value Profile="(Default)">template\composite</Value>
+    </Setting>
+    <Setting Name="SubPathOutputSlotIndd" Type="System.String" Scope="User">
+      <Value Profile="(Default)">output\slot\indd</Value>
+    </Setting>
+    <Setting Name="SubPathOutputSlotPdf" Type="System.String" Scope="User">
+      <Value Profile="(Default)">output\slot\pdf</Value>
+    </Setting>
+    <Setting Name="SubPathOutputCompositeIndd" Type="System.String" Scope="User">
+      <Value Profile="(Default)">output\composite\indd</Value>
+    </Setting>
+    <Setting Name="SubPathOutputCompositePdf" Type="System.String" Scope="User">
+      <Value Profile="(Default)">output\composite\pdf</Value>
+    </Setting>
+    <Setting Name="JobFoldersFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">JobFolders.jsx</Value>
+    </Setting>
+    <Setting Name="ProductDataFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">ProductData.jsx</Value>
+    </Setting>
+    <Setting Name="PatchDataFileName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">PatchData.jsx</Value>
     </Setting>
   </Settings>
 </SettingsFile>

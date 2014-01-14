@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DomainTests\BarcodeTests.cs" />
+    <Compile Include="DomainTests\JobFoldersTests.cs" />
     <Compile Include="DomainTests\PatchTests.cs" />
     <Compile Include="DomainTests\SectionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

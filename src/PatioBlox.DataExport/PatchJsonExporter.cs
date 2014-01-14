@@ -47,7 +47,7 @@
 						new JProperty("header", section.Name),
 						new JProperty("blocks",
 							new JArray(bucket.Select(b => new JValue(
-								String.Format("{0}_{1}.pdf", b.ItemNumber, b.Barcode.Value))))));
+								String.Format("{0}_{1}", b.ItemNumber, b.Barcode.ToString()))))));
 
 					resultArray.Add(page);
 				}

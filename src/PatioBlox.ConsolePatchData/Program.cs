@@ -47,7 +47,7 @@
 
 			var exporter = new PatchJsonExporter(patches)
 				{
-				OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubpathJsx, "Patches.jsx")
+				OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubpathData, "PatchData.jsx")
 				};
 			exporter.ExportToJsonFile();
 

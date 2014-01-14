@@ -2,6 +2,7 @@
 {
   using DataExport;
   using DataImport;
+  using Domain;
   using Domain.Properties;
   using System;
   using System.Collections.Generic;
@@ -11,11 +12,9 @@
 	{
 		private static void Main(string[] args)
 		{
-			var defaults = Settings.Default;
+			var def = Settings.Default;
 
-			var dataPath = Path.Combine(
-				defaults.FactoryRootPath,
-				defaults.SubPathReport);
+			var dataPath = Path.Combine(def.FactoryRootPath, def.SubPathReport);
 
 			var paths = new List<string>
 				{
@@ -26,19 +25,22 @@
 		  var blox = importer.Blocks;
 		  var exporter = new OneUpJsonExporter(blox);
 
-		  var jsonStr = exporter.BloxArray;
+		  //var jsonStr = exporter.BloxArray;
 
-			//string jsonDict;
-			//if (!exporter.TryGetJsonDict(out jsonDict))
-			//{
-			//	Console.WriteLine("Product data contains errors!");
-			//	Console.ReadLine();
-			//	return;
-			//};
+			string jsonDict;
+			if (!exporter.TryGetJsonDict(out jsonDict))
+			{
+				Console.WriteLine("Product data contains errors!");
+				Console.ReadLine();
+				return;
+			};
 
-		  var outStr = String.Format("var products = {0}", jsonStr);
-		  var outPath = Path.Combine(defaults.FactoryRootPath, defaults.SubpathJsx, "ProductData.jsx");
+		  var outStr = String.Format("var products = {0}", jsonDict);
+		  var outPath = Path.Combine(def.FactoryRootPath, def.SubpathData, def.ProductDataFileName);
 		  File.WriteAllText(outPath, outStr);
+
+			outPath = Path.Combine(def.FactoryRootPath, def.SubpathJsx, def.JobFoldersFileName);
+			File.WriteAllText(outPath, JobFolders.GetJsxString());
 
 		  Console.WriteLine("Success!");
 		  Console.ReadLine();

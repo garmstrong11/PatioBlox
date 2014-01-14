@@ -52,7 +52,7 @@
 
 			for (var i = 0; i < PageCount; i += 2)
 			{
-				var pageName = string.Format("{0}-{1}_{2}", 
+				var pageName = string.Format("{0}_{1}-{2}", 
 					Name, (i + 1).ToString("00"), (i + 2).ToString("00"));
 				result += String.Format(format, pageName, copyCount, artWidth, artHeight);
 			}

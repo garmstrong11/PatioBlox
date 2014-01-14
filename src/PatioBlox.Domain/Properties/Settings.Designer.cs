@@ -25,7 +25,8 @@ namespace PatioBlox.Domain.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("F:\\Lowes\\Patio Blocks 2014\\factory")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\\\SAN\\AraxiVolume_InSiteJobs\\Jobs\\Lowes US 2014 Patio Blocks\\UserDefinedFolders\\P" +
+            "atchAreas\\factory")]
         public string FactoryRootPath {
             get {
                 return ((string)(this["FactoryRootPath"]));
@@ -80,6 +81,114 @@ namespace PatioBlox.Domain.Properties {
             }
             set {
                 this["SubpathJsx"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("template\\slot")]
+        public string SubPathTemplateSlot {
+            get {
+                return ((string)(this["SubPathTemplateSlot"]));
+            }
+            set {
+                this["SubPathTemplateSlot"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("template\\composite")]
+        public string SubPathTemplateComposite {
+            get {
+                return ((string)(this["SubPathTemplateComposite"]));
+            }
+            set {
+                this["SubPathTemplateComposite"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("output\\slot\\indd")]
+        public string SubPathOutputSlotIndd {
+            get {
+                return ((string)(this["SubPathOutputSlotIndd"]));
+            }
+            set {
+                this["SubPathOutputSlotIndd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("output\\slot\\pdf")]
+        public string SubPathOutputSlotPdf {
+            get {
+                return ((string)(this["SubPathOutputSlotPdf"]));
+            }
+            set {
+                this["SubPathOutputSlotPdf"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("output\\composite\\indd")]
+        public string SubPathOutputCompositeIndd {
+            get {
+                return ((string)(this["SubPathOutputCompositeIndd"]));
+            }
+            set {
+                this["SubPathOutputCompositeIndd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("output\\composite\\pdf")]
+        public string SubPathOutputCompositePdf {
+            get {
+                return ((string)(this["SubPathOutputCompositePdf"]));
+            }
+            set {
+                this["SubPathOutputCompositePdf"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("JobFolders.jsx")]
+        public string JobFoldersFileName {
+            get {
+                return ((string)(this["JobFoldersFileName"]));
+            }
+            set {
+                this["JobFoldersFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ProductData.jsx")]
+        public string ProductDataFileName {
+            get {
+                return ((string)(this["ProductDataFileName"]));
+            }
+            set {
+                this["ProductDataFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("PatchData.jsx")]
+        public string PatchDataFileName {
+            get {
+                return ((string)(this["PatchDataFileName"]));
+            }
+            set {
+                this["PatchDataFileName"] = value;
             }
         }
     }
