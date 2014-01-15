@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Text.RegularExpressions;
 	using Domain;
 
 	public class PatchPatioBlockImporter : PatioBlockImporter
@@ -37,9 +38,42 @@
 					if (hasCount) patch.StoreCount = storeCount;
 
 					var rowCount = xl.RowCount;
-					var row = 15;
-					var val = xl.GetCellValue(row, 2);
-					var sectionName = val != null ? xl.GetCellValue(row, 2).ToString() : "Unknown Section";
+					var startRow = 1;
+					string sectionName = "Unknown Section";
+
+					for (var i = 1; i <= rowCount; i++)
+					{
+						var anchorCandidate = xl.GetCellValue(i, 5);
+						if (anchorCandidate == null) continue;
+
+						if ((string)anchorCandidate != "Item #") continue;
+
+						for (var j = i + 1; j <= rowCount; j++)
+						{
+							var chekVal = xl.GetCellValue(j, 5);
+
+							if (chekVal == null) continue;
+							if (!Regex.IsMatch(chekVal.ToString(), @"^[\d\.]+$")) continue;
+
+							startRow = j;
+
+							// Find foirst section name:
+							var secCell = xl.GetCellValue(j, 2);
+							if (secCell == null || secCell.ToString().Contains("Page")) {
+								secCell = xl.GetCellValue(j + 1, 2);
+							}
+							sectionName = secCell.ToString();
+
+							break;
+						}
+
+						break;
+					}
+
+					//var row = 15;
+					var row = startRow;
+					//var val = xl.GetCellValue(row, 2);
+					//var sectionName = val != null ? xl.GetCellValue(row, 2).ToString() : "Unknown Section";
 					var sectionIndex = 0;
 
 					var section = new Section
@@ -59,7 +93,7 @@
 
 						if (itemNo == null) continue;
 
-						val = xl.GetCellValue(row + 1, 2);  // Check for new section
+						var val = xl.GetCellValue(row + 1, 2);  // Check for new section
 						if (val != null) {
 							var nym = val.ToString();
 							if (!nym.Contains("Page") && nym != sectionName) {
