@@ -44,5 +44,23 @@
     <Setting Name="PatchDataFileName" Type="System.String" Scope="User">
       <Value Profile="(Default)">PatchData.jsx</Value>
     </Setting>
+    <Setting Name="SearchColumnIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="ItemColumnName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Item #</Value>
+    </Setting>
+    <Setting Name="DescriptionColumnName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Description</Value>
+    </Setting>
+    <Setting Name="PalletQtyColumnName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Pallet Qty. (If applicable)</Value>
+    </Setting>
+    <Setting Name="BarcodeColumnName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Barcode</Value>
+    </Setting>
+    <Setting Name="SectionColumnName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Scanbook Section</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

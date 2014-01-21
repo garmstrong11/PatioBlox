@@ -16,7 +16,8 @@
 
 		public IBarcode Barcode { get; set; }
 
-		public string Patch { get; set; }
+		public string PatchName { get; set; }
+		public int PatchId { get; set; }
 		public Section Section { get; set; }
 		public int SectionId { get; set; }
 

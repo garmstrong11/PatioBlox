@@ -191,5 +191,77 @@ namespace PatioBlox.Domain.Properties {
                 this["PatchDataFileName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int SearchColumnIndex {
+            get {
+                return ((int)(this["SearchColumnIndex"]));
+            }
+            set {
+                this["SearchColumnIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Item #")]
+        public string ItemColumnName {
+            get {
+                return ((string)(this["ItemColumnName"]));
+            }
+            set {
+                this["ItemColumnName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Description")]
+        public string DescriptionColumnName {
+            get {
+                return ((string)(this["DescriptionColumnName"]));
+            }
+            set {
+                this["DescriptionColumnName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Pallet Qty. (If applicable)")]
+        public string PalletQtyColumnName {
+            get {
+                return ((string)(this["PalletQtyColumnName"]));
+            }
+            set {
+                this["PalletQtyColumnName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Barcode")]
+        public string BarcodeColumnName {
+            get {
+                return ((string)(this["BarcodeColumnName"]));
+            }
+            set {
+                this["BarcodeColumnName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Scanbook Section")]
+        public string SectionColumnName {
+            get {
+                return ((string)(this["SectionColumnName"]));
+            }
+            set {
+                this["SectionColumnName"] = value;
+            }
+        }
     }
 }

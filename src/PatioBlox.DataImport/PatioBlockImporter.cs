@@ -64,7 +64,7 @@
 						var block = new PatioBlock
 							{
 							Id = string.Format("{0}_{1}", patchName, row),
-							Patch = patchName,
+							PatchName = patchName,
 							ItemNumber = Convert.ToInt32(val)
 							};
 
