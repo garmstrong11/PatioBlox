@@ -16,7 +16,7 @@
 		public int RowNumber { get; set; }
 		public List<PatioBlock> PatioBlocks { get; set; }
 
-		public Patch Patch { get; set; }
+		//public Patch Patch { get; set; }
 		public int PatchId { get; set; }
 
 		public bool PatioBlocksEqual(Section other)

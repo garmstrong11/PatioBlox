@@ -2,8 +2,13 @@
 {
 	public class PatioBlock
 	{
+		public int Id { get; set; }
 		private string _description;
-		public string Id { get; set; }
+
+		public string Location
+		{
+			get { return string.Format("{0}_{1}", PatchName, Index); }
+		}
 		public int ItemNumber { get; set; }
 
 		public string Description

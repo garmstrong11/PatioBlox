@@ -30,34 +30,31 @@
 
 			var stores = new StoreListImporter(storeListPath);
 
-			var importer = new PatchPatioBlockImporter(paths, stores);
+			//var importer = new PatchPatioBlockImporter(paths, stores);
 
-			var patches = importer.ImportPatches();
+			//var patches = importer.ImportPatches();
 
-			//var matcher = new PatchMatcher(patches);
-			//var matchList = matcher.MatchedPatches;
+			//var reporter = new FlexCelReporter<Patch>
+			//	{
+			//	TemplatePath = "Template_PatchReport.xlsx",
+			//	OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubPathReport, "PageCount.xlsx"),
+			//	Items = patches
+			//	};
+			//reporter.Run();
 
-			var reporter = new FlexCelReporter<Patch>
-				{
-				TemplatePath = "Template_PatchReport.xlsx",
-				OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubPathReport, "PageCount.xlsx"),
-				Items = patches
-				};
-			reporter.Run();
+			//var exporter = new PatchJsonExporter(patches)
+			//	{
+			//	OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubpathData, "PatchData.jsx")
+			//	};
+			//exporter.ExportToJsonFile();
 
-			var exporter = new PatchJsonExporter(patches)
-				{
-				OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubpathData, "PatchData.jsx")
-				};
-			exporter.ExportToJsonFile();
+			//var metrix = new PatchMetrixCsvExporter(patches)
+			//	{
+			//	OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubPathReport, "PatchPages.csv")
+			//	};
+			//metrix.ExportToCsv();
 
-			var metrix = new PatchMetrixCsvExporter(patches)
-				{
-				OutputPath = Path.Combine(defaults.FactoryRootPath, defaults.SubPathReport, "PatchPages.csv")
-				};
-			metrix.ExportToCsv();
-
-			Console.WriteLine("Job contains {0} patches", patches.Count);
+			//Console.WriteLine("Job contains {0} patches", patches.Count);
 		}
 	}
 }

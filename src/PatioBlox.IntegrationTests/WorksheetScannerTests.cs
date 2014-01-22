@@ -150,15 +150,16 @@
 				Barcode = new Barcode("B8904121500116")
 				};
 
-			var patchId = 1;
-			var startRow = _scanner.FindHeaderRow(1);
-			var cols = _scanner.FindColumns(1, startRow);
+			const int patchId = 1;
+
+			var startRow = _scanner.FindHeaderRow(patchId);
+			var cols = _scanner.FindColumns(patchId, startRow);
 			var counter = 0;
 
 			var blox = _scanner.FindBloxForPatch(patchId, startRow, cols, ref counter);
 
-			blox.First().Should().Be(firstBlok);
-			blox.Last().Should().Be(lastBlok);
+			blox.First().ItemNumber.Should().Be(firstBlok.ItemNumber);
+			blox.Last().ItemNumber.Should().Be(lastBlok.ItemNumber);
 		}
 
 		private static string FindExcelFile()

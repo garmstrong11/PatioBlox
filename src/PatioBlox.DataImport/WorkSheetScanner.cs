@@ -116,21 +116,29 @@
 			_xlsFile.ActiveSheet = patchId;
 
 			for (var row = headerRow; row <= _xlsFile.RowCount; row++) {
-				var blok = new PatioBlock
-					{
-					Id = ++counter,
-					}
 				var item = _xlsFile.GetCellValue(row, cols.Item) as Double?;
 
 				if (item == null) continue;
+
+				var blok = new PatioBlock();
+
 				blok.ItemNumber = Convert.ToInt32(item);
 
 				var desc = _xlsFile.GetCellValue(row, cols.Description) as string;
 				blok.Description = desc ?? string.Empty;
 
-				var pq = _xlsFile.GetCellValue(row, cols.PalletQty) as string;
-				blok.PalletQuantity = pq ?? string.Empty;
+				var pq = _xlsFile.GetCellValue(row, cols.PalletQty) as Double?;
+				blok.PalletQuantity = pq == null ? string.Empty : pq.ToString();
 
+				var barcode = _xlsFile.GetCellValue(row, cols.Barcode) as Double?;
+				blok.Barcode = barcode == null ? new Barcode(String.Empty) : new Barcode(barcode.ToString());
+
+				blok.Id = ++counter;
+				blok.Index = row;
+				blok.PatchId = patchId;
+				blok.PatchName = _xlsFile.SheetName;
+
+				blokList.Add(blok);
 			}
 
 			return blokList;

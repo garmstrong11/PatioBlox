@@ -23,7 +23,7 @@
 
 		public OneUpPatioBlock(PatioBlock blok)
 		{
-			Id = blok.Id;
+			//Location = blok.Location;
 			ItemNumber = blok.ItemNumber;
 			Description = blok.Description;
 			PalletQuantity = blok.PalletQuantity;

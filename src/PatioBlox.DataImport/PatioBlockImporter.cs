@@ -63,7 +63,7 @@
 
 						var block = new PatioBlock
 							{
-							Id = string.Format("{0}_{1}", patchName, row),
+							//Location = string.Format("{0}_{1}", patchName, row),
 							PatchName = patchName,
 							ItemNumber = Convert.ToInt32(val)
 							};
@@ -126,8 +126,8 @@
 					&& b.Description == block.Description
 					&& b.ItemNumber == block.ItemNumber
 					&& b.PalletQuantity == block.PalletQuantity)
-				.OrderBy(b => b.Id)
-				.Select(b => b.Id)
+				.OrderBy(b => b.Location)
+				.Select(b => b.Location)
 				.ToList();
 		} 
 
