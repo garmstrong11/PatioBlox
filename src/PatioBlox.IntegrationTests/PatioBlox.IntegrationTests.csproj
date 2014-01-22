@@ -60,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="TestFiles\NoDescriptionHeader.xlsx" />
+    <None Include="TestFiles\NoHeaderRow.xlsx" />
     <None Include="TestFiles\PbTestFile.xlsx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
