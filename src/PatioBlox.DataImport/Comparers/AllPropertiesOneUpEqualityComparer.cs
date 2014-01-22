@@ -3,9 +3,9 @@
 	using System.Collections.Generic;
 	using Domain;
 
-	public class AllPropertiesOneUpEqualityComparer : IEqualityComparer<OneUpPatioBlock>
+	public class AllPropertiesOneUpEqualityComparer : IEqualityComparer<OneUpProduct>
 	{
-		public bool Equals(OneUpPatioBlock x, OneUpPatioBlock y)
+		public bool Equals(OneUpProduct x, OneUpProduct y)
 		{
 			return x.ItemNumber == y.ItemNumber
 			       && x.Barcode.Equals(y.Barcode)
@@ -13,7 +13,7 @@
 			       && x.PalletQuantity == y.PalletQuantity;
 		}
 
-		public int GetHashCode(OneUpPatioBlock obj)
+		public int GetHashCode(OneUpProduct obj)
 		{
 			unchecked {
 				int hash = 17;

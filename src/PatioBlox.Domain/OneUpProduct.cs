@@ -7,7 +7,7 @@
 	using System.Text.RegularExpressions;
 	using Properties;
 
-	public class OneUpPatioBlock : PatioBlock
+	public class OneUpProduct : Product
 	{
 		private static readonly List<AttributeFinder> Finders = AttributeFinder.Finders;
 		private string _remnant;
@@ -21,7 +21,7 @@
 			Directory.GetFiles(SupportPath, "*.psd", SearchOption.AllDirectories)
 				.ToLookup(Path.GetFileNameWithoutExtension, Path.GetFileName);
 
-		public OneUpPatioBlock(PatioBlock blok)
+		public OneUpProduct(Product blok)
 		{
 			//Location = blok.Location;
 			ItemNumber = blok.ItemNumber;
@@ -41,7 +41,7 @@
 			ApprovalStatus = ApprovalStatus.Pending;
 		}
 
-		public OneUpPatioBlock()
+		public OneUpProduct()
 		{
 		}
 

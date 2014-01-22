@@ -18,7 +18,7 @@
 			filePaths.ForEach(f => XlsFiles.Add(new XlsFile(f, false)));
 		}
 
-		public List<PatioBlock> PatioBlocks
+		public List<Product> PatioBlocks
 		{
 			get
 			{
@@ -26,9 +26,9 @@
 			}
 		}
 
-		protected virtual List<PatioBlock> ImportPatioBlox()
+		protected virtual List<Product> ImportPatioBlox()
 		{
-			var resultList = new List<PatioBlock>();
+			var resultList = new List<Product>();
 
 			foreach (var xl in XlsFiles) {
 				for (var sheet = 1; sheet <= xl.SheetCount; sheet++) {
@@ -61,7 +61,7 @@
 
 						if (val == null) continue;
 
-						var block = new PatioBlock
+						var block = new Product
 							{
 							//Location = string.Format("{0}_{1}", patchName, row),
 							PatchName = patchName,
@@ -87,12 +87,12 @@
 			return resultList;
 		}
 
-		public List<PatioBlock> DistinctPatioBlocks
+		public List<Product> DistinctPatioBlocks
 		{
 			get { return PatioBlocks.Distinct(new ItemBarcodeEqualityComparer()).ToList(); }
 		}
 
-		public List<PatioBlock> ItemBarcodeViolations
+		public List<Product> ItemBarcodeViolations
 		{
 			get
 			{
@@ -109,7 +109,7 @@
 			}
 		}
 
-		public List<PatioBlock> BarcodeViolations
+		public List<Product> BarcodeViolations
 		{
 			get
 			{
@@ -119,7 +119,7 @@
 			}
 		}
 
-		public List<string> BlockAppearsOnPatches(PatioBlock block)
+		public List<string> BlockAppearsOnPatches(Product block)
 		{
 			return PatioBlocks
 				.Where(b => b.Barcode.Equals(block.Barcode)

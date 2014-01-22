@@ -11,18 +11,18 @@
 		  Blocks = MakeBlokList();
 		}
 
-	  public List<OneUpPatioBlock> Blocks { get; private set; } 
+	  public List<OneUpProduct> Blocks { get; private set; } 
 
-	  private List<OneUpPatioBlock> MakeBlokList()
+	  private List<OneUpProduct> MakeBlokList()
 	  {
-      var blox = new List<OneUpPatioBlock>();
+      var blox = new List<OneUpProduct>();
 
       foreach (var xlsFile in XlsFiles)
       {
         for (var row = 2; row <= xlsFile.RowCount; row++)
         {
           var val = xlsFile.GetCellValue(row, 1);
-          var blok = new OneUpPatioBlock();
+          var blok = new OneUpProduct();
 
           if (val == null) continue;
 

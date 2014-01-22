@@ -8,20 +8,20 @@
 	[TestFixture]
 	public class SectionTests
 	{
-		private readonly PatioBlock _blok1 = new PatioBlock
+		private readonly Product _blok1 = new Product
 			{ItemNumber = 1, Barcode = new Barcode("ABC"), PalletQuantity = "12", Description = "Desc"};
 
-		private readonly PatioBlock _blok2 = new PatioBlock
+		private readonly Product _blok2 = new Product
 			{ItemNumber = 2, Barcode = new Barcode("DEF"), PalletQuantity = "12", Description = "Desc"};
 
-		private readonly PatioBlock _blok3 = new PatioBlock
+		private readonly Product _blok3 = new Product
 			{ItemNumber = 3, Barcode = new Barcode("GHI"), PalletQuantity = "12", Description = "Desc"};
 		
 		[Test]
 		public void SectionEquals_returns_true_when_sequence_members_are_identical_in_Content_and_order()
 		{
-			var blox1 = new List<PatioBlock> {_blok1, _blok2, _blok3};
-			var blox2 = new List<PatioBlock> {_blok1, _blok2, _blok3};
+			var blox1 = new List<Product> {_blok1, _blok2, _blok3};
+			var blox2 = new List<Product> {_blok1, _blok2, _blok3};
 
 			var sec1 = new Section {Id = 1, Index = 1, Name = "sec1", PatioBlocks = blox1};
 			var sec2 = new Section { Id = 2, Index = 2, Name = "sec2", PatioBlocks = blox2 };
@@ -32,8 +32,8 @@
 		[Test]
 		public void SectionEquals_returns_false_when_sequence_members_are_not_identical_in_order()
 		{
-			var blox1 = new List<PatioBlock> { _blok1, _blok2, _blok3 };
-			var blox2 = new List<PatioBlock> { _blok1, _blok3, _blok2 };
+			var blox1 = new List<Product> { _blok1, _blok2, _blok3 };
+			var blox2 = new List<Product> { _blok1, _blok3, _blok2 };
 
 			var sec1 = new Section { Id = 1, Index = 1, Name = "sec1", PatioBlocks = blox1 };
 			var sec2 = new Section { Id = 2, Index = 2, Name = "sec2", PatioBlocks = blox2 };
@@ -44,8 +44,8 @@
 		[Test]
 		public void SectionEquals_returns_false_when_one_is_empty()
 		{
-			var blox1 = new List<PatioBlock> { _blok1, _blok2, _blok3 };
-			var blox2 = new List<PatioBlock> ();
+			var blox1 = new List<Product> { _blok1, _blok2, _blok3 };
+			var blox2 = new List<Product> ();
 
 			var sec1 = new Section { Id = 1, Index = 1, Name = "sec1", PatioBlocks = blox1 };
 			var sec2 = new Section { Id = 2, Index = 2, Name = "sec2", PatioBlocks = blox2 };

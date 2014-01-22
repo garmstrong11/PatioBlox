@@ -4,7 +4,7 @@
 	using System.IO;
 	using Domain;
 
-	public class OneUpReporter : FlexCelReporter<OneUpPatioBlock>
+	public class OneUpReporter : FlexCelReporter<OneUpProduct>
 	{
 		//public List<OneUpPatioBlock> Blox { get; set; }
 

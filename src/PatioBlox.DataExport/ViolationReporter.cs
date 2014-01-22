@@ -4,9 +4,9 @@
 	using System.IO;
 	using Domain;
 
-	public class ViolationReporter : FlexCelReporter<ViolationPatioBlock>
+	public class ViolationReporter : FlexCelReporter<ViolationProduct>
 	{
-		public List<ViolationPatioBlock> Blox { get; set; }
+		public List<ViolationProduct> Blox { get; set; }
 
 		public override void Run()
 		{

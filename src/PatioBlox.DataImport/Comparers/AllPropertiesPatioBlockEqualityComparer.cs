@@ -3,9 +3,9 @@
 	using System.Collections.Generic;
 	using Domain;
 
-	public class AllPropertiesPatioBlockEqualityComparer : IEqualityComparer<PatioBlock>
+	public class AllPropertiesPatioBlockEqualityComparer : IEqualityComparer<Product>
 	{
-		public bool Equals(PatioBlock x, PatioBlock y)
+		public bool Equals(Product x, Product y)
 		{
 			return x.ItemNumber == y.ItemNumber
 						 && x.Barcode.Equals(y.Barcode)
@@ -13,7 +13,7 @@
 			       && x.PalletQuantity == y.PalletQuantity;
 		}
 
-		public int GetHashCode(PatioBlock obj)
+		public int GetHashCode(Product obj)
 		{
 			unchecked
 			{

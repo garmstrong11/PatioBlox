@@ -3,15 +3,15 @@
 	using System.Collections.Generic;
 	using Domain;
 
-	public class ItemBarcodeEqualityComparer : IEqualityComparer<PatioBlock>
+	public class ItemBarcodeEqualityComparer : IEqualityComparer<Product>
 	{
-		public bool Equals(PatioBlock x, PatioBlock y)
+		public bool Equals(Product x, Product y)
 		{
 			return x.ItemNumber == y.ItemNumber 
 				&& x.Barcode.Equals(y.Barcode);
 		}
 
-		public int GetHashCode(PatioBlock obj)
+		public int GetHashCode(Product obj)
 		{
 			unchecked
 			{

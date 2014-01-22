@@ -8,9 +8,9 @@
 
   public class OneUpJsonExporter
   {
-    private readonly List<OneUpPatioBlock> _blox;
+    private readonly List<OneUpProduct> _blox;
 
-    public OneUpJsonExporter(List<OneUpPatioBlock> blox)
+    public OneUpJsonExporter(List<OneUpProduct> blox)
     {
       _blox = blox;
     }
@@ -61,7 +61,7 @@
       }
     }
 
-    private static JObject ComposeOneUpJsonObject(OneUpPatioBlock blok)
+    private static JObject ComposeOneUpJsonObject(OneUpProduct blok)
     {
       return new JObject(
         new JProperty("itemNumber", blok.ItemNumber.ToString()),

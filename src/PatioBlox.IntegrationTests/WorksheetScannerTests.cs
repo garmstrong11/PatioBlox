@@ -155,7 +155,7 @@
 		[Test]
 		public void WorksheetScanner_FindBlocks_FindsAllBlocksOnPatch()
 		{
-			var firstBlok = new PatioBlock
+			var firstBlok = new Product
 				{
 				ItemNumber = 41288,
 				Description = "FULTON 8.1-IN TAN WALL BLOCK",
@@ -163,7 +163,7 @@
 				Barcode = new Barcode("742786300584")
 				};
 
-			var lastBlok = new PatioBlock
+			var lastBlok = new Product
 				{
 				ItemNumber = 344686,
 				Description = "16-IN CALIFORNIA GOLD RUSH SLATE",

@@ -109,9 +109,9 @@
 			return patches;
 		}
 
-		public List<PatioBlock> FindBloxForPatch(int patchId, int headerRow, ColumnIndexes cols, ref int counter)
+		public List<Product> FindBloxForPatch(int patchId, int headerRow, ColumnIndexes cols, ref int counter)
 		{
-			var blokList = new List<PatioBlock>();
+			var blokList = new List<Product>();
 
 			_xlsFile.ActiveSheet = patchId;
 
@@ -120,7 +120,7 @@
 
 				if (item == null) continue;
 
-				var blok = new PatioBlock();
+				var blok = new Product();
 
 				blok.ItemNumber = Convert.ToInt32(item);
 

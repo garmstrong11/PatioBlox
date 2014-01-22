@@ -7,9 +7,9 @@
 
 	public class MismatchResolver
 	{
-		public static List<OneUpPatioBlock> ResolveMismatches(List<OneUpPatioBlock> blox)
+		public static List<OneUpProduct> ResolveMismatches(List<OneUpProduct> blox)
 		{
-			var bloxToRemove = new List<OneUpPatioBlock>();
+			var bloxToRemove = new List<OneUpProduct>();
 
 			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 54329 && b.PalletQuantity == "84"));
 			bloxToRemove.AddRange(blox.Where(b => b.ItemNumber == 460716 && b.PalletQuantity == "56"));

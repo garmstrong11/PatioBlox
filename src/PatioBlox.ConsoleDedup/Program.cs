@@ -34,13 +34,13 @@
 				.ToList();
 
 			var violators = importer.ItemBarcodeViolations
-				.Select(v => new ViolationPatioBlock(v)
+				.Select(v => new ViolationProduct(v)
 					{
 					AppearsOn = String.Join(", ", importer.BlockAppearsOnPatches(v))
 					})
 				.ToList();
 
-			var violationReporter = new FlexCelReporter<ViolationPatioBlock>
+			var violationReporter = new FlexCelReporter<ViolationProduct>
 				{
 				TemplatePath = "Template_Violations.xlsx",
 				OutputPath = Path.Combine(
@@ -53,13 +53,13 @@
 			violationReporter.Run();
 
 			violators = importer.BarcodeViolations
-				.Select(v => new ViolationPatioBlock(v)
+				.Select(v => new ViolationProduct(v)
 					{
 					AppearsOn = String.Join(", ", importer.BlockAppearsOnPatches(v))
 					})
 				.ToList();
 
-			var barcodeReporter = new FlexCelReporter<ViolationPatioBlock>
+			var barcodeReporter = new FlexCelReporter<ViolationProduct>
 				{
 				TemplatePath = "Template_Violations.xlsx",
 				OutputPath = Path.Combine(
@@ -72,13 +72,13 @@
 			barcodeReporter.Run();
 
 			var oneUps = distinctBlox
-				.Select(b => new OneUpPatioBlock(b))
+				.Select(b => new OneUpProduct(b))
 				.OrderBy(b => b.ItemNumber)
 				.ToList();
 
 			var blox = MismatchResolver.ResolveMismatches(oneUps);
 
-			var oneUpReporter = new FlexCelReporter<OneUpPatioBlock>
+			var oneUpReporter = new FlexCelReporter<OneUpProduct>
 				{
 				TemplatePath = "Template_1up.xlsx",
 				OutputPath = Path.Combine(

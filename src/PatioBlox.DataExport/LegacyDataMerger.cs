@@ -6,7 +6,7 @@
 
 	public class LegacyDataMerger
 	{
-		public List<OneUpPatioBlock> MergeData(List<OneUpPatioBlock> currentBlox, List<LegacyPatioBlock> legacyBlox)
+		public List<OneUpProduct> MergeData(List<OneUpProduct> currentBlox, List<LegacyProduct> legacyBlox)
 		{
 			foreach (var blok in currentBlox) {
 				var legacyBlok = legacyBlox

@@ -8,13 +8,13 @@
 	[TestFixture]
 	public class PatchTests
 	{
-		private readonly PatioBlock _blok1 = new PatioBlock 
+		private readonly Product _blok1 = new Product 
 			{ ItemNumber = 1, Barcode = new Barcode("ABC"), PalletQuantity = "12", Description = "Desc" };
 
-		private readonly PatioBlock _blok2 = new PatioBlock 
+		private readonly Product _blok2 = new Product 
 			{ ItemNumber = 2, Barcode = new Barcode("DEF"), PalletQuantity = "12", Description = "Desc" };
 
-		private readonly PatioBlock _blok3 = new PatioBlock 
+		private readonly Product _blok3 = new Product 
 			{ ItemNumber = 3, Barcode = new Barcode("GHI"), PalletQuantity = "12", Description = "Desc" };
 		
 		[Test]
@@ -25,8 +25,8 @@
 				Name = "AB",
 				Sections = new List<Section>
 					{
-					new Section {Name = "Rock", PatioBlocks = new List<PatioBlock> {_blok1, _blok2}},
-					new Section {Name = "Paper", PatioBlocks = new List<PatioBlock> {_blok2, _blok3}},
+					new Section {Name = "Rock", PatioBlocks = new List<Product> {_blok1, _blok2}},
+					new Section {Name = "Paper", PatioBlocks = new List<Product> {_blok2, _blok3}},
 					}
 				};
 
@@ -35,8 +35,8 @@
 				Name = "AC",
 				Sections = new List<Section>
 					{
-					new Section {Name = "Paper", PatioBlocks = new List<PatioBlock> {_blok1, _blok2}},
-					new Section {Name = "Scissors", PatioBlocks = new List<PatioBlock> {_blok2, _blok3}},
+					new Section {Name = "Paper", PatioBlocks = new List<Product> {_blok1, _blok2}},
+					new Section {Name = "Scissors", PatioBlocks = new List<Product> {_blok2, _blok3}},
 					}
 			};
 
@@ -51,8 +51,8 @@
 				Name = "AB",
 				Sections = new List<Section>
 					{
-					new Section {Name = "Rock", PatioBlocks = new List<PatioBlock> {_blok2, _blok1}},
-					new Section {Name = "Paper", PatioBlocks = new List<PatioBlock> {_blok2, _blok3}},
+					new Section {Name = "Rock", PatioBlocks = new List<Product> {_blok2, _blok1}},
+					new Section {Name = "Paper", PatioBlocks = new List<Product> {_blok2, _blok3}},
 					}
 			};
 
@@ -61,8 +61,8 @@
 				Name = "AC",
 				Sections = new List<Section>
 					{
-					new Section {Name = "Paper", PatioBlocks = new List<PatioBlock> {_blok1, _blok2}},
-					new Section {Name = "Scissors", PatioBlocks = new List<PatioBlock> {_blok2, _blok3}},
+					new Section {Name = "Paper", PatioBlocks = new List<Product> {_blok1, _blok2}},
+					new Section {Name = "Scissors", PatioBlocks = new List<Product> {_blok2, _blok3}},
 					}
 			};
 
@@ -77,8 +77,8 @@
 				Name = "AB",
 				Sections = new List<Section>
 					{
-					new Section {Name = "Paper", PatioBlocks = new List<PatioBlock> {_blok2, _blok3}},
-					new Section {Name = "Rock", PatioBlocks = new List<PatioBlock> {_blok2, _blok1}},
+					new Section {Name = "Paper", PatioBlocks = new List<Product> {_blok2, _blok3}},
+					new Section {Name = "Rock", PatioBlocks = new List<Product> {_blok2, _blok1}},
 					}
 			};
 
@@ -87,8 +87,8 @@
 				Name = "AC",
 				Sections = new List<Section>
 					{
-					new Section {Name = "Paper", PatioBlocks = new List<PatioBlock> {_blok1, _blok2}},
-					new Section {Name = "Scissors", PatioBlocks = new List<PatioBlock> {_blok2, _blok3}},
+					new Section {Name = "Paper", PatioBlocks = new List<Product> {_blok1, _blok2}},
+					new Section {Name = "Scissors", PatioBlocks = new List<Product> {_blok2, _blok3}},
 					}
 			};
 
@@ -103,7 +103,7 @@
 				Name = "AB",
 				Sections = new List<Section>
 					{
-					new Section {Name = "Rock", PatioBlocks = new List<PatioBlock> {_blok1, _blok2}},
+					new Section {Name = "Rock", PatioBlocks = new List<Product> {_blok1, _blok2}},
 					}
 			};
 
@@ -112,8 +112,8 @@
 				Name = "AC",
 				Sections = new List<Section>
 					{
-					new Section {Name = "Paper", PatioBlocks = new List<PatioBlock> {_blok1, _blok2}},
-					new Section {Name = "Scissors", PatioBlocks = new List<PatioBlock> {_blok2, _blok3}},
+					new Section {Name = "Paper", PatioBlocks = new List<Product> {_blok1, _blok2}},
+					new Section {Name = "Scissors", PatioBlocks = new List<Product> {_blok2, _blok3}},
 					}
 			};
 
@@ -130,8 +130,8 @@
 				Id = 0,
 				Sections = new List<Section>
 					{
-					new Section {Name = "Paper", PatioBlocks = new List<PatioBlock> {_blok1, _blok2, _blok3, _blok1, _blok1}},
-					new Section {Name = "Scissors", PatioBlocks = new List<PatioBlock> {_blok2, _blok3, _blok2, _blok2, _blok2}},
+					new Section {Name = "Paper", PatioBlocks = new List<Product> {_blok1, _blok2, _blok3, _blok1, _blok1}},
+					new Section {Name = "Scissors", PatioBlocks = new List<Product> {_blok2, _blok3, _blok2, _blok2, _blok2}},
 					}
 				};
 

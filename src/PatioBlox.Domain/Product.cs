@@ -1,6 +1,6 @@
 ﻿namespace PatioBlox.Domain
 {
-	public class PatioBlock
+	public class Product
 	{
 		public int Id { get; set; }
 		private string _description;
@@ -36,7 +36,7 @@
 
 		public override bool Equals(object obj)
 		{
-			var item = obj as PatioBlock;
+			var item = obj as Product;
 
 			if (item == null) return false;
 

@@ -10,14 +10,14 @@
 		{
 		}
 
-		public List<LegacyPatioBlock> ImportLegacyPatioBlox()
+		public List<LegacyProduct> ImportLegacyPatioBlox()
 		{
-			var blox = new List<LegacyPatioBlock>();
+			var blox = new List<LegacyProduct>();
 
 			foreach (var xlsFile in XlsFiles) {
 				xlsFile.ActiveSheet = 1;
 				for (var row = 2; row <= xlsFile.RowCount; row++) {
-					var blok = new LegacyPatioBlock();
+					var blok = new LegacyProduct();
 
 					var val = xlsFile.GetCellValue(row, 5);
 					blok.ItemNumber = val != null ? Convert.ToInt32(val) : 0;

@@ -3,9 +3,9 @@
 	using System.Collections.Generic;
 	using Domain;
 
-	public class ItemBarcodeDescEqualityComparer : IEqualityComparer<PatioBlock>
+	public class ItemBarcodeDescEqualityComparer : IEqualityComparer<Product>
 	{
-		public bool Equals(PatioBlock x, PatioBlock y)
+		public bool Equals(Product x, Product y)
 		{
 			if (x == null || y == null) return false;
 
@@ -14,7 +14,7 @@
 			       && x.Description == y.Description;
 		}
 
-		public int GetHashCode(PatioBlock obj)
+		public int GetHashCode(Product obj)
 		{
 			unchecked {
 				var hash = 17;
