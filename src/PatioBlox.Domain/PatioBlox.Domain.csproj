@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,8 +48,10 @@
     <Compile Include="JobFolders.cs" />
     <Compile Include="LegacyProduct.cs" />
     <Compile Include="OneUpProduct.cs" />
+    <Compile Include="Page.cs" />
     <Compile Include="Patch.cs" />
     <Compile Include="Product.cs" />
+    <Compile Include="Project.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>

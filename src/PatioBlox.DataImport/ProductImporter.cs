@@ -8,11 +8,11 @@
 	using Domain;
 	using FlexCel.XlsAdapter;
 
-	public class PatioBlockImporter
+	public class ProductImporter
 	{
 		protected readonly List<XlsFile> XlsFiles;
 
-		public PatioBlockImporter(List<string> filePaths)
+		public ProductImporter(List<string> filePaths)
 		{
 			XlsFiles = new List<XlsFile>();
 			filePaths.ForEach(f => XlsFiles.Add(new XlsFile(f, false)));
@@ -64,7 +64,7 @@
 						var block = new Product
 							{
 							//Location = string.Format("{0}_{1}", patchName, row),
-							PatchName = patchName,
+							//PatchName = patchName,
 							ItemNumber = Convert.ToInt32(val)
 							};
 

@@ -9,6 +9,7 @@
 	using NUnit.Framework;
 	using DataImport;
 	using NUnit.Framework.Constraints;
+	using TestFiles;
 
 	[TestFixture]
 	public class WorksheetScannerTests
@@ -18,7 +19,7 @@
 
 		public WorksheetScannerTests()
 		{
-			_testFilePath = FindExcelFile(@"PbTestFile.xlsx");
+			_testFilePath = TestHelpers.LocateFile(@"PbTestFile.xlsx");
 		}
 
 		[SetUp]
@@ -30,10 +31,9 @@
 		[TestCase(1, 13)]
 		[TestCase(2, 16)]
 		[TestCase(3, 10)]
-		[TestCase(4, 1)]
 		public void WorksheetScanner_FindHeaderRow_ReturnsExpected(int sheetNum, int result)
 		{
-			var testFile = FindExcelFile(@"PbTestFile.xlsx");
+			var testFile = TestHelpers.LocateFile(@"PbTestFile.xlsx");
 			var scanner = new WorkSheetScanner(testFile);
 			var firstRowIndex = scanner.FindHeaderRow(sheetNum);
 
@@ -45,7 +45,7 @@
 			ExpectedMessage = "Can't find header row on sheet ZB of workbook NoHeaderRow.xlsx")]
 		public void WorksheetScanner_FindHeaderRow_NoHeaderRowInWorksheet_Throws()
 		{
-			var testFile = FindExcelFile("NoHeaderRow.xlsx");
+			var testFile = TestHelpers.LocateFile("NoHeaderRow.xlsx");
 			var scanner = new WorkSheetScanner(testFile);
 
 			var firstRowIndex = scanner.FindHeaderRow(1);
@@ -56,7 +56,7 @@
 		[Test]
 		public void CanFindTestFile()
 		{
-			string pth = FindExcelFile(@"PbTestFile.xlsx");
+			string pth = TestHelpers.LocateFile(@"PbTestFile.xlsx");
 
 			File.Exists(pth).Should().BeTrue();
 		}
@@ -65,7 +65,7 @@
 		[TestCase(1, "2, 5, 7, 8, 9")]
 		public void WorksheetScanner_FindColumns_ReturnsExpected(int sheetNum, string expec)
 		{
-			var testFile = FindExcelFile(@"PbTestFile.xlsx");
+			var testFile = TestHelpers.LocateFile(@"PbTestFile.xlsx");
 			var scanner = new WorkSheetScanner(testFile);
 
 			var headerRow = scanner.FindHeaderRow(sheetNum);
@@ -79,7 +79,7 @@
 			ExpectedMessage = "Unable to find the Description column in worksheet ZW of workbook NoDescriptionHeader.xlsx")]
 		public void WorksheetScanner_FindColumns_NoColumn_Throws()
 		{
-			var testFile = FindExcelFile("NoDescriptionHeader.xlsx");
+			var testFile = TestHelpers.LocateFile("NoDescriptionHeader.xlsx");
 			var scanner = new WorkSheetScanner(testFile);
 			const int sheetIndex = 1;
 			
@@ -98,17 +98,16 @@
 				{
 				new Patch {Name="AB", Id = begin + 1},
 				new Patch {Name = "AC", Id = begin + 2},
-				new Patch {Name = "OA", Id = begin + 3},
-				new Patch {Name = "ZW", Id = begin + 4}
+				new Patch {Name = "OA", Id = begin + 3}
 				};
 
-			var testFile = FindExcelFile(@"PbTestFile.xlsx");
+			var testFile = TestHelpers.LocateFile(@"PbTestFile.xlsx");
 			var scanner = new WorkSheetScanner(testFile);
 
 			var patches = scanner.FindPatches(ref counter);
 
 			patches.Should().Equal(expected);
-			counter.Should().Be(4);
+			counter.Should().Be(expected.Count);
 		}
 
 		[Test]
@@ -118,7 +117,7 @@
 			var counter = begin;
 			var patches = new List<Patch>();
 
-			var testFile = FindExcelFile(@"PbTestFile.xlsx");
+			var testFile = TestHelpers.LocateFile(@"PbTestFile.xlsx");
 			var scanner = new WorkSheetScanner(testFile);
 
 			patches.AddRange(scanner.FindPatches(ref counter));
@@ -141,7 +140,7 @@
 				"NATURAL"
 				};
 
-			var testFile = FindExcelFile(@"PbTestFile.xlsx");
+			var testFile = TestHelpers.LocateFile(@"PbTestFile.xlsx");
 			var scanner = new WorkSheetScanner(testFile);
 
 			var headerRow = scanner.FindHeaderRow(1);
@@ -173,7 +172,7 @@
 
 			const int patchId = 1;
 
-			var testFile = FindExcelFile(@"PbTestFile.xlsx");
+			var testFile = TestHelpers.LocateFile(@"PbTestFile.xlsx");
 			var scanner = new WorkSheetScanner(testFile);
 
 			var startRow = scanner.FindHeaderRow(patchId);
@@ -184,38 +183,6 @@
 
 			blox.First().ItemNumber.Should().Be(firstBlok.ItemNumber);
 			blox.Last().ItemNumber.Should().Be(lastBlok.ItemNumber);
-		}
-
-		private static string FindExcelFile(string fileName)
-		{
-			var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-			if (directoryName == null) return null;
-
-			var path = directoryName.Replace(@"file:\", "");
-
-			var directoryInfo = new DirectoryInfo(path).Parent;
-			if (directoryInfo == null) return null;
-
-			var root = directoryInfo.Parent;
-			if (root == null) return null;
-
-			return Path.Combine(root.FullName, "TestFiles", fileName);
-		}
-
-		private static string FindTestFolder()
-		{
-			var directoryName = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-			if (directoryName == null) return null;
-
-			var path = directoryName.Replace(@"file:\", "");
-
-			var directoryInfo = new DirectoryInfo(path).Parent;
-			if (directoryInfo == null) return null;
-
-			var root = directoryInfo.Parent;
-			if (root == null) return null;
-
-			return Path.Combine(root.FullName, @"TestFiles");
 		}
 	}
 }

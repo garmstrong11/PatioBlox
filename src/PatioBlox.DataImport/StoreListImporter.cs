@@ -5,7 +5,7 @@
 	using System.Linq;
 	using Domain;
 
-	public class StoreListImporter : PatioBlockImporter
+	public class StoreListImporter : ProductImporter
 	{
 		public StoreListImporter(List<string> filePaths) : base(filePaths)
 		{

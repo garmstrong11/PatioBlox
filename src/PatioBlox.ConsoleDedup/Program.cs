@@ -25,7 +25,7 @@
 				Path.Combine(dataPath, "Patio Block_2014 by Patch2.xlsx")
 			};
 
-			var importer = new PatioBlockImporter(paths);
+			var importer = new ProductImporter(paths);
 
 			var blokList = importer.PatioBlocks;
 			var distinctBlox = blokList.Distinct(new AllPropertiesPatioBlockEqualityComparer())

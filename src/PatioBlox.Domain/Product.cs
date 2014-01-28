@@ -7,7 +7,7 @@
 
 		public string Location
 		{
-			get { return string.Format("{0}_{1}", PatchName, Index); }
+			get { return string.Format("{0}_{1}", Patch.Name, Index); }
 		}
 		public int ItemNumber { get; set; }
 
@@ -21,11 +21,15 @@
 
 		public IBarcode Barcode { get; set; }
 
-		public string PatchName { get; set; }
+		public Patch Patch { get; set; }
 		public int PatchId { get; set; }
+
 		public Section Section { get; set; }
 		public int SectionId { get; set; }
 
+		/// <summary>
+		/// The row number of the Product on the patch worksheet.
+		/// </summary>
 		public int Index { get; set; }
 
 		public override string ToString()

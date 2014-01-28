@@ -136,7 +136,7 @@
 				blok.Id = ++counter;
 				blok.Index = row;
 				blok.PatchId = patchId;
-				blok.PatchName = _xlsFile.SheetName;
+				//blok.PatchName = _xlsFile.SheetName;
 
 				blokList.Add(blok);
 			}

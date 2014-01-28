@@ -28,7 +28,7 @@
 			Description = blok.Description;
 			PalletQuantity = blok.PalletQuantity;
 			Barcode = blok.Barcode;
-			PatchName = blok.PatchName;
+			//PatchName = blok.Patch.Name;
 
 			_remnant = Description;
 			Size = DeriveSize(Description);

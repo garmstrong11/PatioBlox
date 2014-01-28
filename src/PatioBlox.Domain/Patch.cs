@@ -3,7 +3,9 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Runtime.Serialization;
 
+	[DataContract]
 	public class Patch
 	{
 		private const int BlocksPerPage = 4;
@@ -13,10 +15,16 @@
 			Sections = new List<Section>();
 		}
 		
+		[DataMember]
 		public int Id { get; set; }
+
+		[DataMember]
 		public string Name { get; set; }
+
+		[DataMember]
 		public int StoreCount { get; set; }
 
+		[DataMember]
 		public List<Section> Sections { get; set; }
 
 		public int PageCount

@@ -4,7 +4,7 @@
   using System;
   using System.Collections.Generic;
 
-	public class OneUpImporter : PatioBlockImporter
+	public class OneUpImporter : ProductImporter
 	{
 		public OneUpImporter(List<string> filePaths) : base(filePaths)
 		{
