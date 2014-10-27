@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="FactoryRootPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\SAN\AraxiVolume_InSiteJobs\Jobs\Lowes US 2014 Patio Blocks\UserDefinedFolders\PatchAreas\factory</Value>
+      <Value Profile="(Default)">\\Storage2\AraxiVolume_InSiteJobs\Jobs\Lowes US 2015 Patio Blocks\UserDefinedFolders\PatchAreas\factory</Value>
     </Setting>
     <Setting Name="SubpathSupport" Type="System.String" Scope="User">
       <Value Profile="(Default)">support</Value>

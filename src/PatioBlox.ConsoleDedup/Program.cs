@@ -21,8 +21,8 @@
 
 			var paths = new List<string>
 			{
-				Path.Combine(dataPath, "Patio Block_2014 by Patch.xlsx"),
-				Path.Combine(dataPath, "Patio Block_2014 by Patch2.xlsx")
+				Path.Combine(dataPath, "Patio Block_2015 by Patch.xlsx"),
+				Path.Combine(dataPath, "Patio Block_2015 by Patch2 v2.xlsx")
 			};
 
 			var importer = new PatioBlockImporter(paths);
