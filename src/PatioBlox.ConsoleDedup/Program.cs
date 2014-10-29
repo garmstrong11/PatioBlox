@@ -76,7 +76,7 @@
 				.OrderBy(b => b.ItemNumber)
 				.ToList();
 
-			var blox = MismatchResolver.ResolveMismatches(oneUps);
+			//var blox = MismatchResolver.ResolveMismatches(oneUps);
 
 			var oneUpReporter = new FlexCelReporter<OneUpPatioBlock>
 				{

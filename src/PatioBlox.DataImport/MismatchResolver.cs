@@ -1,12 +1,45 @@
 ﻿namespace PatioBlox.DataImport
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using Comparers;
 	using Domain;
+	using FlexCel.XlsAdapter;
 
 	public class MismatchResolver
 	{
+		private readonly IList<string> _filePaths;
+		private readonly string _correctorPath;
+		private readonly XlsFile _xls;
+		
+		public MismatchResolver(IList<string> filePaths, string correctorPath)
+		{
+			if (filePaths == null) throw new ArgumentNullException("filePaths");
+			if (filePaths.Any(string.IsNullOrWhiteSpace)) throw new ArgumentException("Empty paths encountered");
+			if (string.IsNullOrWhiteSpace(correctorPath)) throw new ArgumentNullException("correctorPath");
+
+			_filePaths = filePaths;
+			_correctorPath = correctorPath;
+			_xls = new XlsFile();
+		}
+
+		public Dictionary<string, string> GetPatchNameDict()
+		{
+			var result = new Dictionary<string, string>();
+
+			foreach (var filePath in _filePaths) {
+				_xls.Open(filePath);
+
+				for (var tab = 1; tab <= _xls.SheetCount; tab++) {
+					_xls.ActiveSheet = tab;
+					result.Add(_xls.ActiveSheetByName, _xls.ActiveFileName);
+				}
+			}
+
+			return result;
+		} 
+		
 		public static List<OneUpPatioBlock> ResolveMismatches(List<OneUpPatioBlock> blox)
 		{
 			var bloxToRemove = new List<OneUpPatioBlock>();

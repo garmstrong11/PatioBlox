@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsoleDedup", "PatioBlox.ConsoleDedup\PatioBlox.ConsoleDedup.csproj", "{8196D1A6-01C5-499A-9F99-EA3EE6D0E9B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.Domain", "PatioBlox.Domain\PatioBlox.Domain.csproj", "{EE2D384E-C9F8-4AF3-A9C0-A6A7C1ED4B3B}"
@@ -14,6 +16,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsolePatchData", "PatioBlox.ConsolePatchData\PatioBlox.ConsolePatchData.csproj", "{9EE25FFF-7929-451F-9CA9-241FAA5E32D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsoleOneUpImportExport", "PatioBlox.ConsoleOneUpImportExport\PatioBlox.ConsoleOneUpImportExport.csproj", "{2B5A08AC-5672-4F42-96CD-777940E033AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.MismatchResolver", "PatioBlox.MismatchResolver\PatioBlox.MismatchResolver.csproj", "{CB08D0AB-3B88-4511-A2DB-3ECF209679F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +53,10 @@ Global
 		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB08D0AB-3B88-4511-A2DB-3ECF209679F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB08D0AB-3B88-4511-A2DB-3ECF209679F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB08D0AB-3B88-4511-A2DB-3ECF209679F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB08D0AB-3B88-4511-A2DB-3ECF209679F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
