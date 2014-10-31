@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.IO;
 	using System.Linq;
 	using Comparers;
 	using Domain;
@@ -9,36 +10,94 @@
 
 	public class MismatchResolver
 	{
-		private readonly IList<string> _filePaths;
-		private readonly string _correctorPath;
 		private readonly XlsFile _xls;
 		
-		public MismatchResolver(IList<string> filePaths, string correctorPath)
+		public MismatchResolver()
 		{
-			if (filePaths == null) throw new ArgumentNullException("filePaths");
-			if (filePaths.Any(string.IsNullOrWhiteSpace)) throw new ArgumentException("Empty paths encountered");
-			if (string.IsNullOrWhiteSpace(correctorPath)) throw new ArgumentNullException("correctorPath");
-
-			_filePaths = filePaths;
-			_correctorPath = correctorPath;
 			_xls = new XlsFile();
 		}
 
-		public Dictionary<string, string> GetPatchNameDict()
-		{
-			var result = new Dictionary<string, string>();
+		public string FactoryDataPath { get; set; }
 
-			foreach (var filePath in _filePaths) {
-				_xls.Open(filePath);
+		public IList<PatchLocator> GetPatchLocators(IList<string> fileNames)
+		{
+			if(string.IsNullOrWhiteSpace(FactoryDataPath)) throw new InvalidOperationException("FactoryDataPath is not set");
+			var result = new List<PatchLocator>();
+
+			foreach (var fileName in fileNames) {
+				var fullPath = Path.Combine(FactoryDataPath, fileName);
+				_xls.Open(fullPath);
 
 				for (var tab = 1; tab <= _xls.SheetCount; tab++) {
 					_xls.ActiveSheet = tab;
-					result.Add(_xls.ActiveSheetByName, _xls.ActiveFileName);
+					result.Add(new PatchLocator(fileName, _xls.ActiveSheetByName, tab));
 				}
 			}
 
 			return result;
-		} 
+		}
+
+		public void ResolveMismatches(IList<Corrector> correctors)
+		{
+			var groupedCorrectors = correctors.GroupBy(c => c.Filename);
+
+			foreach (var correctorGroup in groupedCorrectors) {
+				var fullPath = Path.Combine(FactoryDataPath, correctorGroup.Key);
+				_xls.Open(fullPath);
+				foreach (var corrector in correctorGroup) {
+					_xls.SetCellValue(corrector.PatchIndex, corrector.RowIndex, Corrector.ItemIdIndex, corrector.ItemId, -1);
+					_xls.SetCellValue(corrector.PatchIndex, corrector.RowIndex, Corrector.DescriptionIndex, corrector.Description, -1);
+					_xls.SetCellValue(corrector.PatchIndex, corrector.RowIndex, Corrector.PalletIndex, corrector.PalletQty, -1);
+					_xls.SetCellValue(corrector.PatchIndex, corrector.RowIndex, Corrector.UpcIndex, corrector.UPC, -1);
+				}
+
+				var nym = string.Format("{0}_Resolved.xlsx", Path.GetFileNameWithoutExtension(correctorGroup.Key));
+				var newName = Path.Combine(FactoryDataPath, nym);
+				_xls.AllowOverwritingFiles = true;
+				_xls.Save(newName);
+			}
+		}
+
+		public IList<Corrector> GetCorrectors(string fileName, IList<PatchLocator> locators)
+		{
+			var result = new List<Corrector>();
+			var correctorPath = Path.Combine(FactoryDataPath, fileName);
+			var locatorDict = locators.ToDictionary(k => k.PatchName);
+
+			_xls.Open(correctorPath);
+			_xls.ActiveSheet = 1;
+			var rowCount = _xls.RowCount;
+
+			for (var row = 2; row <= rowCount; row++) {
+				var itemId = Convert.ToDouble(_xls.GetCellValue(row, 1));
+				var desc = _xls.GetCellValue(row, 2).ToString();
+				var palletQty = Convert.ToDouble(_xls.GetCellValue(row, 3));
+				var upc = _xls.GetCellValue(row, 4).ToString();
+				var itemList = _xls.GetCellValue(row, 5).ToString()
+					.Split(new[] {", "}, StringSplitOptions.RemoveEmptyEntries)
+					.ToList();
+
+				foreach (var item in itemList) {
+					var split = item.Split(new[] {"_"}, StringSplitOptions.RemoveEmptyEntries);
+					var locator = locatorDict[split[0]];
+					var corrector = new Corrector
+						{
+						ItemId = itemId,
+						Description = desc,
+						PalletQty = palletQty,
+						PatchName = split[0],
+						PatchIndex = locator.PatchIndex,
+						RowIndex = int.Parse(split[1]),
+						Filename = locator.FileName,
+						UPC = upc
+						};
+
+					result.Add(corrector);
+				}
+			}
+
+			return result;
+		}
 		
 		public static List<OneUpPatioBlock> ResolveMismatches(List<OneUpPatioBlock> blox)
 		{

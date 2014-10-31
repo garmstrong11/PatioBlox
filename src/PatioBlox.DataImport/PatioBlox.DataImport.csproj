@@ -47,8 +47,10 @@
     <Compile Include="Comparers\ItemBarcodeDescEqualityComparer.cs" />
     <Compile Include="Comparers\ItemBarcodeEqualityComparer.cs" />
     <Compile Include="Comparers\AllPropertiesPatioBlockEqualityComparer.cs" />
+    <Compile Include="Corrector.cs" />
     <Compile Include="MismatchResolver.cs" />
     <Compile Include="OneUpImporter.cs" />
+    <Compile Include="PatchLocator.cs" />
     <Compile Include="PatchMatcher.cs" />
     <Compile Include="PatioBlockImporter.cs" />
     <Compile Include="LegacyPatioBlockImporter.cs" />
