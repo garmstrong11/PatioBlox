@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsoleDedup", "PatioBlox.ConsoleDedup\PatioBlox.ConsoleDedup.csproj", "{8196D1A6-01C5-499A-9F99-EA3EE6D0E9B9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.Domain", "PatioBlox.Domain\PatioBlox.Domain.csproj", "{EE2D384E-C9F8-4AF3-A9C0-A6A7C1ED4B3B}"
@@ -14,6 +16,19 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsolePatchData", "PatioBlox.ConsolePatchData\PatioBlox.ConsolePatchData.csproj", "{9EE25FFF-7929-451F-9CA9-241FAA5E32D7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsoleOneUpImportExport", "PatioBlox.ConsoleOneUpImportExport\PatioBlox.ConsoleOneUpImportExport.csproj", "{2B5A08AC-5672-4F42-96CD-777940E033AE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Extractor", "PatioBlox2016.Extractor\PatioBlox2016.Extractor.csproj", "{B0FE40EA-32FC-41CE-8DC2-DD82B0597A85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Tests", "PatioBlox2016.Tests\PatioBlox2016.Tests.csproj", "{B0349F8C-5243-4106-BC43-17B785982BE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{685B5D58-90F5-49BC-96A0-00A9066B11EC}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Abstract", "PatioBlox2016.Abstract\PatioBlox2016.Abstract.csproj", "{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +64,18 @@ Global
 		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B5A08AC-5672-4F42-96CD-777940E033AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0FE40EA-32FC-41CE-8DC2-DD82B0597A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0FE40EA-32FC-41CE-8DC2-DD82B0597A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0FE40EA-32FC-41CE-8DC2-DD82B0597A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0FE40EA-32FC-41CE-8DC2-DD82B0597A85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0349F8C-5243-4106-BC43-17B785982BE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0349F8C-5243-4106-BC43-17B785982BE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0349F8C-5243-4106-BC43-17B785982BE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0349F8C-5243-4106-BC43-17B785982BE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
