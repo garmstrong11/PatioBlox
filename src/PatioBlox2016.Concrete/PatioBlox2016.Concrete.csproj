@@ -45,7 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookFactory.cs" />
+    <Compile Include="BookModel.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="FakeSettingsService.cs" />
     <Compile Include="JobFolders.cs" />
     <Compile Include="Pathing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

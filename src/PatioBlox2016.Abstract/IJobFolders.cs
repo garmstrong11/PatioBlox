@@ -5,7 +5,6 @@
 
   public interface IJobFolders
   {
-		string ExcelFileName { get; }
     string PartsPath { get; }
 		string ReportPath { get; }
 		string FontsPath { get; }
@@ -14,13 +13,10 @@
 		FileInfoBase FileInfoFromPath(string path);
 		string ServerJsxFileName { get; }
 
-		void Initialize(string excelFilePath);
+		void Initialize(string jobFolderPath);
 		void Reset();
 
-		FileInfoBase GetLiftFileInfo(string liftName);
-		string GetLiftName(int index, int count);
-
-	  Task TransferPartsFilesToJob();
+	  //Task TransferPartsFilesToJob();
 		//string AssembleKickScript(IEnumerable<ISignArt> signs);
 		Task TransferScriptToServer(string jsx);
   }

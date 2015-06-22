@@ -49,34 +49,19 @@
     }
 
     [Test]
-    public void FindHeaderRow_PatchBD_Returns13()
-    {
-      _extractor.ChangeCurrentPatch("BD");
-      var actual = _extractor.FindHeaderRow();
-
-      actual.Should().Be(13);
-    }
-
-    [Test]
-    public void AllPatches_FindHeaderRow_Returns13()
-    {
-      var patchNames = _extractor.ExtractPatchNames();
-      var actual = patchNames.Select(p =>
-                                     {
-                                       _extractor.ChangeCurrentPatch(p);
-                                       return _extractor.FindHeaderRow();
-                                     });
-
-      actual.All(n => n == 13).Should().BeTrue();
-    }
-
-
-    [Test]
     public void CanExtractAllPatches()
     {
       var patchRows = _extractor.Extract();
 
       patchRows.Count().Should().Be(4978);
     }
+
+	  [Test]
+	  public void ExtractOnePatch_NoItemNumber_ExtractsWithItemNumberAsNegative1()
+	  {
+		  var patchRows = _extractor.ExtractOnePatch("ED");
+
+		  patchRows.Any(p => p.Sku == -1).Should().BeTrue();
+	  }
   }
 }

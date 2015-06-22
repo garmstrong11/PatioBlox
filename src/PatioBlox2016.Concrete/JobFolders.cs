@@ -33,14 +33,14 @@
 			_settings = settingsService;
 		}
 
-		public void Initialize(string excelFilePath)
+		public void Initialize(string jobFolderPath)
 		{
-			if (!excelFilePath.Contains(UdfDir)) {
+			if (!jobFolderPath.Contains(UdfDir)) {
 				throw new DirectoryNotFoundException(
 					string.Format("Unable to find the directory '{0}' in the path to your Excel file.", UdfDir));
 			}
 
-			_excelFileInfo = _fileSystem.FileInfo.FromFileName(Pathing.GetUncPath(excelFilePath));
+			_excelFileInfo = _fileSystem.FileInfo.FromFileName(Pathing.GetUncPath(jobFolderPath));
 
 			if (!_excelFileInfo.Exists) {
 				throw new FileNotFoundException();
