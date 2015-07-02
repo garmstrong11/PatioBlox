@@ -12,10 +12,7 @@
 		string InDesignInputPath { get; set; }
 		string FactoryPath { get; set; }
 
-
-
 		string CloverBaseAddress { get; set; }
-
 		string BaseScriptName { get; set; }
 	}
 }

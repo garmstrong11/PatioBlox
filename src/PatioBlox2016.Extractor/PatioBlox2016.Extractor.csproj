@@ -53,8 +53,10 @@
     <Compile Include="FlexCelExtractionException.cs" />
     <Compile Include="IExtractionResult.cs" />
     <Compile Include="IExtractor.cs" />
+    <Compile Include="IKeywordExractor.cs" />
     <Compile Include="IPatchExtract.cs" />
     <Compile Include="IPatchExtractor.cs" />
+    <Compile Include="SeedExtractor.cs" />
     <Compile Include="PatchDataFile.cs" />
     <Compile Include="ExtractionResult.cs" />
     <Compile Include="PatchExtractor.cs" />
