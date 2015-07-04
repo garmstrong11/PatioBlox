@@ -9,12 +9,16 @@
 		public DbSet<Keyword> Keywords { get; set; }
 		public DbSet<Expansion> Expansions { get; set; }
 
-		static PatioBloxContext()
-		{
-			Database.SetInitializer(new DbInitializer());
+    //static PatioBloxContext()
+    //{
+    //  Database.SetInitializer(new DbInitializer());
 
-			using (var db = new PatioBloxContext()) db.Database.Initialize(false);
-		}
+    //  using (var db = new PatioBloxContext()) db.Database.Initialize(false);
+    //}
+	  public PatioBloxContext() : base("name=PatioBloxConnectionString")
+	  {
+      Database.SetInitializer(new DbInitializer());
+	  }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{

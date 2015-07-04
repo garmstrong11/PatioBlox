@@ -8,13 +8,14 @@
 	using Concrete;
 	using Extractor;
 
-	class DbInitializer : DropCreateDatabaseIfModelChanges<PatioBloxContext>
+	class DbInitializer : DropCreateDatabaseAlways<PatioBloxContext>
 	{
 		protected override void Seed(PatioBloxContext context)
 		{
 			var dapter = new FlexCelDataSourceAdapter();
 			var fileSystem = new FileSystem();
-			const string seedPath = @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\SeedData.xlsx";
+			//const string seedPath = @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\SeedData.xlsx";
+      const string seedPath = @"\\Diskstation\vault\Factory\Lowes\PatioBlox\SeedData\Seed.xlsx";
 
 			var extractor = new SeedExtractor(dapter, fileSystem);
 			extractor.Initialize(seedPath);

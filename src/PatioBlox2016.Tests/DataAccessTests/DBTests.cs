@@ -11,15 +11,12 @@
 	public class DBTests
 	{
 		[Test]
-		public void DatabaseFileIsCreated()
+		public void DatabaseIsCreated()
 		{
 			var ctx = new PatioBloxContext();
-			var wordList = ctx.Keywords.ToList();
-
-			File.Exists(@"F:\Lowes\PatioBlocks2016\PatioBloxDb.sdf").Should().BeTrue();
 			var expan = ctx.Expansions.First(e => e.KeywordId == 5);
 
-			expan.Keyword.WordType.Should().Be(WordType.Vendor);
+			expan.Keyword.WordType.Should().Be(WordType.Color);
 		}
 	}
 }

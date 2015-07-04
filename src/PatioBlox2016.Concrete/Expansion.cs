@@ -14,6 +14,6 @@
 		public string Word { get; set; }
 		public int KeywordId { get; set; }
 
-		public Keyword Keyword { get; set; }
+		public virtual Keyword Keyword { get; set; }
 	}
 }
