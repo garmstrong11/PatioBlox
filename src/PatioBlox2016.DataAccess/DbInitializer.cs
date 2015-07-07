@@ -1,6 +1,5 @@
 ﻿namespace PatioBlox2016.DataAccess
 {
-	using System.Collections.Generic;
 	using System.Data.Entity;
 	using System.Data.Entity.Migrations;
 	using System.IO.Abstractions;
@@ -8,25 +7,35 @@
 	using Concrete;
 	using Extractor;
 
-	class DbInitializer : DropCreateDatabaseAlways<PatioBloxContext>
+	class DbInitializer : CreateDatabaseIfNotExists<PatioBloxContext>
 	{
 		protected override void Seed(PatioBloxContext context)
 		{
 			var dapter = new FlexCelDataSourceAdapter();
 			var fileSystem = new FileSystem();
 			//const string seedPath = @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\SeedData.xlsx";
-      const string seedPath = @"\\Diskstation\vault\Factory\Lowes\PatioBlox\SeedData\Seed.xlsx";
+      const string seedPath = @"C:\Users\gma\Dropbox\PatioBlox\Seed.xlsx";
 
 			var extractor = new SeedExtractor(dapter, fileSystem);
 			extractor.Initialize(seedPath);
 			var agg = extractor.Extract().FirstOrDefault();
 
-			//agg.KeywordDtos.ForEach(k => context.Keywords.AddOrUpdate(new Keyword(k)));
+		  var dtoKeywords = agg.KeywordDtos.Select(dto => new Keyword(dto));
+		  context.Keywords.AddRange(dtoKeywords);
 
-			foreach (var dto in agg.KeywordDtos) {
-				var kw = new Keyword(dto);
-				context.Keywords.AddOrUpdate(kw);
-			}
+		  var dtoJobs = agg.JobDtos.Select(dto => new Job(dto));
+		  context.Jobs.AddRange(dtoJobs);
+
+		  context.SaveChanges();
+		  var jobs = context.Jobs.ToList();
+
+		  foreach (var dto in agg.JobFileDtos) {
+		    var job = jobs.FirstOrDefault(j => j.PrinergyJobId == dto.PrinergyJobId);
+        if (job == null) continue;
+
+		    var jobFile = new JobFile(dto) {JobId = job.Id};
+		    context.JobFiles.AddOrUpdate(jobFile);
+		  }
 
 			context.SaveChanges();
 			var keyWords = context.Keywords.ToList();

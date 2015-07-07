@@ -8,13 +8,9 @@
 	{
 		public DbSet<Keyword> Keywords { get; set; }
 		public DbSet<Expansion> Expansions { get; set; }
+	  public DbSet<Job> Jobs { get; set; }
+	  public DbSet<JobFile> JobFiles { get; set; }
 
-    //static PatioBloxContext()
-    //{
-    //  Database.SetInitializer(new DbInitializer());
-
-    //  using (var db = new PatioBloxContext()) db.Database.Initialize(false);
-    //}
 	  public PatioBloxContext() : base("name=PatioBloxConnectionString")
 	  {
       Database.SetInitializer(new DbInitializer());
@@ -24,6 +20,8 @@
 		{
 			modelBuilder.Configurations.Add(new KeywordTypeConfiguration());
 			modelBuilder.Configurations.Add(new ExpansionTypeConfiguration());
+		  modelBuilder.Configurations.Add(new JobTypeConfiguration());
+		  modelBuilder.Configurations.Add(new JobFileTypeConfiguration());
 		}
 	}
 }

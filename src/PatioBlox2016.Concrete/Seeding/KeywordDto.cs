@@ -1,9 +1,9 @@
-﻿namespace PatioBlox2016.Concrete
+﻿namespace PatioBlox2016.Concrete.Seeding
 {
-	using System;
-	using System.Text;
+  using System;
+  using System.Text;
 
-	public class KeywordDto
+  public class KeywordDto
 	{
 		public static int SheetIndex = 1;
 		public static int WordColumnIndex = 1;

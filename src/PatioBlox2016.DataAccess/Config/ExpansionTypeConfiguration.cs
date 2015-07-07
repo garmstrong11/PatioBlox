@@ -3,7 +3,7 @@
 	using System.Data.Entity.ModelConfiguration;
 	using Concrete;
 
-	public class ExpansionTypeConfiguration : EntityTypeConfiguration<Expansion>
+	internal class ExpansionTypeConfiguration : EntityTypeConfiguration<Expansion>
 	{
 		public ExpansionTypeConfiguration()
 		{

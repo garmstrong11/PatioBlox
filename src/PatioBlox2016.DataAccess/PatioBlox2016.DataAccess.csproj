@@ -55,8 +55,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\ExpansionTypeConfiguration.cs" />
+    <Compile Include="Config\JobFileTypeConfiguration.cs" />
+    <Compile Include="Config\JobTypeConfiguration.cs" />
     <Compile Include="Config\KeywordTypeConfiguration.cs" />
     <Compile Include="DbInitializer.cs" />
+    <Compile Include="Migrations\201507061429293_Initial Create.cs" />
+    <Compile Include="Migrations\201507061429293_Initial Create.Designer.cs">
+      <DependentUpon>201507061429293_Initial Create.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507061459532_Job and JobFile config.cs" />
+    <Compile Include="Migrations\201507061459532_Job and JobFile config.Designer.cs">
+      <DependentUpon>201507061459532_Job and JobFile config.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507061504185_JobFile name to 255 chars.cs" />
+    <Compile Include="Migrations\201507061504185_JobFile name to 255 chars.Designer.cs">
+      <DependentUpon>201507061504185_JobFile name to 255 chars.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,6 +92,17 @@
       <Project>{b0fe40ea-32fc-41ce-8dc2-dd82b0597a85}</Project>
       <Name>PatioBlox2016.Extractor</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201507061429293_Initial Create.resx">
+      <DependentUpon>201507061429293_Initial Create.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507061459532_Job and JobFile config.resx">
+      <DependentUpon>201507061459532_Job and JobFile config.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507061504185_JobFile name to 255 chars.resx">
+      <DependentUpon>201507061504185_JobFile name to 255 chars.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

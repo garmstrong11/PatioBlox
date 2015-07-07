@@ -2,6 +2,7 @@
 {
 	using System;
 	using Concrete;
+	using Concrete.Seeding;
 	using FluentAssertions;
 	using NUnit.Framework;
 

@@ -1,6 +1,8 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-	public class Expansion
+  using Seeding;
+
+  public class Expansion
 	{
 		public Expansion()
 		{}
@@ -14,6 +16,6 @@
 		public string Word { get; set; }
 		public int KeywordId { get; set; }
 
-		public virtual Keyword Keyword { get; set; }
+		public Keyword Keyword { get; set; }
 	}
 }

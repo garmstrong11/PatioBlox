@@ -3,7 +3,7 @@
 	using System.Data.Entity.ModelConfiguration;
 	using Concrete;
 
-	public class KeywordTypeConfiguration : EntityTypeConfiguration<Keyword>
+	internal class KeywordTypeConfiguration : EntityTypeConfiguration<Keyword>
 	{
 		public KeywordTypeConfiguration()
 		{

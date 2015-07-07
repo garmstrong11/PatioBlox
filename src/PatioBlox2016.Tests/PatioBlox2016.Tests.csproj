@@ -78,7 +78,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConcreteTests\KeywordDtoTests.cs" />
-    <Compile Include="DataAccessTests\DBTests.cs" />
+    <Compile Include="DataAccessTests\DbTests.cs" />
     <Compile Include="ExtractorTests\ExtractorTestBase.cs" />
     <Compile Include="ExtractorTests\PatchDataFileTests.cs" />
     <Compile Include="ExtractorTests\PatchExtractorTests.cs" />

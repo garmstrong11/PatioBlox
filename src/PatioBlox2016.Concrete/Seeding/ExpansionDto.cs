@@ -1,4 +1,4 @@
-﻿namespace PatioBlox2016.Concrete
+﻿namespace PatioBlox2016.Concrete.Seeding
 {
 	using System;
 

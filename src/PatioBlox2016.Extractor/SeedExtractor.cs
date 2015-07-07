@@ -5,8 +5,9 @@
 	using System.Linq;
 	using Abstract;
 	using Concrete;
+	using Concrete.Seeding;
 
-	public class SeedExtractor : ExtractorBase<SeedAggregate>, IKeywordExractor
+  public class SeedExtractor : ExtractorBase<SeedAggregate>, IKeywordExractor
 	{
 		public SeedExtractor(IDataSourceAdapter adapter, IFileSystem fileSystem) 
 			: base(adapter, fileSystem)
@@ -43,7 +44,34 @@
 			}
 
 			return set.AsEnumerable();
-		} 
+		}
+
+    private IEnumerable<JobDto> ExtractJobs()
+    {
+      XlAdapter.ActiveSheet = JobDto.SheetIndex;
+      var rowCount = XlAdapter.RowCount;
+
+      for (var row = 2; row <= rowCount; row++) {
+        var jobId = XlAdapter.ExtractInteger(row, JobDto.PrinergyJobIdColumnIndex);
+        var year = XlAdapter.ExtractInteger(row, JobDto.YearColumnIndex);
+        var path = XlAdapter.ExtractString(row, JobDto.PathColumnIndex);
+
+        yield return new JobDto(jobId, year, path);
+      }
+    }
+
+    private IEnumerable<JobFileDto> ExtractJobFiles()
+    {
+      XlAdapter.ActiveSheet = JobFileDto.SheetId;
+      var rowCount = XlAdapter.RowCount;
+
+      for (var row = 2; row <= rowCount; row++) {
+        var jobId = XlAdapter.ExtractInteger(row, JobFileDto.PrinergyJobIdColumnId);
+        var name = XlAdapter.ExtractString(row, JobFileDto.FileNameColumnId);
+
+        yield return new JobFileDto(jobId, name);
+      }
+    } 
 
 		public override IEnumerable<SeedAggregate> Extract()
 		{
@@ -52,6 +80,8 @@
 
 			seedAggregate.KeywordDtos.AddRange(ExtractKeywords());
 			seedAggregate.ExpansionDtos.AddRange(ExtractExpansions());
+      seedAggregate.JobDtos.AddRange(ExtractJobs());
+      seedAggregate.JobFileDtos.AddRange(ExtractJobFiles());
 
 			return result;
 		}

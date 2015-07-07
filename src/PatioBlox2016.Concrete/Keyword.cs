@@ -1,6 +1,8 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-	public class Keyword
+  using Seeding;
+
+  public class Keyword
 	{
 		public Keyword()
 		{}

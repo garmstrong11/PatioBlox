@@ -1,16 +1,21 @@
 ﻿namespace PatioBlox2016.Concrete
 {
 	using System.Collections.Generic;
+	using Seeding;
 
-	public class SeedAggregate
+  public class SeedAggregate
 	{
 		private readonly List<KeywordDto> _keywordDtos;
 		private readonly List<ExpansionDto> _expansionDtos;
+    private readonly List<JobDto> _jobDtos;
+    private readonly List<JobFileDto> _jobFileDtos; 
 
 		public SeedAggregate()
 		{
 			_keywordDtos = new List<KeywordDto>();
 			_expansionDtos = new List<ExpansionDto>();
+      _jobDtos = new List<JobDto>();
+      _jobFileDtos = new List<JobFileDto>();
 		}
 
 
@@ -23,5 +28,15 @@
 		{
 			get { return _expansionDtos; }
 		}
+
+    public List<JobDto> JobDtos
+    {
+      get { return _jobDtos; }
+    }
+
+    public List<JobFileDto> JobFileDtos
+    {
+      get { return _jobFileDtos; }
+    }
 	}
 }
