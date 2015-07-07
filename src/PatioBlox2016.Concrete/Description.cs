@@ -1,10 +1,16 @@
 ﻿namespace PatioBlox2016.Concrete
 {
   using System;
+  using System.Collections.Generic;
 
-  public class Description
+	public class Description
   {
-    public Description(int jobId, string rawText)
+		private Description()
+		{
+			Products = new List<Product>();
+		}
+
+		public Description(int jobId, string rawText)
     {
       if (string.IsNullOrWhiteSpace(rawText)) throw new ArgumentNullException("rawText");
 
@@ -19,6 +25,8 @@
     public string Size { get; set; }
     public string Color { get; set; }
     public string Name { get; set; }
+
+	  public ICollection<Product> Products { get; set; }
 
     protected bool Equals(Description other)
     {

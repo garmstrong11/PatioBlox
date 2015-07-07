@@ -13,7 +13,7 @@
 
 	  public PatioBloxContext() : base("name=PatioBloxConnectionString")
 	  {
-      Database.SetInitializer(new DbInitializer());
+      Database.SetInitializer(new CreateDatabaseIfNotExists<PatioBloxContext>());
 	  }
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)

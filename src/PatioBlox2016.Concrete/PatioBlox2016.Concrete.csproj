@@ -46,14 +46,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BookFactory.cs" />
-    <Compile Include="BookModel.cs" />
+    <Compile Include="Book.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Description.cs" />
     <Compile Include="Expansion.cs" />
+    <Compile Include="ImportedRow.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="JobFile.cs" />
     <Compile Include="Page.cs" />
-    <Compile Include="Patch.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="Seeding\ExpansionDto.cs" />
