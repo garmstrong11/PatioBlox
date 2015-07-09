@@ -34,6 +34,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Concrete", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.DataAccess", "PatioBlox2016.DataAccess\PatioBlox2016.DataAccess.csproj", "{714A0951-70B1-4238-BD62-305EBECA41F3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{CED6F4E7-520D-4A3E-A048-3E951B57D52E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Services.Contracts", "PatioBlox2016.Services.Contracts\PatioBlox2016.Services.Contracts.csproj", "{18304EFE-78F3-4ECD-8253-099F5B37EE1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Services.EfImpl", "PatioBlox2016.Services.EfImpl\PatioBlox2016.Services.EfImpl.csproj", "{8620D086-9BE6-4494-B259-991BC35A29AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,8 +94,20 @@ Global
 		{714A0951-70B1-4238-BD62-305EBECA41F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{714A0951-70B1-4238-BD62-305EBECA41F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{714A0951-70B1-4238-BD62-305EBECA41F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18304EFE-78F3-4ECD-8253-099F5B37EE1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18304EFE-78F3-4ECD-8253-099F5B37EE1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18304EFE-78F3-4ECD-8253-099F5B37EE1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18304EFE-78F3-4ECD-8253-099F5B37EE1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8620D086-9BE6-4494-B259-991BC35A29AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8620D086-9BE6-4494-B259-991BC35A29AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8620D086-9BE6-4494-B259-991BC35A29AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8620D086-9BE6-4494-B259-991BC35A29AE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{18304EFE-78F3-4ECD-8253-099F5B37EE1C} = {CED6F4E7-520D-4A3E-A048-3E951B57D52E}
+		{8620D086-9BE6-4494-B259-991BC35A29AE} = {CED6F4E7-520D-4A3E-A048-3E951B57D52E}
 	EndGlobalSection
 EndGlobal

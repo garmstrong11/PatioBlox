@@ -4,9 +4,12 @@
 
 	public class Section
   {
-		private Section() {}
+		private Section()
+		{
+			Pages = new List<Page>();
+		}
 
-	  public Section(int bookId)
+	  public Section(int bookId) : this()
 	  {
 		  Id = -1;
 			BookId = bookId;

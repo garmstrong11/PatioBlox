@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\BookTypeConfiguration.cs" />
     <Compile Include="Config\ExpansionTypeConfiguration.cs" />
     <Compile Include="Config\JobFileTypeConfiguration.cs" />
     <Compile Include="Config\JobTypeConfiguration.cs" />
@@ -69,6 +70,18 @@
     <Compile Include="Migrations\201507061504185_JobFile name to 255 chars.cs" />
     <Compile Include="Migrations\201507061504185_JobFile name to 255 chars.Designer.cs">
       <DependentUpon>201507061504185_JobFile name to 255 chars.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507081317400_Add Products and Descriptions.cs" />
+    <Compile Include="Migrations\201507081317400_Add Products and Descriptions.Designer.cs">
+      <DependentUpon>201507081317400_Add Products and Descriptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507091529277_Add DescriptionUsages.cs" />
+    <Compile Include="Migrations\201507091529277_Add DescriptionUsages.Designer.cs">
+      <DependentUpon>201507091529277_Add DescriptionUsages.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507091907425_Add Book Section Page and Cell.cs" />
+    <Compile Include="Migrations\201507091907425_Add Book Section Page and Cell.Designer.cs">
+      <DependentUpon>201507091907425_Add Book Section Page and Cell.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
@@ -101,6 +114,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507061504185_JobFile name to 255 chars.resx">
       <DependentUpon>201507061504185_JobFile name to 255 chars.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507081317400_Add Products and Descriptions.resx">
+      <DependentUpon>201507081317400_Add Products and Descriptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507091529277_Add DescriptionUsages.resx">
+      <DependentUpon>201507091529277_Add DescriptionUsages.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507091907425_Add Book Section Page and Cell.resx">
+      <DependentUpon>201507091907425_Add Book Section Page and Cell.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

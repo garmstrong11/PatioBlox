@@ -46,8 +46,8 @@
   <ItemGroup>
     <Compile Include="IColumnIndexService.cs" />
     <Compile Include="IDataSourceAdapter.cs" />
+    <Compile Include="IDescriptionFactory.cs" />
     <Compile Include="IJobFolders.cs" />
-    <Compile Include="IPatchRef.cs" />
     <Compile Include="IPatchRowExtract.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="ISettingsService.cs" />

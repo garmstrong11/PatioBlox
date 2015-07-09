@@ -84,6 +84,7 @@
     <Compile Include="ExtractorTests\PatchExtractorTests.cs" />
     <Compile Include="ExtractorTests\SeedExtractorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceTests\KeywordRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -107,6 +108,14 @@
     <ProjectReference Include="..\PatioBlox2016.Extractor\PatioBlox2016.Extractor.csproj">
       <Project>{b0fe40ea-32fc-41ce-8dc2-dd82b0597a85}</Project>
       <Name>PatioBlox2016.Extractor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.Services.Contracts\PatioBlox2016.Services.Contracts.csproj">
+      <Project>{18304efe-78f3-4ecd-8253-099f5b37ee1c}</Project>
+      <Name>PatioBlox2016.Services.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.Services.EfImpl\PatioBlox2016.Services.EfImpl.csproj">
+      <Project>{8620d086-9be6-4494-b259-991bc35a29ae}</Project>
+      <Name>PatioBlox2016.Services.EfImpl</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

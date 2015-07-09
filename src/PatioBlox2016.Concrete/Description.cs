@@ -7,30 +7,32 @@
   {
 		private Description()
 		{
-			Products = new List<Product>();
+			Usages = new List<DescriptionUsage>();
 		}
 
-		public Description(int jobId, string rawText)
+		public Description(int jobId, string text) : this()
     {
-      if (string.IsNullOrWhiteSpace(rawText)) throw new ArgumentNullException("rawText");
+      if (string.IsNullOrWhiteSpace(text)) throw new ArgumentNullException("text");
 
+			Id = -1;
       JobId = jobId;
-      RawText = rawText;
+      Text = text;
     }
 
+		public int Id { get; private set; }
     public int JobId { get; private set; }
-    public string RawText { get; private set; }
+    public string Text { get; private set; }
 
     public string Vendor { get; set; }
     public string Size { get; set; }
     public string Color { get; set; }
     public string Name { get; set; }
 
-	  public ICollection<Product> Products { get; set; }
+		public ICollection<DescriptionUsage> Usages { get; set; }
 
     protected bool Equals(Description other)
     {
-      return string.Equals(RawText, other.RawText);
+      return string.Equals(Text, other.Text);
     }
 
     public override bool Equals(object obj)
@@ -42,7 +44,7 @@
 
     public override int GetHashCode()
     {
-      return RawText.GetHashCode();
+      return Text.GetHashCode();
     }
 
     public static bool operator ==(Description left, Description right)

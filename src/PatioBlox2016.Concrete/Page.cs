@@ -4,9 +4,12 @@
 
 	public class Page
   {
-		private Page() { }
+		private Page()
+		{
+			Cells = new List<Cell>();
+		}
 
-		public Page(int index)
+		public Page(int index) : this()
 		{
 			Index = index;
 		}

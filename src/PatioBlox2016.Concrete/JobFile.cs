@@ -1,23 +1,24 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-  using Seeding;
+	using System.Collections.Generic;
+	using Seeding;
 
   public class JobFile
   {
-    /// <summary>
-    /// A protected, parameterless constructor for Entity Framework.
-    /// </summary>
-    protected JobFile()
-    {}
+	  private JobFile()
+	  {
+		  Books = new HashSet<Book>();
+	  }
     
-    public JobFile(JobFileDto dto)
+    public JobFile(JobFileDto dto) : this()
     {
-      Id = 0;
+      Id = -1;
       FileName = dto.FileName;
     }
 
     public int Id { get; private set; }
     public int JobId { get; set; }
     public string FileName { get; set; }
+		public ICollection<Book> Books { get; set; } 
   }
 }
