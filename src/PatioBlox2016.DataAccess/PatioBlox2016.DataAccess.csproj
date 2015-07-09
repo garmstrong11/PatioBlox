@@ -83,6 +83,10 @@
     <Compile Include="Migrations\201507091907425_Add Book Section Page and Cell.Designer.cs">
       <DependentUpon>201507091907425_Add Book Section Page and Cell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507092150445_Add Sku to DescriptionUsage.cs" />
+    <Compile Include="Migrations\201507092150445_Add Sku to DescriptionUsage.Designer.cs">
+      <DependentUpon>201507092150445_Add Sku to DescriptionUsage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -123,6 +127,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507091907425_Add Book Section Page and Cell.resx">
       <DependentUpon>201507091907425_Add Book Section Page and Cell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507092150445_Add Sku to DescriptionUsage.resx">
+      <DependentUpon>201507092150445_Add Sku to DescriptionUsage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -35,8 +35,8 @@ namespace PatioBlox2016.DataAccess.Migrations
     {
       var dapter = new FlexCelDataSourceAdapter();
       var fileSystem = new FileSystem();
-      const string seedPath = @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\Seed.xlsx";
-      //const string seedPath = @"C:\Users\gma\Dropbox\PatioBlox\Seed.xlsx";
+      //const string seedPath = @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\Seed.xlsx";
+      const string seedPath = @"C:\Users\gma\Dropbox\PatioBlox\Seed.xlsx";
 
       var extractor = new SeedExtractor(dapter, fileSystem);
       extractor.Initialize(seedPath);
