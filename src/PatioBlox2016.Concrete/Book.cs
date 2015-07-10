@@ -10,10 +10,10 @@
 			Sections = new HashSet<Section>();
 		}
 
-		public Book(int jobFileId, string bookName) : this()
+		public Book(JobFile jobFile, string bookName) : this()
 		{
 			Id = -1;
-			JobFileId = jobFileId;
+			JobFile = jobFile;
 			BookName = bookName;
 		}
 
@@ -60,6 +60,16 @@
 				// Format the strings for report output:
 				return doopIndices
 					.Select(doopIndex => string.Format("Book {0} has duplicates in rows {1}", BookName, doopIndex));
+			}
+		}
+
+		public int PageCount
+		{
+			get
+			{
+				// Page count must always be an even number:
+				var count = Sections.SelectMany(s => s.Pages).Count();
+				return count % 2 == 0 ? count : count + 1;
 			}
 		}
 	}

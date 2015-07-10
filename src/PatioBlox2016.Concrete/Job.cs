@@ -1,11 +1,12 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-  using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
   using Seeding;
 
   public class Job
   {
-    protected Job()
+    private Job()
     {
       JobFiles = new List<JobFile>();
     }
@@ -17,8 +18,17 @@
       Year = dto.Year;
       Path = dto.Path;
     }
-    
-    public int Id { get; private set; }
+
+	  public Job(int prinergyJobId, int year, string path) : this()
+	  {
+		  if (string.IsNullOrWhiteSpace(path)) throw new ArgumentNullException("path");
+
+		  PrinergyJobId = prinergyJobId;
+		  Year = year;
+		  Path = path;
+	  }
+
+	  public int Id { get; private set; }
     public int PrinergyJobId  { get; set; }
     public int Year { get; set; }
     public string Path { get; set; }

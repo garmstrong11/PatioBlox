@@ -9,12 +9,14 @@
 			Cells = new List<Cell>();
 		}
 
-		public Page(int index) : this()
+		public Page(Section section, int index) : this()
 		{
+			Id = -1;
 			Index = index;
+			Section = section;
 		}
 
-		public int Id { get; set; }
+		public int Id { get; private set; }
 	  public int Index { get; set; }
 
 	  public Section Section { get; set; }

@@ -2,7 +2,6 @@
 {
   using System.IO;
   using System.Text.RegularExpressions;
-  using FluentAssertions.Common;
   using NUnit.Framework;
 
   public class ExtractorTestBase

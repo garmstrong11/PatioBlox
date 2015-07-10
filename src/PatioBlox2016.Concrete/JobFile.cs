@@ -1,5 +1,6 @@
 ﻿namespace PatioBlox2016.Concrete
 {
+	using System;
 	using System.Collections.Generic;
 	using Seeding;
 
@@ -12,12 +13,21 @@
     
     public JobFile(JobFileDto dto) : this()
     {
-      Id = -1;
       FileName = dto.FileName;
     }
 
-    public int Id { get; private set; }
+	  public JobFile(Job job, string path) : this()
+	  {
+		  if (job == null) throw new ArgumentNullException("job");
+		  if (string.IsNullOrWhiteSpace(path)) throw new ArgumentNullException("path");
+
+		  Job = job;
+		  FileName = path;
+	  }
+
+	  public int Id { get; private set; }
     public int JobId { get; set; }
+	  public Job Job { get; set; }
     public string FileName { get; set; }
 		public ICollection<Book> Books { get; set; } 
   }
