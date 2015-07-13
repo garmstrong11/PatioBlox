@@ -8,5 +8,9 @@
     IEnumerable<PatchRowExtract> PatchRowExtracts { get; }
     void AddDataFile(PatchDataFile dataFile);
     void AddPatchRowExtract(PatchRowExtract patchRowExtract);
+
+    IEnumerable<string> PatchNames { get; }
+    IEnumerable<string> UniqueDescriptions { get; }
+    IEnumerable<string> UniqueUpcs { get; } 
   }
 }

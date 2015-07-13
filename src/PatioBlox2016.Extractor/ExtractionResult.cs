@@ -39,6 +39,10 @@
       _patchRowExtracts.Add(patchRowExtract);
     }
 
+    public IEnumerable<string> PatchNames { get; private set; }
+    public IEnumerable<string> UniqueDescriptions { get; private set; }
+    public IEnumerable<string> UniqueUpcs { get; private set; }
+
     public IEnumerable<string> GetAllPatchNames()
     {
       return _patchDataFiles.SelectMany(p => p.SheetNames);

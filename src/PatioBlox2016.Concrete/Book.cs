@@ -10,24 +10,23 @@
 			Sections = new HashSet<Section>();
 		}
 
-		public Book(JobFile jobFile, string bookName) : this()
-		{
-			Id = -1;
-			JobFile = jobFile;
-			BookName = bookName;
-		}
+	  public Book(Job job, string bookName) : this()
+	  {
+      Id = 0;
+      Job = job;
+      BookName = bookName;
+	  }
 
 		public int Id { get; private set; }
 
-		//public Job Job { get; set; }
-		//public int JobId { get; private set; }
-
-		public JobFile JobFile { get; set; }
-		public int JobFileId { get; private set; }
+    public Job Job { get; set; }
+    public int JobId { get; set; }
 
 		public string BookName { get; private set; }
 
-		public ICollection<Section> Sections { get; set; }
+		public HashSet<Section> Sections { get; set; }
+
+#region Duplicate checking
 
 		public bool HasDuplicateCells
 		{
@@ -38,11 +37,8 @@
 		{
 			get
 			{
-				var cellGroups = (from section in Sections
-					from page in section.Pages
-					from cell in page.Cells
-					select cell)
-					.GroupBy(c => c, k => k, new CellDuplicateComparer());
+			  var cells = Sections.SelectMany(sec => sec.Cells);
+        var cellGroups = cells.GroupBy(c => c, k => k, new CellDuplicateComparer());
 
 				return cellGroups.Where(cg => cg.Count() > 1)
 					.Select(doop => doop.Select(d => d.SourceRowIndex));
@@ -63,14 +59,13 @@
 			}
 		}
 
-		public int PageCount
+#endregion
+
+		public int GetPageCount(int cellsPerPage)
 		{
-			get
-			{
-				// Page count must always be an even number:
-				var count = Sections.SelectMany(s => s.Pages).Count();
-				return count % 2 == 0 ? count : count + 1;
-			}
+			// Page count must always be an even number!
+		  var count = Sections.Sum(sec => sec.GetPageCount(cellsPerPage));
+			return count % 2 == 0 ? count : count + 1;
 		}
 	}
 }

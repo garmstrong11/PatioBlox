@@ -1,26 +1,38 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-	using System.Collections.Generic;
+  using System;
+  using System.Collections.Generic;
 
-	public class Section
+  public class Section
   {
-		private Section()
-		{
-			Pages = new List<Page>();
-		}
+    public int Id { get; set; }
+    
+    public Section()
+    {
+      Cells = new List<Cell>();
+    }
+    
+    public Section(Book book, SectionName sectionName) : this()
+    {
+      if (sectionName == null) throw new ArgumentNullException("sectionName");
 
-	  public Section(int bookId) : this()
-	  {
-		  Id = -1;
-			BookId = bookId;
-	  }
+      Book = book;
+      SectionName = sectionName;
+    }
 
-		public int Id { get; private set; }
-		public string Name { get; set; }
+    public SectionName SectionName { get; set; }
+    public int SectionNameId { get; set; }
 
-		public Book Book { get; set; }
-		public int BookId { get; private set; }
+    public Book Book { get; set; }
+    public int BookId { get; set; }
 
-		public ICollection<Page> Pages { get; set; } 
+    public ICollection<Cell> Cells { get; set; }
+
+    public int GetPageCount(int cellsPerPage)
+    {
+      var count = Cells.Count / cellsPerPage;
+      var mod = Cells.Count % cellsPerPage;
+      return mod == 0 ? count : count + 1;
+    }
   }
 }

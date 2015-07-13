@@ -9,7 +9,7 @@
 			return x.Sku == y.Sku
 				&& x.DescriptionId == y.DescriptionId
 				&& x.PalletQty == y.PalletQty
-				&& string.Equals(x.Upc, y.Upc);
+				&& x.BarcodeId == y.BarcodeId;
 		}
 
 		public int GetHashCode(Cell cell)
@@ -19,7 +19,7 @@
 				var hashCode = cell.Sku;
 				hashCode = (hashCode * 397) ^ cell.DescriptionId;
 				hashCode = (hashCode * 397) ^ cell.PalletQty;
-				hashCode = (hashCode * 397) ^ cell.Upc.GetHashCode();
+				hashCode = (hashCode * 397) ^ cell.BarcodeId;
 				return hashCode;
 			}
 		}

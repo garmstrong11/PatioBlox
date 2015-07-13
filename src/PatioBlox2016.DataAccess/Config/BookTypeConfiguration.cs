@@ -7,9 +7,7 @@
 	{
 		public BookTypeConfiguration()
 		{
-			HasRequired(b => b.JobFile)
-				.WithRequiredDependent()
-				.WillCascadeOnDelete(false);
+		  Ignore(p => p.Sections);
 		} 
 	}
 }

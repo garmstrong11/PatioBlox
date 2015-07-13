@@ -1,6 +1,7 @@
 namespace PatioBlox2016.DataAccess.Migrations
 {
   using System;
+  using System.Collections.Generic;
   using System.Data.Entity.Migrations;
   using System.IO.Abstractions;
   using System.Linq;
@@ -16,30 +17,34 @@ namespace PatioBlox2016.DataAccess.Migrations
 
     protected override void Seed(PatioBloxContext context)
     {
-      //  This method will be called after migrating to the latest version.
-
-      //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-      //  to avoid creating duplicate seed data. E.g.
-      //
-      //    context.People.AddOrUpdate(
-      //      p => p.FullName,
-      //      new Person { FullName = "Andrew Peters" },
-      //      new Person { FullName = "Brice Lambson" },
-      //      new Person { FullName = "Rowan Miller" }
-      //    );
-      //
       AddDataFromExcelSeedFile(context);
     }
 
-    private void AddDataFromExcelSeedFile(PatioBloxContext context)
+    private static string SeedPath
+    {
+      get
+      {
+        var nameDict = new Dictionary<string, string>
+                       {
+                         {"PRANK", @"C:\Users\gma\Dropbox\PatioBlox\Seed.xlsx"},
+                         {"GARMSTRONG", @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\Seed.xlsx"},
+                         {"WS01-IT_GARMSTRONG", @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\Seed.xlsx"}
+                       };
+        var machine = Environment.MachineName;
+        string path;
+        var seedPath = nameDict.TryGetValue(machine, out path) ? path : string.Empty;
+
+        return seedPath;
+      }
+    }
+
+    private static void AddDataFromExcelSeedFile(PatioBloxContext context)
     {
       var dapter = new FlexCelDataSourceAdapter();
       var fileSystem = new FileSystem();
-      const string seedPath = @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\Seed.xlsx";
-      //const string seedPath = @"C:\Users\gma\Dropbox\PatioBlox\Seed.xlsx";
 
       var extractor = new SeedExtractor(dapter, fileSystem);
-      extractor.Initialize(seedPath);
+      extractor.Initialize(SeedPath);
       var agg = extractor.Extract().FirstOrDefault();
 
       if (agg == null) throw new InvalidOperationException("Seed file extraction failed");
@@ -55,14 +60,14 @@ namespace PatioBlox2016.DataAccess.Migrations
       context.SaveChanges();
       var jobs = context.Jobs.ToList();
 
-      foreach (var dto in agg.JobFileDtos)
-      {
-        var job = jobs.FirstOrDefault(j => j.PrinergyJobId == dto.PrinergyJobId);
-        if (job == null) continue;
+      //foreach (var dto in agg.JobFileDtos)
+      //{
+      //  var job = jobs.FirstOrDefault(j => j.PrinergyJobId == dto.PrinergyJobId);
+      //  if (job == null) continue;
 
-        var jobFile = new JobFile(dto) { JobId = job.Id };
-        context.JobFiles.AddOrUpdate(f => f.FileName, jobFile);
-      }
+      //  var jobFile = new JobFile(dto) { JobId = job.Id };
+      //  context.JobFiles.AddOrUpdate(f => f.FileName, jobFile);
+      //}
 
       context.SaveChanges();
       var keyWords = context.Keywords.ToList();

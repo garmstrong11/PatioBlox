@@ -8,7 +8,7 @@
   {
     private Job()
     {
-      JobFiles = new List<JobFile>();
+      Books = new HashSet<Book>();
     }
 
     public Job(JobDto dto) : this()
@@ -33,6 +33,7 @@
     public int Year { get; set; }
     public string Path { get; set; }
 
-    public List<JobFile> JobFiles { get; set; }
+    public ICollection<Book> Books { get; set; }
+
   }
 }

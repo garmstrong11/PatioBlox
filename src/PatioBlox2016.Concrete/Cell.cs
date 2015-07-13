@@ -6,20 +6,14 @@
 
 	  public Cell(int sourceRowIndex, int sku, int palletQty, string upc) : this()
 	  {
-		  Id = -1;
+		  Id = 0;
 		  SourceRowIndex = sourceRowIndex;
 		  Sku = sku;
 		  PalletQty = palletQty;
-		  Upc = upc;
 	  }
 
 	  public int Id { get; private set; }
-	  public int Index { get; set; }
-
 	  public int SourceRowIndex { get; private set; }
-
-	  public Page Page { get; set; }
-	  public int PageId { get; set; }
 
 	  public int Sku { get; private set; }
 
@@ -27,7 +21,12 @@
 	  public Description Description { get; set; }
 
 	  public int PalletQty { get; set; }
-		public string Upc { get; set; }
+
+    public int BarcodeId { get; set; }
+		public Barcode Barcode { get; set; }
+
+    public Section Section { get; set; }
+    public int SectionId { get; set; }
 
 	  public string Image
 	  {
