@@ -10,6 +10,7 @@
 		  SourceRowIndex = sourceRowIndex;
 		  Sku = sku;
 		  PalletQty = palletQty;
+      Barcode = new Barcode(upc);
 	  }
 
 	  public int Id { get; private set; }

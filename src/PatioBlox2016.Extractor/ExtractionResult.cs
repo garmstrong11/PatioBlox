@@ -27,6 +27,7 @@
 
     public void AddDataFile(PatchDataFile dataFile)
     {
+      if (dataFile == null) throw new ArgumentNullException("dataFile");
       var isAdded = _patchDataFiles.Add(dataFile);
 
       if (!isAdded) {
@@ -36,16 +37,43 @@
 
     public void AddPatchRowExtract(PatchRowExtract patchRowExtract)
     {
+      if (patchRowExtract == null) throw new ArgumentNullException("patchRowExtract");
       _patchRowExtracts.Add(patchRowExtract);
     }
 
-    public IEnumerable<string> PatchNames { get; private set; }
-    public IEnumerable<string> UniqueDescriptions { get; private set; }
-    public IEnumerable<string> UniqueUpcs { get; private set; }
-
-    public IEnumerable<string> GetAllPatchNames()
+    public void AddPatchRowExtractRange(IEnumerable<PatchRowExtract> patchRowExtracts)
     {
-      return _patchDataFiles.SelectMany(p => p.SheetNames);
-    } 
+      if (patchRowExtracts == null) throw new ArgumentNullException("patchRowExtracts");
+      _patchRowExtracts.AddRange(patchRowExtracts);
+    }
+
+    public IEnumerable<string> PatchNames
+    {
+      get { return _patchRowExtracts.Select(pr => pr.PatchName).Distinct(); }
+    }
+
+    public IEnumerable<string> UniqueDescriptions
+    {
+      get { return _patchRowExtracts.Select(pr => pr.Description).Distinct(); }
+    }
+
+    public IEnumerable<string> UniqueUpcs
+    {
+      get { return _patchRowExtracts
+        .Where(pr => !string.IsNullOrWhiteSpace(pr.Upc))
+        .Select(pr => pr.Upc)
+        .Distinct(); }
+    }
+
+    public IEnumerable<string> UniqueSectionNames
+    {
+      get
+      {
+        return _patchRowExtracts
+          .Where(pr => !string.IsNullOrWhiteSpace(pr.Section))
+          .Select(pr => pr.Section)
+          .Distinct();
+      }
+    }
   }
 }
