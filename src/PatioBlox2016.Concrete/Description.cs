@@ -1,10 +1,16 @@
-﻿namespace PatioBlox2016.Concrete
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace PatioBlox2016.Concrete
 {
   using System;
 
 	public class Description
-  {
-		private Description()
+	{
+    public static readonly Regex SizeRegex = 
+      new Regex(@"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?(X)? ?(H(?= ))? ?", RegexOptions.Compiled);
+    
+    private Description()
 		{
 		}
 
@@ -15,6 +21,28 @@
 		  Id = 0;
       JobId = jobId;
       Text = text;
+		  Size = ExtractSize();
+    }
+
+    /// <summary>
+    /// Removes the Size component from the Text and returns the remainder.
+    /// </summary>
+    /// <returns></returns>
+    public string ExtractRemainder()
+    {
+      return SizeRegex.Replace(Text, string.Empty);
+    }
+
+    private string ExtractSize()
+    {
+      var matchList = new List<string>();
+      var matches = SizeRegex.Matches(Text);
+
+      for (var i = 0; i < matches.Count; i++) {
+        matchList.Add(matches[i].Value.ToUpper().Trim(' ', 'X'));
+      }
+
+      return string.Join(" x ", matchList);
     }
 
 		public int Id { get; private set; }

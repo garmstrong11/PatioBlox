@@ -1,4 +1,6 @@
-﻿namespace PatioBlox2016.Extractor
+﻿using System.Text.RegularExpressions;
+
+namespace PatioBlox2016.Extractor
 {
   using System;
   using System.Collections.Generic;
@@ -54,7 +56,9 @@
 
     public IEnumerable<string> UniqueDescriptions
     {
-      get { return _patchRowExtracts.Select(pr => pr.Description).Distinct(); }
+      get { return _patchRowExtracts
+        .Where(pr => !string.IsNullOrWhiteSpace(pr.Description))
+        .Select(pr => pr.Description).Distinct(); }
     }
 
     public IEnumerable<string> UniqueUpcs
@@ -73,6 +77,20 @@
           .Where(pr => !string.IsNullOrWhiteSpace(pr.Section))
           .Select(pr => pr.Section)
           .Distinct();
+      }
+    }
+
+    public IEnumerable<string> UniqueWords
+    {
+      get
+      {
+        var descriptionsNoSize = UniqueDescriptions
+          .Select(d => Regex.Replace(d, @"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?(X)? ?(H(?= ))? ?", "").ToUpper());
+
+        return descriptionsNoSize
+          .SelectMany(w => w.Split(new[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries))
+          .Distinct()
+          .OrderBy(w => w);
       }
     }
   }

@@ -14,5 +14,6 @@
     IEnumerable<string> UniqueDescriptions { get; }
     IEnumerable<string> UniqueUpcs { get; }
     IEnumerable<string> UniqueSectionNames { get; }
+    IEnumerable<string> UniqueWords { get; }
   }
 }
