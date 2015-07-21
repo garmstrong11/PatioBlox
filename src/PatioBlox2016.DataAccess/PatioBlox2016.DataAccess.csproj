@@ -93,6 +93,14 @@
     <Compile Include="Migrations\201507112015405_Unique index for Description Text.Designer.cs">
       <DependentUpon>201507112015405_Unique index for Description Text.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201507212052421_Remove JobId from Description.cs" />
+    <Compile Include="Migrations\201507212052421_Remove JobId from Description.Designer.cs">
+      <DependentUpon>201507212052421_Remove JobId from Description.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201507212056580_Remove JobId from Description Again.cs" />
+    <Compile Include="Migrations\201507212056580_Remove JobId from Description Again.Designer.cs">
+      <DependentUpon>201507212056580_Remove JobId from Description Again.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,6 +147,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507112015405_Unique index for Description Text.resx">
       <DependentUpon>201507112015405_Unique index for Description Text.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507212052421_Remove JobId from Description.resx">
+      <DependentUpon>201507212052421_Remove JobId from Description.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201507212056580_Remove JobId from Description Again.resx">
+      <DependentUpon>201507212056580_Remove JobId from Description Again.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

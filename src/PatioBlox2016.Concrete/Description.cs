@@ -7,31 +7,40 @@ namespace PatioBlox2016.Concrete
 
 	public class Description
 	{
-    public static readonly Regex SizeRegex = 
+    private static readonly Regex SizeRegex = 
       new Regex(@"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?(X)? ?(H(?= ))? ?", RegexOptions.Compiled);
     
     private Description()
 		{
 		}
 
-		public Description(int jobId, string text) : this()
+		public Description(string text) : this()
     {
       if (string.IsNullOrWhiteSpace(text)) throw new ArgumentNullException("text");
 
 		  Id = 0;
-      JobId = jobId;
       Text = text;
 		  Size = ExtractSize();
     }
 
     /// <summary>
-    /// Removes the Size component from the Text and returns the remainder.
+    /// Removes the Size component from the argument and returns the remainder.
+    /// </summary>
+    /// <param name="text">The input string from which to remove size data.</param>
+    /// <returns></returns>
+    public static string ExtractRemainder(string text)
+    {
+      return SizeRegex.Replace(text, string.Empty);
+    }
+
+    /// <summary>
+    /// Starts with the Text property and returns the remainder after the size is removed.
     /// </summary>
     /// <returns></returns>
-    public string ExtractRemainder()
-    {
-      return SizeRegex.Replace(Text, string.Empty);
-    }
+	  public string ExtractRemainder()
+	  {
+	    return ExtractRemainder(Text);
+	  }
 
     private string ExtractSize()
     {
@@ -46,7 +55,6 @@ namespace PatioBlox2016.Concrete
     }
 
 		public int Id { get; private set; }
-    public int JobId { get; private set; }
     public string Text { get; private set; }
 
     public string Vendor { get; set; }

@@ -48,10 +48,10 @@
 	  public void DuplicateDescriptionTextIsNotAllowed()
 	  {
 	    const string text = "BOOGA BOOGA";
-      var desc1 = new Description(69, text);
+      var desc1 = new Description(text);
 	    _ctx.Descriptions.Add(desc1);
 
-      var desc2 = new Description(70, text);
+      var desc2 = new Description(text);
 	    _ctx.Descriptions.Add(desc2);
 
 	    Action act = () => _ctx.SaveChanges();

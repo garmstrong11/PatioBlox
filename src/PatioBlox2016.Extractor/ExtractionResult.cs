@@ -5,6 +5,7 @@ namespace PatioBlox2016.Extractor
   using System;
   using System.Collections.Generic;
   using System.Linq;
+  using Concrete;
 
   public class ExtractionResult : IExtractionResult
   {
@@ -85,7 +86,7 @@ namespace PatioBlox2016.Extractor
       get
       {
         var descriptionsNoSize = UniqueDescriptions
-          .Select(d => Regex.Replace(d, @"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?(X)? ?(H(?= ))? ?", "").ToUpper());
+          .Select(d => Description.ExtractRemainder(d).ToUpper());
 
         return descriptionsNoSize
           .SelectMany(w => w.Split(new[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries))

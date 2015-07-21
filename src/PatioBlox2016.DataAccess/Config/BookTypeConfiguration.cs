@@ -7,7 +7,7 @@
 	{
 		public BookTypeConfiguration()
 		{
-		  Ignore(p => p.Sections);
+		  //Ignore(p => p.Sections);
 		} 
 	}
 }
