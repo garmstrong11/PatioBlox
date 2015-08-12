@@ -77,6 +77,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConcreteTests\BarcodeTests.cs" />
     <Compile Include="ConcreteTests\KeywordDtoTests.cs" />
     <Compile Include="DataAccessTests\DbTests.cs" />
     <Compile Include="ExtractorTests\ExtractorTestBase.cs" />
