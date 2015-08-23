@@ -1,12 +1,11 @@
-namespace PatioBlox2016.Services.Contracts
+namespace PatioBlox2016.Abstract
 {
-	using System;
-	using System.Collections.Generic;
-	using System.Linq.Expressions;
-	using System.Threading.Tasks;
-	using Concrete;
+  using System;
+  using System.Collections.Generic;
+  using System.Linq.Expressions;
+  using System.Threading.Tasks;
 
-	public interface IRepository<T> where T : class
+  public interface IRepository<T> where T : class
 	{
 		ICollection<T> GetAll();
 		Task<ICollection<T>> GetAllAsync();

@@ -1,50 +1,32 @@
-﻿using System.Text.RegularExpressions;
-
-namespace PatioBlox2016.Extractor
+﻿namespace PatioBlox2016.Extractor
 {
   using System;
   using System.Collections.Generic;
   using System.Linq;
+  using Abstract;
   using Concrete;
 
   public class ExtractionResult : IExtractionResult
   {
-    private readonly ISet<PatchDataFile> _patchDataFiles;
-    private readonly List<PatchRowExtract> _patchRowExtracts;
+    private readonly List<IPatchRowExtract> _patchRowExtracts;
 
     public ExtractionResult()
     {
-      _patchDataFiles = new HashSet<PatchDataFile>();
-      _patchRowExtracts = new List<PatchRowExtract>();
+      _patchRowExtracts = new List<IPatchRowExtract>();
     }
 
-    public IEnumerable<PatchDataFile> PatchDataFiles
-    {
-      get { return new List<PatchDataFile>(_patchDataFiles); }
-    }
-
-    public IEnumerable<PatchRowExtract> PatchRowExtracts
+    public IEnumerable<IPatchRowExtract> PatchRowExtracts
     {
       get { return _patchRowExtracts.AsEnumerable(); }
     }
 
-    public void AddDataFile(PatchDataFile dataFile)
-    {
-      if (dataFile == null) throw new ArgumentNullException("dataFile");
-      var isAdded = _patchDataFiles.Add(dataFile);
-
-      if (!isAdded) {
-        throw new InvalidOperationException("The data file already exists in the collection");
-      }
-    }
-
-    public void AddPatchRowExtract(PatchRowExtract patchRowExtract)
+    public void AddPatchRowExtract(IPatchRowExtract patchRowExtract)
     {
       if (patchRowExtract == null) throw new ArgumentNullException("patchRowExtract");
       _patchRowExtracts.Add(patchRowExtract);
     }
 
-    public void AddPatchRowExtractRange(IEnumerable<PatchRowExtract> patchRowExtracts)
+    public void AddPatchRowExtractRange(IEnumerable<IPatchRowExtract> patchRowExtracts)
     {
       if (patchRowExtracts == null) throw new ArgumentNullException("patchRowExtracts");
       _patchRowExtracts.AddRange(patchRowExtracts);

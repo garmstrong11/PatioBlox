@@ -4,8 +4,9 @@ using System.Text.RegularExpressions;
 namespace PatioBlox2016.Concrete
 {
   using System;
+  using Abstract;
 
-	public class Description
+  public class Description : IDescription
 	{
     private static readonly Regex SizeRegex = 
       new Regex(@"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?(X)? ?(H(?= ))? ?", RegexOptions.Compiled);
@@ -22,6 +23,8 @@ namespace PatioBlox2016.Concrete
       Text = text;
 		  Size = ExtractSize();
     }
+
+    public DateTime InsertDate { get; set; }
 
     /// <summary>
     /// Removes the Size component from the argument and returns the remainder.

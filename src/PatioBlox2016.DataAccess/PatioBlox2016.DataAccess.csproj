@@ -101,6 +101,10 @@
     <Compile Include="Migrations\201507212056580_Remove JobId from Description Again.Designer.cs">
       <DependentUpon>201507212056580_Remove JobId from Description Again.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508221207281_Add Insertion Dates.cs" />
+    <Compile Include="Migrations\201508221207281_Add Insertion Dates.Designer.cs">
+      <DependentUpon>201508221207281_Add Insertion Dates.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -153,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201507212056580_Remove JobId from Description Again.resx">
       <DependentUpon>201507212056580_Remove JobId from Description Again.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508221207281_Add Insertion Dates.resx">
+      <DependentUpon>201508221207281_Add Insertion Dates.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

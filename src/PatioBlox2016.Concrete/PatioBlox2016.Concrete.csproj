@@ -55,14 +55,9 @@
     <Compile Include="Cell.cs" />
     <Compile Include="CellDuplicateComparer.cs" />
     <Compile Include="Description.cs" />
-    <Compile Include="DescriptionUsage.cs" />
+    <Compile Include="DescriptionFactory.cs" />
     <Compile Include="Expansion.cs" />
-    <Compile Include="ImportedRow.cs" />
     <Compile Include="Job.cs" />
-    <Compile Include="JobFile.cs" />
-    <Compile Include="Maybe.cs" />
-    <Compile Include="Page.cs" />
-    <Compile Include="Product.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="SectionName.cs" />
     <Compile Include="Seeding\ExpansionDto.cs" />

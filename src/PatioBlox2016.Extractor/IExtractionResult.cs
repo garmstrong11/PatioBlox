@@ -1,14 +1,13 @@
 ﻿namespace PatioBlox2016.Extractor
 {
   using System.Collections.Generic;
+  using Abstract;
 
   public interface IExtractionResult
   {
-    IEnumerable<PatchDataFile> PatchDataFiles { get; }
-    IEnumerable<PatchRowExtract> PatchRowExtracts { get; }
-    void AddDataFile(PatchDataFile dataFile);
-    void AddPatchRowExtract(PatchRowExtract patchRowExtract);
-    void AddPatchRowExtractRange(IEnumerable<PatchRowExtract> patchRowExtracts);
+    IEnumerable<IPatchRowExtract> PatchRowExtracts { get; }
+    void AddPatchRowExtract(IPatchRowExtract patchRowExtract);
+    void AddPatchRowExtractRange(IEnumerable<IPatchRowExtract> patchRowExtracts);
 
     IEnumerable<string> PatchNames { get; }
     IEnumerable<string> UniqueDescriptions { get; }

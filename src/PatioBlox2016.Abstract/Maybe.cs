@@ -1,10 +1,10 @@
-﻿namespace PatioBlox2016.Concrete
+﻿namespace PatioBlox2016.Abstract
 {
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
+  using System;
+  using System.Collections;
+  using System.Collections.Generic;
 
-	public class Maybe<T> : IEnumerable<T>
+  public class Maybe<T> : IEnumerable<T>
 	{
 		private readonly IEnumerable<T> _values;
 

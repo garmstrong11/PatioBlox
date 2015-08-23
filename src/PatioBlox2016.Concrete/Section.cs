@@ -22,6 +22,7 @@
 
     public SectionName SectionName { get; set; }
     public int SectionNameId { get; set; }
+    public int SourceRowIndex { get; set; }
 
     public Book Book { get; set; }
     public int BookId { get; set; }

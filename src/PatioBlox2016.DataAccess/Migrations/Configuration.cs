@@ -60,15 +60,6 @@ namespace PatioBlox2016.DataAccess.Migrations
       context.SaveChanges();
       var jobs = context.Jobs.ToList();
 
-      //foreach (var dto in agg.JobFileDtos)
-      //{
-      //  var job = jobs.FirstOrDefault(j => j.PrinergyJobId == dto.PrinergyJobId);
-      //  if (job == null) continue;
-
-      //  var jobFile = new JobFile(dto) { JobId = job.Id };
-      //  context.JobFiles.AddOrUpdate(f => f.FileName, jobFile);
-      //}
-
       context.SaveChanges();
       var keyWords = context.Keywords.ToList();
 

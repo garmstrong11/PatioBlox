@@ -1,7 +1,7 @@
-﻿namespace PatioBlox2016.Abstract
+namespace PatioBlox2016.Abstract
 {
-	public interface IDescriptionFactory
-	{
-		 
-	}
+  public interface IDescriptionFactory
+  {
+    IDescription CreateDescription(string descriptionText);
+  }
 }
