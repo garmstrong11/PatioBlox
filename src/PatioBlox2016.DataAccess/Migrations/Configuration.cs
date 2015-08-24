@@ -28,13 +28,14 @@ namespace PatioBlox2016.DataAccess.Migrations
                        {
                          {"PRANK", @"C:\Users\gma\Dropbox\PatioBlox\Seed.xlsx"},
                          {"GARMSTRONG", @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\Seed.xlsx"},
-                         {"WS01-IT_GARMSTRONG", @"C:\Users\garmstrong\Documents\My Dropbox\PatioBlox\Seed.xlsx"}
+                         {"WS01IT-GARMSTRO", @"C:\Users\garmstrong\Dropbox\PatioBlox\Seed.xlsx"}
                        };
         var machine = Environment.MachineName;
-        string path;
-        var seedPath = nameDict.TryGetValue(machine, out path) ? path : string.Empty;
 
-        return seedPath;
+        string path;
+        if (nameDict.TryGetValue(machine, out path)) return path;
+        
+        throw new InvalidOperationException("Seed.xlsx can't be found. Check your Dropbox path.");
       }
     }
 
