@@ -42,20 +42,31 @@
       var remainderList = description.ExtractRemainder()
         .Split(new[] {" ", "/"}, StringSplitOptions.RemoveEmptyEntries);
 
+      // Find and expand all known abbreviations:
       string expansion;
       var remainder = remainderList
         .Select(item => _expansionDict.TryGetValue(item, out expansion) ? expansion : item)
         .ToList();
 
-      description.Color = AssembleTitleCasePhrase("/", remainder.Intersect(_colorKeywords));
-      description.Vendor = AssembleTitleCasePhrase(" ", remainder.Intersect(_vendorKeywords));
-      description.Name = AssembleTitleCasePhrase(" ", remainder.Intersect(_nameKeywords));
+      // Extract and remove color words from the remainder:
+      var colorWords = remainder.Intersect(_colorKeywords).ToList();
+      remainder = remainder.Except(colorWords).ToList();
+
+      // Extract and remove vendor words from the remainder:
+      var vendorWords = remainder.Intersect(_vendorKeywords).ToList();
+      remainder = remainder.Except(vendorWords).ToList();
+
+      description.Color = AssembleTitleCasePhrase("/", colorWords);
+      description.Vendor = AssembleTitleCasePhrase(" ", vendorWords);
+      description.Name = AssembleTitleCasePhrase(" ", remainder);
 
       return description;
     }
 
-    private static string AssembleTitleCasePhrase(string joiner, IEnumerable<string> phrase)
+    private static string AssembleTitleCasePhrase(string joiner, IList<string> phrase)
     {
+      if (!phrase.Any()) return null;
+
       var lowered = phrase.Select(p => p.ToLower());
       var cased = lowered.Select(p => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(p));
 

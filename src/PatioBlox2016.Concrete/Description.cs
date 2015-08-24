@@ -9,7 +9,7 @@ namespace PatioBlox2016.Concrete
   public class Description : IDescription
 	{
     private static readonly Regex SizeRegex = 
-      new Regex(@"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?(X)? ?(H(?= ))? ?", RegexOptions.Compiled);
+      new Regex(@"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", RegexOptions.Compiled);
     
     private Description()
 		{
@@ -75,6 +75,11 @@ namespace PatioBlox2016.Concrete
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
       return obj.GetType() == GetType() && Equals((Description) obj);
+    }
+
+    public override string ToString()
+    {
+      return Text;
     }
 
     public override int GetHashCode()

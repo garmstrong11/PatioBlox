@@ -1,5 +1,6 @@
 ﻿namespace PatioBlox2016.Tests.ConcreteTests
 {
+  using System;
   using System.IO.Abstractions;
   using System.Linq;
   using Abstract;
@@ -17,6 +18,7 @@
   {
     private IRepository<Keyword> _keywordRepo;
     private IRepository<Expansion> _expansionRepo;
+    private IRepository<Description> _descriptionRepo; 
     private PatioBloxContext _context;
     private ExtractionResult _extractionResult;
 
@@ -42,14 +44,29 @@
 
       _keywordRepo = new RepositoryBase<Keyword>(_context);
       _expansionRepo = new RepositoryBase<Expansion>(_context);
+      _descriptionRepo = new RepositoryBase<Description>(_context);
     }
 
     [Test]
     public void CanExtractDescriptions()
     {
-      var factory = new DescriptionFactory(_keywordRepo, _expansionRepo);
+      // var factory = new DescriptionFactory(_keywordRepo, _expansionRepo);
+
+      // Get a list of description Texts that already exist in the db:
+      var existingDescriptions = _descriptionRepo.GetAll().Select(d => d.Text);
+
       var descriptions = _extractionResult.UniqueDescriptions
-        .Select( d => factory.CreateDescription(d));
+        .Except(existingDescriptions)
+        .Select( d => new Description(d) {InsertDate = DateTime.Now})
+        .ToList();
+
+      var descriptionRepo = new RepositoryBase<Description>(_context);
+
+      foreach (var description in descriptions) {
+        descriptionRepo.Add(description);
+      }
+
+      _context.SaveChanges();
 
       descriptions.Should().NotBeNullOrEmpty();
     }
