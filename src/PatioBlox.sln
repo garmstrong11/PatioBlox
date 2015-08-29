@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox.ConsoleDedup", "PatioBlox.ConsoleDedup\PatioBlox.ConsoleDedup.csproj", "{8196D1A6-01C5-499A-9F99-EA3EE6D0E9B9}"
 EndProject
@@ -39,6 +39,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Services.Contracts", "PatioBlox2016.Services.Contracts\PatioBlox2016.Services.Contracts.csproj", "{18304EFE-78F3-4ECD-8253-099F5B37EE1C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Services.EfImpl", "PatioBlox2016.Services.EfImpl\PatioBlox2016.Services.EfImpl.csproj", "{8620D086-9BE6-4494-B259-991BC35A29AE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{D700D58F-7C76-4204-8A74-078BE23E5818}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.JobPrepUI", "PatioBlox2016.JobPrepUI\PatioBlox2016.JobPrepUI.csproj", "{1A228C44-2B19-48D3-BC12-A31AC247EE75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -102,6 +106,10 @@ Global
 		{8620D086-9BE6-4494-B259-991BC35A29AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8620D086-9BE6-4494-B259-991BC35A29AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8620D086-9BE6-4494-B259-991BC35A29AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A228C44-2B19-48D3-BC12-A31AC247EE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A228C44-2B19-48D3-BC12-A31AC247EE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A228C44-2B19-48D3-BC12-A31AC247EE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A228C44-2B19-48D3-BC12-A31AC247EE75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,5 +117,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{18304EFE-78F3-4ECD-8253-099F5B37EE1C} = {CED6F4E7-520D-4A3E-A048-3E951B57D52E}
 		{8620D086-9BE6-4494-B259-991BC35A29AE} = {CED6F4E7-520D-4A3E-A048-3E951B57D52E}
+		{1A228C44-2B19-48D3-BC12-A31AC247EE75} = {D700D58F-7C76-4204-8A74-078BE23E5818}
 	EndGlobalSection
 EndGlobal

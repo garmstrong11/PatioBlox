@@ -29,7 +29,8 @@
       var fileSystem = new FileSystem();
       var indexService = A.Fake<IColumnIndexService>();
       var extractor = new PatchExtractor(adapter, fileSystem, indexService);
-      extractor.Initialize(Patch1Path);
+      //extractor.Initialize(Patch1Path);
+      extractor.Initialize(Patch2Path);
 
       A.CallTo(() => indexService.SectionIndex).Returns(2);
       A.CallTo(() => indexService.ItemIndex).Returns(5);
@@ -50,14 +51,14 @@
     [Test]
     public void CanExtractDescriptions()
     {
-      // var factory = new DescriptionFactory(_keywordRepo, _expansionRepo);
+      var factory = new DescriptionFactory(_keywordRepo, _expansionRepo);
 
       // Get a list of description Texts that already exist in the db:
       var existingDescriptions = _descriptionRepo.GetAll().Select(d => d.Text);
 
       var descriptions = _extractionResult.UniqueDescriptions
         .Except(existingDescriptions)
-        .Select( d => new Description(d) {InsertDate = DateTime.Now})
+        .Select(d => (Description)factory.CreateDescription(d))
         .ToList();
 
       var descriptionRepo = new RepositoryBase<Description>(_context);
