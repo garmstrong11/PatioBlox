@@ -3,6 +3,7 @@
   using System;
   using System.Collections.Generic;
   using System.Linq;
+  using System.Text.RegularExpressions;
   using Abstract;
   using Concrete;
 
@@ -58,6 +59,7 @@
       {
         return _patchRowExtracts
           .Where(pr => !string.IsNullOrWhiteSpace(pr.Section))
+          .Where(pr => !Regex.IsMatch(pr.Section, @"^Page ?\d+$"))
           .Select(pr => pr.Section)
           .Distinct();
       }

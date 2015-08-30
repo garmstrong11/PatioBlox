@@ -1,23 +1,21 @@
 ﻿namespace PatioBlox2016.Abstract
 {
-  using System.IO.Abstractions;
-  using System.Threading.Tasks;
+  using System.IO;
 
   public interface IJobFolders
   {
-    string PartsPath { get; }
 		string ReportPath { get; }
-		string FontsPath { get; }
 		bool FileExists(string filePath);
 
-		FileInfoBase FileInfoFromPath(string path);
-		string ServerJsxFileName { get; }
+    /// <summary>
+    /// Creates a FileInfo object from a given path.
+    /// Delegates to System.IO.FileInfo class
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    FileInfo FileInfoFromPath(string path);
 
 		void Initialize(string jobFolderPath);
 		void Reset();
-
-	  //Task TransferPartsFilesToJob();
-		//string AssembleKickScript(IEnumerable<ISignArt> signs);
-		Task TransferScriptToServer(string jsx);
   }
 }

@@ -50,6 +50,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.IO.Abstractions, Version=2.0.0.115, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Abstractions.2.0.0.115\lib\net40\System.IO.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -96,9 +100,21 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\IJobFileDropViewModel.cs" />
+    <Compile Include="Infra\ColumnIndexService.cs" />
+    <Compile Include="Infra\SettingsService.cs" />
+    <Compile Include="ViewModels\ActivitiesViewModel.cs" />
+    <Compile Include="ViewModels\IActivitiesViewModel.cs" />
+    <Compile Include="ViewModels\IPatchFileDropViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
+    <Compile Include="ViewModels\PatchFileDropViewModel.cs" />
+    <Compile Include="ViewModels\PatchFileViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="Views\PatchFileDropView.xaml.cs">
+      <DependentUpon>PatchFileDropView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PatchFileView.xaml.cs">
+      <DependentUpon>PatchFileView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -133,8 +149,37 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\PatioBlox2016.Abstract\PatioBlox2016.Abstract.csproj">
+      <Project>{523b43a3-4603-4dac-b4ce-e9baebfd5ad5}</Project>
+      <Name>PatioBlox2016.Abstract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.Concrete\PatioBlox2016.Concrete.csproj">
+      <Project>{bddf1e05-0175-4314-97b1-3eb470558751}</Project>
+      <Name>PatioBlox2016.Concrete</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.DataAccess\PatioBlox2016.DataAccess.csproj">
+      <Project>{714a0951-70b1-4238-bd62-305ebeca41f3}</Project>
+      <Name>PatioBlox2016.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.Extractor\PatioBlox2016.Extractor.csproj">
+      <Project>{b0fe40ea-32fc-41ce-8dc2-dd82b0597a85}</Project>
+      <Name>PatioBlox2016.Extractor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.Services.Contracts\PatioBlox2016.Services.Contracts.csproj">
+      <Project>{18304efe-78f3-4ecd-8253-099f5b37ee1c}</Project>
+      <Name>PatioBlox2016.Services.Contracts</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\PatchFileDropView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PatchFileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ShellView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

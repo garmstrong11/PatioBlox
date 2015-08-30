@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="PatioBlox2016.JobPrepUI.Views.PatchFileDropView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             Background="LightGray">
+  <xctk:BusyIndicator x:Name="BusyIndicator">
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="*"/>
+        <RowDefinition Height="Auto"/>
+      </Grid.RowDefinitions>
+      <TextBlock FontSize="18"
+                 Padding="9"
+                 TextAlignment="Center">
+        Drag your Patch excel<LineBreak />files into the box below
+      </TextBlock>
+      <ListBox x:Name="PatchFiles"
+               Grid.Row="1"
+               Margin="9 0"
+               AllowDrop="True">
+        <i:Interaction.Triggers>
+          <i:EventTrigger EventName="PreviewDragOver">
+            <cal:ActionMessage MethodName="HandleFileDrag">
+              <cal:Parameter Value="$eventArgs" />
+            </cal:ActionMessage>
+          </i:EventTrigger>
+
+          <i:EventTrigger EventName="PreviewDrop">
+            <cal:ActionMessage MethodName="HandleFileDrop">
+              <cal:Parameter Value="$executionContext" />
+            </cal:ActionMessage>
+          </i:EventTrigger>
+        </i:Interaction.Triggers>
+      </ListBox>
+      <StackPanel Grid.Row="2"  Orientation="Horizontal"
+                  HorizontalAlignment="Right">
+        <Button x:Name="AcquirePatches"
+                Content="Acquire Patches"
+                Padding="18 3"
+                Margin="9"/>
+      </StackPanel>
+    </Grid>
+  </xctk:BusyIndicator>
+</UserControl>

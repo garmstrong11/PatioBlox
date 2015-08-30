@@ -3,16 +3,10 @@
 	public interface ISettingsService
 	{
 		int CellsPerPage { get; set; }
-
-		string TemplateFolderName { get; set; }
-		string ReportFolderName { get; set; }
-		string ScriptsFolderName { get; set; }
-
-		string InDesignOutputPath { get; set; }
-		string InDesignInputPath { get; set; }
-		string FactoryPath { get; set; }
-
-		string CloverBaseAddress { get; set; }
-		string BaseScriptName { get; set; }
+    int SectionIndex { get; set; }
+    int ItemIndex { get; set; }
+    int DescriptionIndex { get; set; }
+    int PalletQtyIndex { get; set; }
+    int UpcIndex { get; set; }
 	}
 }

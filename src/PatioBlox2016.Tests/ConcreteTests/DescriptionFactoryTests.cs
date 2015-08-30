@@ -29,8 +29,8 @@
       var fileSystem = new FileSystem();
       var indexService = A.Fake<IColumnIndexService>();
       var extractor = new PatchExtractor(adapter, fileSystem, indexService);
-      //extractor.Initialize(Patch1Path);
-      extractor.Initialize(Patch2Path);
+      extractor.Initialize(Patch1Path);
+      //extractor.Initialize(Patch2Path);
 
       A.CallTo(() => indexService.SectionIndex).Returns(2);
       A.CallTo(() => indexService.ItemIndex).Returns(5);
