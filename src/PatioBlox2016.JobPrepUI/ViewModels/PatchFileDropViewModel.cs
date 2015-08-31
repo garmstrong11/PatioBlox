@@ -9,6 +9,8 @@
   using Abstract;
   using Caliburn.Micro;
   using Extractor;
+  using FluentValidation.Results;
+  using PatioBlox2016.JobPrepUI.Infra;
   using Xceed.Wpf.Toolkit;
 
   public class PatchFileDropViewModel : Screen, IPatchFileDropViewModel
@@ -16,16 +18,18 @@
     private readonly IJobFolders _jobFolders;
     private readonly IPatchExtractor _extractor;
     private readonly IExtractionResult _result;
+    private readonly IEventAggregator _eventAggregator;
     private BindableCollection<PatchFileViewModel> _patchFiles;
     private BusyIndicator _busyIndicator;
 
     public PatchFileDropViewModel(IJobFolders jobFolders, 
       IPatchExtractor extractor,
-      IExtractionResult result)
+      IExtractionResult result, IEventAggregator eventAggregator)
     {
       _jobFolders = jobFolders;
       _extractor = extractor;
       _result = result;
+      _eventAggregator = eventAggregator;
 
       PatchFiles = new BindableCollection<PatchFileViewModel>();
     }
@@ -65,6 +69,8 @@
 
       var patchFiles = validPaths.Select(p => new PatchFileViewModel(p));
       PatchFiles.AddRange(patchFiles);
+
+      args.Handled = true;
     }
 
     public int ExtractionProgress { get; set; }
@@ -85,10 +91,33 @@
     {
       _busyIndicator.BusyContent = "Extracting patches...";
       _busyIndicator.IsBusy = true;
+      var validationResult = new ValidationResult();
 
-      foreach (var patchFileViewModel in PatchFiles) {
-        _extractor.Initialize(patchFileViewModel.FilePath);
-        await Task.Run(() => _result.AddPatchRowExtractRange(_extractor.Extract()));
+      try {
+        foreach (var patchFileViewModel in PatchFiles) {
+          _extractor.Initialize(patchFileViewModel.FilePath);
+          await Task.Run(() => _result.AddPatchRowExtractRange(_extractor.Extract()));
+        }
+      }
+
+      catch (PatioBloxHeaderExtractionException exc) {
+        var failure = new ValidationFailure("FlexCel Error", exc.Message);
+        validationResult.Errors.Add(failure);
+      }
+
+      catch (FlexCelExtractionException exc) {
+        var failure = new ValidationFailure("FlexCel Error", exc.Message);
+        validationResult.Errors.Add(failure);
+      }
+
+      finally {
+        var acquisitionEvent = new AcquisitionCompleteEvent
+        {
+          RowCount = _result.PatchRowExtracts.Count(),
+          ValidationResult = validationResult
+        };
+
+        _eventAggregator.PublishOnUIThread(acquisitionEvent);
       }
 
       _busyIndicator.IsBusy = false;

@@ -8,6 +8,7 @@
   using Caliburn.Micro;
   using Concrete;
   using Extractor;
+  using PatioBlox2016.DataAccess;
   using SimpleInjector;
   using ViewModels;
 
@@ -34,10 +35,19 @@
       _container.RegisterSingle<IDataSourceAdapter, FlexCelDataSourceAdapter>();
       _container.RegisterSingle<IPatchExtractor, PatchExtractor>();
       _container.RegisterSingle<IExtractionResult, ExtractionResult>();
+      _container.RegisterSingle(new PatioBloxContext());
 
       _container.Register<IWindowManager, WindowManager>();
       _container.Register<IPatchFileDropViewModel, PatchFileDropViewModel>();
       _container.Register<IActivitiesViewModel, ActivitiesViewModel>();
+
+      _container.RegisterInitializer<ActivitiesViewModel>(vm =>
+      {
+        var keywords = _container.GetInstance<KeywordManagerViewModel>();
+        keywords.DisplayName = "Keyword Manager";
+
+        vm.Screens.Add(keywords);
+      });
 
       _container.Verify();
     }

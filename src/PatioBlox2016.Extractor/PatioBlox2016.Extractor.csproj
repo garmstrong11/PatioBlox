@@ -51,6 +51,7 @@
     <Compile Include="ExtractorBase.cs" />
     <Compile Include="FlexCelDataSourceAdapter.cs" />
     <Compile Include="FlexCelExtractionException.cs" />
+    <Compile Include="PatioBloxHeaderExtractionException.cs" />
     <Compile Include="IExtractionResult.cs" />
     <Compile Include="IExtractor.cs" />
     <Compile Include="IKeywordExractor.cs" />

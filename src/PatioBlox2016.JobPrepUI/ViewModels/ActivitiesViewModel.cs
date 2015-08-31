@@ -7,6 +7,11 @@
     private BindableCollection<IScreen> _screens;
     private IScreen _selectedScreen;
 
+    public ActivitiesViewModel()
+    {
+      Screens = new BindableCollection<IScreen>();
+    }
+
     public BindableCollection<IScreen> Screens
     {
       get { return _screens; }

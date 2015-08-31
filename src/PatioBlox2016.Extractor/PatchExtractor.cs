@@ -69,13 +69,15 @@
     private int FindHeaderRow()
     {
       var rowCount = XlAdapter.RowCount;
-      for (var rowIndex = 1; rowIndex <= rowCount; rowIndex++) {
+      int rowIndex;
+
+      for (rowIndex = 1; rowIndex <= rowCount; rowIndex++) {
         var content = XlAdapter.ExtractRawString(rowIndex, _indexService.ItemIndex);
         if (content == "Item #") return rowIndex;
       }
 
-      throw new InvalidOperationException(
-				string.Format("Unable to find a header row on sheet {0} of file {1}.", XlAdapter.SheetName, _excelFileName));
+      var headerException = new PatioBloxHeaderExtractionException(XlAdapter.SheetName, SourcePath);
+      throw headerException;
     }
   }
 }
