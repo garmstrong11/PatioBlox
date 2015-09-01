@@ -9,6 +9,7 @@
   using Concrete;
   using Extractor;
   using PatioBlox2016.DataAccess;
+  using PatioBlox2016.Services.EfImpl;
   using SimpleInjector;
   using ViewModels;
 
@@ -26,6 +27,7 @@
     {
       _container = new Container();
 
+      _container.RegisterSingle(new PatioBloxContext());
       _container.RegisterSingle<IEventAggregator, EventAggregator>();
       _container.RegisterSingle<IShell, ShellViewModel>();
       _container.RegisterSingle<IColumnIndexService, ColumnIndexService>();
@@ -35,7 +37,9 @@
       _container.RegisterSingle<IDataSourceAdapter, FlexCelDataSourceAdapter>();
       _container.RegisterSingle<IPatchExtractor, PatchExtractor>();
       _container.RegisterSingle<IExtractionResult, ExtractionResult>();
-      _container.RegisterSingle(new PatioBloxContext());
+      _container.RegisterSingle<IDescriptionFactory, DescriptionFactory>();
+      _container.RegisterSingle<IRepository<Keyword>, KeywordRepository>();
+      _container.RegisterSingle<IRepository<Expansion>, ExpansionRepository>();
 
       _container.Register<IWindowManager, WindowManager>();
       _container.Register<IPatchFileDropViewModel, PatchFileDropViewModel>();

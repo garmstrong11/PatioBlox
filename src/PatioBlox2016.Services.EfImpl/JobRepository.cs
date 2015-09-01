@@ -1,10 +1,10 @@
 ﻿namespace PatioBlox2016.Services.EfImpl
 {
-	using System.Data.Entity;
 	using Concrete;
+	using PatioBlox2016.DataAccess;
 
-	public class JobRepository : RepositoryBase<Job>
+  public class JobRepository : RepositoryBase<Job>
 	{
-		public JobRepository(DbContext context) : base(context) {}
+		public JobRepository(PatioBloxContext context) : base(context) {}
 	}
 }

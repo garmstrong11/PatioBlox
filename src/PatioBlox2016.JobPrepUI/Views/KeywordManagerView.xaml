@@ -40,15 +40,9 @@
             
             <StackPanel Grid.Column="1"
                         VerticalAlignment="Center">
-                <Button Style="{StaticResource XferButton}"
+                <Button x:Name="MoveToKeywords" 
+                        Style="{StaticResource XferButton}"
                         Content="&lt;">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="Click">
-                            <cal:ActionMessage MethodName="MoveToKeywords">
-                                <cal:Parameter Value="{Binding ElementName=Candidates, Path=SelectedItem}"/>
-                            </cal:ActionMessage>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                 </Button>
                 <Button x:Name="MoveToCandidates"
                         Style="{StaticResource XferButton}"

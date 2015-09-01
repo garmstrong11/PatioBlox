@@ -7,12 +7,13 @@
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
 	using Abstract;
+	using PatioBlox2016.DataAccess;
 
   public class RepositoryBase<T> : IRepository<T> where T : class
 	{
-		protected DbContext Context;
+		protected PatioBloxContext Context;
  
-    public RepositoryBase(DbContext context)
+    public RepositoryBase(PatioBloxContext context)
     {
         Context = context;
     }

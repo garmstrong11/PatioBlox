@@ -120,11 +120,14 @@
     <Compile Include="ViewModels\ErrorWindowViewModel.cs" />
     <Compile Include="ViewModels\IActivitiesViewModel.cs" />
     <Compile Include="ViewModels\IPatchFileDropViewModel.cs" />
+    <Compile Include="ViewModels\ISelectableViewModel.cs" />
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\KeywordManagerViewModel.cs" />
+    <Compile Include="ViewModels\KeywordViewModel.cs" />
     <Compile Include="ViewModels\PatchFileDropViewModel.cs" />
     <Compile Include="ViewModels\PatchFileViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\WordCandidateViewModel.cs" />
     <Compile Include="Views\ActivitiesView.xaml.cs">
       <DependentUpon>ActivitiesView.xaml</DependentUpon>
     </Compile>
@@ -137,7 +140,6 @@
     <Compile Include="Views\KeywordView.xaml.cs">
       <DependentUpon>KeywordView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\KeywordViewModel.cs" />
     <Compile Include="Views\PatchFileDropView.xaml.cs">
       <DependentUpon>PatchFileDropView.xaml</DependentUpon>
     </Compile>
@@ -146,6 +148,9 @@
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\WordCandidateView.xaml.cs">
+      <DependentUpon>WordCandidateView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +204,10 @@
       <Project>{18304efe-78f3-4ecd-8253-099f5b37ee1c}</Project>
       <Name>PatioBlox2016.Services.Contracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.Services.EfImpl\PatioBlox2016.Services.EfImpl.csproj">
+      <Project>{8620d086-9be6-4494-b259-991bc35a29ae}</Project>
+      <Name>PatioBlox2016.Services.EfImpl</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ActivitiesView.xaml">
@@ -226,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\WordCandidateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

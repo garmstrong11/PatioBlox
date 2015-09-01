@@ -2,6 +2,7 @@
 {
   using System.Collections.Generic;
   using Abstract;
+  using PatioBlox2016.Concrete;
 
   public interface IExtractionResult
   {
@@ -10,7 +11,7 @@
     void AddPatchRowExtractRange(IEnumerable<IPatchRowExtract> patchRowExtracts);
 
     IEnumerable<string> PatchNames { get; }
-    IEnumerable<string> UniqueDescriptions { get; }
+    IEnumerable<Description> UniqueDescriptions { get; }
     IEnumerable<string> UniqueUpcs { get; }
     IEnumerable<string> UniqueSectionNames { get; }
     IEnumerable<string> UniqueWords { get; }

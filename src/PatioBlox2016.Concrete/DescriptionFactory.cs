@@ -40,7 +40,11 @@
     {
       var description = new Description(descriptionText) {InsertDate = DateTime.Now};
       var remainderList = description.ExtractRemainder()
-        .Split(new[] {" ", "/"}, StringSplitOptions.RemoveEmptyEntries);
+        .Split(new[] {" ", "/"}, StringSplitOptions.RemoveEmptyEntries)
+        .Select(w => w.ToUpper())
+        .ToList();
+
+      description.WordList = new List<string>(remainderList);
 
       // Find and expand all known abbreviations:
       string expansion;

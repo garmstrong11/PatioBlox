@@ -47,6 +47,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PatioBlox2016.Abstract\PatioBlox2016.Abstract.csproj">
+      <Project>{523b43a3-4603-4dac-b4ce-e9baebfd5ad5}</Project>
+      <Name>PatioBlox2016.Abstract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.Concrete\PatioBlox2016.Concrete.csproj">
+      <Project>{bddf1e05-0175-4314-97b1-3eb470558751}</Project>
+      <Name>PatioBlox2016.Concrete</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

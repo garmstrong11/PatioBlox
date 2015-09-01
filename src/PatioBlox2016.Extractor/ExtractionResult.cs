@@ -9,10 +9,12 @@
 
   public class ExtractionResult : IExtractionResult
   {
+    private readonly IDescriptionFactory _descriptionFactory;
     private readonly List<IPatchRowExtract> _patchRowExtracts;
 
-    public ExtractionResult()
+    public ExtractionResult(IDescriptionFactory descriptionFactory)
     {
+      _descriptionFactory = descriptionFactory;
       _patchRowExtracts = new List<IPatchRowExtract>();
     }
 
@@ -38,11 +40,17 @@
       get { return _patchRowExtracts.Select(pr => pr.PatchName).Distinct(); }
     }
 
-    public IEnumerable<string> UniqueDescriptions
+    public IEnumerable<Description> UniqueDescriptions
     {
-      get { return _patchRowExtracts
-        .Where(pr => !string.IsNullOrWhiteSpace(pr.Description))
-        .Select(pr => pr.Description).Distinct(); }
+      get
+      {
+        var descriptionTexts = _patchRowExtracts
+          .Where(pr => !string.IsNullOrWhiteSpace(pr.Description))
+          .Select(pr => pr.Description).Distinct();
+
+        return descriptionTexts
+          .Select(d => (Description) _descriptionFactory.CreateDescription(d));
+      }
     }
 
     public IEnumerable<string> UniqueUpcs
@@ -65,18 +73,29 @@
       }
     }
 
+    //public IEnumerable<string> UniqueWords
+    //{
+    //  get
+    //  {
+    //    var descriptionsNoSize = UniqueDescriptions
+    //      .Select(d => Description.ExtractRemainder(d).ToUpper());
+
+    //    return descriptionsNoSize
+    //      .SelectMany(w => w.Split(new[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries))
+    //      .Distinct()
+    //      .OrderBy(w => w);
+    //  }
+    //}
+
     public IEnumerable<string> UniqueWords
     {
       get
       {
-        var descriptionsNoSize = UniqueDescriptions
-          .Select(d => Description.ExtractRemainder(d).ToUpper());
-
-        return descriptionsNoSize
-          .SelectMany(w => w.Split(new[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries))
+        return UniqueDescriptions
+          .SelectMany(w => w.WordList)
           .Distinct()
-          .OrderBy(w => w);
+          .OrderBy(d => d);
       }
-    }
+    } 
   }
 }

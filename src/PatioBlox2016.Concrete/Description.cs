@@ -9,10 +9,11 @@ namespace PatioBlox2016.Concrete
   public class Description : IDescription
 	{
     private static readonly Regex SizeRegex = 
-      new Regex(@"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", RegexOptions.Compiled);
+      new Regex(@"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     
     private Description()
 		{
+      WordList = new List<string>();
 		}
 
 		public Description(string text) : this()
@@ -23,6 +24,8 @@ namespace PatioBlox2016.Concrete
       Text = text;
 		  Size = ExtractSize();
     }
+
+    public List<string> WordList { get; set; }
 
     public DateTime InsertDate { get; set; }
 
