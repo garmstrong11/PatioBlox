@@ -34,9 +34,68 @@
                 <ColumnDefinition Width="24" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <ListBox x:Name="Keywords" />
-            <ListBox x:Name="Candidates" Grid.Column="2" />
-            <ListBox x:Name="Expansions" Grid.Column="4" />
+            <ListView x:Name="Keywords">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Expander>
+                            <Expander.Header>
+                                <UniformGrid Columns="2" Rows="1" HorizontalAlignment="Stretch" Width="300">
+                                    <StackPanel Orientation="Horizontal"
+                                                HorizontalAlignment="Stretch">
+                                        <CheckBox IsChecked="{Binding IsSelected}"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Margin="6"/>
+                                        <TextBlock Text="{Binding Word}"
+                                                    TextTrimming="CharacterEllipsis"
+                                                    VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                    <ComboBox HorizontalAlignment="Right"
+                                              Width="100"
+                                              ItemsSource="{Binding WordTypes}"
+                                              SelectedItem="{Binding SelectedWordType}"/>
+                                </UniformGrid>
+                            </Expander.Header>
+                            <ListView ItemsSource="{Binding Usages}"
+                                      Margin="32 3 0 3"
+                                      MinHeight="24"
+                                      Width="290"
+                                      MaxHeight="100"/>
+                        </Expander>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView x:Name="Candidates" Grid.Column="2" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Expander HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                            <Expander.Header>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <CheckBox IsChecked="{Binding IsSelected}"
+                                              VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              Margin="6"/>
+                                    <TextBlock Text="{Binding Word}"
+                                               TextTrimming="CharacterEllipsis"
+                                               Grid.Column="1"
+                                               VerticalAlignment="Center"/>
+                                </Grid>
+                            </Expander.Header>
+                            <ListView ItemsSource="{Binding Usages}"
+                                      Margin="32 0 0 0"
+                                      MinHeight="24"
+                                      Width="300"
+                                      MaxHeight="100"/>
+                        </Expander>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <ListView x:Name="Expansions" Grid.Column="4" />
             
             <StackPanel Grid.Column="1"
                         VerticalAlignment="Center">

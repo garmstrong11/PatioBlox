@@ -137,9 +137,6 @@
     <Compile Include="Views\KeywordManagerView.xaml.cs">
       <DependentUpon>KeywordManagerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\KeywordView.xaml.cs">
-      <DependentUpon>KeywordView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PatchFileDropView.xaml.cs">
       <DependentUpon>PatchFileDropView.xaml</DependentUpon>
     </Compile>
@@ -148,9 +145,6 @@
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\WordCandidateView.xaml.cs">
-      <DependentUpon>WordCandidateView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -222,10 +216,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\KeywordView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\PatchFileDropView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -235,10 +225,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShellView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\WordCandidateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

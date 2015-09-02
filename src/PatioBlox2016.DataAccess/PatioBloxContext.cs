@@ -17,10 +17,11 @@
 		public DbSet<Cell> Cells { get; set; }
 
 		public PatioBloxContext() : base("name=PatioBloxConnectionString")
-	  {
-      Database.SetInitializer(
-				new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
-	  }
+		{
+		  Database.SetInitializer(
+        new NullDatabaseInitializer<PatioBloxContext>());
+		  //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
+		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
