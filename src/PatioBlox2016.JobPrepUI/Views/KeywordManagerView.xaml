@@ -28,11 +28,11 @@
         </StackPanel>
         <Grid Margin="9">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="24" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="24" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <ListView x:Name="Keywords">
                 <ListView.ItemTemplate>
@@ -103,7 +103,7 @@
                         Style="{StaticResource XferButton}"
                         Content="&lt;">
                 </Button>
-                <Button x:Name="MoveToCandidates"
+                <Button x:Name="MoveKeywordsToCandidates"
                         Style="{StaticResource XferButton}"
                         Content="&gt;"/>
             </StackPanel>

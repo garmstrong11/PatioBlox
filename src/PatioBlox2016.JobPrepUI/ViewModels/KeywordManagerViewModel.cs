@@ -15,6 +15,7 @@
     private readonly IExtractionResult _extractionResult;
     private BindableCollection<WordCandidateViewModel> _candidates;
     private string _selectedCandidate;
+    private BindableCollection<string> _allKeywords;
 
     public KeywordManagerViewModel(IRepository<Keyword> keyWordRepository,
       IRepository<Expansion> expansionRepository, IExtractionResult extractionResult)
@@ -45,7 +46,18 @@
       var existing = keywords.Union(expansions);
 
       return candidateWords.Except(existing);
-    } 
+    }
+
+    public BindableCollection<string> AllKeywords
+    {
+      get { return _allKeywords; }
+      set
+      {
+        if (Equals(value, _allKeywords)) return;
+        _allKeywords = value;
+        NotifyOfPropertyChange(() => AllKeywords);
+      }
+    }
 
     public BindableCollection<WordCandidateViewModel> Candidates
     {
@@ -83,7 +95,7 @@
       Candidates.RemoveRange(selectedCandidates);
     }
 
-    public void MoveToCandidates()
+    public void MoveKeywordsToCandidates()
     {
       var selectedKeywords = Keywords.Where(k => k.IsSelected).ToList();
       var candidates = selectedKeywords

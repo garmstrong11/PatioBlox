@@ -118,6 +118,7 @@
     <Compile Include="Infra\SettingsService.cs" />
     <Compile Include="ViewModels\ActivitiesViewModel.cs" />
     <Compile Include="ViewModels\ErrorWindowViewModel.cs" />
+    <Compile Include="ViewModels\ExpansionViewModel.cs" />
     <Compile Include="ViewModels\IActivitiesViewModel.cs" />
     <Compile Include="ViewModels\IPatchFileDropViewModel.cs" />
     <Compile Include="ViewModels\ISelectableViewModel.cs" />

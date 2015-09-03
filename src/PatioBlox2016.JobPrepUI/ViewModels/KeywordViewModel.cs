@@ -88,5 +88,16 @@
         NotifyOfPropertyChange(() => SelectedWordType);
       }
     }
+
+    public Keyword MapToKeyword()
+    {
+      var keywordDto = new Keyword
+      {
+        Word = Word,
+        WordType = (WordType) Enum.Parse(typeof(WordType), SelectedWordType)
+      };
+
+      return keywordDto;
+    }
   }
 }
