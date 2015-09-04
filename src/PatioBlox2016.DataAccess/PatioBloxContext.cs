@@ -19,8 +19,8 @@
 		public PatioBloxContext() : base("name=PatioBloxConnectionString")
 		{
 		  Database.SetInitializer(
-        new NullDatabaseInitializer<PatioBloxContext>());
-		  //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
+        //new NullDatabaseInitializer<PatioBloxContext>());
+		  new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
