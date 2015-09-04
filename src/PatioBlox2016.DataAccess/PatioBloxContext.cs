@@ -7,7 +7,6 @@
 	public class PatioBloxContext : DbContext
 	{
 		public DbSet<Keyword> Keywords { get; set; }
-		public DbSet<Expansion> Expansions { get; set; }
 		public DbSet<Description> Descriptions { get; set; }
 
 		public DbSet<Job> Jobs { get; set; }
@@ -19,14 +18,13 @@
 		public PatioBloxContext() : base("name=PatioBloxConnectionString")
 		{
 		  Database.SetInitializer(
-        //new NullDatabaseInitializer<PatioBloxContext>());
-		  new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
+        new NullDatabaseInitializer<PatioBloxContext>());
+		  //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
       modelBuilder.Configurations.Add(new KeywordTypeConfiguration());
-			modelBuilder.Configurations.Add(new ExpansionTypeConfiguration());
 		  modelBuilder.Configurations.Add(new JobTypeConfiguration());
 		  modelBuilder.Configurations.Add(new DescriptionTypeConfiguration());
 		  modelBuilder.Configurations.Add(new BarcodeTypeConfiguration());

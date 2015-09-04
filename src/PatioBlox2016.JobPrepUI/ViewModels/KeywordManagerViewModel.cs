@@ -6,103 +6,59 @@
   using PatioBlox2016.Abstract;
   using PatioBlox2016.Concrete;
   using PatioBlox2016.Extractor;
-  using PatioBlox2016.JobPrepUI.Views;
 
   public class KeywordManagerViewModel : Screen
   {
     private readonly IRepository<Keyword> _keyWordRepository;
-    private readonly IRepository<Expansion> _expansionRepository;
     private readonly IExtractionResult _extractionResult;
-    private BindableCollection<WordCandidateViewModel> _candidates;
-    private string _selectedCandidate;
-    private BindableCollection<string> _allKeywords;
+    private BindableCollection<KeywordViewModel> _keywords;
 
-    public KeywordManagerViewModel(IRepository<Keyword> keyWordRepository,
-      IRepository<Expansion> expansionRepository, IExtractionResult extractionResult)
+    public KeywordManagerViewModel(IRepository<Keyword> keyWordRepository, IExtractionResult extractionResult)
     {
       _keyWordRepository = keyWordRepository;
-      _expansionRepository = expansionRepository;
       _extractionResult = extractionResult;
 
-      Candidates = new BindableCollection<WordCandidateViewModel>();
-      Expansions = new BindableCollection<Expansion>();
       Keywords = new BindableCollection<KeywordViewModel>();
 
-      Candidates.AddRange(FilterExistingWords(_extractionResult.UniqueWords)
-        .Select(w => new WordCandidateViewModel(w, GetUsages(w))));
+      var existingWords = _keyWordRepository.GetAll().Select(k => k.Word);
+
+      var newWords = _extractionResult.UniqueWords.Except(existingWords).ToList();
+
+      var keywordViewModels = newWords
+        .Select(v => new KeywordViewModel(v)
+        {
+          SelectedWordType = "Name",
+          SelectedExpansion = string.Empty
+        })
+        .ToList();
+
+      foreach (var viewModel in keywordViewModels) {
+        var firstLetter = viewModel.Word.Substring(0, 1);
+
+        viewModel.Usages.AddRange(GetUsages(viewModel.Word));
+        viewModel.Expansions.AddRange(newWords.Where(w => w.StartsWith(firstLetter)));
+      }
+
+      Keywords.AddRange(keywordViewModels);
     }
 
     private IEnumerable<string> GetUsages(string word)
     {
       return _extractionResult.UniqueDescriptions
         .Where(d => d.WordList.Contains(word))
-        .Select(d => d.Text);
+        .Select(d => d.Text)
+        .ToList();
     }
 
-    private IEnumerable<string> FilterExistingWords(IEnumerable<string> candidateWords)
+    public BindableCollection<KeywordViewModel> Keywords
     {
-      var keywords = _keyWordRepository.GetAll().Select(k => k.Word);
-      var expansions = _expansionRepository.GetAll().Select(e => e.Word);
-      var existing = keywords.Union(expansions);
-
-      return candidateWords.Except(existing);
-    }
-
-    public BindableCollection<string> AllKeywords
-    {
-      get { return _allKeywords; }
+      get { return _keywords; }
       set
       {
-        if (Equals(value, _allKeywords)) return;
-        _allKeywords = value;
-        NotifyOfPropertyChange(() => AllKeywords);
+        if (Equals(value, _keywords)) return;
+        _keywords = value;
+        NotifyOfPropertyChange(() => Keywords);
       }
-    }
-
-    public BindableCollection<WordCandidateViewModel> Candidates
-    {
-      get { return _candidates; }
-      set
-      {
-        if (Equals(value, _candidates)) return;
-        _candidates = value;
-        NotifyOfPropertyChange(() => Candidates);
-      }
-    }
-
-    public string SelectedCandidate
-    {
-      get { return _selectedCandidate; }
-      set
-      {
-        if (value == _selectedCandidate) return;
-        _selectedCandidate = value;
-        NotifyOfPropertyChange();
-      }
-    }
-
-    public BindableCollection<Expansion> Expansions { get; set; }
-
-    public BindableCollection<KeywordViewModel> Keywords { get; set; }
-
-    public void MoveToKeywords()
-    {
-      var selectedCandidates = Candidates.Where(w => w.IsSelected).ToList();
-      var keywords = selectedCandidates
-        .Select(k => new KeywordViewModel(k));
-
-      Keywords.AddRange(keywords);
-      Candidates.RemoveRange(selectedCandidates);
-    }
-
-    public void MoveKeywordsToCandidates()
-    {
-      var selectedKeywords = Keywords.Where(k => k.IsSelected).ToList();
-      var candidates = selectedKeywords
-        .Select(k => new WordCandidateViewModel(k)).ToList();
-
-      Candidates.AddRange(candidates);
-      Keywords.RemoveRange(selectedKeywords);
     }
   }
 }

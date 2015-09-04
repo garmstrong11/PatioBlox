@@ -56,7 +56,6 @@
     <Compile Include="CellDuplicateComparer.cs" />
     <Compile Include="Description.cs" />
     <Compile Include="DescriptionFactory.cs" />
-    <Compile Include="Expansion.cs" />
     <Compile Include="Job.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="SectionName.cs" />

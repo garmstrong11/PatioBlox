@@ -8,106 +8,45 @@
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="500
              " Background="White">
-    <UserControl.Resources>
-        <Style x:Key="XferButton" TargetType="Button">
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Margin" Value="2 10"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Height" Value="80" />
-            <Setter Property="FontSize" Value="24" />
-        </Style>
-    </UserControl.Resources>
-    <DockPanel>
+    <DockPanel Margin="9">
         <TextBlock DockPanel.Dock="Top"
                    Text="Manage your keywords"
                    FontSize="18" TextAlignment="Center"/>
         <StackPanel DockPanel.Dock="Bottom" 
                     Orientation="Horizontal"
                     MinHeight="36">
-
         </StackPanel>
-        <Grid Margin="9">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="24" />
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="24" />
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <ListView x:Name="Keywords">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Expander>
-                            <Expander.Header>
-                                <UniformGrid Columns="2" Rows="1" HorizontalAlignment="Stretch" Width="300">
-                                    <StackPanel Orientation="Horizontal"
-                                                HorizontalAlignment="Stretch">
-                                        <CheckBox IsChecked="{Binding IsSelected}"
-                                                    VerticalAlignment="Center"
-                                                    HorizontalAlignment="Center"
-                                                    Margin="6"/>
-                                        <TextBlock Text="{Binding Word}"
-                                                    TextTrimming="CharacterEllipsis"
-                                                    VerticalAlignment="Center"/>
-                                    </StackPanel>
-                                    <ComboBox HorizontalAlignment="Right"
-                                              Width="100"
-                                              ItemsSource="{Binding WordTypes}"
-                                              SelectedItem="{Binding SelectedWordType}"/>
-                                </UniformGrid>
-                            </Expander.Header>
-                            <ListView ItemsSource="{Binding Usages}"
-                                      Margin="32 3 0 3"
-                                      MinHeight="24"
-                                      Width="290"
-                                      MaxHeight="100"/>
-                        </Expander>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <ListView x:Name="Candidates" Grid.Column="2" >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Expander HorizontalContentAlignment="Stretch"
-                                  HorizontalAlignment="Stretch">
-                            <Expander.Header>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <CheckBox IsChecked="{Binding IsSelected}"
-                                              VerticalAlignment="Center"
-                                              HorizontalAlignment="Center"
-                                              Margin="6"/>
+        <ListView x:Name="Keywords">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Expander>
+                        <Expander.Header>
+                            <UniformGrid Columns="3" Rows="1" HorizontalAlignment="Stretch" Width="400">
+                                <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Stretch">
                                     <TextBlock Text="{Binding Word}"
-                                               TextTrimming="CharacterEllipsis"
-                                               Grid.Column="1"
-                                               VerticalAlignment="Center"/>
-                                </Grid>
-                            </Expander.Header>
-                            <ListView ItemsSource="{Binding Usages}"
-                                      Margin="32 0 0 0"
-                                      MinHeight="24"
-                                      Width="300"
-                                      MaxHeight="100"/>
-                        </Expander>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <ListView x:Name="Expansions" Grid.Column="4" />
-            
-            <StackPanel Grid.Column="1"
-                        VerticalAlignment="Center">
-                <Button x:Name="MoveToKeywords" 
-                        Style="{StaticResource XferButton}"
-                        Content="&lt;">
-                </Button>
-                <Button x:Name="MoveKeywordsToCandidates"
-                        Style="{StaticResource XferButton}"
-                        Content="&gt;"/>
-            </StackPanel>
-        </Grid>
-        
+                                        TextTrimming="CharacterEllipsis"
+                                        VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <ComboBox HorizontalAlignment="Right"
+                                  Width="100"
+                                  ItemsSource="{Binding WordTypes}"
+                                  SelectedItem="{Binding SelectedWordType}"/>
+                                <ComboBox HorizontalAlignment="Right"
+                                          Width="100"
+                                          ItemsSource="{Binding Expansions}"
+                                          SelectedItem="{Binding SelectedExpansion}"/>
+                            </UniformGrid>
+                        </Expander.Header>
+                        <ListView ItemsSource="{Binding Usages}"
+                          Margin="32 3 0 3"
+                          MinHeight="24"
+                          Width="290"
+                          MaxHeight="100"/>
+                    </Expander>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
     </DockPanel>
 </UserControl>

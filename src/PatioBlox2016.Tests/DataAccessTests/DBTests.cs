@@ -22,13 +22,13 @@
 	    _ctx = new PatioBloxContext();
 	  }
     
-    [Test]
-		public void DatabaseIsCreated()
-		{
-			var expan = _ctx.Expansions.Include(k => k.Keyword).First(e => e.KeywordId == 5);
+    //[Test]
+    //public void DatabaseIsCreated()
+    //{
+    //  var expan = _ctx.Expansions.Include(k => k.Keyword).First(e => e.KeywordId == 5);
 
-			expan.Keyword.WordType.Should().Be(WordType.Color);
-		}
+    //  expan.Keyword.WordType.Should().Be(WordType.Color);
+    //}
 
 		[Test]
 		public void CanInsertJob()

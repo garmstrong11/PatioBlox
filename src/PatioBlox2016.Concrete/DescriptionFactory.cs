@@ -8,12 +8,11 @@
 
   public class DescriptionFactory : IDescriptionFactory
   {
-    private readonly IDictionary<string, string> _expansionDict;
     private readonly IList<string> _colorKeywords;
     private readonly IEnumerable<string> _vendorKeywords;
     private readonly IEnumerable<string> _nameKeywords; 
 
-    public DescriptionFactory(IRepository<Keyword> keywordRepo, IRepository<Expansion> expansionRepo)
+    public DescriptionFactory(IRepository<Keyword> keywordRepo)
     {
       var keywords = keywordRepo.GetAll();
 
@@ -31,9 +30,6 @@
         .Where(k => k.WordType == WordType.Name)
         .Select(w => w.Word)
         .ToList();
-
-      _expansionDict = expansionRepo.GetAll()
-        .ToDictionary(k => k.Word, v => v.Keyword.Word);
     }
     
     public IDescription CreateDescription(string descriptionText)
@@ -47,10 +43,10 @@
       description.WordList = new List<string>(remainderList);
 
       // Find and expand all known abbreviations:
-      string expansion;
-      var remainder = remainderList
-        .Select(item => _expansionDict.TryGetValue(item, out expansion) ? expansion : item)
-        .ToList();
+      //string expansion;
+      var remainder = remainderList;
+        //.Select(item => _expansionDict.TryGetValue(item, out expansion) ? expansion : item)
+        //.ToList();
 
       // Extract and remove color words from the remainder:
       var colorWords = remainder.Intersect(_colorKeywords).ToList();

@@ -14,12 +14,10 @@ namespace PatioBlox2016.DataAccess.Migrations
 
     protected override void Seed(PatioBloxContext context)
     {
-      var keywordsFile = Path.Combine(GetSeedPath(), "Keywords.sql");
-      var expansionsFile = Path.Combine(GetSeedPath(), "Expansions.sql");
+      //var keywordsFile = Path.Combine(GetSeedPath(), "Keywords.sql");
       var descriptionsFile = Path.Combine(GetSeedPath(), "Descriptions.sql");
 
-      context.Database.ExecuteSqlCommand(File.ReadAllText(keywordsFile));
-      context.Database.ExecuteSqlCommand(File.ReadAllText(expansionsFile));
+      //context.Database.ExecuteSqlCommand(File.ReadAllText(keywordsFile));
       context.Database.ExecuteSqlCommand(File.ReadAllText(descriptionsFile));
 
       base.Seed(context);

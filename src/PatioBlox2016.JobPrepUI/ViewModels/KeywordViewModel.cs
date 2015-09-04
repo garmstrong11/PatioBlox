@@ -5,44 +5,31 @@
   using Caliburn.Micro;
   using PatioBlox2016.Concrete;
 
-  public class KeywordViewModel : PropertyChangedBase, ISelectableViewModel
+  public class KeywordViewModel : PropertyChangedBase
   {
     private string _word;
     private string _wordType;
     private BindableCollection<string> _wordTypes;
     private bool _isSelected;
     private List<string> _usages;
+    private BindableCollection<string> _expansions;
+    private string _selectedExpansion;
 
     public KeywordViewModel()
     {
-      SelectedWordType = "Name";
       WordTypes = new BindableCollection<string>(Enum.GetNames(typeof(WordType)));
-      IsSelected = false;
+      Expansions = new BindableCollection<string>(new[] {""});
+
       Word = "Untitled";
+      SelectedWordType = "Name";
+      _selectedExpansion = string.Empty;
+
       Usages = new List<string>();
     }
 
     public KeywordViewModel(string word) : this()
     {
       Word = word;
-    }
-
-    public KeywordViewModel(WordCandidateViewModel wcvm)
-      : this()
-    {
-      Word = wcvm.Word;
-      Usages.AddRange(wcvm.Usages);
-    }
-
-    public bool IsSelected
-    {
-      get { return _isSelected; }
-      set
-      {
-        if (value == _isSelected) return;
-        _isSelected = value;
-        NotifyOfPropertyChange(() => IsSelected);
-      }
     }
 
     public string Word
@@ -53,6 +40,28 @@
         if (value == _word) return;
         _word = value;
         NotifyOfPropertyChange(() => Word);
+      }
+    }
+
+    public BindableCollection<string> Expansions
+    {
+      get { return _expansions; }
+      set
+      {
+        if (Equals(value, _expansions)) return;
+        _expansions = value;
+        NotifyOfPropertyChange(() => Expansions);
+      }
+    }
+
+    public string SelectedExpansion
+    {
+      get { return _selectedExpansion; }
+      set
+      {
+        if (value == _selectedExpansion) return;
+        _selectedExpansion = value;
+        NotifyOfPropertyChange(() => SelectedExpansion);
       }
     }
 
@@ -86,6 +95,13 @@
         if (value == _wordType) return;
         _wordType = value;
         NotifyOfPropertyChange(() => SelectedWordType);
+        
+        if (value != "Abbreviation") return;
+
+        // Remove this word from the expansion list so
+        // an expansion can't refer to itself.
+        Expansions.Remove(Word);
+        NotifyOfPropertyChange(() => Expansions);
       }
     }
 

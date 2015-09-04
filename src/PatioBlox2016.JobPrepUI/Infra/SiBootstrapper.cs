@@ -39,7 +39,6 @@
       _container.RegisterSingle<IExtractionResult, ExtractionResult>();
       _container.RegisterSingle<IDescriptionFactory, DescriptionFactory>();
       _container.RegisterSingle<IRepository<Keyword>, KeywordRepository>();
-      _container.RegisterSingle<IRepository<Expansion>, ExpansionRepository>();
 
       _container.Register<IWindowManager, WindowManager>();
       _container.Register<IPatchFileDropViewModel, PatchFileDropViewModel>();
