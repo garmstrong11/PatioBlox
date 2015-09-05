@@ -10,10 +10,10 @@
     private string _word;
     private string _wordType;
     private BindableCollection<string> _wordTypes;
-    private bool _isSelected;
     private List<string> _usages;
     private BindableCollection<string> _expansions;
     private string _selectedExpansion;
+    private readonly Keyword _keyword;
 
     public KeywordViewModel()
     {
@@ -23,6 +23,7 @@
       Word = "Untitled";
       SelectedWordType = "Name";
       _selectedExpansion = string.Empty;
+      _keyword = new Keyword();
 
       Usages = new List<string>();
     }
@@ -39,6 +40,7 @@
       {
         if (value == _word) return;
         _word = value;
+        _keyword.Word = value;
         NotifyOfPropertyChange(() => Word);
       }
     }

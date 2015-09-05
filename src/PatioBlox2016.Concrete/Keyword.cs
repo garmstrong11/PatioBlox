@@ -8,6 +8,11 @@
 		public Keyword()
 		{}
 
+    public Keyword(string word)
+    {
+      Word = word;
+    }
+
 		public Keyword(KeywordDto dto)
 		{
 			Word = dto.Word;
@@ -17,6 +22,7 @@
 		public int Id { get; set; }
 		public string Word { get; set; }
 		public WordType WordType { get; set; }
+    public bool IsAbbreviated { get; set; }
 
     public int? ExpansionId { get; set; }
     public Keyword Expansion { get; set; }
