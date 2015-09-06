@@ -10,7 +10,7 @@
   using Caliburn.Micro;
   using Extractor;
   using FluentValidation.Results;
-  using PatioBlox2016.JobPrepUI.Infra;
+  using Infra;
   using Xceed.Wpf.Toolkit;
 
   public class PatchFileDropViewModel : Screen, IPatchFileDropViewModel
@@ -38,7 +38,6 @@
     {
       _busyIndicator = (FindBusyIndicator((FrameworkElement) view)).First();
       ExtractionProgress = 0;
-      //WonkyError();
     }
 
     private static Maybe<BusyIndicator> FindBusyIndicator(FrameworkElement view)
@@ -118,9 +117,8 @@
         };
 
         _eventAggregator.PublishOnUIThread(acquisitionEvent);
+        _busyIndicator.IsBusy = false;
       }
-
-      _busyIndicator.IsBusy = false;
     }
 
     private IEnumerable<string> GetPathsFromEventArgs(DragEventArgs eventArgs)

@@ -3,9 +3,9 @@
   using System.Collections.Generic;
   using System.Linq;
   using Caliburn.Micro;
-  using PatioBlox2016.Abstract;
-  using PatioBlox2016.Concrete;
-  using PatioBlox2016.Extractor;
+  using Abstract;
+  using Concrete;
+  using Extractor;
 
   public class KeywordManagerViewModel : Screen
   {
@@ -19,27 +19,45 @@
       _extractionResult = extractionResult;
 
       Keywords = new BindableCollection<KeywordViewModel>();
+    }
 
-      var existingWords = _keyWordRepository.GetAll().Select(k => k.Word);
-
-      var newWords = _extractionResult.UniqueWords.Except(existingWords).ToList();
-
-      var keywordViewModels = newWords
-        .Select(v => new KeywordViewModel(v)
-        {
-          SelectedWordType = "Name",
-          SelectedExpansion = string.Empty
-        })
+    protected override void OnActivate()
+    {
+      var existingKeywords = _keyWordRepository.GetAll();
+      var existingWords = existingKeywords.Select(k => k.Word);
+      var existingParentKeywords = existingKeywords
+        .Where(kw => !kw.ExpansionId.HasValue)
         .ToList();
 
-      foreach (var viewModel in keywordViewModels) {
+      var newKeywords = _extractionResult.UniqueWords
+        .Except(existingWords)
+        .Select(w => new Keyword(w))
+        .ToList();
+
+      var addedKeywords = _keyWordRepository.AddRange(newKeywords);
+      _keyWordRepository.SaveChanges();
+
+      var keywordViewModels = addedKeywords
+        .Select(v => new KeywordViewModel(v))
+        .ToList();
+
+      foreach (var viewModel in keywordViewModels)
+      {
         var firstLetter = viewModel.Word.Substring(0, 1);
+        var expansions = new List<Keyword>();
 
         viewModel.Usages.AddRange(GetUsages(viewModel.Word));
-        viewModel.Expansions.AddRange(newWords.Where(w => w.StartsWith(firstLetter)));
+
+        expansions.Add(new Keyword(" "));
+        expansions.AddRange(existingParentKeywords.Where(w => w.Word.StartsWith(firstLetter)));
+        expansions.AddRange(newKeywords.Where(w => w.Word.StartsWith(firstLetter)));
+
+        viewModel.Expansions.AddRange(expansions.OrderBy(vm => vm.Word));
       }
 
       Keywords.AddRange(keywordViewModels);
+
+      base.OnActivate();
     }
 
     private IEnumerable<string> GetUsages(string word)
@@ -59,6 +77,18 @@
         _keywords = value;
         NotifyOfPropertyChange(() => Keywords);
       }
+    }
+
+    public void Save()
+    {
+      // Fix up the child WordType to match parent Expansion:
+      var abbreviations = _keyWordRepository.FindAll(kw => kw.ExpansionId.HasValue);
+
+      foreach (var keyword in abbreviations) {
+        keyword.WordType = keyword.Expansion.WordType;
+      }
+
+      _keyWordRepository.SaveChanges();
     }
   }
 }

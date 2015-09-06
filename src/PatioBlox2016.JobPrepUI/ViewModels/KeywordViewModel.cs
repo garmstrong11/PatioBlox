@@ -2,50 +2,39 @@
 {
   using System;
   using System.Collections.Generic;
+  using System.Linq;
   using Caliburn.Micro;
-  using PatioBlox2016.Concrete;
+  using Concrete;
 
   public class KeywordViewModel : PropertyChangedBase
   {
-    private string _word;
-    private string _wordType;
-    private BindableCollection<string> _wordTypes;
     private List<string> _usages;
-    private BindableCollection<string> _expansions;
-    private string _selectedExpansion;
+    private BindableCollection<Keyword> _expansions;
     private readonly Keyword _keyword;
 
     public KeywordViewModel()
     {
-      WordTypes = new BindableCollection<string>(Enum.GetNames(typeof(WordType)));
-      Expansions = new BindableCollection<string>(new[] {""});
-
-      Word = "Untitled";
-      SelectedWordType = "Name";
-      _selectedExpansion = string.Empty;
-      _keyword = new Keyword();
-
+      Expansions = new BindableCollection<Keyword>();
       Usages = new List<string>();
     }
 
-    public KeywordViewModel(string word) : this()
+    public KeywordViewModel(Keyword keyword) : this()
     {
-      Word = word;
+      _keyword = keyword;
     }
 
     public string Word
     {
-      get { return _word; }
+      get { return _keyword.Word; }
       set
       {
-        if (value == _word) return;
-        _word = value;
+        if (value == _keyword.Word) return;
         _keyword.Word = value;
         NotifyOfPropertyChange(() => Word);
       }
     }
 
-    public BindableCollection<string> Expansions
+    public BindableCollection<Keyword> Expansions
     {
       get { return _expansions; }
       set
@@ -56,26 +45,33 @@
       }
     }
 
-    public string SelectedExpansion
+    public Keyword SelectedExpansion
     {
-      get { return _selectedExpansion; }
+      get { return _keyword.Expansion; }
       set
       {
-        if (value == _selectedExpansion) return;
-        _selectedExpansion = value;
+        var parent = value;
+
+        if (Equals(parent, _keyword.Expansion)) return;
+
+        if (string.IsNullOrWhiteSpace(parent.Word)) {
+          _keyword.Expansion = null;
+          _keyword.ExpansionId = null;
+          NotifyOfPropertyChange(() => SelectedExpansion);
+          return;
+        }
+
+        _keyword.Expansion = parent;
+        SelectedWordType = parent.WordType;
+
         NotifyOfPropertyChange(() => SelectedExpansion);
+        NotifyOfPropertyChange(() => SelectedWordType);
       }
     }
 
-    public BindableCollection<string> WordTypes
+    public IEnumerable<WordType> WordTypes
     {
-      get { return _wordTypes; }
-      set
-      {
-        if (Equals(value, _wordTypes)) return;
-        _wordTypes = value;
-        NotifyOfPropertyChange(() => WordTypes);
-      }
+      get { return Enum.GetValues(typeof (WordType)).Cast<WordType>(); }
     }
 
     public List<string> Usages
@@ -89,33 +85,20 @@
       }
     }
 
-    public string SelectedWordType
+    public WordType SelectedWordType
     {
-      get { return _wordType; }
+      get { return _keyword.WordType; }
       set
       {
-        if (value == _wordType) return;
-        _wordType = value;
+        if (value == _keyword.WordType) return;
+        _keyword.WordType = value;
+
+        foreach (var abbreviation in _keyword.Abbreviations) {
+          abbreviation.WordType = value;
+        }
+
         NotifyOfPropertyChange(() => SelectedWordType);
-        
-        if (value != "Abbreviation") return;
-
-        // Remove this word from the expansion list so
-        // an expansion can't refer to itself.
-        Expansions.Remove(Word);
-        NotifyOfPropertyChange(() => Expansions);
       }
-    }
-
-    public Keyword MapToKeyword()
-    {
-      var keywordDto = new Keyword
-      {
-        Word = Word,
-        WordType = (WordType) Enum.Parse(typeof(WordType), SelectedWordType)
-      };
-
-      return keywordDto;
     }
   }
 }

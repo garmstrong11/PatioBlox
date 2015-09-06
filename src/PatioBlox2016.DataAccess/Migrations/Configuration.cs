@@ -4,6 +4,7 @@ namespace PatioBlox2016.DataAccess.Migrations
   using System.Collections.Generic;
   using System.Data.Entity.Migrations;
   using System.IO;
+  using Concrete;
 
   internal sealed class Configuration : DbMigrationsConfiguration<PatioBloxContext>
   {
@@ -19,8 +20,23 @@ namespace PatioBlox2016.DataAccess.Migrations
 
       //context.Database.ExecuteSqlCommand(File.ReadAllText(keywordsFile));
       context.Database.ExecuteSqlCommand(File.ReadAllText(descriptionsFile));
+      context.Keywords.AddRange(MakeKeywordSeeds());
+
+      context.SaveChanges();
 
       base.Seed(context);
+    }
+
+    private static IEnumerable<Keyword> MakeKeywordSeeds()
+    {
+      var adobe = new Keyword("ADOBE") {WordType = WordType.Color};
+      var allegheny = new Keyword("ALLEGHENY") {WordType = WordType.Color};
+      var alghn = new Keyword("ALGHN") {WordType = WordType.Color, Expansion = allegheny};
+      var alghny = new Keyword("ALGHNY") {WordType = WordType.Color, Expansion = allegheny};
+      var algny = new Keyword("ALGNY") {WordType = WordType.Color, Expansion = allegheny};
+      var allghny = new Keyword("ALLGHNY") {WordType = WordType.Color, Expansion = allegheny};
+
+      return new List<Keyword>() {adobe, allegheny, alghn, alghny, algny, allghny};
     }
 
     private static string GetSeedPath()

@@ -36,16 +36,16 @@
 			adobe.Should().NotBeNull();
 		}
 
-		[Test]
-		public void CanAddKeyword()
-		{
-			var dto = new KeywordDto("HASSLE", 69, "Name");
-			var kw = new Keyword(dto);
+    //[Test]
+    //public void CanAddKeyword()
+    //{
+    //  var dto = new KeywordDto("HASSLE", 69, "Name");
+    //  var kw = new Keyword(dto);
 
-			_repo.Add(kw);
+    //  _repo.Add(kw);
 
-			var storedKw = _repo.Find(k => k.Word == "HASSLE");
-			storedKw.Any().Should().BeTrue();
-		}
+    //  var storedKw = _repo.Find(k => k.Word == "HASSLE");
+    //  storedKw.Any().Should().BeTrue();
+    //}
 	}
 }

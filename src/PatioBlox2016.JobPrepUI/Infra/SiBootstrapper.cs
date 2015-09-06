@@ -8,8 +8,8 @@
   using Caliburn.Micro;
   using Concrete;
   using Extractor;
-  using PatioBlox2016.DataAccess;
-  using PatioBlox2016.Services.EfImpl;
+  using DataAccess;
+  using Services.EfImpl;
   using SimpleInjector;
   using ViewModels;
 

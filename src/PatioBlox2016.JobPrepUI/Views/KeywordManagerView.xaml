@@ -3,8 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:cal="http://www.caliburnproject.org"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="500
              " Background="White">
@@ -15,6 +13,7 @@
         <StackPanel DockPanel.Dock="Bottom" 
                     Orientation="Horizontal"
                     MinHeight="36">
+          <Button x:Name="Save" Content="Save" Width="50" Height="24"/>
         </StackPanel>
         <ListView x:Name="Keywords">
             <ListView.ItemTemplate>
@@ -31,11 +30,12 @@
                                 <ComboBox HorizontalAlignment="Right"
                                   Width="100"
                                   ItemsSource="{Binding WordTypes}"
-                                  SelectedItem="{Binding SelectedWordType}"/>
+                                  SelectedItem="{Binding SelectedWordType, Mode=TwoWay}"/>
                                 <ComboBox HorizontalAlignment="Right"
                                           Width="100"
                                           ItemsSource="{Binding Expansions}"
-                                          SelectedItem="{Binding SelectedExpansion}"/>
+                                          DisplayMemberPath="Word"
+                                          SelectedItem="{Binding SelectedExpansion, Mode=TwoWay}"/>
                             </UniformGrid>
                         </Expander.Header>
                         <ListView ItemsSource="{Binding Usages}"
