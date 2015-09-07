@@ -9,6 +9,7 @@
   using Concrete;
   using Extractor;
   using DataAccess;
+  using Services.Contracts;
   using Services.EfImpl;
   using SimpleInjector;
   using ViewModels;
@@ -38,7 +39,8 @@
       _container.RegisterSingle<IPatchExtractor, PatchExtractor>();
       _container.RegisterSingle<IExtractionResult, ExtractionResult>();
       _container.RegisterSingle<IDescriptionFactory, DescriptionFactory>();
-      _container.RegisterSingle<IRepository<Keyword>, KeywordRepository>();
+      _container.RegisterSingle<IKeywordRepository, KeywordRepository>();
+      _container.RegisterSingle<IDescriptionRepository, DescriptionRepository>();
 
       _container.Register<IWindowManager, WindowManager>();
       _container.Register<IPatchFileDropViewModel, PatchFileDropViewModel>();
@@ -47,9 +49,12 @@
       _container.RegisterInitializer<ActivitiesViewModel>(vm =>
       {
         var keywords = _container.GetInstance<KeywordManagerViewModel>();
+        var descriptions = _container.GetInstance<DescriptionManagerViewModel>();
         keywords.DisplayName = "Keyword Manager";
+        descriptions.DisplayName = "Description Manager";
 
         vm.Screens.Add(keywords);
+        vm.Screens.Add(descriptions);
       });
 
       _container.Verify();

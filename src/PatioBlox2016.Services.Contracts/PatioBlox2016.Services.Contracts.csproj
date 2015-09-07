@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDescriptionFactory.cs" />
+    <Compile Include="IDescriptionRepository.cs" />
+    <Compile Include="IKeywordRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

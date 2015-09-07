@@ -1,37 +1,31 @@
-﻿namespace PatioBlox2016.Concrete
+﻿namespace PatioBlox2016.Services.EfImpl
 {
   using System;
   using System.Collections.Generic;
   using System.Globalization;
   using System.Linq;
   using Abstract;
+  using Concrete;
+  using Contracts;
 
   public class DescriptionFactory : IDescriptionFactory
   {
     private readonly Dictionary<string, Keyword> _keywordDict; 
 
-    public DescriptionFactory(IRepository<Keyword> keywordRepo)
+    public DescriptionFactory(IKeywordRepository keywordRepo)
     {
-      _keywordDict = keywordRepo.GetAll().ToDictionary(k => k.Word);
+      _keywordDict = keywordRepo.GetKeywordDictionary();
     }
 
-    public IDescription CreateDescription(string descriptionText)
+    public Description CreateDescription(string descriptionText)
     {
       var description = new Description(descriptionText) { InsertDate = DateTime.Now };
-
-      var remainderList = description.ExtractRemainder()
-        .Split(new[] { " ", "/" }, StringSplitOptions.RemoveEmptyEntries)
-        .Select(w => w.ToUpper())
-        .ToList();
-
-      description.WordList = new List<string>(remainderList);
       var nameRoot = _keywordDict["NAME"];
-
       Keyword keyword;
 
       // If the remainder word is not found in _keywordDict,
       // make a new keyword for it assigned to WordType.Name
-      var keywordList = remainderList
+      var keywordList = description.WordList
         .Select(k => _keywordDict.TryGetValue(k, out keyword) 
           ? keyword 
           : new Keyword(k) {Parent = nameRoot})

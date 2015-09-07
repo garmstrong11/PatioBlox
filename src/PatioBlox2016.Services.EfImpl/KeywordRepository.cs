@@ -1,10 +1,18 @@
 ﻿namespace PatioBlox2016.Services.EfImpl
 {
-  using PatioBlox2016.Concrete;
-  using PatioBlox2016.DataAccess;
+  using System.Collections.Generic;
+  using System.Linq;
+  using Contracts;
+  using Concrete;
+  using DataAccess;
 
-  public class KeywordRepository : RepositoryBase<Keyword>
+  public class KeywordRepository : RepositoryBase<Keyword>, IKeywordRepository
 	{
 		public KeywordRepository(PatioBloxContext context) : base(context) {}
+
+    public Dictionary<string, Keyword> GetKeywordDictionary()
+    {
+      return GetAll().ToDictionary(k => k.Word);
+    }
 	}
 }

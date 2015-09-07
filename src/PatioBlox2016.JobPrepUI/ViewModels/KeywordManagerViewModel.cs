@@ -1,21 +1,26 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
+  using System;
   using System.Collections.Generic;
   using System.Linq;
   using Caliburn.Micro;
   using Abstract;
   using Concrete;
   using Extractor;
+  using Services.Contracts;
 
   public class KeywordManagerViewModel : Screen
   {
-    private readonly IRepository<Keyword> _keyWordRepository;
+    private readonly IRepository<Keyword> _keywordRepository;
     private readonly IExtractionResult _extractionResult;
     private BindableCollection<KeywordViewModel> _keywords;
 
-    public KeywordManagerViewModel(IRepository<Keyword> keyWordRepository, IExtractionResult extractionResult)
+    public KeywordManagerViewModel(IKeywordRepository keywordRepository, IExtractionResult extractionResult)
     {
-      _keyWordRepository = keyWordRepository;
+      if (keywordRepository == null) throw new ArgumentNullException("keywordRepository");
+      if (extractionResult == null) throw new ArgumentNullException("extractionResult");
+
+      _keywordRepository = keywordRepository;
       _extractionResult = extractionResult;
 
       Keywords = new BindableCollection<KeywordViewModel>();
@@ -23,7 +28,7 @@
 
     protected override void OnActivate()
     {
-      var existingKeywords = _keyWordRepository.GetAll();
+      var existingKeywords = _keywordRepository.GetAll();
       var nameParent = existingKeywords.SingleOrDefault(k => k.Word == "NAME");
       var existingWords = existingKeywords.Select(k => k.Word);
 
@@ -40,8 +45,8 @@
         .Select(w => new Keyword(w) {Parent = nameParent})
         .ToList();
 
-      var addedKeywords = _keyWordRepository.AddRange(newKeywords).ToList();
-      _keyWordRepository.SaveChanges();
+      var addedKeywords = _keywordRepository.AddRange(newKeywords).ToList();
+      _keywordRepository.SaveChanges();
 
       var keywordViewModels = addedKeywords
         .Select(v => new KeywordViewModel(v))
@@ -72,8 +77,7 @@
     private IEnumerable<string> GetUsages(string word)
     {
       return _extractionResult.UniqueDescriptions
-        .Where(d => d.WordList.Contains(word))
-        .Select(d => d.Text)
+        .Where(d => Description.ExtractWordList(d).Contains(word))
         .ToList();
     }
 
@@ -90,7 +94,7 @@
 
     public void Save()
     {
-      _keyWordRepository.SaveChanges();
+      _keywordRepository.SaveChanges();
     }
   }
 }

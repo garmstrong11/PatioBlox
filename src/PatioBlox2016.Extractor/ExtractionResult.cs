@@ -9,12 +9,10 @@
 
   public class ExtractionResult : IExtractionResult
   {
-    private readonly IDescriptionFactory _descriptionFactory;
     private readonly List<IPatchRowExtract> _patchRowExtracts;
 
-    public ExtractionResult(IDescriptionFactory descriptionFactory)
+    public ExtractionResult()
     {
-      _descriptionFactory = descriptionFactory;
       _patchRowExtracts = new List<IPatchRowExtract>();
     }
 
@@ -40,7 +38,7 @@
       get { return _patchRowExtracts.Select(pr => pr.PatchName).Distinct(); }
     }
 
-    public IEnumerable<Description> UniqueDescriptions
+    public IEnumerable<string> UniqueDescriptions
     {
       get
       {
@@ -48,8 +46,7 @@
           .Where(pr => !string.IsNullOrWhiteSpace(pr.Description))
           .Select(pr => pr.Description).Distinct();
 
-        return descriptionTexts
-          .Select(d => (Description) _descriptionFactory.CreateDescription(d));
+        return descriptionTexts;
       }
     }
 
@@ -78,7 +75,7 @@
       get
       {
         return UniqueDescriptions
-          .SelectMany(w => w.WordList)
+          .SelectMany(Description.ExtractWordList)
           .Distinct()
           .OrderBy(d => d);
       }

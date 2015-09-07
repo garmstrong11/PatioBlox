@@ -117,6 +117,8 @@
     <Compile Include="Infra\ColumnIndexService.cs" />
     <Compile Include="Infra\SettingsService.cs" />
     <Compile Include="ViewModels\ActivitiesViewModel.cs" />
+    <Compile Include="ViewModels\DescriptionManagerViewModel.cs" />
+    <Compile Include="ViewModels\DescriptionViewModel.cs" />
     <Compile Include="ViewModels\ErrorWindowViewModel.cs" />
     <Compile Include="ViewModels\IActivitiesViewModel.cs" />
     <Compile Include="ViewModels\IPatchFileDropViewModel.cs" />
@@ -129,6 +131,9 @@
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\ActivitiesView.xaml.cs">
       <DependentUpon>ActivitiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DescriptionManagerView.xaml.cs">
+      <DependentUpon>DescriptionManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ErrorWindowView.xaml.cs">
       <DependentUpon>ErrorWindowView.xaml</DependentUpon>
@@ -204,6 +209,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ActivitiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DescriptionManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

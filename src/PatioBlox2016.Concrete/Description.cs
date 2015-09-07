@@ -4,17 +4,17 @@ using System.Text.RegularExpressions;
 namespace PatioBlox2016.Concrete
 {
   using System;
+  using System.Linq;
   using Abstract;
 
   public class Description : IDescription
 	{
     private static readonly Regex SizeRegex = 
-      new Regex(@"(\d+\.?\d*)-?(I-?N|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-    
-    private Description()
-		{
-      WordList = new List<string>();
-		}
+      new Regex(@"(\d+\.?\d*)-?(I-?N|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", 
+        RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+
+    private Description() { }
 
 		public Description(string text) : this()
     {
@@ -25,28 +25,36 @@ namespace PatioBlox2016.Concrete
 		  Size = ExtractSize();
     }
 
-    public List<string> WordList { get; set; }
-
+    public int Id { get; private set; }
+    public string Text { get; private set; }
+    public string Vendor { get; set; }
+    public string Size { get; set; }
+    public string Color { get; set; }
+    public string Name { get; set; }
     public DateTime InsertDate { get; set; }
+
+    public List<string> WordList
+    {
+      get { return ExtractWordList(Text); }
+    }
 
     /// <summary>
     /// Removes the Size component from the argument and returns the remainder.
     /// </summary>
     /// <param name="text">The input string from which to remove size data.</param>
     /// <returns></returns>
-    public static string ExtractRemainder(string text)
+    private static string ExtractRemainder(string text)
     {
       return SizeRegex.Replace(text, string.Empty);
     }
 
-    /// <summary>
-    /// Starts with the Text property and returns the remainder after the size is removed.
-    /// </summary>
-    /// <returns></returns>
-	  public string ExtractRemainder()
-	  {
-	    return ExtractRemainder(Text);
-	  }
+    public static List<string> ExtractWordList(string descText)
+    {
+      return ExtractRemainder(descText)
+        .Split(new[] { " ", "/" }, StringSplitOptions.RemoveEmptyEntries)
+        .Select(w => w.ToUpper())
+        .ToList();
+    }
 
     private string ExtractSize()
     {
@@ -59,14 +67,6 @@ namespace PatioBlox2016.Concrete
 
       return string.Join(" x ", matchList);
     }
-
-		public int Id { get; private set; }
-    public string Text { get; private set; }
-
-    public string Vendor { get; set; }
-    public string Size { get; set; }
-    public string Color { get; set; }
-    public string Name { get; set; }
 
     protected bool Equals(Description other)
     {

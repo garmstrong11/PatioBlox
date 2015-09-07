@@ -51,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BookRepository.cs" />
+    <Compile Include="DescriptionFactory.cs" />
+    <Compile Include="DescriptionRepository.cs" />
     <Compile Include="JobRepository.cs" />
     <Compile Include="KeywordRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

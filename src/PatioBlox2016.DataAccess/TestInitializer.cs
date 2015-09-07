@@ -36,6 +36,7 @@
       context.Database.ExecuteSqlCommand("ALTER TABLE Keywords CHECK CONSTRAINT ALL");
 
       context.Database.ExecuteSqlCommand(File.ReadAllText(descriptionsFile));
+
       //context.Keywords.Add(_name);
       //context.SaveChanges();
       //context.Keywords.Add(_color);
@@ -44,7 +45,7 @@
       //context.SaveChanges();
       //context.Keywords.AddRange(MakeKeywordSeeds());
 
-      //context.SaveChanges();
+      context.SaveChanges();
 
       base.Seed(context);
     }

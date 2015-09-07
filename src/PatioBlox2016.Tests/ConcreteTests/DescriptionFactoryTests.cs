@@ -1,23 +1,25 @@
 ﻿namespace PatioBlox2016.Tests.ConcreteTests
 {
   using System.Collections.Generic;
-  using Abstract;
+  using System.Linq;
   using Concrete;
   using ExtractorTests;
   using FakeItEasy;
   using FluentAssertions;
   using NUnit.Framework;
+  using Services.Contracts;
+  using Services.EfImpl;
 
   [TestFixture]
   public class DescriptionFactoryTests : ExtractorTestBase
   {
-    private IRepository<Keyword> _keywordRepo;
+    private IKeywordRepository _keywordRepo;
 
     [TestFixtureSetUp]
     public void Init()
     {
-      _keywordRepo = A.Fake<IRepository<Keyword>>();
-      A.CallTo(() => _keywordRepo.GetAll()).Returns(BuildKeywordList());
+      _keywordRepo = A.Fake<IKeywordRepository>();
+      A.CallTo(() => _keywordRepo.GetKeywordDictionary()).Returns(BuildKeywordDict());
     }
 
     [Test]
@@ -32,7 +34,7 @@
       description.Name.Should().Be("Durango Stone");
     }
 
-    private static List<Keyword> BuildKeywordList()
+    private static Dictionary<string, Keyword> BuildKeywordDict()
     {
       var color = new Keyword("COLOR");
       var name = new Keyword("NAME");
@@ -48,8 +50,18 @@
 
       return new List<Keyword>()
              {
-               color,name,vendor,country,cntst,tan,tn,black,blend,duran,stone
-             };
+               color,
+               name,
+               vendor,
+               country,
+               cntst,
+               tan,
+               tn,
+               black,
+               blend,
+               duran,
+               stone
+             }.ToDictionary(k => k.Word);
     }
   }
 }
