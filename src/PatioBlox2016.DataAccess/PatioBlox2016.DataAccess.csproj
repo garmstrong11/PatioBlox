@@ -112,6 +112,10 @@
     <Compile Include="Migrations\201509041652546_RemoveExpansionTable.Designer.cs">
       <DependentUpon>201509041652546_RemoveExpansionTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509061405421_ConvertKeywordToHierarchy.cs" />
+    <Compile Include="Migrations\201509061405421_ConvertKeywordToHierarchy.Designer.cs">
+      <DependentUpon>201509061405421_ConvertKeywordToHierarchy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -174,6 +178,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509041652546_RemoveExpansionTable.resx">
       <DependentUpon>201509041652546_RemoveExpansionTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509061405421_ConvertKeywordToHierarchy.resx">
+      <DependentUpon>201509061405421_ConvertKeywordToHierarchy.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

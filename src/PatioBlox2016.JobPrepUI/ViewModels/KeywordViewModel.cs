@@ -2,19 +2,18 @@
 {
   using System;
   using System.Collections.Generic;
-  using System.Linq;
   using Caliburn.Micro;
   using Concrete;
 
   public class KeywordViewModel : PropertyChangedBase
   {
     private List<string> _usages;
-    private BindableCollection<Keyword> _expansions;
     private readonly Keyword _keyword;
+    private BindableCollection<Keyword> _parents;
 
     public KeywordViewModel()
     {
-      Expansions = new BindableCollection<Keyword>();
+      Parents = new BindableCollection<Keyword>();
       Usages = new List<string>();
     }
 
@@ -34,44 +33,27 @@
       }
     }
 
-    public BindableCollection<Keyword> Expansions
+    public BindableCollection<Keyword> Parents
     {
-      get { return _expansions; }
+      get { return _parents; }
       set
       {
-        if (Equals(value, _expansions)) return;
-        _expansions = value;
-        NotifyOfPropertyChange(() => Expansions);
+        if (Equals(value, _parents)) return;
+        _parents = value;
+        NotifyOfPropertyChange(() => Parents);
       }
     }
 
-    public Keyword SelectedExpansion
+    public Keyword SelectedParent
     {
-      get { return _keyword.Expansion; }
+      get { return _keyword.Parent; }
       set
       {
-        var parent = value;
+        if (Equals(value, _keyword.Parent)) return;
 
-        if (Equals(parent, _keyword.Expansion)) return;
-
-        if (string.IsNullOrWhiteSpace(parent.Word)) {
-          _keyword.Expansion = null;
-          _keyword.ExpansionId = null;
-          NotifyOfPropertyChange(() => SelectedExpansion);
-          return;
-        }
-
-        _keyword.Expansion = parent;
-        SelectedWordType = parent.WordType;
-
-        NotifyOfPropertyChange(() => SelectedExpansion);
-        NotifyOfPropertyChange(() => SelectedWordType);
+        _keyword.Parent = value;
+        NotifyOfPropertyChange(() => SelectedParent);
       }
-    }
-
-    public IEnumerable<WordType> WordTypes
-    {
-      get { return Enum.GetValues(typeof (WordType)).Cast<WordType>(); }
     }
 
     public List<string> Usages
@@ -82,22 +64,6 @@
         if (Equals(value, _usages)) return;
         _usages = value;
         NotifyOfPropertyChange(() => Usages);
-      }
-    }
-
-    public WordType SelectedWordType
-    {
-      get { return _keyword.WordType; }
-      set
-      {
-        if (value == _keyword.WordType) return;
-        _keyword.WordType = value;
-
-        foreach (var abbreviation in _keyword.Abbreviations) {
-          abbreviation.WordType = value;
-        }
-
-        NotifyOfPropertyChange(() => SelectedWordType);
       }
     }
   }

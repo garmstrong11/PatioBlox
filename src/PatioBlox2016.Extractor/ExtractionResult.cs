@@ -73,20 +73,6 @@
       }
     }
 
-    //public IEnumerable<string> UniqueWords
-    //{
-    //  get
-    //  {
-    //    var descriptionsNoSize = UniqueDescriptions
-    //      .Select(d => Description.ExtractRemainder(d).ToUpper());
-
-    //    return descriptionsNoSize
-    //      .SelectMany(w => w.Split(new[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries))
-    //      .Distinct()
-    //      .OrderBy(w => w);
-    //  }
-    //}
-
     public IEnumerable<string> UniqueWords
     {
       get

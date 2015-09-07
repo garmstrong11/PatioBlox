@@ -25,8 +25,13 @@
     {
       var existingKeywords = _keyWordRepository.GetAll();
       var existingWords = existingKeywords.Select(k => k.Word);
+
+      var existingRoots = existingKeywords
+        .Where(kw => !kw.ParentId.HasValue)
+        .ToList();
+
       var existingParentKeywords = existingKeywords
-        .Where(kw => !kw.ExpansionId.HasValue)
+        .Where(kw => existingRoots.Contains(kw.Parent))
         .ToList();
 
       var newKeywords = _extractionResult.UniqueWords
@@ -34,7 +39,7 @@
         .Select(w => new Keyword(w))
         .ToList();
 
-      var addedKeywords = _keyWordRepository.AddRange(newKeywords);
+      var addedKeywords = _keyWordRepository.AddRange(newKeywords).ToList();
       _keyWordRepository.SaveChanges();
 
       var keywordViewModels = addedKeywords
@@ -44,15 +49,18 @@
       foreach (var viewModel in keywordViewModels)
       {
         var firstLetter = viewModel.Word.Substring(0, 1);
-        var expansions = new List<Keyword>();
-
+        var parentList = new List<Keyword>(existingRoots);
+        var candidateList = new List<Keyword>();
+        
         viewModel.Usages.AddRange(GetUsages(viewModel.Word));
 
-        expansions.Add(new Keyword(" "));
-        expansions.AddRange(existingParentKeywords.Where(w => w.Word.StartsWith(firstLetter)));
-        expansions.AddRange(newKeywords.Where(w => w.Word.StartsWith(firstLetter)));
+        candidateList.AddRange(existingParentKeywords.Where(w => w.Word.StartsWith(firstLetter)));
+        candidateList.AddRange(newKeywords
+          .Where(w => w.Word.StartsWith(firstLetter) && w.Word != viewModel.Word));
 
-        viewModel.Expansions.AddRange(expansions.OrderBy(vm => vm.Word));
+        parentList.AddRange(candidateList.OrderBy(k => k.Word));
+
+        viewModel.Parents.AddRange(parentList);
       }
 
       Keywords.AddRange(keywordViewModels);
@@ -81,13 +89,6 @@
 
     public void Save()
     {
-      // Fix up the child WordType to match parent Expansion:
-      var abbreviations = _keyWordRepository.FindAll(kw => kw.ExpansionId.HasValue);
-
-      foreach (var keyword in abbreviations) {
-        keyword.WordType = keyword.Expansion.WordType;
-      }
-
       _keyWordRepository.SaveChanges();
     }
   }

@@ -29,14 +29,38 @@ namespace PatioBlox2016.DataAccess.Migrations
 
     private static IEnumerable<Keyword> MakeKeywordSeeds()
     {
-      var adobe = new Keyword("ADOBE") {WordType = WordType.Color};
-      var allegheny = new Keyword("ALLEGHENY") {WordType = WordType.Color};
-      var alghn = new Keyword("ALGHN") {WordType = WordType.Color, Expansion = allegheny};
-      var alghny = new Keyword("ALGHNY") {WordType = WordType.Color, Expansion = allegheny};
-      var algny = new Keyword("ALGNY") {WordType = WordType.Color, Expansion = allegheny};
-      var allghny = new Keyword("ALLGHNY") {WordType = WordType.Color, Expansion = allegheny};
+      var color = new Keyword("COLOR");
+      var vendor = new Keyword("VENDOR");
+      var name = new Keyword("NAME");
+      var adobe = new Keyword("ADOBE") { Parent = color };
+      var allegheny = new Keyword("ALLEGHENY") { Parent = color };
+      var alghn = new Keyword("ALGHN") { Parent = allegheny };
+      var alghny = new Keyword("ALGHNY") { Parent = allegheny };
+      var algny = new Keyword("ALGNY") { Parent = allegheny };
+      var allghny = new Keyword("ALLGHNY") { Parent = allegheny };
 
-      return new List<Keyword>() {adobe, allegheny, alghn, alghny, algny, allghny};
+      var bevl = new Keyword("BEVELED") { Parent = name };
+      var pacc = new Keyword("PACIFICCLAY") { Parent = vendor };
+      var ricc = new Keyword("RICCOBENE") { Parent = vendor };
+      var capu = new Keyword("CAPPUCCINO") { Parent = color };
+      var marq = new Keyword("MARQUETTE") { Parent = name };
+      var surr = new Keyword("SURREY") { Parent = color };
+      var toff = new Keyword("TOFFEE") { Parent = color };
+      var chap = new Keyword("CHAPARRAL") { Parent = color };
+      var cnst = new Keyword("COUNTRYSTONE") { Parent = vendor };
+      var ctsd = new Keyword("COUNTRYSIDE") { Parent = name };
+      var cssy = new Keyword("CASSAY") { Parent = vendor };
+      var four = new Keyword("FOURCOBBLE") { Parent = name };
+      var fred = new Keyword("FREDERICK") { Parent = name };
+      var terr = new Keyword("TERRACOTTA") { Parent = color };
+      var wtrd = new Keyword("WEATHERED") { Parent = name };
+
+      return new List<Keyword>()
+             {
+               name, color, vendor, adobe, allegheny, alghn, alghny, algny, allghny, bevl, pacc,
+               ricc, capu, marq, surr, toff, chap, cnst, ctsd, cssy, four,
+               fred, terr, wtrd
+             };
     }
 
     private static string GetSeedPath()

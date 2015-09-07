@@ -6,7 +6,7 @@
 	{
     public Keyword()
     {
-      Abbreviations = new List<Keyword>();
+      Members = new List<Keyword>();
     }
 
     public Keyword(string word) : this()
@@ -15,16 +15,35 @@
     }
 
     public int Id { get; set; }
-
     public string Word { get; set; }
+    public int? ParentId { get; set; }
+    public Keyword Parent { get; set; }
 
-    public WordType WordType { get; set; }
+    public ICollection<Keyword> Members { get; set; }
 
-    public int? ExpansionId { get; set; }
+    public string Root
+    {
+      get { return FindRoot(this).Word; }
+    }
 
-    public Keyword Expansion { get; set; }
+    public string Expansion
+    {
+      get
+      {
+        if (Parent == null) return Word;
+        return Parent.Parent == null ? Word : Parent.Word;
+      }
+    }
 
-    public ICollection<Keyword> Abbreviations { get; set; }
+    private static Keyword FindRoot(Keyword keyword)
+    {
+      while (true)
+      {
+        var current = keyword;
+        if (current.Parent != null) { keyword = current.Parent; }
+        else { return current; }
+      }
+    }
 
     public override int GetHashCode()
     {
@@ -35,13 +54,27 @@
     {
       if (ReferenceEquals(null, obj)) return false;
       if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((Keyword) obj);
+      return obj.GetType() == GetType() && Equals((Keyword) obj);
+    }
+
+    public override string ToString()
+    {
+      return Word;
     }
 
     protected bool Equals(Keyword other)
     {
       return string.Equals(Word, other.Word);
+    }
+
+    public static bool operator ==(Keyword left, Keyword right)
+    {
+      return Equals(left, right);
+    }
+
+    public static bool operator !=(Keyword left, Keyword right)
+    {
+      return !Equals(left, right);
     }
 	}
 }

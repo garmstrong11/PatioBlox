@@ -20,37 +20,39 @@
       context.SaveChanges();
 
       base.Seed(context);
-      base.Seed(context);
     }
 
     private static IEnumerable<Keyword> MakeKeywordSeeds()
     {
-      var adobe = new Keyword("ADOBE") { WordType = WordType.Color };
-      var allegheny = new Keyword("ALLEGHENY") { WordType = WordType.Color };
-      var alghn = new Keyword("ALGHN") { WordType = WordType.Color, Expansion = allegheny };
-      var alghny = new Keyword("ALGHNY") { WordType = WordType.Color, Expansion = allegheny };
-      var algny = new Keyword("ALGNY") { WordType = WordType.Color, Expansion = allegheny };
-      var allghny = new Keyword("ALLGHNY") { WordType = WordType.Color, Expansion = allegheny };
+      var color = new Keyword("COLOR");
+      var vendor = new Keyword("VENDOR");
+      var name = new Keyword("NAME");
+      var adobe = new Keyword("ADOBE") { Parent = color };
+      var allegheny = new Keyword("ALLEGHENY") { Parent = color };
+      var alghn = new Keyword("ALGHN") { Parent = allegheny };
+      var alghny = new Keyword("ALGHNY") { Parent = allegheny };
+      var algny = new Keyword("ALGNY") { Parent = allegheny };
+      var allghny = new Keyword("ALLGHNY") { Parent = allegheny };
 
-      var bevl = new Keyword("BEVELED") { WordType = WordType.Name};
-      var pacc   = new Keyword("PACIFICCLAY") { WordType = WordType.Vendor};
-      var ricc = new Keyword("RICCOBENE") { WordType = WordType.Vendor};
-      var capu = new Keyword("CAPPUCCINO") {WordType = WordType.Color};
-      var marq = new Keyword("MARQUETTE") {WordType = WordType.Name};
-      var surr = new Keyword("SURREY") {WordType = WordType.Color};
-      var toff = new Keyword("TOFFEE") {WordType = WordType.Color};
-      var chap = new Keyword("CHAPARRAL") {WordType = WordType.Color};
-      var cnst = new Keyword("COUNYRTSTONE") {WordType = WordType.Vendor};
-      var ctsd = new Keyword("COUNTRYSIDE") {WordType = WordType.Name};
-      var cssy = new Keyword("CASSAY") {WordType = WordType.Vendor};
-      var four = new Keyword("FOURCOBBLE") {WordType = WordType.Name};
-      var fred = new Keyword("FREDERICK") {WordType = WordType.Name};
-      var terr = new Keyword("TERRACOTTA") {WordType = WordType.Color};
-      var wtrd = new Keyword("WEATHERED") {WordType = WordType.Name};
+      var bevl = new Keyword("BEVELED") { Parent = name};
+      var pacc = new Keyword("PACIFICCLAY") { Parent = vendor};
+      var ricc = new Keyword("RICCOBENE") { Parent = vendor };
+      var capu = new Keyword("CAPPUCCINO") { Parent = color };
+      var marq = new Keyword("MARQUETTE") { Parent = name };
+      var surr = new Keyword("SURREY") { Parent = color };
+      var toff = new Keyword("TOFFEE") { Parent = color };
+      var chap = new Keyword("CHAPARRAL") { Parent = color };
+      var cnst = new Keyword("COUNTRYSTONE") { Parent = vendor };
+      var ctsd = new Keyword("COUNTRYSIDE") { Parent = name };
+      var cssy = new Keyword("CASSAY") { Parent = vendor };
+      var four = new Keyword("FOURCOBBLE") { Parent = name };
+      var fred = new Keyword("FREDERICK") { Parent = name };
+      var terr = new Keyword("TERRACOTTA") { Parent = color };
+      var wtrd = new Keyword("WEATHERED") { Parent = name };
 
       return new List<Keyword>()
              {
-               adobe, allegheny, alghn, alghny, algny, allghny, bevl, pacc,
+               name, color, vendor, adobe, allegheny, alghn, alghny, algny, allghny, bevl, pacc,
                ricc, capu, marq, surr, toff, chap, cnst, ctsd, cssy, four,
                fred, terr, wtrd
              };

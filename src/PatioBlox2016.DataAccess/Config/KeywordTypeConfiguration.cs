@@ -17,8 +17,6 @@
         .HasColumnAnnotation(
           IndexAnnotation.AnnotationName,
           new IndexAnnotation(new IndexAttribute {IsUnique = true}));
-
-			Property(d => d.WordType).IsRequired();
 		}
 	}
 }

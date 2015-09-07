@@ -17,17 +17,17 @@
       var keywords = keywordRepo.GetAll();
 
       _colorKeywords = keywords
-        .Where(k => k.WordType == WordType.Color)
+        .Where(k => k.Expansion == "Color")
         .Select(w => w.Word)
         .ToList();
 
       _vendorKeywords = keywords
-        .Where(k => k.WordType == WordType.Vendor)
+        .Where(k => k.Expansion == "Vendor")
         .Select(w => w.Word)
         .ToList();
 
       _nameKeywords = keywords
-        .Where(k => k.WordType == WordType.Name)
+        .Where(k => k.Expansion == "Name")
         .Select(w => w.Word)
         .ToList();
     }

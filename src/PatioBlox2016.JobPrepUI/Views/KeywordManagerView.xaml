@@ -28,14 +28,10 @@
                                         VerticalAlignment="Center"/>
                                 </StackPanel>
                                 <ComboBox HorizontalAlignment="Right"
-                                  Width="100"
-                                  ItemsSource="{Binding WordTypes}"
-                                  SelectedItem="{Binding SelectedWordType, Mode=TwoWay}"/>
-                                <ComboBox HorizontalAlignment="Right"
                                           Width="100"
-                                          ItemsSource="{Binding Expansions}"
+                                          ItemsSource="{Binding Parents}"
                                           DisplayMemberPath="Word"
-                                          SelectedItem="{Binding SelectedExpansion, Mode=TwoWay}"/>
+                                          SelectedItem="{Binding SelectedParent, Mode=TwoWay}"/>
                             </UniformGrid>
                         </Expander.Header>
                         <ListView ItemsSource="{Binding Usages}"
