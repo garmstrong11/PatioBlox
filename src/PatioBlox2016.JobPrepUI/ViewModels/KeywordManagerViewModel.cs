@@ -24,6 +24,7 @@
     protected override void OnActivate()
     {
       var existingKeywords = _keyWordRepository.GetAll();
+      var nameParent = existingKeywords.SingleOrDefault(k => k.Word == "NAME");
       var existingWords = existingKeywords.Select(k => k.Word);
 
       var existingRoots = existingKeywords
@@ -36,7 +37,7 @@
 
       var newKeywords = _extractionResult.UniqueWords
         .Except(existingWords)
-        .Select(w => new Keyword(w))
+        .Select(w => new Keyword(w) {Parent = nameParent})
         .ToList();
 
       var addedKeywords = _keyWordRepository.AddRange(newKeywords).ToList();

@@ -1,5 +1,6 @@
 ﻿namespace PatioBlox2016.Concrete
 {
+  using System;
   using System.Collections.Generic;
 
   public class Keyword
@@ -21,27 +22,34 @@
 
     public ICollection<Keyword> Members { get; set; }
 
-    public string Root
+    public WordType WordType
     {
-      get { return FindRoot(this).Word; }
+      get
+      {
+        WordType wordType;
+        string word;
+
+        if (Parent == null) word = Word;
+        else {
+          var current = Parent;
+          while (current.Parent != null) current = current.Parent;
+          word = current.Word;
+        }
+
+        return Enum.TryParse(word, true, out wordType) ? wordType : WordType.Name;
+      }
     }
 
     public string Expansion
     {
       get
       {
+        // If root keyword, simply return Word...
         if (Parent == null) return Word;
-        return Parent.Parent == null ? Word : Parent.Word;
-      }
-    }
 
-    private static Keyword FindRoot(Keyword keyword)
-    {
-      while (true)
-      {
-        var current = keyword;
-        if (current.Parent != null) { keyword = current.Parent; }
-        else { return current; }
+        // If not abbreviated (level2), return Word 
+        // else (level3) return Parent.Word...
+        return Parent.Parent == null ? Word : Parent.Word;
       }
     }
 

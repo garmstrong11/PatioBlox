@@ -1,75 +1,55 @@
 ﻿namespace PatioBlox2016.Tests.ConcreteTests
 {
-  using System;
-  using System.IO.Abstractions;
-  using System.Linq;
+  using System.Collections.Generic;
   using Abstract;
   using Concrete;
-  using DataAccess;
-  using Extractor;
   using ExtractorTests;
   using FakeItEasy;
   using FluentAssertions;
   using NUnit.Framework;
-  using Services.EfImpl;
 
   [TestFixture]
   public class DescriptionFactoryTests : ExtractorTestBase
   {
     private IRepository<Keyword> _keywordRepo;
-    //private IRepository<Expansion> _expansionRepo;
-    private IRepository<Description> _descriptionRepo; 
-    private PatioBloxContext _context;
-    private ExtractionResult _extractionResult;
 
     [TestFixtureSetUp]
     public void Init()
     {
-      //var adapter = new FlexCelDataSourceAdapter();
-      //var fileSystem = new FileSystem();
-      //var indexService = A.Fake<IColumnIndexService>();
-      //var extractor = new PatchExtractor(adapter, fileSystem, indexService);
-      //extractor.Initialize(Patch1Path);
-      ////extractor.Initialize(Patch2Path);
-
-      //A.CallTo(() => indexService.SectionIndex).Returns(2);
-      //A.CallTo(() => indexService.ItemIndex).Returns(5);
-      //A.CallTo(() => indexService.DescriptionIndex).Returns(7);
-      //A.CallTo(() => indexService.PalletQtyIndex).Returns(8);
-      //A.CallTo(() => indexService.UpcIndex).Returns(9);
-
-      //_extractionResult = new ExtractionResult();
-      //_extractionResult.AddPatchRowExtractRange(extractor.Extract());
-
-      //_context = new PatioBloxContext();
-
-      //_keywordRepo = new RepositoryBase<Keyword>(_context);
-      ////_expansionRepo = new RepositoryBase<Expansion>(_context);
-      //_descriptionRepo = new RepositoryBase<Description>(_context);
+      _keywordRepo = A.Fake<IRepository<Keyword>>();
+      A.CallTo(() => _keywordRepo.GetAll()).Returns(BuildKeywordList());
     }
 
-    //[Test]
-    //public void CanExtractDescriptions()
-    //{
-    //  var factory = new DescriptionFactory(_keywordRepo, _expansionRepo);
+    [Test]
+    public void CanBuildDescription()
+    {
+      const string subject = "CNTST 16-IN X 12-IN TN/BLACK BLEND DURANGO STONE";
+      var factory = new DescriptionFactory(_keywordRepo);
+      var description = factory.CreateDescription(subject);
 
-    //  // Get a list of description Texts that already exist in the db:
-    //  var existingDescriptions = _descriptionRepo.GetAll().Select(d => d.Text);
+      description.Color.Should().Be("Tan/Black Blend");
+      description.Vendor.Should().Be("Countrystone");
+      description.Name.Should().Be("Durango Stone");
+    }
 
-    //  var descriptions = _extractionResult.UniqueDescriptions
-    //    .Except(existingDescriptions)
-    //    .Select(d => (Description)factory.CreateDescription(d))
-    //    .ToList();
+    private static List<Keyword> BuildKeywordList()
+    {
+      var color = new Keyword("COLOR");
+      var name = new Keyword("NAME");
+      var vendor = new Keyword("VENDOR");
+      var country = new Keyword("COUNTRYSTONE") { Parent = vendor };
+      var cntst = new Keyword("CNTST") { Parent = country };
+      var tan = new Keyword("TAN") { Parent = color };
+      var tn = new Keyword("TN") { Parent = tan };
+      var black = new Keyword("BLACK") { Parent = color };
+      var blend = new Keyword("BLEND") { Parent = color };
+      var duran = new Keyword("DURANGO") { Parent = name };
+      var stone = new Keyword("STONE") { Parent = name };
 
-    //  var descriptionRepo = new RepositoryBase<Description>(_context);
-
-    //  foreach (var description in descriptions) {
-    //    descriptionRepo.Add(description);
-    //  }
-
-    //  _context.SaveChanges();
-
-    //  descriptions.Should().NotBeNullOrEmpty();
-    //}
+      return new List<Keyword>()
+             {
+               color,name,vendor,country,cntst,tan,tn,black,blend,duran,stone
+             };
+    }
   }
 }

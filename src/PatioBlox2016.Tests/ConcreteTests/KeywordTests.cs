@@ -20,21 +20,29 @@
     }
 
     [Test]
-    public void PropertyRoot_AbbreviatedMember_FindsRoot()
+    public void WordTypeGet_AbbreviatedMember_FindsWordType()
     {
-      _abbreviation.Root.Should().Be(_root.Word);
+      _abbreviation.WordType.Should().Be(WordType.Color);
     }
 
     [Test]
-    public void PropertyRoot_ExpandedMember_FindsRoot()
+    public void WordTypeGet_UnknownRoot_FindsWordTypeAsName()
     {
-      _expansion.Root.Should().Be(_root.Word);
+      var newRoot = new Keyword("Unknown");
+      var expan = new Keyword("ASPEN") {Parent = newRoot};
+      expan.WordType.Should().Be(WordType.Name);
     }
 
     [Test]
-    public void PropertyRoot_RootMember_FindsRoot()
+    public void WordTypeGet_ExpandedMember_FindsWordType()
     {
-      _root.Root.Should().Be(_root.Word);
+      _expansion.WordType.Should().Be(WordType.Color);
+    }
+
+    [Test]
+    public void WordTypeGet_RootMember_FindsWordType()
+    {
+      _root.WordType.Should().Be(WordType.Color);
     }
 
     [Test]

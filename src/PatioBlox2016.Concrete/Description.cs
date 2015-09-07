@@ -9,7 +9,7 @@ namespace PatioBlox2016.Concrete
   public class Description : IDescription
 	{
     private static readonly Regex SizeRegex = 
-      new Regex(@"(\d+\.?\d*)-?(IN|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+      new Regex(@"(\d+\.?\d*)-?(I-?N|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
     
     private Description()
 		{

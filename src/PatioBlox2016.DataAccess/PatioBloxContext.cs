@@ -19,9 +19,9 @@
 		{
 		  Database.SetInitializer(
         //new TestInitializer());
-      new NullDatabaseInitializer<PatioBloxContext>());
-		  //new DropCreateDatabaseAlways<PatioBloxContext>());
-		  //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
+        new NullDatabaseInitializer<PatioBloxContext>());
+		    //new DropCreateDatabaseAlways<PatioBloxContext>());
+		    //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
