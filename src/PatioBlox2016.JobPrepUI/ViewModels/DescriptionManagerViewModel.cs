@@ -32,6 +32,7 @@
     protected override void OnActivate()
     {
       var newTexts = _descriptionRepository.FilterExisting(_extractionResult.UniqueDescriptions);
+      _descriptionFactory.UpdateKeywordDict();
 
       var descriptions = newTexts
         .Select(d => _descriptionFactory.CreateDescription(d))

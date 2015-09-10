@@ -5,5 +5,6 @@ namespace PatioBlox2016.Services.Contracts
   public interface IDescriptionFactory
   {
     Description CreateDescription(string descriptionText);
+    void UpdateKeywordDict();
   }
 }

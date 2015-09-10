@@ -1,6 +1,5 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
-  using System;
   using System.Collections.Generic;
   using Caliburn.Micro;
   using Concrete;
@@ -54,6 +53,11 @@
         _keyword.Parent = value;
         NotifyOfPropertyChange(() => SelectedParent);
       }
+    }
+
+    internal Keyword Keyword
+    {
+      get { return _keyword; }
     }
 
     public List<string> Usages

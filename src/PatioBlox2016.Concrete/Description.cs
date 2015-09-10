@@ -60,12 +60,13 @@ namespace PatioBlox2016.Concrete
     {
       var matchList = new List<string>();
       var matches = SizeRegex.Matches(Text);
+      var square = Text.Contains("SQUARE") ? " Square" : "";
 
       for (var i = 0; i < matches.Count; i++) {
         matchList.Add(matches[i].Value.ToUpper().Trim(' ', 'X'));
       }
 
-      return string.Join(" x ", matchList);
+      return string.Format("{0}{1}", string.Join(" x ", matchList), square);
     }
 
     protected bool Equals(Description other)

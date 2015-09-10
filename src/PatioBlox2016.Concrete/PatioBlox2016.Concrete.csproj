@@ -58,6 +58,7 @@
     <Compile Include="Job.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="SectionName.cs" />
+    <Compile Include="Seeding\DescriptionDto.cs" />
     <Compile Include="Seeding\ExpansionDto.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="JobFolders.cs" />

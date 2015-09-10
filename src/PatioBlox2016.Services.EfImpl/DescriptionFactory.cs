@@ -4,17 +4,18 @@
   using System.Collections.Generic;
   using System.Globalization;
   using System.Linq;
-  using Abstract;
   using Concrete;
   using Contracts;
 
   public class DescriptionFactory : IDescriptionFactory
   {
-    private readonly Dictionary<string, Keyword> _keywordDict; 
+    private readonly IKeywordRepository _keywordRepo;
+    private Dictionary<string, Keyword> _keywordDict; 
 
     public DescriptionFactory(IKeywordRepository keywordRepo)
     {
-      _keywordDict = keywordRepo.GetKeywordDictionary();
+      _keywordRepo = keywordRepo;
+      _keywordDict = new Dictionary<string, Keyword>();
     }
 
     public Description CreateDescription(string descriptionText)
@@ -37,6 +38,11 @@
       description.Name = AssembleTitleCasePhrase(" ", keywordList, WordType.Name);
 
       return description;
+    }
+
+    public void UpdateKeywordDict()
+    {
+      _keywordDict = _keywordRepo.GetKeywordDictionary();
     }
 
     private static string AssembleTitleCasePhrase(string joiner, List<Keyword> keywords, WordType wordType)

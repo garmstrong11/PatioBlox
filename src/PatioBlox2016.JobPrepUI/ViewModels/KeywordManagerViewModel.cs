@@ -4,14 +4,13 @@
   using System.Collections.Generic;
   using System.Linq;
   using Caliburn.Micro;
-  using Abstract;
   using Concrete;
   using Extractor;
   using Services.Contracts;
 
   public class KeywordManagerViewModel : Screen
   {
-    private readonly IRepository<Keyword> _keywordRepository;
+    private readonly IKeywordRepository _keywordRepository;
     private readonly IExtractionResult _extractionResult;
     private BindableCollection<KeywordViewModel> _keywords;
 
@@ -30,7 +29,6 @@
     {
       var existingKeywords = _keywordRepository.GetAll();
       var nameParent = existingKeywords.SingleOrDefault(k => k.Word == "NAME");
-      var existingWords = existingKeywords.Select(k => k.Word);
 
       var existingRoots = existingKeywords
         .Where(kw => !kw.ParentId.HasValue)
@@ -40,15 +38,11 @@
         .Where(kw => existingRoots.Contains(kw.Parent))
         .ToList();
 
-      var newKeywords = _extractionResult.UniqueWords
-        .Except(existingWords)
+      var newKeywords = _keywordRepository.FilterExisting(_extractionResult.UniqueWords)
         .Select(w => new Keyword(w) {Parent = nameParent})
         .ToList();
 
-      var addedKeywords = _keywordRepository.AddRange(newKeywords).ToList();
-      _keywordRepository.SaveChanges();
-
-      var keywordViewModels = addedKeywords
+      var keywordViewModels = newKeywords
         .Select(v => new KeywordViewModel(v))
         .ToList();
 
@@ -92,9 +86,25 @@
       }
     }
 
+    public bool CanSave()
+    {
+      return Keywords.Count > 0;
+    }
+
     public void Save()
     {
-      _keywordRepository.SaveChanges();
+      var kws = Keywords.Select(k => k.Keyword);
+
+      //foreach (var keyword in kws) {
+      //  _keywordRepository.Add(keyword);
+      //}
+
+      _keywordRepository.AddRange(kws);
+      var count = _keywordRepository.SaveChanges();
+
+      if (count > 0) {
+        Console.WriteLine("Success");
+      }
     }
   }
 }

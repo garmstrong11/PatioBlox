@@ -70,7 +70,7 @@
 
     public IEnumerable<T> AddRange(IEnumerable<T> entities)
     {
-      var addedEntities = entities.Select(e => Context.Set<T>().Add(e));
+      var addedEntities = Context.Set<T>().AddRange(entities);
       return addedEntities;
     }
 

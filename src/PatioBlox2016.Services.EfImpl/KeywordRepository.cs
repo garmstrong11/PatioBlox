@@ -14,5 +14,11 @@
     {
       return GetAll().ToDictionary(k => k.Word);
     }
+
+    public IEnumerable<string> FilterExisting(IEnumerable<string> words)
+    {
+      return words
+        .Except(GetAll().Select(d => d.Word));
+    }
 	}
 }

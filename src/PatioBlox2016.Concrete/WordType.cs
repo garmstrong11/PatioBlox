@@ -2,6 +2,6 @@
 {
 	public enum WordType
 	{
-    Name, Vendor, Color
+    Name, Vendor, Color, Size
 	}
 }
