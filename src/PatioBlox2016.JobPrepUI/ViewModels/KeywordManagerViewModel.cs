@@ -29,6 +29,7 @@
     {
       var existingKeywords = _keywordRepository.GetAll();
       var nameParent = existingKeywords.SingleOrDefault(k => k.Word == "NAME");
+      var existingWords = existingKeywords.Select(k => k.Word);
 
       var existingRoots = existingKeywords
         .Where(kw => !kw.ParentId.HasValue)
@@ -38,7 +39,8 @@
         .Where(kw => existingRoots.Contains(kw.Parent))
         .ToList();
 
-      var newKeywords = _keywordRepository.FilterExisting(_extractionResult.UniqueWords)
+      var newKeywords = _extractionResult.UniqueWords
+        .Except(existingWords)
         .Select(w => new Keyword(w) {Parent = nameParent})
         .ToList();
 
@@ -100,11 +102,9 @@
       //}
 
       _keywordRepository.AddRange(kws);
-      var count = _keywordRepository.SaveChanges();
+      //var count = _keywordRepository.SaveChanges();
 
-      if (count > 0) {
-        Console.WriteLine("Success");
-      }
+
     }
   }
 }
