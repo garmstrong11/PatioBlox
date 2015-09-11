@@ -31,7 +31,7 @@
       return descriptions;
     }
 
-    private static string GetSeedPath()
+    public static string GetSeedPath()
     {
       var nameDict = new Dictionary<string, string>
                       {

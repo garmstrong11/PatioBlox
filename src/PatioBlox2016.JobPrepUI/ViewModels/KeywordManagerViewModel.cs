@@ -97,14 +97,8 @@
     {
       var kws = Keywords.Select(k => k.Keyword);
 
-      //foreach (var keyword in kws) {
-      //  _keywordRepository.Add(keyword);
-      //}
-
       _keywordRepository.AddRange(kws);
-      //var count = _keywordRepository.SaveChanges();
-
-
+      _keywordRepository.SaveChanges();
     }
   }
 }
