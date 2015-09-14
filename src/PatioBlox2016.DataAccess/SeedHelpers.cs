@@ -5,8 +5,8 @@
   using System.Diagnostics.CodeAnalysis;
   using System.IO.Abstractions;
   using System.Linq;
-  using PatioBlox2016.Concrete;
-  using PatioBlox2016.Extractor;
+  using Concrete;
+  using Extractor;
 
   public static class SeedHelpers
   {

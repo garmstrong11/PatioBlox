@@ -8,10 +8,10 @@
   public class BarcodeTests
   {
     [Test]
-    public void EmptyUpc_ReturnsFiveOnes()
+    public void EmptyUpc_ReturnsLocationInfo()
     {
-      var barcode = new Barcode(string.Empty);
-      barcode.Upc.Should().Be("11111");
+      var barcode = new Barcode(string.Empty, "AB", 69);
+      barcode.Upc.Should().Be("MissingUpc_PatchAB_Row69");
     }
     
     [TestCase("123456789123", Result = BarcodeType.Upc)]
@@ -19,7 +19,7 @@
     [TestCase("123456", Result = BarcodeType.Unknown)]
     public BarcodeType BarcodeTypesAreDerivedFromUpcLength(string upc)
     {
-      var barcode = new Barcode(upc);
+      var barcode = new Barcode(upc, "AB", 6);
       return barcode.BarcodeType;
     }
 
@@ -27,7 +27,7 @@
     [TestCase("12345Abv89123", Result = false)]
     public bool IsNumeric_FalseIfAlphaUpc(string upc)
     {
-      var barcode = new Barcode(upc);
+      var barcode = new Barcode(upc, "AB", 69);
       return barcode.IsNumeric;
     }
 
@@ -37,7 +37,7 @@
     [TestCase("742786308375", Result = "5")]
     public string CalculatedCheckDigit_BadUpc_ReturnsNegOne(string upc)
     {
-      var barcode = new Barcode(upc);
+      var barcode = new Barcode(upc, "AB", 69);
       return barcode.CalculatedCheckDigit;
     }
 
@@ -46,7 +46,7 @@
     [TestCase("1234567891234", Result = "4")]
     public string LastDigit_IsCorrect(string upc)
     {
-      var barcode = new Barcode(upc);
+      var barcode = new Barcode(upc, "CT", 17);
       return barcode.LastDigit;
     }
   }

@@ -58,6 +58,15 @@
         .Distinct(); }
     }
 
+    public IEnumerable<IProduct> UniqueProducts
+    {
+      get { return _patchRowExtracts
+        .Where(pr => pr.Sku > 0)
+        .Select(pr => new Product(pr.Sku, pr.Upc))
+        .Distinct()
+        .OrderBy(pr => pr.Sku); }
+    } 
+
     public IEnumerable<string> UniqueSectionNames
     {
       get

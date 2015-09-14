@@ -30,19 +30,19 @@
     //  expan.Keyword.WordType.Should().Be(WordType.Color);
     //}
 
-		[Test]
-		public void CanInsertJob()
-		{
-			var job = new Job(167125, 2016, @"\\Storage2\AraxiVolume_SAN\Jobs\Lowes US 2016 Patio Blocks");
-			//var jobFile1 = new JobFile(job, Patch1Path);
-			//job.JobFiles.Add(jobFile1);
-			var book1 = new Book(job, "AB");
-			job.Books.Add(book1);
+    //[Test]
+    //public void CanInsertJob()
+    //{
+    //  var job = new Job(167125, 2016, @"\\Storage2\AraxiVolume_SAN\Jobs\Lowes US 2016 Patio Blocks");
+    //  //var jobFile1 = new JobFile(job, Patch1Path);
+    //  //job.JobFiles.Add(jobFile1);
+    //  var book1 = new Book(job, "AB");
+    //  job.Books.Add(book1);
 			
-			_ctx.Jobs.Add(job);
+    //  _ctx.Jobs.Add(job);
 
-			_ctx.SaveChanges();
-		}
+    //  _ctx.SaveChanges();
+    //}
 
 	  [Test]
 	  public void DuplicateDescriptionTextIsNotAllowed()

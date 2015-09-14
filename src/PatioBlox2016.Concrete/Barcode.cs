@@ -12,10 +12,16 @@
 
     private Barcode() { }
 
-    public Barcode(string upc) : this()
+    public Barcode(string upc, string patchName, int rowIndex) : this()
     {
       Id = 0;
-      Upc = string.IsNullOrWhiteSpace(upc) ? "11111" : upc;
+      var missingBarcodeText = string.Empty;
+
+      if (string.IsNullOrWhiteSpace(upc)) {
+        missingBarcodeText = string.Format("MissingUpc_Patch{0}_Row{1}", patchName, rowIndex);
+      }
+
+      Upc = string.IsNullOrWhiteSpace(upc) ? missingBarcodeText : upc;
     }
     
     public int Id { get; private set; }

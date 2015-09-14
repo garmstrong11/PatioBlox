@@ -5,34 +5,67 @@
 
   public class Section
   {
-    public int Id { get; set; }
-    
+    private readonly List<Cell> _cells; 
     public Section()
     {
-      Cells = new List<Cell>();
+      _cells = new List<Cell>();
     }
     
-    public Section(Book book, SectionName sectionName) : this()
+    public Section(Book book) : this()
     {
-      if (sectionName == null) throw new ArgumentNullException("sectionName");
+      if (book == null) throw new ArgumentNullException("book");
 
       Book = book;
-      SectionName = sectionName;
     }
 
-    public SectionName SectionName { get; set; }
-    public int SectionNameId { get; set; }
+    public string SectionName { get; set; }
     public int SourceRowIndex { get; set; }
 
     public Book Book { get; set; }
-    public int BookId { get; set; }
 
-    public ICollection<Cell> Cells { get; set; }
+    public void AddCell(Cell cell)
+    {
+      _cells.Add(cell);
+    }
+
+    public List<Cell> Cells
+    {
+      get { return new List<Cell>(_cells); }
+    } 
+
+    public IEnumerable<Page> GetPages(int cellsPerPage)
+    {
+      List<Cell> bucket = null;
+      var count = 0;
+
+      foreach (var cell in _cells) {
+        if (bucket == null) {
+          bucket = new List<Cell>(cellsPerPage);
+        }
+
+        bucket[count++] = cell;
+
+        // The bucket is fully populated before it's yielded
+        if (count != cellsPerPage) {
+          continue;
+        }
+
+        yield return new Page(this, bucket);
+
+        bucket = null;
+        count = 0;
+      }
+
+      // Yield the remaining cells 
+      if (bucket != null && count > 0) {
+        yield return new Page(this, bucket);
+      }
+    } 
 
     public int GetPageCount(int cellsPerPage)
     {
-      var count = Cells.Count / cellsPerPage;
-      var mod = Cells.Count % cellsPerPage;
+      var count = _cells.Count / cellsPerPage;
+      var mod = _cells.Count % cellsPerPage;
       return mod == 0 ? count : count + 1;
     }
   }

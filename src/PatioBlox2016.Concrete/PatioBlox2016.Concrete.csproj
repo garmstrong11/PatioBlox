@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BarcodeCorrection.cs" />
     <Compile Include="BarcodeType.cs" />
     <Compile Include="BookFactory.cs" />
     <Compile Include="Book.cs" />
@@ -56,6 +57,8 @@
     <Compile Include="CellDuplicateComparer.cs" />
     <Compile Include="Description.cs" />
     <Compile Include="Job.cs" />
+    <Compile Include="Page.cs" />
+    <Compile Include="Product.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="SectionName.cs" />
     <Compile Include="Seeding\DescriptionDto.cs" />

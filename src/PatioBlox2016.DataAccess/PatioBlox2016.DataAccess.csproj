@@ -116,6 +116,10 @@
     <Compile Include="Migrations\201509061405421_ConvertKeywordToHierarchy.Designer.cs">
       <DependentUpon>201509061405421_ConvertKeywordToHierarchy.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509121949125_Remove Job, Section, Book, Cell, SectionName.cs" />
+    <Compile Include="Migrations\201509121949125_Remove Job, Section, Book, Cell, SectionName.Designer.cs">
+      <DependentUpon>201509121949125_Remove Job, Section, Book, Cell, SectionName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -182,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509061405421_ConvertKeywordToHierarchy.resx">
       <DependentUpon>201509061405421_ConvertKeywordToHierarchy.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509121949125_Remove Job, Section, Book, Cell, SectionName.resx">
+      <DependentUpon>201509121949125_Remove Job, Section, Book, Cell, SectionName.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
