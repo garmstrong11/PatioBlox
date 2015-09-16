@@ -42,12 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IBarcodeCorrectionRepository.cs" />
-    <Compile Include="IBarcodeRepository.cs" />
     <Compile Include="ICellFactory.cs" />
     <Compile Include="IDescriptionFactory.cs" />
     <Compile Include="IDescriptionRepository.cs" />
     <Compile Include="IKeywordRepository.cs" />
+    <Compile Include="IUpcReplacementRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

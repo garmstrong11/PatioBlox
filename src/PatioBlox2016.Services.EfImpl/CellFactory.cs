@@ -10,48 +10,40 @@
   public class CellFactory : ICellFactory
   {
     private readonly IDictionary<string, Description> _descriptionDict;
-    private readonly IDictionary<string, Barcode> _barcodeDict; 
-    private readonly IBarcodeCorrectionRepository _barcodeCorrectionRepository;
+    private readonly IDictionary<string, string> _upcReplacementDict;
 
     public CellFactory(
-      IDescriptionRepository descriptionRepository, 
-      IBarcodeRepository barcodeRepository, 
-      IBarcodeCorrectionRepository barcodeCorrectionRepository)
+      IDescriptionRepository descriptionRepository,
+      IUpcReplacementRepository upcReplacementRepository)
     {
       if (descriptionRepository == null) throw new ArgumentNullException("descriptionRepository");
-      if (barcodeRepository == null) throw new ArgumentNullException("barcodeRepository");
-      if (barcodeCorrectionRepository == null) throw new ArgumentNullException("barcodeCorrectionRepository");
+      if (upcReplacementRepository == null) throw new ArgumentNullException("upcReplacementRepository");
 
       _descriptionDict = descriptionRepository.GetDescriptionDictionary();
-      _barcodeDict = barcodeRepository.GetBarcodeDictionary();
-      _barcodeCorrectionRepository = barcodeCorrectionRepository;
+      _upcReplacementDict = upcReplacementRepository.GetUpcReplacementDictionary();
     }
     
     public Cell CreateCell(IPatchRowExtract extract)
     {
       var cell = new Cell();
       Description description;
-      Barcode barcode;
+      string upc;
 
       if (!_descriptionDict.TryGetValue(extract.Description, out description)) {
         throw new KeyNotFoundException(
           string.Format("Unable to find a description with the key {0}", extract.Description));
       }
 
-      if (!_barcodeDict.TryGetValue(extract.Upc, out barcode)){
-        throw new KeyNotFoundException(
-          string.Format("Unable to find a barcode with the key {0}", extract.Upc));
-      }
+      cell.Upc = _upcReplacementDict.TryGetValue(extract.Upc, out upc) 
+        ? upc 
+        : extract.Upc;
 
-      cell.Upc = barcode.Upc;
+      cell.Name = string.IsNullOrWhiteSpace(description.Vendor)
+        ? description.Name
+        : string.Format("{0}|{1}", description.Vendor, description.Name);
 
-      var correction = _barcodeCorrectionRepository.Get(barcode.Id);
-
-      if (correction.Any()) {
-        cell.Upc = correction.First().CorrectedValue;
-      }
-
-      cell.Description = description;
+      cell.Color = description.Color;
+      cell.Size = description.Size;
       cell.SourceRowIndex = extract.RowIndex;
       cell.Sku = extract.Sku;
       cell.PalletQty = extract.PalletQuanity;

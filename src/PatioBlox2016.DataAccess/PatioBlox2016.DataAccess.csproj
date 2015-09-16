@@ -60,6 +60,7 @@
     <Compile Include="Config\JobTypeConfiguration.cs" />
     <Compile Include="Config\KeywordTypeConfiguration.cs" />
     <Compile Include="Config\SectionNameTypeConfiguration.cs" />
+    <Compile Include="Config\UpcReplacementTypeConfiguration.cs" />
     <Compile Include="Migrations\201507061429293_Initial Create.cs" />
     <Compile Include="Migrations\201507061429293_Initial Create.Designer.cs">
       <DependentUpon>201507061429293_Initial Create.cs</DependentUpon>

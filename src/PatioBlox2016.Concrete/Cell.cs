@@ -6,7 +6,13 @@
 
 	  public int Sku { get; set; }
 
-	  public Description Description { get; set; }
+    //public string Vendor { get; set; }
+
+    public string Color { get; set; }
+
+    public string Size { get; set; }
+
+    public string Name { get; set; }
 
 	  public string PalletQty { get; set; }
 

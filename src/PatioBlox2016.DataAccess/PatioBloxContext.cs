@@ -8,15 +8,13 @@
 	{
 		public DbSet<Keyword> Keywords { get; set; }
 		public DbSet<Description> Descriptions { get; set; }
-    public DbSet<Barcode> Barcodes { get; set; } 
-    public DbSet<BarcodeCorrection> BarcodeCorrections { get; set; } 
-
+    public DbSet<UpcReplacement> UpcReplacements { get; set; }
 
 		public PatioBloxContext() : base("name=PatioBloxConnectionString")
 		{
 		  Database.SetInitializer(
-        //new TestInitializer());
-        new NullDatabaseInitializer<PatioBloxContext>());
+        new TestInitializer());
+        //new NullDatabaseInitializer<PatioBloxContext>());
 		    //new DropCreateDatabaseAlways<PatioBloxContext>());
 		    //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
 		}
