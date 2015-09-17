@@ -2,6 +2,7 @@
 {
   using System.Collections.Generic;
   using Abstract;
+  using PatioBlox2016.Concrete;
 
   public interface IExtractionResult
   {
@@ -15,6 +16,7 @@
     IEnumerable<string> UniqueSectionNames { get; }
     IEnumerable<string> UniqueWords { get; }
     IEnumerable<int> UniqueSkus { get; }
-    IEnumerable<string> InvalidUpcs { get; } 
+    IEnumerable<string> InvalidUpcs { get; }
+    IEnumerable<Barcode> InvalidBarcodes { get; } 
   }
 }
