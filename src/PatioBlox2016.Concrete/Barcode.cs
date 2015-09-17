@@ -34,6 +34,11 @@
 
     public string Upc { get; private set; }
 
+    public int Length
+    {
+      get { return Upc.Length; }
+    }
+
     public BarcodeType BarcodeType
     {
       get
