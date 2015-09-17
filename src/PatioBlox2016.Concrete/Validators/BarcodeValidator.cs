@@ -6,9 +6,10 @@
   {
     public BarcodeValidator()
     {
-      RuleFor(b => b.IsNumeric).Equal(true);
+      RuleFor(b => b.IsNumeric).Equal(true).WithMessage("Barcode does not contain only numbers.");
+
       RuleFor(b => b.BarcodeType).NotEqual(BarcodeType.Unknown)
-        .WithMessage("BarcodeType is unknown");
+        .WithMessage("Barcode has too many or not enough characters.");
 
       RuleFor(b => b.CalculatedCheckDigit).Equal(b => b.LastDigit)
         .WithMessage("Incorrect check digit \"{0}\" in Upc. Correct check digit is \"{1}\"", 

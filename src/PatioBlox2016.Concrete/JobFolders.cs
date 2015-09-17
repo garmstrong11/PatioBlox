@@ -31,6 +31,7 @@
 			var directories = GetDirectoriesInPath(_excelFileInfo.FullName).ToList();
 
 			_udfRoot = directories.Find(d => d.Name == UdfDir);
+      //var partsMaster = _udfRoot.GetDirectories("PartsMaster");
 		}
 
     public IEnumerable<DirectoryInfo> GetDirectoriesInPath(string filepath)

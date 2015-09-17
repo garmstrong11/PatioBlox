@@ -129,6 +129,8 @@
     <Compile Include="ViewModels\PatchFileDropViewModel.cs" />
     <Compile Include="ViewModels\PatchFileViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\UpcReplacementManagerViewModel.cs" />
+    <Compile Include="ViewModels\UpcReplacementViewModel.cs" />
     <Compile Include="Views\ActivitiesView.xaml.cs">
       <DependentUpon>ActivitiesView.xaml</DependentUpon>
     </Compile>
@@ -149,6 +151,9 @@
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpcReplacementManagerView.xaml.cs">
+      <DependentUpon>UpcReplacementManagerView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +238,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpcReplacementManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

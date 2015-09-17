@@ -23,7 +23,7 @@
 		{
       modelBuilder.Configurations.Add(new KeywordTypeConfiguration());
 		  modelBuilder.Configurations.Add(new DescriptionTypeConfiguration());
-		  modelBuilder.Configurations.Add(new BarcodeTypeConfiguration());
+		  modelBuilder.Configurations.Add(new UpcReplacementTypeConfiguration());
 		}
 	}
 }

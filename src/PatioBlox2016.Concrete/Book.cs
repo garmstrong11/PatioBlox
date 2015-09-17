@@ -38,7 +38,7 @@
 			get
 			{
 			  var cells = Sections.SelectMany(sec => sec.Cells);
-        var cellGroups = cells.GroupBy(c => c, k => k, new CellDuplicateComparer());
+        var cellGroups = cells.GroupBy(c => c);
 
 				return cellGroups.Where(cg => cg.Count() > 1)
 					.Select(doop => doop.Select(d => d.SourceRowIndex));

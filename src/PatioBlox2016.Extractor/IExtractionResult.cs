@@ -2,7 +2,6 @@
 {
   using System.Collections.Generic;
   using Abstract;
-  using Concrete;
 
   public interface IExtractionResult
   {
@@ -15,6 +14,7 @@
     IEnumerable<string> UniqueUpcs { get; }
     IEnumerable<string> UniqueSectionNames { get; }
     IEnumerable<string> UniqueWords { get; }
-    IEnumerable<IProduct> UniqueProducts { get; }
+    IEnumerable<int> UniqueSkus { get; }
+    IEnumerable<string> InvalidUpcs { get; } 
   }
 }

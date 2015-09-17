@@ -5,28 +5,34 @@
   using System.Linq;
   using System.Text.RegularExpressions;
   using System.Threading;
+  using FluentValidation.Results;
+  using PatioBlox2016.Concrete.Validators;
 
   public class Barcode
   {
     private static readonly Regex DigitRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
+    private readonly ValidationResult _validationResult;
 
-    private Barcode() { }
-
-    public Barcode(string upc, string patchName, int rowIndex) : this()
+    public Barcode(string upc)
     {
-      Id = 0;
-      var missingBarcodeText = string.Empty;
+      if (string.IsNullOrWhiteSpace(upc)) throw new ArgumentNullException("upc");
+      Upc = upc;
 
-      if (string.IsNullOrWhiteSpace(upc)) {
-        missingBarcodeText = string.Format("MissingUpc_Patch{0}_Row{1}", patchName, rowIndex);
-      }
-
-      Upc = string.IsNullOrWhiteSpace(upc) ? missingBarcodeText : upc;
+      var validator = new BarcodeValidator();
+      _validationResult = validator.Validate(this);
     }
-    
-    public int Id { get; private set; }
-    public string Upc { get; set; }
-    public DateTime InsertDate { get; set; }
+
+    public bool IsValid
+    {
+      get { return _validationResult.IsValid; }
+    }
+
+    public IList<ValidationFailure> Errors
+    {
+      get { return _validationResult.Errors; }
+    } 
+
+    public string Upc { get; private set; }
 
     public BarcodeType BarcodeType
     {

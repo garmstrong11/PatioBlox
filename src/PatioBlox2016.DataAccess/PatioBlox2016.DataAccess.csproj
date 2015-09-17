@@ -54,12 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config\BarcodeTypeConfiguration.cs" />
-    <Compile Include="Config\BookTypeConfiguration.cs" />
     <Compile Include="Config\DescriptionTypeConfiguration.cs" />
-    <Compile Include="Config\JobTypeConfiguration.cs" />
     <Compile Include="Config\KeywordTypeConfiguration.cs" />
-    <Compile Include="Config\SectionNameTypeConfiguration.cs" />
     <Compile Include="Config\UpcReplacementTypeConfiguration.cs" />
     <Compile Include="Migrations\201507061429293_Initial Create.cs" />
     <Compile Include="Migrations\201507061429293_Initial Create.Designer.cs">
@@ -120,6 +116,10 @@
     <Compile Include="Migrations\201509121949125_Remove Job, Section, Book, Cell, SectionName.cs" />
     <Compile Include="Migrations\201509121949125_Remove Job, Section, Book, Cell, SectionName.Designer.cs">
       <DependentUpon>201509121949125_Remove Job, Section, Book, Cell, SectionName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201509171200557_UpcReplacement.cs" />
+    <Compile Include="Migrations\201509171200557_UpcReplacement.Designer.cs">
+      <DependentUpon>201509171200557_UpcReplacement.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
@@ -190,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509121949125_Remove Job, Section, Book, Cell, SectionName.resx">
       <DependentUpon>201509121949125_Remove Job, Section, Book, Cell, SectionName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509171200557_UpcReplacement.resx">
+      <DependentUpon>201509171200557_UpcReplacement.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

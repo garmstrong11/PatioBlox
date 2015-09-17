@@ -53,7 +53,7 @@
     public IEnumerable<string> UniqueUpcs
     {
       get { return _patchRowExtracts
-        .Where(pr => !string.IsNullOrWhiteSpace(pr.Upc))
+        .Where(pr => !string.IsNullOrWhiteSpace(pr.Upc) && pr.Sku > 0)
         .Select(pr => pr.Upc)
         .Distinct(); }
     }
@@ -88,6 +88,24 @@
           .Distinct()
           .OrderBy(d => d);
       }
-    } 
+    }
+
+    public IEnumerable<int> UniqueSkus
+    {
+      get { return _patchRowExtracts.Select(pr => pr.Sku).Distinct(); }
+    }
+
+    public IEnumerable<string> InvalidUpcs
+    {
+      get
+      {
+        var badUpcs = from upc in UniqueUpcs
+          let barcode = new Barcode(upc)
+          where !barcode.IsValid
+          select upc;
+
+        return badUpcs;
+      }
+    }
   }
 }

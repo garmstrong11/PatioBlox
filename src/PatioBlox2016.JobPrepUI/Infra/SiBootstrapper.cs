@@ -41,6 +41,7 @@
       _container.RegisterSingle<IDescriptionFactory, DescriptionFactory>();
       _container.RegisterSingle<IKeywordRepository, KeywordRepository>();
       _container.RegisterSingle<IDescriptionRepository, DescriptionRepository>();
+      _container.RegisterSingle<IUpcReplacementRepository, UpcReplacementRepository>();
 
       _container.Register<IWindowManager, WindowManager>();
       _container.Register<IPatchFileDropViewModel, PatchFileDropViewModel>();
@@ -50,11 +51,14 @@
       {
         var keywords = _container.GetInstance<KeywordManagerViewModel>();
         var descriptions = _container.GetInstance<DescriptionManagerViewModel>();
+        var upcReplacements = _container.GetInstance<UpcReplacementManagerViewModel>();
         keywords.DisplayName = "Keyword Manager";
         descriptions.DisplayName = "Description Manager";
+        upcReplacements.DisplayName = "Upc Replacement Manager";
 
         vm.Screens.Add(keywords);
         vm.Screens.Add(descriptions);
+        vm.Screens.Add(upcReplacements);
       });
 
       _container.Verify();

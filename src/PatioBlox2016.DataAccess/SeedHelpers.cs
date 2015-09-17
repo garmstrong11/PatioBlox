@@ -2,6 +2,7 @@
 {
   using System;
   using System.Collections.Generic;
+  using System.Data.Entity.Migrations;
   using System.Diagnostics.CodeAnalysis;
   using System.IO.Abstractions;
   using System.Linq;
@@ -71,6 +72,8 @@
       context.SaveChanges();
 
 			var beveled = context.Keywords.Add(new Keyword("BEVELED") {Parent = name});
+      //var beveled2 = new Keyword("BEVELED") {Parent = name};
+      //context.Keywords.AddOrUpdate(k => k.Word, beveled2);
       var marquette = context.Keywords.Add(new Keyword("MARQUETTE") {Parent = name});
       var countryside = context.Keywords.Add(new Keyword("COUNTRYSIDE") {Parent = name});
       var fourcobble = context.Keywords.Add(new Keyword("FOURCOBBLE") {Parent = name});

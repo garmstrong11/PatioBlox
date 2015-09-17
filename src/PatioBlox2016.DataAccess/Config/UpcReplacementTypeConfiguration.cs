@@ -9,7 +9,7 @@
   {
     public UpcReplacementTypeConfiguration()
     {
-      Property(p => p.Replacement).HasMaxLength(25);
+      Property(p => p.Replacement).IsRequired().HasMaxLength(25);
       
       Property(d => d.InvalidUpc)
         .IsRequired()

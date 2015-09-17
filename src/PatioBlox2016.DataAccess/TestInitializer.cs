@@ -2,7 +2,6 @@
 {
   using System.Data.Entity;
   using System.Data.Entity.Migrations;
-  using System.IO;
 
   public class TestInitializer : DropCreateDatabaseAlways<PatioBloxContext>
   {
