@@ -29,8 +29,7 @@
 
     protected override void OnActivate()
     {
-      var badUpcs = _extractionResult.InvalidUpcs
-        .Select(b => new UpcReplacement() {InvalidUpc = b});
+      var badUpcs = _extractionResult.InvalidBarcodes;
 
       UpcReplacements.AddRange(badUpcs.Select(b => new UpcReplacementViewModel(b)));
       

@@ -1,18 +1,22 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
   using System;
+  using System.Collections.Generic;
+  using System.Linq;
   using Caliburn.Micro;
   using PatioBlox2016.Concrete;
 
   public class UpcReplacementViewModel : PropertyChangedBase
   {
     private readonly UpcReplacement _upcReplacement;
+    private readonly Barcode _barcode;
 
-    public UpcReplacementViewModel(UpcReplacement upcReplacement)
+    public UpcReplacementViewModel(Barcode barcode)
     {
-      if (upcReplacement == null) throw new ArgumentNullException("upcReplacement");
+      if (barcode == null) throw new ArgumentNullException("barcode");
 
-      _upcReplacement = upcReplacement;
+      _barcode = barcode;
+      _upcReplacement = new UpcReplacement {InvalidUpc = barcode.Upc};
     }
 
     public string InvalidUpc
@@ -35,6 +39,11 @@
         _upcReplacement.Replacement = value;
         NotifyOfPropertyChange(() => Replacement);
       }
+    }
+
+    public List<string> Errors
+    {
+      get { return _barcode.Errors.Select(e => e.ErrorMessage).ToList(); }
     }
   }
 }
