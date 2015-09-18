@@ -6,9 +6,11 @@
   {
     public BarcodeValidator()
     {
-      RuleFor(b => b.IsNumeric).Equal(true).WithMessage("Barcode contains non-numeric characters.");
+      RuleFor(b => b.IsMissing).NotEqual(true)
+        .WithMessage("Upc was not found for SKU {0}", b => b.Upc.Split('_')[0]);
 
       RuleFor(b => b.Length).InclusiveBetween(12, 13)
+        .Unless(b => b.IsMissing)
         .WithMessage("Upc must be 12 or 13 characters long. This upc has {PropertyValue} characters.");
 
       RuleFor(b => b.CalculatedCheckDigit).Equal(b => b.LastDigit)

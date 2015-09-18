@@ -1,10 +1,19 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-  using Abstract;
+  using System;
+  using System.Collections.Generic;
+  using System.Linq;
 
-  public class Product : IProduct
+  public class Product
   {
-    public Product(int sku, string upc)
+    private readonly HashSet<UsageLocation> _usages;
+
+    public Product()
+    {
+      _usages = new HashSet<UsageLocation>();
+    }
+
+    public Product(int sku, string upc) : this()
     {
       Sku = sku;
       Upc = upc;
@@ -12,6 +21,32 @@
     
     public int Sku { get; private set; }
     public string Upc { get; private set; }
+
+    public List<UsageLocation> Usages
+    {
+      get { return _usages.ToList(); }
+    } 
+
+    public bool AddUsage(UsageLocation usage)
+    {
+      if (usage == null) throw new ArgumentNullException("usage");
+      return _usages.Add(usage);
+    }
+
+    public IEnumerable<List<UsageLocation>> GetPatchProductDuplicates
+    {
+      get
+      {
+        var groops = from usage in _usages
+          group usage by usage.PatchName
+          into patchGroups
+          where patchGroups.Count() > 1
+          select patchGroups;
+
+        return groops.Select(groop => groop.ToList());
+      }
+    }
+
 
     protected bool Equals(Product other)
     {

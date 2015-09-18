@@ -11,6 +11,7 @@
   public class Barcode
   {
     private static readonly Regex DigitRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
+    private static readonly int[] ValidLengths = {12, 13};
     private readonly ValidationResult _validationResult;
 
     public Barcode(string upc)
@@ -39,25 +40,12 @@
       get { return Upc.Length; }
     }
 
-    public BarcodeType BarcodeType
+    /// <summary>
+    /// Identifies a state in which a upc has not been entered in the source data.
+    /// </summary>
+    public bool IsMissing
     {
-      get
-      {
-        var len = Upc.Length;
-        BarcodeType barcodeType;
-        var dict = new Dictionary<int, BarcodeType>
-                   {
-                     {12, BarcodeType.Upc},
-                     {13, BarcodeType.Ean13}
-                   };
-
-        return dict.TryGetValue(len, out barcodeType) ? barcodeType : BarcodeType.Unknown;
-      }
-    }
-
-    public bool IsNumeric
-    {
-      get { return DigitRegex.IsMatch(Upc); }
+      get { return Upc.Contains("_"); }
     }
 
     public string LastDigit
@@ -69,8 +57,8 @@
     {
       get
       {
-        if (!IsNumeric) return "-1";
-        if (BarcodeType == BarcodeType.Unknown) return "-1";
+        if (!DigitRegex.IsMatch(Upc)) return "-1";
+        if (!ValidLengths.Contains(Length)) return "-1";
 
         var chekString = Upc.Substring(0, Upc.Length - 1);
         var digits = GetInts(chekString);
@@ -87,7 +75,7 @@
       for (var i = 0; i < len; i++)
       {
         var parsed = int.Parse(upc[i].ToString(Thread.CurrentThread.CurrentCulture));
-        if (BarcodeType == BarcodeType.Ean13)
+        if (Length == 13)
         {
           yield return i % 2 == 0 ? parsed : parsed * 3;
         }

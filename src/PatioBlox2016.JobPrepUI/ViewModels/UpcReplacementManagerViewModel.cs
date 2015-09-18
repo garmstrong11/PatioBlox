@@ -30,6 +30,8 @@
     protected override void OnActivate()
     {
       var badUpcs = _extractionResult.InvalidBarcodes;
+      var products = _extractionResult.GetUniqueProducts().OrderBy(p => p.Sku).ToList();
+      var dupes = products.Where(p => p.GetPatchProductDuplicates.Any());
 
       UpcReplacements.AddRange(badUpcs.Select(b => new UpcReplacementViewModel(b)));
       

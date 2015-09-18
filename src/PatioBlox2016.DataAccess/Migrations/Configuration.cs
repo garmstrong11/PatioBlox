@@ -18,6 +18,7 @@ namespace PatioBlox2016.DataAccess.Migrations
     //  }
 
     //  SeedHelpers.SeedKeywords(context);
+    //  SeedHelpers.SeedUpcReplacements(context);
     //  context.SaveChanges();
 
     //  base.Seed(context);

@@ -17,6 +17,8 @@
     IEnumerable<string> UniqueWords { get; }
     IEnumerable<int> UniqueSkus { get; }
     IEnumerable<string> InvalidUpcs { get; }
-    IEnumerable<Barcode> InvalidBarcodes { get; } 
+    IEnumerable<Barcode> InvalidBarcodes { get; }
+
+    IEnumerable<Product> GetUniqueProducts();
   }
 }

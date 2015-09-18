@@ -58,14 +58,14 @@
         .Distinct(); }
     }
 
-    public IEnumerable<IProduct> UniqueProducts
-    {
-      get { return _patchRowExtracts
-        .Where(pr => pr.Sku > 0)
-        .Select(pr => new Product(pr.Sku, pr.Upc))
-        .Distinct()
-        .OrderBy(pr => pr.Sku); }
-    } 
+    //public IEnumerable<Product> UniqueProducts
+    //{
+    //  get { return _patchRowExtracts
+    //    .Where(pr => pr.Sku > 0)
+    //    .Select(pr => new Product(pr.Sku, pr.Upc))
+    //    .Distinct()
+    //    .OrderBy(pr => pr.Sku); }
+    //} 
 
     public IEnumerable<string> UniqueSectionNames
     {
@@ -105,6 +105,28 @@
           select upc;
 
         return badUpcs;
+      }
+    }
+
+    private IEnumerable<PatchRowExtract> GetProductExtracts()
+    {
+      return _patchRowExtracts
+        .Where(pr => pr.Sku > 0)
+        .Cast<PatchRowExtract>();
+    }
+
+    public IEnumerable<Product> GetUniqueProducts()
+    {
+      var extracts = GetProductExtracts();
+      var groops = extracts.GroupBy(g => new {g.Sku, g.Upc});
+
+      foreach (var groop in groops) {
+        var prod = new Product(groop.Key.Sku, groop.Key.Upc);
+        foreach (var extract in groop) {
+          prod.AddUsage(new UsageLocation(extract.PatchName, extract.RowIndex));
+        }
+
+        yield return prod;
       }
     }
 

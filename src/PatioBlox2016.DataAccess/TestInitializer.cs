@@ -19,6 +19,7 @@
       }
 
       SeedHelpers.SeedKeywords(context);
+      SeedHelpers.SeedUpcReplacements(context);
 
       context.SaveChanges();
 

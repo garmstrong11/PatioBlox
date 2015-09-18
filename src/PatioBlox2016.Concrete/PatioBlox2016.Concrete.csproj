@@ -72,6 +72,7 @@
     <Compile Include="SeedAggregate.cs" />
     <Compile Include="Barcode.cs" />
     <Compile Include="UpcReplacement.cs" />
+    <Compile Include="UsageLocation.cs" />
     <Compile Include="Validators\BarcodeValidator.cs" />
     <Compile Include="WordType.cs" />
   </ItemGroup>
