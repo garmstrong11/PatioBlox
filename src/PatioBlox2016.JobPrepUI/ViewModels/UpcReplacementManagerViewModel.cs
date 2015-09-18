@@ -29,11 +29,16 @@
 
     protected override void OnActivate()
     {
-      var badUpcs = _extractionResult.InvalidBarcodes;
-      var products = _extractionResult.GetUniqueProducts().OrderBy(p => p.Sku).ToList();
-      var dupes = products.Where(p => p.GetPatchProductDuplicates.Any());
+      var existingReplacements = _upcReplacementRepository.GetAll().Select(u => u.InvalidUpc);
 
-      UpcReplacements.AddRange(badUpcs.Select(b => new UpcReplacementViewModel(b)));
+      var products = _extractionResult.GetUniqueProducts()
+        .Where(p => !p.HasValidBarcode && !existingReplacements.Contains(p.Upc))
+        .OrderBy(p => p.Sku).ToList();
+
+
+      //var dupes = products.Where(p => p.HasPatchProductDuplicates);
+
+      UpcReplacements.AddRange(products.Select(p => new UpcReplacementViewModel(p)));
       
       base.OnActivate();
     }

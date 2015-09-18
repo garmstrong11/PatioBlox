@@ -7,8 +7,10 @@
   public class Product
   {
     private readonly HashSet<UsageLocation> _usages;
+    private Barcode _barcode;
+    private string _upc;
 
-    public Product()
+    private Product()
     {
       _usages = new HashSet<UsageLocation>();
     }
@@ -17,15 +19,35 @@
     {
       Sku = sku;
       Upc = upc;
+      _barcode = new Barcode(upc);
     }
     
     public int Sku { get; private set; }
-    public string Upc { get; private set; }
+
+    public string Upc
+    {
+      get { return _upc; }
+      set
+      {
+        _upc = value;
+        _barcode = new Barcode(_upc);
+      }
+    }
 
     public List<UsageLocation> Usages
     {
       get { return _usages.ToList(); }
-    } 
+    }
+
+    public bool HasValidBarcode
+    {
+      get { return _barcode.IsValid; }
+    }
+
+    public List<string> BarcodeErrors
+    {
+      get { return _barcode.Errors.Select(b => b.ErrorMessage).ToList(); }
+    }
 
     public bool AddUsage(UsageLocation usage)
     {
@@ -33,7 +55,7 @@
       return _usages.Add(usage);
     }
 
-    public IEnumerable<List<UsageLocation>> GetPatchProductDuplicates
+    public IEnumerable<List<UsageLocation>> PatchProductDuplicates
     {
       get
       {
@@ -45,6 +67,11 @@
 
         return groops.Select(groop => groop.ToList());
       }
+    }
+
+    public bool HasPatchProductDuplicates
+    {
+      get { return PatchProductDuplicates.Any(); }
     }
 
 

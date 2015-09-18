@@ -16,22 +16,33 @@
                         Padding="9 4.5"/>
             </StackPanel>
         </Border>
-        <ListView x:Name="UpcReplacements">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Expander>
-                        <Expander.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding InvalidUpc}" />
-                                <TextBox Text="{Binding Replacement}"/>
-                            </StackPanel>
-                        </Expander.Header>
-                        <ListView ItemsSource="{Binding Errors}"
-                          MinHeight="24"
-                          MaxHeight="100"/>
-                    </Expander>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <DataGrid ItemsSource="{Binding UpcReplacements}"
+                  AutoGenerateColumns="False"
+                  CanUserReorderColumns="True"
+                  CanUserSortColumns="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn IsReadOnly="True"
+                                    Header="InvalidUpc"
+                                    Binding="{Binding InvalidUpc}"/>
+                <DataGridTextColumn IsReadOnly="True"
+                                    Header="Sku"
+                                    Binding="{Binding Sku}"/>
+                <DataGridTextColumn IsReadOnly="True"
+                                    Header="UsageCount"
+                                    Binding="{Binding UsageCount}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding UsageList}"/>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Replacement"
+                                    Binding="{Binding Replacement}"/>
+                <DataGridTextColumn Header="Errors"
+                                    Width="*"
+                                    IsReadOnly="True"
+                                    Binding="{Binding Errors}"/>
+            </DataGrid.Columns>
+        </DataGrid>
     </DockPanel>
 </UserControl>

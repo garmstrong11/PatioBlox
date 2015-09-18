@@ -13,8 +13,8 @@
 		public PatioBloxContext() : base("name=PatioBloxConnectionString")
 		{
 		  Database.SetInitializer(
-        new TestInitializer());
-        //new NullDatabaseInitializer<PatioBloxContext>());
+        //new TestInitializer());
+        new NullDatabaseInitializer<PatioBloxContext>());
 		    //new DropCreateDatabaseAlways<PatioBloxContext>());
 		    //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
 		}

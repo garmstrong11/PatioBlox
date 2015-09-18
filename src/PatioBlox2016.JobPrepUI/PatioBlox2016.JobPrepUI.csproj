@@ -128,6 +128,7 @@
     <Compile Include="ViewModels\KeywordViewModel.cs" />
     <Compile Include="ViewModels\PatchFileDropViewModel.cs" />
     <Compile Include="ViewModels\PatchFileViewModel.cs" />
+    <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\UpcReplacementManagerViewModel.cs" />
     <Compile Include="ViewModels\UpcReplacementViewModel.cs" />

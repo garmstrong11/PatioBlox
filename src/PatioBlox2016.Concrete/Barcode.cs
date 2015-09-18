@@ -85,5 +85,22 @@
         }
       }
     }
+
+    protected bool Equals(Barcode other)
+    {
+      return string.Equals(Upc, other.Upc);
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      return obj.GetType() == GetType() && Equals((Barcode) obj);
+    }
+
+    public override int GetHashCode()
+    {
+      return Upc.GetHashCode();
+    }
   }
 }

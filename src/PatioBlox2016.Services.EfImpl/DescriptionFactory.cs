@@ -54,10 +54,10 @@
 
       var joined = string.Join(joiner, cased);
 
-      if (wordType == WordType.Color) {
-        joined = joined.Replace("/Blend", " Blend");
-        joined = joined.Replace("/Hill", " Hill");
-      }
+      if (wordType != WordType.Color) return joined;
+
+      joined = joined.Replace("/Blend", " Blend");
+      joined = joined.Replace("/Hill", " Hill");
 
       return joined;
     }
