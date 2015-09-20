@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BarcodeType.cs" />
-    <Compile Include="BookFactory.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Description.cs" />

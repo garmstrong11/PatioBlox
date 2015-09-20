@@ -2,71 +2,60 @@
 {
   using System;
   using System.Collections.Generic;
+  using System.Collections.ObjectModel;
 
   public class Section
   {
-    private readonly List<Cell> _cells; 
-    public Section()
-    {
-      _cells = new List<Cell>();
-    }
+    //private readonly List<Cell> _cells;
+    private readonly List<Page> _pages; 
     
-    public Section(Book book) : this()
+    public Section(Book book, string name, int rowIndex)
     {
       if (book == null) throw new ArgumentNullException("book");
+      if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException("name");
 
       Book = book;
+      SectionName = name;
+      SourceRowIndex = rowIndex - 1;
+
+      _pages = new List<Page>();
+
+      //_cells = new List<Cell>();
     }
 
-    public string SectionName { get; set; }
-    public int SourceRowIndex { get; set; }
+    public string SectionName { get; private set; }
+    public int SourceRowIndex { get; private set; }
 
-    public Book Book { get; set; }
+    public Book Book { get; private set; }
 
-    public void AddCell(Cell cell)
+    public IReadOnlyList<Page> Pages
     {
-      _cells.Add(cell);
+      get { return new ReadOnlyCollection<Page>(_pages);}
     }
 
-    public List<Cell> Cells
+    public void AddPage(Page page)
     {
-      get { return new List<Cell>(_cells); }
-    } 
+      _pages.Add(page);
+    }
 
-    public IEnumerable<Page> GetPages(int cellsPerPage)
+    public void AddPageRange(IEnumerable<Page> pages)
     {
-      List<Cell> bucket = null;
-      var count = 0;
+      _pages.AddRange(pages);
+    }
 
-      foreach (var cell in _cells) {
-        if (bucket == null) {
-          bucket = new List<Cell>(cellsPerPage);
-        }
-
-        bucket[count++] = cell;
-
-        // The bucket is fully populated before it's yielded
-        if (count != cellsPerPage) {
-          continue;
-        }
-
-        yield return new Page(this, bucket);
-
-        bucket = null;
-        count = 0;
+    public int PageCount
+    {
+      get
+      {
+        var count = _pages.Count;
+        var mod = count % 2;
+        return mod == 0 ? count : count + 1;
       }
+    }
 
-      // Yield the remaining cells 
-      if (bucket != null && count > 0) {
-        yield return new Page(this, bucket);
-      }
-    } 
-
-    public int GetPageCount(int cellsPerPage)
+    public override string ToString()
     {
-      var count = _cells.Count / cellsPerPage;
-      var mod = _cells.Count % cellsPerPage;
-      return mod == 0 ? count : count + 1;
+      return SectionName;
     }
   }
 }

@@ -1,11 +1,10 @@
-﻿namespace PatioBlox2016.Services.EfImpl
+﻿namespace PatioBlox2016.JobPrepUI.JobBuilders
 {
   using System;
   using System.Collections.Generic;
-  using System.Linq;
   using Abstract;
   using Concrete;
-  using Contracts;
+  using Services.Contracts;
 
   public class CellFactory : ICellFactory
   {
@@ -23,16 +22,19 @@
       _upcReplacementDict = upcReplacementRepository.GetUpcReplacementDictionary();
     }
     
-    public Cell CreateCell(IPatchRowExtract extract)
+    public Cell CreateCell(Page page, IPatchRowExtract extract)
     {
-      var cell = new Cell();
       Description description;
       string upc;
 
-      if (!_descriptionDict.TryGetValue(extract.Description, out description)) {
+      var found = _descriptionDict.TryGetValue(extract.Description, out description);
+
+      if (!found) {
         throw new KeyNotFoundException(
           string.Format("Unable to find a description with the key {0}", extract.Description));
       }
+
+      var cell = new Cell(page, extract.RowIndex, extract.Sku, extract.PalletQuanity, extract.Description);
 
       cell.Upc = _upcReplacementDict.TryGetValue(extract.Upc, out upc) 
         ? upc 
@@ -44,9 +46,6 @@
 
       cell.Color = description.Color;
       cell.Size = description.Size;
-      cell.SourceRowIndex = extract.RowIndex;
-      cell.Sku = extract.Sku;
-      cell.PalletQty = extract.PalletQuanity;
 
       return cell;
     }

@@ -1,16 +1,56 @@
 ﻿namespace PatioBlox2016.Concrete
 {
   using System.Collections.Generic;
+  using System.Linq;
 
   public class Page
   {
-    public Page(Section section, List<Cell> cells)
+    private readonly List<Cell> _cells;
+
+    public Page(Section section)
     {
       Section = section;
-      Cells = cells;
+      _cells = new List<Cell>();
     }
     
     public Section Section { get; private set; }
-    public List<Cell> Cells { get; private set; }
+
+    public IReadOnlyList<Cell> Cells { 
+      get { return _cells.AsReadOnly(); }
+    }
+
+    public void AddCellRange(IEnumerable<Cell> cells)
+    {
+      _cells.AddRange(cells);
+    }
+
+    public void AddCell(Cell cell)
+    {
+      _cells.Add(cell);
+    }
+
+    public string Header
+    {
+      get { return Section.SectionName; }
+    }
+
+    protected bool Equals(Page other)
+    {
+      return Section.Equals(other.Section) && Cells.SequenceEqual(other.Cells);
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      return obj.GetType() == GetType() && Equals((Page) obj);
+    }
+
+    public override int GetHashCode()
+    {
+      unchecked {
+        return (Section.GetHashCode() * 397) ^ Cells.GetHashCode();
+      }
+    }
   }
 }

@@ -50,6 +50,11 @@
       }
     }
 
+    public IEnumerable<IGrouping<string, IPatchRowExtract>> BookGroups
+    {
+      get { return _patchRowExtracts.GroupBy(pr => pr.PatchName); }
+    } 
+
     public IEnumerable<string> UniqueUpcs
     {
       get { return _patchRowExtracts

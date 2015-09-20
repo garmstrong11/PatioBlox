@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICellFactory.cs" />
     <Compile Include="IDescriptionFactory.cs" />
     <Compile Include="IDescriptionRepository.cs" />
     <Compile Include="IKeywordRepository.cs" />

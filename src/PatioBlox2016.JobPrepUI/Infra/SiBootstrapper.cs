@@ -9,6 +9,7 @@
   using Concrete;
   using Extractor;
   using DataAccess;
+  using JobBuilders;
   using Services.Contracts;
   using Services.EfImpl;
   using SimpleInjector;
@@ -42,6 +43,12 @@
       _container.RegisterSingle<IKeywordRepository, KeywordRepository>();
       _container.RegisterSingle<IDescriptionRepository, DescriptionRepository>();
       _container.RegisterSingle<IUpcReplacementRepository, UpcReplacementRepository>();
+
+      _container.Register<ICellFactory, CellFactory>();
+      _container.Register<IPageFactory, PageFactory>();
+      _container.Register<ISectionFactory, SectionFactory>();
+      _container.Register<IBookFactory, BookFactory>();
+      _container.Register<IJobFactory, JobFactory>();
 
       _container.Register<IWindowManager, WindowManager>();
       _container.Register<IPatchFileDropViewModel, PatchFileDropViewModel>();

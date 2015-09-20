@@ -5,11 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
-    <Grid>
-       <DataGrid ItemsSource="{Binding Descriptions}"
+    <DockPanel>
+      <Border DockPanel.Dock="Bottom"
+                  Background="LightGray">
+        <StackPanel Orientation="Horizontal"
+                          HorizontalAlignment="Right">
+          <Button x:Name="Save"
+                          Content="Save"
+                          Margin="4.5 4.5 10 4.5"
+                          Padding="9 4.5"/>
+        </StackPanel>
+      </Border>
+    <DataGrid ItemsSource="{Binding Descriptions}"
                  AutoGenerateColumns="False"
                  CanUserReorderColumns="True"
-                 CanUserSortColumns="True">
+                 CanUserSortColumns="True"
+              Margin="9 0 ">
          <DataGrid.Columns>
            <DataGridTextColumn Header="Id"
                                IsReadOnly="True"
@@ -31,5 +42,5 @@
                                Width="*"/>
          </DataGrid.Columns>
        </DataGrid>     
-    </Grid>
+    </DockPanel>
 </UserControl>

@@ -34,6 +34,11 @@
       }
     }
 
+    public Description Description
+    {
+      get { return _description; }
+    }
+
     public string Size
     {
       get { return _description.Size; }

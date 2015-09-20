@@ -57,5 +57,11 @@
     }
 
     public DescriptionViewModel SelectedDescription { get; set; }
+
+    public void Save()
+    {
+      _descriptionRepository.AddRange(Descriptions.Select(d => d.Description));
+      _descriptionRepository.SaveChanges();
+    }
   }
 }

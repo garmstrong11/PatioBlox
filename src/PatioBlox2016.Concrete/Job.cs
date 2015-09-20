@@ -1,39 +1,24 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-	using System;
 	using System.Collections.Generic;
-  using Seeding;
 
   public class Job
   {
-    private Job()
+    private readonly List<Book> _books;
+    
+    public Job()
     {
-      Books = new HashSet<Book>();
+      _books = new List<Book>();
     }
 
-    public Job(JobDto dto) : this()
+    public List<Book> Books
     {
-      Id = 0;
-      PrinergyJobId = dto.PrinergyJobId;
-      Year = dto.Year;
-      Path = dto.Path;
+      get { return new List<Book>(_books);}
     }
 
-	  public Job(int prinergyJobId, int year, string path) : this()
-	  {
-		  if (string.IsNullOrWhiteSpace(path)) throw new ArgumentNullException("path");
-
-		  PrinergyJobId = prinergyJobId;
-		  Year = year;
-		  Path = path;
-	  }
-
-	  public int Id { get; private set; }
-    public int PrinergyJobId  { get; set; }
-    public int Year { get; set; }
-    public string Path { get; set; }
-
-    public ICollection<Book> Books { get; set; }
-
+    public void AddBook(Book book)
+    {
+      _books.Add(book);
+    }
   }
 }

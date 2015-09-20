@@ -1,8 +1,9 @@
 ﻿namespace PatioBlox2016.Extractor
 {
   using System.Collections.Generic;
+  using System.Linq;
   using Abstract;
-  using PatioBlox2016.Concrete;
+  using Concrete;
 
   public interface IExtractionResult
   {
@@ -20,5 +21,6 @@
     IEnumerable<Barcode> InvalidBarcodes { get; }
 
     IEnumerable<Product> GetUniqueProducts();
+    IEnumerable<IGrouping<string, IPatchRowExtract>> BookGroups { get; }
   }
 }

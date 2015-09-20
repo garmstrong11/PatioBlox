@@ -2,15 +2,24 @@
 {
   public class Cell
   {
-	  public int SourceRowIndex { get; set; }
-	  public int Sku { get; set; }
+    public Cell(Page page, int sourceRowIndex, int sku, string palletQty, string description)
+    {
+      SourceRowIndex = sourceRowIndex;
+      Sku = sku;
+      PalletQty = palletQty;
+      Description = description;
+      Page = page;
+    }
+    
+    public int SourceRowIndex { get; private set; }
+	  public int Sku { get; private set; }
     public string Color { get; set; }
     public string Size { get; set; }
     public string Name { get; set; }
-	  public string PalletQty { get; set; }
+	  public string PalletQty { get; private set; }
 		public string Upc { get; set; }
-    public string Description { get; set; }
-    public Section Section { get; set; }
+    public string Description { get; private set; }
+    public Page Page { get; set; }
 
 	  public string Image
 	  {
@@ -41,6 +50,11 @@
         hashCode = (hashCode*397) ^ (Description != null ? Description.GetHashCode() : 0);
         return hashCode;
       }
+    }
+
+    public override string ToString()
+    {
+      return string.Format("{0}_{1}", SourceRowIndex, Description);
     }
   }
 }
