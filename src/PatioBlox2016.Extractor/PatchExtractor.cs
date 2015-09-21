@@ -48,13 +48,21 @@
       var startRowIndex = FindHeaderRow() + 1;
 
       for (var row = startRowIndex; row <= rowCount; row++) {
+        var sec = XlAdapter.ExtractString(row, _indexService.SectionIndex);
+        var desc = XlAdapter.ExtractString(row, _indexService.DescriptionIndex);
+        var sku = XlAdapter.ExtractInteger(row, _indexService.ItemIndex);
+        var pq = XlAdapter.ExtractString(row, _indexService.PalletQtyIndex) ?? "00";
+
+        var upc = XlAdapter.ExtractString(row, _indexService.UpcIndex)
+                  ?? string.Format("{0}_{1}", sku, pq);
+
         var extract = new PatchRowExtract(patchName, row)
                       {
-                        Section = XlAdapter.ExtractString(row,_indexService.SectionIndex),
-                        Sku = XlAdapter.ExtractInteger(row, _indexService.ItemIndex),
-                        Description = XlAdapter.ExtractString(row, _indexService.DescriptionIndex),
-                        PalletQuanity = XlAdapter.ExtractString(row, _indexService.PalletQtyIndex),
-                        Upc = XlAdapter.ExtractString(row, _indexService.UpcIndex)
+                        Section = sec,
+                        Sku = sku,
+                        Description = desc,
+                        PalletQuanity = pq,
+                        Upc = upc
                       };
 
         yield return extract;

@@ -5,28 +5,35 @@
 
 	public class Book
 	{
-		private Book()
-		{
-			Sections = new HashSet<Section>();
-		}
-
-	  public Book(Job job, string bookName) : this()
+	  private readonly List<Section> _sections; 
+    
+    public Book(Job job, string bookName)
 	  {
-      Id = 0;
       Job = job;
       BookName = bookName;
+      _sections = new List<Section>();
 	  }
 
-		public int Id { get; private set; }
-
     public Job Job { get; set; }
-    public int JobId { get; set; }
 
 		public string BookName { get; private set; }
 
-		public HashSet<Section> Sections { get; set; }
+	  public List<Section> Sections
+	  {
+	    get { return new List<Section>(_sections);}
+	  }
 
-#region Duplicate checking
+	  public void AddSection(Section section)
+	  {
+	    _sections.Add(section);
+	  }
+
+	  public void AddSectionRange(IEnumerable<Section> sections)
+	  {
+	    _sections.AddRange(sections);
+	  }
+
+	  #region Duplicate checking
 
 		public bool HasDuplicateCells
 		{
@@ -37,8 +44,8 @@
 		{
 			get
 			{
-			  var cells = Sections.SelectMany(sec => sec.Cells);
-        var cellGroups = cells.GroupBy(c => c, k => k, new CellDuplicateComparer());
+			  var cells = Sections.SelectMany(sec => sec.Pages.SelectMany(c => c.Cells));
+        var cellGroups = cells.GroupBy(c => c);
 
 				return cellGroups.Where(cg => cg.Count() > 1)
 					.Select(doop => doop.Select(d => d.SourceRowIndex));
@@ -64,8 +71,13 @@
 		public int GetPageCount(int cellsPerPage)
 		{
 			// Page count must always be an even number!
-		  var count = Sections.Sum(sec => sec.GetPageCount(cellsPerPage));
+		  var count = Sections.Sum(sec => sec.PageCount);
 			return count % 2 == 0 ? count : count + 1;
 		}
+
+	  public override string ToString()
+	  {
+	    return BookName;
+	  }
 	}
 }

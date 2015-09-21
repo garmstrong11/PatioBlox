@@ -9,12 +9,10 @@
 
   public class ExtractionResult : IExtractionResult
   {
-    private readonly IDescriptionFactory _descriptionFactory;
     private readonly List<IPatchRowExtract> _patchRowExtracts;
 
-    public ExtractionResult(IDescriptionFactory descriptionFactory)
+    public ExtractionResult()
     {
-      _descriptionFactory = descriptionFactory;
       _patchRowExtracts = new List<IPatchRowExtract>();
     }
 
@@ -40,7 +38,7 @@
       get { return _patchRowExtracts.Select(pr => pr.PatchName).Distinct(); }
     }
 
-    public IEnumerable<Description> UniqueDescriptions
+    public IEnumerable<string> UniqueDescriptions
     {
       get
       {
@@ -48,15 +46,19 @@
           .Where(pr => !string.IsNullOrWhiteSpace(pr.Description))
           .Select(pr => pr.Description).Distinct();
 
-        return descriptionTexts
-          .Select(d => (Description) _descriptionFactory.CreateDescription(d));
+        return descriptionTexts;
       }
     }
+
+    public IEnumerable<IGrouping<string, IPatchRowExtract>> BookGroups
+    {
+      get { return _patchRowExtracts.GroupBy(pr => pr.PatchName); }
+    } 
 
     public IEnumerable<string> UniqueUpcs
     {
       get { return _patchRowExtracts
-        .Where(pr => !string.IsNullOrWhiteSpace(pr.Upc))
+        .Where(pr => !string.IsNullOrWhiteSpace(pr.Upc) && pr.Sku > 0)
         .Select(pr => pr.Upc)
         .Distinct(); }
     }
@@ -73,29 +75,68 @@
       }
     }
 
-    //public IEnumerable<string> UniqueWords
-    //{
-    //  get
-    //  {
-    //    var descriptionsNoSize = UniqueDescriptions
-    //      .Select(d => Description.ExtractRemainder(d).ToUpper());
-
-    //    return descriptionsNoSize
-    //      .SelectMany(w => w.Split(new[] { ' ', '/' }, StringSplitOptions.RemoveEmptyEntries))
-    //      .Distinct()
-    //      .OrderBy(w => w);
-    //  }
-    //}
-
     public IEnumerable<string> UniqueWords
     {
       get
       {
         return UniqueDescriptions
-          .SelectMany(w => w.WordList)
+          .SelectMany(Description.ExtractWordList)
           .Distinct()
           .OrderBy(d => d);
       }
-    } 
+    }
+
+    public IEnumerable<int> UniqueSkus
+    {
+      get { return _patchRowExtracts.Select(pr => pr.Sku).Distinct(); }
+    }
+
+    public IEnumerable<string> InvalidUpcs
+    {
+      get
+      {
+        var badUpcs = from upc in UniqueUpcs
+          let barcode = new Barcode(upc)
+          where !barcode.IsValid
+          select upc;
+
+        return badUpcs;
+      }
+    }
+
+    private IEnumerable<PatchRowExtract> GetProductExtracts()
+    {
+      return _patchRowExtracts
+        .Where(pr => pr.Sku > 0)
+        .Cast<PatchRowExtract>();
+    }
+
+    public IEnumerable<Product> GetUniqueProducts()
+    {
+      var extracts = GetProductExtracts();
+      var groops = extracts.GroupBy(g => new {g.Sku, g.Upc});
+
+      foreach (var groop in groops) {
+        var prod = new Product(groop.Key.Sku, groop.Key.Upc);
+        foreach (var extract in groop) {
+          prod.AddUsage(new UsageLocation(extract.PatchName, extract.RowIndex));
+        }
+
+        yield return prod;
+      }
+    }
+
+    public IEnumerable<Barcode> InvalidBarcodes
+    {
+      get
+      {
+        var badBarcodes = from upc in UniqueUpcs
+          let barcode = new Barcode(upc)
+          where !barcode.IsValid
+          select barcode;
+
+        return badBarcodes;
+      }
+    }
   }
 }

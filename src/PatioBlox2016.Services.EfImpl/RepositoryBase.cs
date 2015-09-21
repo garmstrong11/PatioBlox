@@ -7,7 +7,7 @@
 	using System.Linq.Expressions;
 	using System.Threading.Tasks;
 	using Abstract;
-	using PatioBlox2016.DataAccess;
+	using DataAccess;
 
   public class RepositoryBase<T> : IRepository<T> where T : class
 	{
@@ -65,15 +65,24 @@
     public T Add(T t)
     {
         Context.Set<T>().Add(t);
-        Context.SaveChanges();
         return t;
     }
- 
-    public async Task<T> AddAsync(T t)
+
+    public IEnumerable<T> AddRange(IEnumerable<T> entities)
     {
-        Context.Set<T>().Add(t);
-        await Context.SaveChangesAsync();
-        return t;
+      var addedEntities = Context.Set<T>().AddRange(entities);
+      return addedEntities;
+    }
+
+    public int SaveChanges()
+    {
+      return Context.SaveChanges();
+    }
+
+    public async Task<int> SaveChangesAsync()
+    {
+      var result = await Context.SaveChangesAsync();
+      return result;
     }
  
     public Maybe<T> Update(T updated,int key)

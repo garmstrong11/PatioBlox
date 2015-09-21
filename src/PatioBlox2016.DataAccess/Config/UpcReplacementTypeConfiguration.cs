@@ -3,19 +3,20 @@
   using System.ComponentModel.DataAnnotations.Schema;
   using System.Data.Entity.Infrastructure.Annotations;
   using System.Data.Entity.ModelConfiguration;
-  using Concrete;
+  using PatioBlox2016.Concrete;
 
-  public class SectionNameTypeConfiguration : EntityTypeConfiguration<SectionName>
+  public class UpcReplacementTypeConfiguration : EntityTypeConfiguration<UpcReplacement>
   {
-    public SectionNameTypeConfiguration()
+    public UpcReplacementTypeConfiguration()
     {
-      Property(p => p.Value)
+      Property(p => p.Replacement).IsRequired().HasMaxLength(25);
+      
+      Property(d => d.InvalidUpc)
         .IsRequired()
         .HasMaxLength(25)
         .HasColumnAnnotation(
           IndexAnnotation.AnnotationName,
-          new IndexAnnotation(new IndexAttribute {IsUnique = true})
-        );
+          new IndexAnnotation(new IndexAttribute { IsUnique = true }));
     }
   }
 }

@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DescriptionExtractor.cs" />
     <Compile Include="ExtractorBase.cs" />
     <Compile Include="FlexCelDataSourceAdapter.cs" />
     <Compile Include="FlexCelExtractionException.cs" />

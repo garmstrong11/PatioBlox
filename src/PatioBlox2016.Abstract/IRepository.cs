@@ -20,7 +20,7 @@ namespace PatioBlox2016.Abstract
 		Task<ICollection<T>> FindAllAsync(Expression<Func<T, bool>> match);
 
 		T Add(T t);
-		Task<T> AddAsync(T t);
+    IEnumerable<T> AddRange(IEnumerable<T> entities);
 
 		Maybe<T> Update(T updated,int key);
 		Task<Maybe<T>> UpdateAsync(T updated, int key);
@@ -30,5 +30,8 @@ namespace PatioBlox2016.Abstract
 
 		int Count();
 		Task<int> CountAsync();
+
+    int SaveChanges();
+    Task<int> SaveChangesAsync();
 	}
 }

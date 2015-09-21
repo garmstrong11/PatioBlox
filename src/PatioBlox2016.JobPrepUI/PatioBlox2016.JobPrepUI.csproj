@@ -116,9 +116,21 @@
     <Compile Include="Infra\AcquisitionCompleteEvent.cs" />
     <Compile Include="Infra\ColumnIndexService.cs" />
     <Compile Include="Infra\SettingsService.cs" />
+    <Compile Include="JobBuilders\BookFactory.cs" />
+    <Compile Include="JobBuilders\CellFactory.cs" />
+    <Compile Include="JobBuilders\IBookFactory.cs" />
+    <Compile Include="JobBuilders\ICellFactory.cs" />
+    <Compile Include="JobBuilders\IJobFactory.cs" />
+    <Compile Include="JobBuilders\IPageFactory.cs" />
+    <Compile Include="JobBuilders\ISectionFactory.cs" />
+    <Compile Include="JobBuilders\JobFactory.cs" />
+    <Compile Include="JobBuilders\PageFactory.cs" />
+    <Compile Include="JobBuilders\SectionFactory.cs" />
+    <Compile Include="JobBuilders\SectionNameEqualityComparer.cs" />
     <Compile Include="ViewModels\ActivitiesViewModel.cs" />
+    <Compile Include="ViewModels\DescriptionManagerViewModel.cs" />
+    <Compile Include="ViewModels\DescriptionViewModel.cs" />
     <Compile Include="ViewModels\ErrorWindowViewModel.cs" />
-    <Compile Include="ViewModels\ExpansionViewModel.cs" />
     <Compile Include="ViewModels\IActivitiesViewModel.cs" />
     <Compile Include="ViewModels\IPatchFileDropViewModel.cs" />
     <Compile Include="ViewModels\ISelectableViewModel.cs" />
@@ -127,10 +139,15 @@
     <Compile Include="ViewModels\KeywordViewModel.cs" />
     <Compile Include="ViewModels\PatchFileDropViewModel.cs" />
     <Compile Include="ViewModels\PatchFileViewModel.cs" />
+    <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
-    <Compile Include="ViewModels\WordCandidateViewModel.cs" />
+    <Compile Include="ViewModels\UpcReplacementManagerViewModel.cs" />
+    <Compile Include="ViewModels\UpcReplacementViewModel.cs" />
     <Compile Include="Views\ActivitiesView.xaml.cs">
       <DependentUpon>ActivitiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DescriptionManagerView.xaml.cs">
+      <DependentUpon>DescriptionManagerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ErrorWindowView.xaml.cs">
       <DependentUpon>ErrorWindowView.xaml</DependentUpon>
@@ -146,6 +163,9 @@
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UpcReplacementManagerView.xaml.cs">
+      <DependentUpon>UpcReplacementManagerView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -209,6 +229,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\DescriptionManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ErrorWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -226,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UpcReplacementManagerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

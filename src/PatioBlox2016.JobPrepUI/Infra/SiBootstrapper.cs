@@ -8,8 +8,10 @@
   using Caliburn.Micro;
   using Concrete;
   using Extractor;
-  using PatioBlox2016.DataAccess;
-  using PatioBlox2016.Services.EfImpl;
+  using DataAccess;
+  using JobBuilders;
+  using Services.Contracts;
+  using Services.EfImpl;
   using SimpleInjector;
   using ViewModels;
 
@@ -38,8 +40,15 @@
       _container.RegisterSingle<IPatchExtractor, PatchExtractor>();
       _container.RegisterSingle<IExtractionResult, ExtractionResult>();
       _container.RegisterSingle<IDescriptionFactory, DescriptionFactory>();
-      _container.RegisterSingle<IRepository<Keyword>, KeywordRepository>();
-      _container.RegisterSingle<IRepository<Expansion>, ExpansionRepository>();
+      _container.RegisterSingle<IKeywordRepository, KeywordRepository>();
+      _container.RegisterSingle<IDescriptionRepository, DescriptionRepository>();
+      _container.RegisterSingle<IUpcReplacementRepository, UpcReplacementRepository>();
+
+      _container.Register<ICellFactory, CellFactory>();
+      _container.Register<IPageFactory, PageFactory>();
+      _container.Register<ISectionFactory, SectionFactory>();
+      _container.Register<IBookFactory, BookFactory>();
+      _container.Register<IJobFactory, JobFactory>();
 
       _container.Register<IWindowManager, WindowManager>();
       _container.Register<IPatchFileDropViewModel, PatchFileDropViewModel>();
@@ -48,9 +57,15 @@
       _container.RegisterInitializer<ActivitiesViewModel>(vm =>
       {
         var keywords = _container.GetInstance<KeywordManagerViewModel>();
+        var descriptions = _container.GetInstance<DescriptionManagerViewModel>();
+        var upcReplacements = _container.GetInstance<UpcReplacementManagerViewModel>();
         keywords.DisplayName = "Keyword Manager";
+        descriptions.DisplayName = "Description Manager";
+        upcReplacements.DisplayName = "Upc Replacement Manager";
 
         vm.Screens.Add(keywords);
+        vm.Screens.Add(descriptions);
+        vm.Screens.Add(upcReplacements);
       });
 
       _container.Verify();

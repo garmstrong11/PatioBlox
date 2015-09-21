@@ -1,108 +1,104 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
+  using System;
   using System.Collections.Generic;
   using System.Linq;
   using Caliburn.Micro;
-  using PatioBlox2016.Abstract;
-  using PatioBlox2016.Concrete;
-  using PatioBlox2016.Extractor;
-  using PatioBlox2016.JobPrepUI.Views;
+  using Concrete;
+  using Extractor;
+  using Services.Contracts;
 
   public class KeywordManagerViewModel : Screen
   {
-    private readonly IRepository<Keyword> _keyWordRepository;
-    private readonly IRepository<Expansion> _expansionRepository;
+    private readonly IKeywordRepository _keywordRepository;
     private readonly IExtractionResult _extractionResult;
-    private BindableCollection<WordCandidateViewModel> _candidates;
-    private string _selectedCandidate;
-    private BindableCollection<string> _allKeywords;
+    private BindableCollection<KeywordViewModel> _keywords;
 
-    public KeywordManagerViewModel(IRepository<Keyword> keyWordRepository,
-      IRepository<Expansion> expansionRepository, IExtractionResult extractionResult)
+    public KeywordManagerViewModel(IKeywordRepository keywordRepository, IExtractionResult extractionResult)
     {
-      _keyWordRepository = keyWordRepository;
-      _expansionRepository = expansionRepository;
+      if (keywordRepository == null) throw new ArgumentNullException("keywordRepository");
+      if (extractionResult == null) throw new ArgumentNullException("extractionResult");
+
+      _keywordRepository = keywordRepository;
       _extractionResult = extractionResult;
 
-      Candidates = new BindableCollection<WordCandidateViewModel>();
-      Expansions = new BindableCollection<Expansion>();
       Keywords = new BindableCollection<KeywordViewModel>();
+    }
 
-      Candidates.AddRange(FilterExistingWords(_extractionResult.UniqueWords)
-        .Select(w => new WordCandidateViewModel(w, GetUsages(w))));
+    protected override void OnActivate()
+    {
+      var existingKeywords = _keywordRepository.GetAll();
+      var nameParent = existingKeywords.SingleOrDefault(k => k.Word == "NAME");
+      var existingWords = existingKeywords.Select(k => k.Word);
+
+      var existingRoots = existingKeywords
+        .Where(kw => !kw.ParentId.HasValue)
+        .ToList();
+
+      var existingParentKeywords = existingKeywords
+        .Where(kw => existingRoots.Contains(kw.Parent))
+        .ToList();
+
+      var newKeywords = _extractionResult.UniqueWords
+        .Except(existingWords)
+        .Select(w => new Keyword(w) {Parent = nameParent})
+        .ToList();
+
+      var keywordViewModels = newKeywords
+        .Select(v => new KeywordViewModel(v))
+        .ToList();
+
+      foreach (var viewModel in keywordViewModels)
+      {
+        var firstLetter = viewModel.Word.Substring(0, 1);
+        var parentList = new List<Keyword>(existingRoots);
+        var candidateList = new List<Keyword>();
+        
+        viewModel.Usages.AddRange(GetUsages(viewModel.Word));
+
+        candidateList.AddRange(existingParentKeywords.Where(w => w.Word.StartsWith(firstLetter)));
+        candidateList.AddRange(newKeywords
+          .Where(w => w.Word.StartsWith(firstLetter) && w.Word != viewModel.Word));
+
+        parentList.AddRange(candidateList.OrderBy(k => k.Word));
+
+        viewModel.Parents.AddRange(parentList);
+      }
+
+      Keywords.AddRange(keywordViewModels);
+
+      base.OnActivate();
     }
 
     private IEnumerable<string> GetUsages(string word)
     {
       return _extractionResult.UniqueDescriptions
-        .Where(d => d.WordList.Contains(word))
-        .Select(d => d.Text);
+        .Where(d => Description.ExtractWordList(d).Contains(word))
+        .ToList();
     }
 
-    private IEnumerable<string> FilterExistingWords(IEnumerable<string> candidateWords)
+    public BindableCollection<KeywordViewModel> Keywords
     {
-      var keywords = _keyWordRepository.GetAll().Select(k => k.Word);
-      var expansions = _expansionRepository.GetAll().Select(e => e.Word);
-      var existing = keywords.Union(expansions);
-
-      return candidateWords.Except(existing);
-    }
-
-    public BindableCollection<string> AllKeywords
-    {
-      get { return _allKeywords; }
+      get { return _keywords; }
       set
       {
-        if (Equals(value, _allKeywords)) return;
-        _allKeywords = value;
-        NotifyOfPropertyChange(() => AllKeywords);
+        if (Equals(value, _keywords)) return;
+        _keywords = value;
+        NotifyOfPropertyChange(() => Keywords);
       }
     }
 
-    public BindableCollection<WordCandidateViewModel> Candidates
+    public bool CanSave()
     {
-      get { return _candidates; }
-      set
-      {
-        if (Equals(value, _candidates)) return;
-        _candidates = value;
-        NotifyOfPropertyChange(() => Candidates);
-      }
+      return Keywords.Count > 0;
     }
 
-    public string SelectedCandidate
+    public void Save()
     {
-      get { return _selectedCandidate; }
-      set
-      {
-        if (value == _selectedCandidate) return;
-        _selectedCandidate = value;
-        NotifyOfPropertyChange();
-      }
-    }
+      var kws = Keywords.Select(k => k.Keyword);
 
-    public BindableCollection<Expansion> Expansions { get; set; }
-
-    public BindableCollection<KeywordViewModel> Keywords { get; set; }
-
-    public void MoveToKeywords()
-    {
-      var selectedCandidates = Candidates.Where(w => w.IsSelected).ToList();
-      var keywords = selectedCandidates
-        .Select(k => new KeywordViewModel(k));
-
-      Keywords.AddRange(keywords);
-      Candidates.RemoveRange(selectedCandidates);
-    }
-
-    public void MoveKeywordsToCandidates()
-    {
-      var selectedKeywords = Keywords.Where(k => k.IsSelected).ToList();
-      var candidates = selectedKeywords
-        .Select(k => new WordCandidateViewModel(k)).ToList();
-
-      Candidates.AddRange(candidates);
-      Keywords.RemoveRange(selectedKeywords);
+      _keywordRepository.AddRange(kws);
+      _keywordRepository.SaveChanges();
     }
   }
 }

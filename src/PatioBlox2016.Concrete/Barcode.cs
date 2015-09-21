@@ -5,42 +5,47 @@
   using System.Linq;
   using System.Text.RegularExpressions;
   using System.Threading;
+  using FluentValidation.Results;
+  using PatioBlox2016.Concrete.Validators;
 
   public class Barcode
   {
     private static readonly Regex DigitRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
+    private static readonly int[] ValidLengths = {12, 13};
+    private readonly ValidationResult _validationResult;
 
-    private Barcode() { }
-
-    public Barcode(string upc) : this()
+    public Barcode(string upc)
     {
-      Id = 0;
-      Upc = string.IsNullOrWhiteSpace(upc) ? "11111" : upc;
-    }
-    
-    public int Id { get; private set; }
-    public string Upc { get; set; }
-    public DateTime InsertDate { get; set; }
+      if (string.IsNullOrWhiteSpace(upc)) throw new ArgumentNullException("upc");
+      Upc = upc;
 
-    public BarcodeType BarcodeType
-    {
-      get
-      {
-        var len = Upc.Length;
-        BarcodeType barcodeType;
-        var dict = new Dictionary<int, BarcodeType>
-                   {
-                     {12, BarcodeType.Upc},
-                     {13, BarcodeType.Ean13}
-                   };
-
-        return dict.TryGetValue(len, out barcodeType) ? barcodeType : BarcodeType.Unknown;
-      }
+      var validator = new BarcodeValidator();
+      _validationResult = validator.Validate(this);
     }
 
-    public bool IsNumeric
+    public bool IsValid
     {
-      get { return DigitRegex.IsMatch(Upc); }
+      get { return _validationResult.IsValid; }
+    }
+
+    public IList<ValidationFailure> Errors
+    {
+      get { return _validationResult.Errors; }
+    } 
+
+    public string Upc { get; private set; }
+
+    public int Length
+    {
+      get { return Upc.Length; }
+    }
+
+    /// <summary>
+    /// Identifies a state in which a upc has not been entered in the source data.
+    /// </summary>
+    public bool IsMissing
+    {
+      get { return Upc.Contains("_"); }
     }
 
     public string LastDigit
@@ -52,8 +57,8 @@
     {
       get
       {
-        if (!IsNumeric) return "-1";
-        if (BarcodeType == BarcodeType.Unknown) return "-1";
+        if (!DigitRegex.IsMatch(Upc)) return "-1";
+        if (!ValidLengths.Contains(Length)) return "-1";
 
         var chekString = Upc.Substring(0, Upc.Length - 1);
         var digits = GetInts(chekString);
@@ -70,7 +75,7 @@
       for (var i = 0; i < len; i++)
       {
         var parsed = int.Parse(upc[i].ToString(Thread.CurrentThread.CurrentCulture));
-        if (BarcodeType == BarcodeType.Ean13)
+        if (Length == 13)
         {
           yield return i % 2 == 0 ? parsed : parsed * 3;
         }
@@ -79,6 +84,23 @@
           yield return i % 2 == 0 ? parsed * 3 : parsed;
         }
       }
+    }
+
+    protected bool Equals(Barcode other)
+    {
+      return string.Equals(Upc, other.Upc);
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      return obj.GetType() == GetType() && Equals((Barcode) obj);
+    }
+
+    public override int GetHashCode()
+    {
+      return Upc.GetHashCode();
     }
   }
 }

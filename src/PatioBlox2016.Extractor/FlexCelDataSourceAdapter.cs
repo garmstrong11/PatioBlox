@@ -139,7 +139,7 @@
 
 		private static string CheckString(object val)
 		{
-			if (val == null) return string.Empty;
+			if (val == null) return null;
 
 			var extract = val.ToString().Trim().Replace("\n", " ");
 

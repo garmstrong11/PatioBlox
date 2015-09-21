@@ -1,70 +1,63 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
-  using System;
   using System.Collections.Generic;
   using Caliburn.Micro;
-  using PatioBlox2016.Concrete;
+  using Concrete;
 
-  public class KeywordViewModel : PropertyChangedBase, ISelectableViewModel
+  public class KeywordViewModel : PropertyChangedBase
   {
-    private string _word;
-    private string _wordType;
-    private BindableCollection<string> _wordTypes;
-    private bool _isSelected;
     private List<string> _usages;
+    private readonly Keyword _keyword;
+    private BindableCollection<Keyword> _parents;
 
     public KeywordViewModel()
     {
-      SelectedWordType = "Name";
-      WordTypes = new BindableCollection<string>(Enum.GetNames(typeof(WordType)));
-      IsSelected = false;
-      Word = "Untitled";
+      Parents = new BindableCollection<Keyword>();
       Usages = new List<string>();
     }
 
-    public KeywordViewModel(string word) : this()
+    public KeywordViewModel(Keyword keyword) : this()
     {
-      Word = word;
-    }
-
-    public KeywordViewModel(WordCandidateViewModel wcvm)
-      : this()
-    {
-      Word = wcvm.Word;
-      Usages.AddRange(wcvm.Usages);
-    }
-
-    public bool IsSelected
-    {
-      get { return _isSelected; }
-      set
-      {
-        if (value == _isSelected) return;
-        _isSelected = value;
-        NotifyOfPropertyChange(() => IsSelected);
-      }
+      _keyword = keyword;
     }
 
     public string Word
     {
-      get { return _word; }
+      get { return _keyword.Word; }
       set
       {
-        if (value == _word) return;
-        _word = value;
+        if (value == _keyword.Word) return;
+        _keyword.Word = value;
         NotifyOfPropertyChange(() => Word);
       }
     }
 
-    public BindableCollection<string> WordTypes
+    public BindableCollection<Keyword> Parents
     {
-      get { return _wordTypes; }
+      get { return _parents; }
       set
       {
-        if (Equals(value, _wordTypes)) return;
-        _wordTypes = value;
-        NotifyOfPropertyChange(() => WordTypes);
+        if (Equals(value, _parents)) return;
+        _parents = value;
+        NotifyOfPropertyChange(() => Parents);
       }
+    }
+
+    public Keyword SelectedParent
+    {
+      get { return _keyword.Parent; }
+      set
+      {
+        if (Equals(value, _keyword.Parent)) return;
+
+        _keyword.Parent = value;
+        NotifyOfPropertyChange(() => SelectedParent);
+      }
+    }
+
+    internal Keyword Keyword
+    {
+      get { return _keyword; }
     }
 
     public List<string> Usages
@@ -76,28 +69,6 @@
         _usages = value;
         NotifyOfPropertyChange(() => Usages);
       }
-    }
-
-    public string SelectedWordType
-    {
-      get { return _wordType; }
-      set
-      {
-        if (value == _wordType) return;
-        _wordType = value;
-        NotifyOfPropertyChange(() => SelectedWordType);
-      }
-    }
-
-    public Keyword MapToKeyword()
-    {
-      var keywordDto = new Keyword
-      {
-        Word = Word,
-        WordType = (WordType) Enum.Parse(typeof(WordType), SelectedWordType)
-      };
-
-      return keywordDto;
     }
   }
 }

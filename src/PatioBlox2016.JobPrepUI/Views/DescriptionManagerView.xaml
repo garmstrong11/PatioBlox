@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="PatioBlox2016.JobPrepUI.Views.DescriptionManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="400">
+    <DockPanel>
+      <Border DockPanel.Dock="Bottom"
+                  Background="LightGray">
+        <StackPanel Orientation="Horizontal"
+                          HorizontalAlignment="Right">
+          <Button x:Name="Save"
+                          Content="Save"
+                          Margin="4.5 4.5 10 4.5"
+                          Padding="9 4.5"/>
+        </StackPanel>
+      </Border>
+    <DataGrid ItemsSource="{Binding Descriptions}"
+                 AutoGenerateColumns="False"
+                 CanUserReorderColumns="True"
+                 CanUserSortColumns="True"
+              Margin="9 0 ">
+         <DataGrid.Columns>
+           <DataGridTextColumn Header="Id"
+                               IsReadOnly="True"
+                               Binding="{Binding Id}"/>
+           <DataGridTextColumn Header="Text"
+                               IsReadOnly="True"
+                               Binding="{Binding Text}"/>
+           <DataGridTextColumn Header="Size"
+                               Binding="{Binding Size}"/>
+           <DataGridTextColumn Header="Color"
+                               Binding="{Binding Color}"/>
+           <DataGridTextColumn Header="Name"
+                               Binding="{Binding Name}"/>
+           <DataGridTextColumn Header="Vendor"
+                               Binding="{Binding Vendor}"/>
+           <DataGridTextColumn Header="Insert Date"
+                               IsReadOnly="True"
+                               Binding="{Binding InsertDate}"
+                               Width="*"/>
+         </DataGrid.Columns>
+       </DataGrid>     
+    </DockPanel>
+</UserControl>
