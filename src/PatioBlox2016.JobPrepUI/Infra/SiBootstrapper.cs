@@ -45,8 +45,6 @@
       _container.RegisterSingle<IUpcReplacementRepository, UpcReplacementRepository>();
 
       _container.Register<ICellFactory, CellFactory>();
-      _container.Register<IPageFactory, PageFactory>();
-      _container.Register<ISectionFactory, SectionFactory>();
       _container.Register<IBookFactory, BookFactory>();
       _container.Register<IJobFactory, JobFactory>();
 

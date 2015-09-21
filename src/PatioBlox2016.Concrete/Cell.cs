@@ -1,25 +1,61 @@
 ﻿namespace PatioBlox2016.Concrete
 {
+  using System.Collections.Generic;
+  using System.Linq;
+  using PatioBlox2016.Abstract;
+  using PatioBlox2016.Concrete.Exceptions;
+
   public class Cell
   {
-    public Cell(Page page, int sourceRowIndex, int sku, string palletQty, string description)
+    public Cell(int sourceRowIndex, int sku, string palletQty, string description)
     {
       SourceRowIndex = sourceRowIndex;
       Sku = sku;
       PalletQty = palletQty;
       Description = description;
-      Page = page;
+      //Page = page;
+    }
+
+    public Cell(IPatchRowExtract extract)
+    {
+      SourceRowIndex = extract.RowIndex;
+      Sku = extract.Sku;
+      PalletQty = extract.PalletQuanity;
+      Description = extract.Description;
     }
     
     public int SourceRowIndex { get; private set; }
-	  public int Sku { get; private set; }
+    public int Sku { get; private set; }
+    public string Description { get; private set; }
+    public string PalletQty { get; private set; }
     public string Color { get; set; }
     public string Size { get; set; }
     public string Name { get; set; }
-	  public string PalletQty { get; private set; }
-		public string Upc { get; set; }
-    public string Description { get; private set; }
-    public Page Page { get; set; }
+    public string Upc { get; set; }
+    public Section Section { get; set; }
+
+    public void FindSection(IEnumerable<Section> sections)
+    {
+      var section = sections
+        .OrderBy(s => s.SourceRowIndex)
+        .LastOrDefault(s => s.SourceRowIndex <= SourceRowIndex);
+
+      if (section != null) {
+        Section = section;
+        section.AddCell(this);
+        
+        return;
+      }
+
+      // Handle section not found...
+      var message = string.Format(
+        "Unable to find a Section for the Cell at index {0}, Sku: {1}, Description: {2}",
+        SourceRowIndex, Sku, Description);
+
+      var exception = new CellConstructionException(SourceRowIndex, Sku, Description, message);
+
+      throw exception;
+    }
 
 	  public string Image
 	  {

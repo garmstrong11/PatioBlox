@@ -18,11 +18,11 @@
     public Job CreateJob()
     {
       var job = new Job();
-      foreach (var patchName in _extractionResult.PatchNames) {
-        var name = patchName;
-        var extracts = _extractionResult.PatchRowExtracts.Where(p => p.PatchName == name);
-        job.AddBook(_bookFactory.CreateBook(job, name, extracts));
-      }
+
+      var books = _extractionResult.BookGroups
+        .Select(bg => _bookFactory.CreateBook(job, bg.Key, bg));
+
+      job.AddBookRange(books);
 
       return job;
     }

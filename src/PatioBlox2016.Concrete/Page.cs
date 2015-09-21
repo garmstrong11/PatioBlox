@@ -1,16 +1,18 @@
 ﻿namespace PatioBlox2016.Concrete
 {
   using System.Collections.Generic;
+  using System.Globalization;
   using System.Linq;
 
   public class Page
   {
     private readonly List<Cell> _cells;
+    private static readonly TextInfo TextInfo = new CultureInfo("en-US", false).TextInfo;
 
-    public Page(Section section)
+    public Page(Section section, IEnumerable<Cell> cells)
     {
       Section = section;
-      _cells = new List<Cell>();
+      _cells = new List<Cell>(cells);
     }
     
     public Section Section { get; private set; }
@@ -31,7 +33,11 @@
 
     public string Header
     {
-      get { return Section.SectionName; }
+      get
+      {
+        var lowered = TextInfo.ToLower(Section.SectionName);
+        return TextInfo.ToTitleCase(lowered);
+      }
     }
 
     protected bool Equals(Page other)

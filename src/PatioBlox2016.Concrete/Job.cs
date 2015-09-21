@@ -11,14 +11,24 @@
       _books = new List<Book>();
     }
 
-    public List<Book> Books
+    public IReadOnlyCollection<Book> Books
     {
-      get { return new List<Book>(_books);}
+      get { return _books.AsReadOnly();}
     }
 
     public void AddBook(Book book)
     {
       _books.Add(book);
+    }
+
+    public void AddBookRange(IEnumerable<Book> books)
+    {
+      _books.AddRange(books);
+    }
+
+    public void RemoveBook(Book book)
+    {
+      _books.Remove(book);
     }
   }
 }

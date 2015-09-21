@@ -18,9 +18,9 @@
 
 		public string BookName { get; private set; }
 
-	  public List<Section> Sections
+	  public IReadOnlyCollection<Section> Sections
 	  {
-	    get { return new List<Section>(_sections);}
+	    get { return _sections.AsReadOnly();}
 	  }
 
 	  public void AddSection(Section section)
@@ -31,6 +31,11 @@
 	  public void AddSectionRange(IEnumerable<Section> sections)
 	  {
 	    _sections.AddRange(sections);
+	  }
+
+	  public void RemoveSection(Section section)
+	  {
+	    _sections.Remove(section);
 	  }
 
 	  #region Duplicate checking
@@ -44,7 +49,7 @@
 		{
 			get
 			{
-			  var cells = Sections.SelectMany(sec => sec.Pages.SelectMany(c => c.Cells));
+			  var cells = Sections.SelectMany(s => s.Cells);
         var cellGroups = cells.GroupBy(c => c);
 
 				return cellGroups.Where(cg => cg.Count() > 1)
@@ -68,11 +73,14 @@
 
 #endregion
 
-		public int GetPageCount(int cellsPerPage)
+		public int PageCount
 		{
-			// Page count must always be an even number!
-		  var count = Sections.Sum(sec => sec.PageCount);
-			return count % 2 == 0 ? count : count + 1;
+		  get
+		  {
+        // Page count must always be an even number!
+        var count = Sections.Sum(sec => sec.PageCount);
+        return count % 2 == 0 ? count : count + 1;
+		  }
 		}
 
 	  public override string ToString()

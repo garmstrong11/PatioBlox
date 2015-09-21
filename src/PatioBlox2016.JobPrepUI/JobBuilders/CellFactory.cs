@@ -4,6 +4,7 @@
   using System.Collections.Generic;
   using Abstract;
   using Concrete;
+  using PatioBlox2016.Concrete.Exceptions;
   using Services.Contracts;
 
   public class CellFactory : ICellFactory
@@ -22,19 +23,24 @@
       _upcReplacementDict = upcReplacementRepository.GetUpcReplacementDictionary();
     }
     
-    public Cell CreateCell(Page page, IPatchRowExtract extract)
+    public Cell CreateCell(IPatchRowExtract extract)
     {
       Description description;
       string upc;
 
+      var cell = new Cell(extract);
+
       var found = _descriptionDict.TryGetValue(extract.Description, out description);
 
       if (!found) {
-        throw new KeyNotFoundException(
-          string.Format("Unable to find a description with the key {0}", extract.Description));
-      }
+        var message = string.Format(
+        "Unable to find a Description for the Cell at index {0}, Sku: {1}, Description: {2}",
+        extract.RowIndex, extract.Sku, extract.Description);
 
-      var cell = new Cell(page, extract.RowIndex, extract.Sku, extract.PalletQuanity, extract.Description);
+        var exception = new CellConstructionException(extract.RowIndex, extract.Sku, extract.Description, message);
+
+        throw exception;
+      }
 
       cell.Upc = _upcReplacementDict.TryGetValue(extract.Upc, out upc) 
         ? upc 

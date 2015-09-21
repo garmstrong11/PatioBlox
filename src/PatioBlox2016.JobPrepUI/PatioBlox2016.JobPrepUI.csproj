@@ -121,11 +121,7 @@
     <Compile Include="JobBuilders\IBookFactory.cs" />
     <Compile Include="JobBuilders\ICellFactory.cs" />
     <Compile Include="JobBuilders\IJobFactory.cs" />
-    <Compile Include="JobBuilders\IPageFactory.cs" />
-    <Compile Include="JobBuilders\ISectionFactory.cs" />
     <Compile Include="JobBuilders\JobFactory.cs" />
-    <Compile Include="JobBuilders\PageFactory.cs" />
-    <Compile Include="JobBuilders\SectionFactory.cs" />
     <Compile Include="JobBuilders\SectionNameEqualityComparer.cs" />
     <Compile Include="ViewModels\ActivitiesViewModel.cs" />
     <Compile Include="ViewModels\DescriptionManagerViewModel.cs" />

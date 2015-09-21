@@ -5,6 +5,6 @@
 
   public interface ICellFactory
   {
-    Cell CreateCell(Page page, IPatchRowExtract extract);
+    Cell CreateCell(IPatchRowExtract extract);
   }
 }
