@@ -40,8 +40,8 @@
 
       //var dupes = products.Where(p => p.HasPatchProductDuplicates);
       
-      var job = _jobFactory.CreateJob();
-      var badBooks = job.Books.Where(b => b.HasDuplicateCells);
+      //var job = _jobFactory.CreateJob();
+      //var badBooks = job.Books.Where(b => b.HasDuplicateCells);
       UpcReplacements.AddRange(products.Select(p => new UpcReplacementViewModel(p)));
       
       base.OnActivate();
