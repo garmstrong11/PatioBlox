@@ -2,6 +2,7 @@
 {
   using System.Collections.Generic;
   using System.Linq;
+  using System.Text;
   using PatioBlox2016.Abstract;
   using PatioBlox2016.Concrete.Exceptions;
 
@@ -91,6 +92,14 @@
     public override string ToString()
     {
       return string.Format("{0}_{1}", SourceRowIndex, Description);
+    }
+
+    public string ToJsxString(int indentCount)
+    {
+      const string fmt =
+        "{{ 'sku' : {0}, 'upc' : '{1}', 'size' : '{2}', 'color' : '{3}', 'name' : '{4}', 'palletQty' : '{5}' }}";
+
+      return string.Format(fmt, Sku, Upc, Size, Color, Name, PalletQty).Indent(indentCount);
     }
   }
 }

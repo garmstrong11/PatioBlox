@@ -3,6 +3,7 @@
   using System.Collections.Generic;
   using System.Globalization;
   using System.Linq;
+  using System.Text;
 
   public class Page
   {
@@ -57,6 +58,27 @@
       unchecked {
         return (Section.GetHashCode() * 397) ^ Cells.GetHashCode();
       }
+    }
+
+    public string ToJsxString(int indentLevel)
+    {
+      var sb = new StringBuilder();
+      var contentLevel = indentLevel + 1;
+      var cellLevel = indentLevel + 2;
+
+      sb.AppendLine("{".Indent(indentLevel));
+      var header = string.Format("'header' : '{0}',", Header).Indent(contentLevel);
+      sb.AppendLine(header);
+      sb.AppendLine("'blocks' : [".Indent(contentLevel));
+
+      var cellStrings = Cells.Select(c => c.ToJsxString(cellLevel));
+      var joinedCells = string.Join(",\n", cellStrings);
+      sb.Append(joinedCells);
+      sb.AppendLine();
+      sb.AppendLine("]".Indent(contentLevel));
+      sb.Append("}".Indent(indentLevel));
+
+      return sb.ToString();
     }
   }
 }
