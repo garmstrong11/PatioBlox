@@ -9,5 +9,9 @@
     Dictionary<string, Description> GetDescriptionDictionary();
 
     IEnumerable<string> FilterExisting(IEnumerable<string> texts);
+
+    IEnumerable<Description> GetDescriptionsForJob(IEnumerable<string> descriptionStrings);
+
+    Dictionary<string, int> GetTextToIdDict();
   }
 }

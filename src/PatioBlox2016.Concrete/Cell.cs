@@ -2,9 +2,8 @@
 {
   using System.Collections.Generic;
   using System.Linq;
-  using System.Text;
-  using PatioBlox2016.Abstract;
-  using PatioBlox2016.Concrete.Exceptions;
+  using Abstract;
+  using Exceptions;
 
   public class Cell
   {
@@ -14,7 +13,6 @@
       Sku = sku;
       PalletQty = palletQty;
       Description = description;
-      //Page = page;
     }
 
     public Cell(IPatchRowExtract extract)
@@ -29,9 +27,7 @@
     public int Sku { get; private set; }
     public string Description { get; private set; }
     public string PalletQty { get; private set; }
-    public string Color { get; set; }
-    public string Size { get; set; }
-    public string Name { get; set; }
+    public int DescriptionId { get; set; }
     public string Upc { get; set; }
     public Section Section { get; set; }
 
@@ -97,9 +93,9 @@
     public string ToJsxString(int indentCount)
     {
       const string fmt =
-        "{{ 'sku' : {0}, 'upc' : '{1}', 'size' : '{2}', 'color' : '{3}', 'name' : '{4}', 'palletQty' : '{5}' }}";
+        "{{ 'sku' : {0}, 'upc' : '{1}', 'descriptionId' : {2}, 'palletQty' : '{3}' }}";
 
-      return string.Format(fmt, Sku, Upc, Size, Color, Name, PalletQty).Indent(indentCount);
+      return string.Format(fmt, Sku, Upc, DescriptionId, PalletQty).Indent(indentCount);
     }
   }
 }

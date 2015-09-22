@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
-
-namespace PatioBlox2016.Concrete
+﻿namespace PatioBlox2016.Concrete
 {
   using System;
   using System.Linq;
   using Abstract;
+  using System.Collections.Generic;
+  using System.Text.RegularExpressions;
 
   public class Description : IDescription
 	{
     private static readonly Regex SizeRegex = 
       new Regex(@"(\d+\.?\d*)-?(I-?N|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", 
         RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
 
     private Description() { }
 
@@ -36,6 +34,16 @@ namespace PatioBlox2016.Concrete
     public List<string> WordList
     {
       get { return ExtractWordList(Text); }
+    }
+
+    public string FullName
+    {
+      get
+      {
+        return string.IsNullOrWhiteSpace(Vendor)
+          ? Name
+          : string.Format("{0}|{1}", Vendor, Name);
+      }
     }
 
     /// <summary>
@@ -81,24 +89,22 @@ namespace PatioBlox2016.Concrete
       return obj.GetType() == GetType() && Equals((Description) obj);
     }
 
-    public override string ToString()
-    {
-      return Text;
-    }
-
     public override int GetHashCode()
     {
       return Text.GetHashCode();
     }
 
-    public static bool operator ==(Description left, Description right)
+    public override string ToString()
     {
-      return Equals(left, right);
+      return Text;
     }
 
-    public static bool operator !=(Description left, Description right)
+    public string ToJsxString(int indentLevel)
     {
-      return !Equals(left, right);
+      var idLine = string.Format("'{0}' : {{ 'size' : '{1}', 'color' : '{2}', 'name' : '{3}' }}",
+        Id, Size, Color, FullName);
+
+      return idLine.Indent(indentLevel);
     }
   }
 }

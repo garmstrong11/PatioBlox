@@ -2,10 +2,12 @@
 {
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Text;
 
-	public class Book
+  public class Book
 	{
-	  private readonly List<Section> _sections; 
+	  private static readonly StringBuilder Sb = new StringBuilder();
+    private readonly List<Section> _sections; 
     
     public Book(Job job, string bookName)
 	  {
@@ -38,7 +40,27 @@
 	    _sections.Remove(section);
 	  }
 
-	  #region Duplicate checking
+    protected bool Equals(Book other)
+    {
+      return string.Equals(BookName, other.BookName) 
+        && Sections.SequenceEqual(other.Sections);
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      return obj.GetType() == GetType() && Equals((Book) obj);
+    }
+
+    public override int GetHashCode()
+    {
+      unchecked {
+        return (BookName.GetHashCode() * 397) ^ Sections.GetHashCode();
+      }
+    }
+
+    #region Duplicate checking
 
 		public bool HasDuplicateCells
 		{
@@ -86,6 +108,34 @@
 	  public override string ToString()
 	  {
 	    return BookName;
+	  }
+
+	  public string ToJsxString(int indentLevel)
+	  {
+	    var contentLevel = indentLevel + 1;
+	    var childLevel = indentLevel + 2;
+	    Sb.Clear();
+
+	    var bookName = string.Format("'{0}' : {{", BookName).Indent(indentLevel);
+	    Sb.AppendLine(bookName);
+
+	    var nameProp = string.Format("'name' : '{0}',", BookName).Indent(contentLevel);
+	    Sb.AppendLine(nameProp);
+
+	    var pagesLine = "'pages' : [".Indent(contentLevel);
+	    Sb.AppendLine(pagesLine);
+
+	    var pageStrings = Sections
+        .SelectMany(s => s.Pages)
+        .Select(p => p.ToJsxString(childLevel));
+
+	    var joinedPages = string.Join(",\n", pageStrings);
+	    Sb.AppendLine(joinedPages);
+
+	    Sb.AppendLine("]".Indent(contentLevel));
+	    Sb.Append("}".Indent(indentLevel));
+
+	    return Sb.ToString();
 	  }
 	}
 }

@@ -1,5 +1,6 @@
 ﻿namespace PatioBlox2016.Concrete
 {
+  using System;
   using System.Linq;
   using System.Text.RegularExpressions;
 
@@ -17,6 +18,9 @@
 
     public static string Indent(this string source, int count)
     {
+      if (count < 0) { throw new ArgumentOutOfRangeException("count"); }
+      if (count == 0) { return source; }
+
       var tabs = Enumerable.Range(1, count).Aggregate("", (agg, x) => agg + "\t");
       return string.Format("{0}{1}", tabs, source);
     }

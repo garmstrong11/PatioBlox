@@ -6,6 +6,7 @@
   using System.Text.RegularExpressions;
   using Abstract;
   using Concrete;
+  using Concrete.Exceptions;
 
   public class BookFactory : IBookFactory
   {
@@ -34,12 +35,24 @@
 
       var sections = ExtractSections(book, extracts);
 
-      // Filter patchRows with Sku = -1
-      var cells = extracts
-        .Where(e => e.Sku >= 0)
-        .Select(pr => _cellFactory.CreateCell(pr));
+      IEnumerable<Cell> cells;
 
-      // May throw CellConstructionException:
+      try {
+        // Filter patchRows with Sku = -1
+        cells = extracts
+          .Where(e => e.Sku >= 0)
+          .Select(pr => _cellFactory.CreateCell(pr))
+          .ToList();
+      }
+
+      catch (CellConstructionException exc) {
+        var message = string.Format("Cell construction failed for row {0} (Sku {1}) in book '{2}'",
+          exc.RowIndex, exc.Sku, book.BookName);
+
+        var bookException = new BookConstructionException(book.BookName, message);
+        throw bookException;
+      }
+
       foreach (var cell in cells) {
         cell.FindSection(sections);
       }
@@ -52,12 +65,22 @@
 
     private List<Section> ExtractSections(Book book, IEnumerable<IPatchRowExtract> extracts)
     {
+      var sectionsSet = new HashSet<Section>(new SectionNameEqualityComparer());
+
       var sections = extracts
         .Where(pr => !string.IsNullOrWhiteSpace(pr.Section))
         .Where(pr => !Regex.IsMatch(pr.Section, @"^Page ?\d+$"))
-        .Select(s => new Section(book, s.Section, s.RowIndex, _settings.CellsPerPage));
+        .Select(s => new Section(book, s.Section, s.RowIndex, _settings.CellsPerPage))
+        .OrderBy(s => s.SourceRowIndex);
 
-      return sections.Distinct(new SectionNameEqualityComparer()).ToList();
+      // Clock the sections one by one into a HashSet. 
+      // In the event that duplicate section names exist,
+      // only the first instance (by name) will be kept:
+      foreach (var section in sections) {
+        sectionsSet.Add(section);
+      }
+
+      return sectionsSet.ToList();
     }
   }
 }

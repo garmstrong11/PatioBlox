@@ -9,6 +9,7 @@
   {
     private readonly List<Cell> _cells;
     private static readonly TextInfo TextInfo = new CultureInfo("en-US", false).TextInfo;
+    private static readonly StringBuilder Sb = new StringBuilder();
 
     public Page(Section section, IEnumerable<Cell> cells)
     {
@@ -62,23 +63,23 @@
 
     public string ToJsxString(int indentLevel)
     {
-      var sb = new StringBuilder();
       var contentLevel = indentLevel + 1;
       var cellLevel = indentLevel + 2;
+      Sb.Clear();
 
-      sb.AppendLine("{".Indent(indentLevel));
+      Sb.AppendLine("{".Indent(indentLevel));
       var header = string.Format("'header' : '{0}',", Header).Indent(contentLevel);
-      sb.AppendLine(header);
-      sb.AppendLine("'blocks' : [".Indent(contentLevel));
+      Sb.AppendLine(header);
+      Sb.AppendLine("'blocks' : [".Indent(contentLevel));
 
       var cellStrings = Cells.Select(c => c.ToJsxString(cellLevel));
       var joinedCells = string.Join(",\n", cellStrings);
-      sb.Append(joinedCells);
-      sb.AppendLine();
-      sb.AppendLine("]".Indent(contentLevel));
-      sb.Append("}".Indent(indentLevel));
 
-      return sb.ToString();
+      Sb.AppendLine(joinedCells);
+      Sb.AppendLine("]".Indent(contentLevel));
+      Sb.Append("}".Indent(indentLevel));
+
+      return Sb.ToString();
     }
   }
 }

@@ -17,10 +17,22 @@
       return GetAll().ToDictionary(k => k.Text);
     }
 
+    public Dictionary<string, int> GetTextToIdDict()
+    {
+      return Context.Descriptions
+        .Select(d => new {d.Text, d.Id})
+        .ToDictionary(k => k.Text, v => v.Id);
+    }
+
     public IEnumerable<string> FilterExisting(IEnumerable<string> texts)
     {
       return texts
         .Except(GetAll().Select(d => d.Text));
+    }
+
+    public IEnumerable<Description> GetDescriptionsForJob(IEnumerable<string> descriptionStrings)
+    {
+      return Context.Descriptions.Where(d => descriptionStrings.Contains(d.Text));
     }
   }
 }
