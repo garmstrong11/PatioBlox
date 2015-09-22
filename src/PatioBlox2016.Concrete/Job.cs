@@ -3,32 +3,33 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
+	using Abstract;
 
-  public class Job
+  public class Job : IJob
   {
-    private readonly List<Book> _books;
+    private readonly List<IBook> _books;
     
     public Job()
     {
-      _books = new List<Book>();
+      _books = new List<IBook>();
     }
 
-    public IReadOnlyCollection<Book> Books
+    public IReadOnlyCollection<IBook> Books
     {
       get { return _books.AsReadOnly();}
     }
 
-    public void AddBook(Book book)
+    public void AddBook(IBook book)
     {
       _books.Add(book);
     }
 
-    public void AddBookRange(IEnumerable<Book> books)
+    public void AddBookRange(IEnumerable<IBook> books)
     {
       _books.AddRange(books);
     }
 
-    public void RemoveBook(Book book)
+    public void RemoveBook(IBook book)
     {
       _books.Remove(book);
     }

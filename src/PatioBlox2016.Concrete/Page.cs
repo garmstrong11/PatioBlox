@@ -4,31 +4,32 @@
   using System.Globalization;
   using System.Linq;
   using System.Text;
+  using Abstract;
 
-  public class Page
+  public class Page : IPage
   {
-    private readonly List<Cell> _cells;
+    private readonly List<ICell> _cells;
     private static readonly TextInfo TextInfo = new CultureInfo("en-US", false).TextInfo;
     private static readonly StringBuilder Sb = new StringBuilder();
 
-    public Page(Section section, IEnumerable<Cell> cells)
+    public Page(ISection section, IEnumerable<ICell> cells)
     {
       Section = section;
-      _cells = new List<Cell>(cells);
+      _cells = new List<ICell>(cells);
     }
     
-    public Section Section { get; private set; }
+    public ISection Section { get; private set; }
 
-    public IReadOnlyList<Cell> Cells { 
+    public IReadOnlyList<ICell> Cells { 
       get { return _cells.AsReadOnly(); }
     }
 
-    public void AddCellRange(IEnumerable<Cell> cells)
+    public void AddCellRange(IEnumerable<ICell> cells)
     {
       _cells.AddRange(cells);
     }
 
-    public void AddCell(Cell cell)
+    public void AddCell(ICell cell)
     {
       _cells.Add(cell);
     }

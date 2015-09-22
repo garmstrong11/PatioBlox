@@ -4,13 +4,14 @@
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
   using System.Linq;
+  using Abstract;
 
-  public class Section
+  public class Section : ISection
   {
     private readonly int _cellsPerPage;
-    private readonly List<Cell> _cells;
+    private readonly List<ICell> _cells;
     
-    public Section(Book book, string name, int rowIndex, int cellsPerPage)
+    public Section(IBook book, string name, int rowIndex, int cellsPerPage)
     {
       _cellsPerPage = cellsPerPage;
       if (book == null) throw new ArgumentNullException("book");
@@ -20,35 +21,35 @@
       SectionName = name;
       SourceRowIndex = rowIndex - 1;
 
-      _cells = new List<Cell>();
+      _cells = new List<ICell>();
     }
 
     public string SectionName { get; private set; }
     public int SourceRowIndex { get; private set; }
 
-    public Book Book { get; private set; }
+    public IBook Book { get; private set; }
 
-    public void AddCell(Cell cell)
+    public void AddCell(ICell cell)
     {
       _cells.Add(cell);
     }
 
-    public void AddCellRange(IEnumerable<Cell> cells)
+    public void AddCellRange(IEnumerable<ICell> cells)
     {
       _cells.AddRange(cells);
     }
 
-    public void RemoveCell(Cell cell)
+    public void RemoveCell(ICell cell)
     {
       _cells.Remove(cell);
     }
 
-    public ReadOnlyCollection<Cell> Cells
+    public ReadOnlyCollection<ICell> Cells
     {
       get { return _cells.AsReadOnly(); }
     }
 
-    public IReadOnlyList<Page> Pages
+    public IReadOnlyList<IPage> Pages
     {
       get
       {
@@ -70,16 +71,16 @@
       return SectionName;
     }
 
-    private IEnumerable<IEnumerable<Cell>> SplitCellsIntoPages()
+    private IEnumerable<IEnumerable<ICell>> SplitCellsIntoPages()
     {
-      List<Cell> bucket = null;
+      List<ICell> bucket = null;
       var count = 0;
 
       foreach (var cell in _cells)
       {
         if (bucket == null)
         {
-          bucket = new List<Cell>();
+          bucket = new List<ICell>();
         }
 
         bucket.Add(cell);

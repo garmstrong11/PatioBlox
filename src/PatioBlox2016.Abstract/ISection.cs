@@ -1,14 +1,19 @@
 ﻿namespace PatioBlox2016.Abstract
 {
+  using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+
   public interface ISection
   {
-    int Id { get; set; }
-    SectionName SectionName { get; set; }
-    int SectionNameId { get; set; }
-    int SourceRowIndex { get; set; }
-    Book Book { get; set; }
-    int BookId { get; set; }
-    ICollection<Cell> Cells { get; set; }
-    int GetPageCount(int cellsPerPage);
+    string SectionName { get; }
+    int SourceRowIndex { get; }
+    IBook Book { get; }
+    ReadOnlyCollection<ICell> Cells { get; }
+    IReadOnlyList<IPage> Pages { get; }
+    int PageCount { get; }
+
+    void AddCell(ICell cell);
+    void AddCellRange(IEnumerable<ICell> cells);
+    void RemoveCell(ICell cell);
   }
 }

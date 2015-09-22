@@ -5,7 +5,7 @@
   using Abstract;
   using Exceptions;
 
-  public class Cell
+  public class Cell : ICell
   {
     public Cell(int sourceRowIndex, int sku, string palletQty, string description)
     {
@@ -29,9 +29,9 @@
     public string PalletQty { get; private set; }
     public int DescriptionId { get; set; }
     public string Upc { get; set; }
-    public Section Section { get; set; }
+    public ISection Section { get; set; }
 
-    public void FindSection(IEnumerable<Section> sections)
+    public void FindSection(IEnumerable<ISection> sections)
     {
       var section = sections
         .OrderBy(s => s.SourceRowIndex)
@@ -93,7 +93,7 @@
     public string ToJsxString(int indentCount)
     {
       const string fmt =
-        "{{ 'sku' : {0}, 'upc' : '{1}', 'descriptionId' : {2}, 'palletQty' : '{3}' }}";
+        "{{ 'sku' : {0}, 'upc' : '{1}', 'dId' : {2}, 'qty' : '{3}' }}";
 
       return string.Format(fmt, Sku, Upc, DescriptionId, PalletQty).Indent(indentCount);
     }

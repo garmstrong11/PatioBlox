@@ -1,11 +1,12 @@
-namespace PatioBlox2016.Abstract
+﻿namespace PatioBlox2016.Abstract
 {
-  public interface IJob
+  using System.Collections.Generic;
+
+  public interface IJob : IJsxExportable
   {
-    int Id { get; }
-    int PrinergyJobId { get; set; }
-    int Year { get; set; }
-    string Path { get; set; }
-    ICollection<Book> Books { get; set; }
+    IReadOnlyCollection<IBook> Books { get; }
+    void AddBook(IBook book);
+    void AddBookRange(IEnumerable<IBook> books);
+    void RemoveBook(IBook book);
   }
 }

@@ -44,13 +44,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBook.cs" />
+    <Compile Include="ICell.cs" />
     <Compile Include="IColumnIndexService.cs" />
     <Compile Include="IDataSourceAdapter.cs" />
     <Compile Include="IDescription.cs" />
+    <Compile Include="IJob.cs" />
     <Compile Include="IJobFolders.cs" />
+    <Compile Include="IJsxExportable.cs" />
+    <Compile Include="IPage.cs" />
     <Compile Include="IPatchRowExtract.cs" />
     <Compile Include="IProduct.cs" />
     <Compile Include="IRepository.cs" />
+    <Compile Include="ISection.cs" />
     <Compile Include="ISettingsService.cs" />
     <Compile Include="Maybe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

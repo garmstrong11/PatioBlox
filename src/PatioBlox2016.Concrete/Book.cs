@@ -3,39 +3,40 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
+	using Abstract;
 
-  public class Book
-	{
+  public class Book : IBook
+  {
 	  private static readonly StringBuilder Sb = new StringBuilder();
-    private readonly List<Section> _sections; 
+    private readonly List<ISection> _sections; 
     
     public Book(Job job, string bookName)
 	  {
       Job = job;
       BookName = bookName;
-      _sections = new List<Section>();
+      _sections = new List<ISection>();
 	  }
 
-    public Job Job { get; set; }
+    public IJob Job { get; set; }
 
 		public string BookName { get; private set; }
 
-	  public IReadOnlyCollection<Section> Sections
+	  public IReadOnlyCollection<ISection> Sections
 	  {
 	    get { return _sections.AsReadOnly();}
 	  }
 
-	  public void AddSection(Section section)
+	  public void AddSection(ISection section)
 	  {
 	    _sections.Add(section);
 	  }
 
-	  public void AddSectionRange(IEnumerable<Section> sections)
+	  public void AddSectionRange(IEnumerable<ISection> sections)
 	  {
 	    _sections.AddRange(sections);
 	  }
 
-	  public void RemoveSection(Section section)
+	  public void RemoveSection(ISection section)
 	  {
 	    _sections.Remove(section);
 	  }

@@ -1,19 +1,17 @@
 ﻿namespace PatioBlox2016.Abstract
 {
-  using Concrete;
-  
-  public interface ICell
+  using System.Collections.Generic;
+
+  public interface ICell : IJsxExportable
   {
-    int Id { get; }
     int SourceRowIndex { get; }
     int Sku { get; }
+    string Description { get; }
+    string PalletQty { get; }
     int DescriptionId { get; set; }
-    IDescription Description { get; set; }
-    int PalletQty { get; set; }
-    int BarcodeId { get; set; }
-    IBarcode Barcode { get; set; }
+    string Upc { get; set; }
     ISection Section { get; set; }
-    int SectionId { get; set; }
     string Image { get; }
+    void FindSection(IEnumerable<ISection> sections);
   }
 }

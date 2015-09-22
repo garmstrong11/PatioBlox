@@ -2,16 +2,19 @@ namespace PatioBlox2016.Abstract
 {
   using System.Collections.Generic;
 
-  public interface IBook
+  public interface IBook : IJsxExportable
   {
-    int Id { get; }
-    Job Job { get; set; }
-    int JobId { get; set; }
+    IJob Job { get; set; }
     string BookName { get; }
-    HashSet<Section> Sections { get; set; }
+    IReadOnlyCollection<ISection> Sections { get; }
     bool HasDuplicateCells { get; }
+
     IEnumerable<IEnumerable<int>> DuplicateCellGroups { get; }
     IEnumerable<string> DuplicateCellReports { get; }
-    int GetPageCount(int cellsPerPage);
+    int PageCount { get; }
+
+    void AddSection(ISection section);
+    void AddSectionRange(IEnumerable<ISection> sections);
+    void RemoveSection(ISection section);
   }
 }

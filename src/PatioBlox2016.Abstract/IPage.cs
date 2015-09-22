@@ -1,13 +1,13 @@
-﻿namespace PatioBlox2016.Abstract
+namespace PatioBlox2016.Abstract
 {
   using System.Collections.Generic;
 
-  public interface IPage
+  public interface IPage : IJsxExportable
   {
-    IEnumerable<ICell> Cells { get; }
     ISection Section { get; }
-
+    IReadOnlyList<ICell> Cells { get; }
+    string Header { get; }
+    void AddCellRange(IEnumerable<ICell> cells);
     void AddCell(ICell cell);
-    int CellCount { get; }
   }
 }

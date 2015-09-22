@@ -35,6 +35,7 @@
       _container.RegisterSingle<IColumnIndexService, ColumnIndexService>();
       _container.RegisterSingle<IFileSystem, FileSystem>();
       _container.RegisterSingle<IJobFolders, JobFolders>();
+      _container.RegisterSingle<IJob, Job>();
       _container.RegisterSingle<ISettingsService, SettingsService>();
       _container.RegisterSingle<IDataSourceAdapter, FlexCelDataSourceAdapter>();
       _container.RegisterSingle<IPatchExtractor, PatchExtractor>();
