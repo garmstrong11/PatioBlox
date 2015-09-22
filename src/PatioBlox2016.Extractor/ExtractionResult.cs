@@ -111,7 +111,7 @@
         .Cast<PatchRowExtract>();
     }
 
-    public IEnumerable<Product> GetUniqueProducts()
+    public IEnumerable<IProduct> GetUniqueProducts()
     {
       var extracts = GetProductExtracts();
       var groops = extracts.GroupBy(g => new {g.Sku, g.Upc});

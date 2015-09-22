@@ -1,6 +1,8 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-  public class UsageLocation
+  using Abstract;
+
+  public class UsageLocation : IUsageLocation
   {
     public UsageLocation(string patchName, int rowIndex)
     {

@@ -116,15 +116,15 @@
     <Compile Include="Infra\AcquisitionCompleteEvent.cs" />
     <Compile Include="Infra\ColumnIndexService.cs" />
     <Compile Include="Infra\SettingsService.cs" />
+    <Compile Include="JobBuilders\Job.cs" />
     <Compile Include="JobBuilders\BookFactory.cs" />
     <Compile Include="JobBuilders\CellFactory.cs" />
     <Compile Include="JobBuilders\IBookFactory.cs" />
     <Compile Include="JobBuilders\ICellFactory.cs" />
-    <Compile Include="JobBuilders\IJobFactory.cs" />
-    <Compile Include="JobBuilders\JobFactory.cs" />
     <Compile Include="JobBuilders\SectionNameEqualityComparer.cs" />
     <Compile Include="ViewModels\ActivitiesViewModel.cs" />
     <Compile Include="ViewModels\BuildJobViewModel.cs" />
+    <Compile Include="ViewModels\ExtractionResultValidationViewModel.cs" />
     <Compile Include="ViewModels\DescriptionManagerViewModel.cs" />
     <Compile Include="ViewModels\DescriptionViewModel.cs" />
     <Compile Include="ViewModels\ErrorWindowViewModel.cs" />

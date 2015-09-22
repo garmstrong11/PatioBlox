@@ -1,20 +1,23 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
-  using System.Collections.Generic;
+  using Abstract;
   using Caliburn.Micro;
-  using PatioBlox2016.Concrete;
+  using Concrete;
 
   public class UpcReplacementViewModel : PropertyChangedBase
   {
-    private readonly Product _product;
-    private readonly UpcReplacement _upcReplacement;
+    private readonly IProduct _product;
+    private readonly IUpcReplacement _upcReplacement;
 
-    public UpcReplacementViewModel(Product product)
+    public UpcReplacementViewModel(IProduct product)
     {
       _product = product;
 
-      _upcReplacement = new UpcReplacement {InvalidUpc = product.Upc};
-      _upcReplacement.Replacement = _product.Upc;
+      _upcReplacement = new UpcReplacement
+                        {
+                          InvalidUpc = product.Upc,
+                          Replacement = _product.Upc
+                        };
     }
 
     public string InvalidUpc

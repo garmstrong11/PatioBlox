@@ -10,29 +10,34 @@
 	public class JobFolders : IJobFolders
   {
 		private FileInfo _excelFileInfo;
-		private DirectoryInfo _udfRoot;
+    private string _jobFolderPath;
+    private string _icPath;
+    private List<string> _allPaths; 
+		private string _udfPath;
 
 		private const string IcDir = @"PartsMaster\IC";
 		private const string UdfDir = "UserDefinedFolders";
 
     public void Initialize(string jobFolderPath)
-		{
-			if (!jobFolderPath.Contains(UdfDir)) {
-				throw new DirectoryNotFoundException(
-					string.Format("Unable to find the directory '{0}' in the path to your Excel file.", UdfDir));
-			}
+    {
+      _jobFolderPath = Pathing.GetUncPath(jobFolderPath);
+      _udfPath = Path.Combine(_jobFolderPath, UdfDir);
 
-			_excelFileInfo = new FileInfo(Pathing.GetUncPath(jobFolderPath));
+      if (!Directory.Exists(_udfPath)) {
+        throw new DirectoryNotFoundException(
+          string.Format("Unable to find a '{0}' directory in your job folder.", UdfDir));
+      }
 
-			if (!_excelFileInfo.Exists) {
-				throw new FileNotFoundException();
-			}
+      _allPaths = Directory
+        .EnumerateDirectories(_jobFolderPath, "*.*", SearchOption.AllDirectories)
+        .ToList();
 
-			var directories = GetDirectoriesInPath(_excelFileInfo.FullName).ToList();
-
-			_udfRoot = directories.Find(d => d.Name == UdfDir);
-      //var partsMaster = _udfRoot.GetDirectories("PartsMaster");
-		}
+      // Need IC\data\excel for data files
+      // IC\indd for generated InDesign files
+      // IC\data\jsx for jsx data files
+      // UserDefinedFolders\_Output for generated pdf files
+      // Factory\templates
+    }
 
     public IEnumerable<DirectoryInfo> GetDirectoriesInPath(string filepath)
 		{
@@ -45,6 +50,11 @@
 			}
 		}
 
+
+    public IEnumerable<string> GetExistingPhotoFileNames()
+    {
+      throw new NotImplementedException();
+    }
 
     public FileInfo FileInfoFromPath(string path)
     {
@@ -100,5 +110,15 @@
 		{
 			return File.Exists(filePath);
 		}
+
+    public string SupportPath
+    {
+      get { return Path.Combine(_udfRoot.FullName, "Support"); }
+    }
+
+    public string ToJsxString(int indentLevel)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

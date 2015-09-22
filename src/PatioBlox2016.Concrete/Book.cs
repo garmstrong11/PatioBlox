@@ -10,7 +10,7 @@
 	  private static readonly StringBuilder Sb = new StringBuilder();
     private readonly List<ISection> _sections; 
     
-    public Book(Job job, string bookName)
+    public Book(IJob job, string bookName)
 	  {
       Job = job;
       BookName = bookName;

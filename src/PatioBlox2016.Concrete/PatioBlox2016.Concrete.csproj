@@ -55,7 +55,6 @@
     <Compile Include="Description.cs" />
     <Compile Include="Exceptions\BookConstructionException.cs" />
     <Compile Include="Exceptions\CellConstructionException.cs" />
-    <Compile Include="Job.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Section.cs" />

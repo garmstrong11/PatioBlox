@@ -47,7 +47,6 @@
 
       _container.Register<ICellFactory, CellFactory>();
       _container.Register<IBookFactory, BookFactory>();
-      _container.Register<IJobFactory, JobFactory>();
 
       _container.Register<IWindowManager, WindowManager>();
       _container.Register<IPatchFileDropViewModel, PatchFileDropViewModel>();

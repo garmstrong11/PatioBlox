@@ -4,27 +4,24 @@
   using System.Linq;
   using Caliburn.Micro;
   using Extractor;
-  using JobBuilders;
   using Services.Contracts;
 
   public class UpcReplacementManagerViewModel : Screen
   {
     private readonly IExtractionResult _extractionResult;
     private readonly IUpcReplacementRepository _upcReplacementRepository;
-    private readonly IJobFactory _jobFactory;
     private BindableCollection<UpcReplacementViewModel> _upcReplacements;
     private UpcReplacementViewModel _selectedUpcReplacement;
 
     public UpcReplacementManagerViewModel(
       IExtractionResult extractionResult, 
-      IUpcReplacementRepository upcReplacementRepository, IJobFactory jobFactory)
+      IUpcReplacementRepository upcReplacementRepository)
     {
       if (extractionResult == null) throw new ArgumentNullException("extractionResult");
       if (upcReplacementRepository == null) throw new ArgumentNullException("upcReplacementRepository");
 
       _extractionResult = extractionResult;
       _upcReplacementRepository = upcReplacementRepository;
-      _jobFactory = jobFactory;
 
       UpcReplacements = new BindableCollection<UpcReplacementViewModel>();
     }
@@ -34,15 +31,12 @@
       var existingReplacements = _upcReplacementRepository.GetAll().Select(u => u.InvalidUpc);
 
       var products = _extractionResult.GetUniqueProducts()
-        .Where(p => !p.HasValidBarcode && !existingReplacements.Contains(p.Upc))
+        .Where(p => p.IsBarcodeInvalid && !existingReplacements.Contains(p.Upc))
         .OrderBy(p => p.Sku).ToList();
 
 
       //var dupes = products.Where(p => p.HasPatchProductDuplicates);
       
-      var job = _jobFactory.CreateJob();
-      var badBooks = job.Books.Where(b => b.HasDuplicateCells);
-      var str = job.ToJsxString(0);
       UpcReplacements.AddRange(products.Select(p => new UpcReplacementViewModel(p)));
       
       base.OnActivate();

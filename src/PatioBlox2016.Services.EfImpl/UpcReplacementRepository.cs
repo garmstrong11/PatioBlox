@@ -2,9 +2,9 @@
 {
   using System.Collections.Generic;
   using System.Linq;
-  using PatioBlox2016.Concrete;
-  using PatioBlox2016.DataAccess;
-  using PatioBlox2016.Services.Contracts;
+  using Concrete;
+  using DataAccess;
+  using Contracts;
 
   public class UpcReplacementRepository :RepositoryBase<UpcReplacement>, IUpcReplacementRepository
   {

@@ -1,22 +1,35 @@
-﻿namespace PatioBlox2016.Concrete
+﻿namespace PatioBlox2016.JobPrepUI.JobBuilders
 {
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using Abstract;
+  using System.Collections.Generic;
+  using System.Linq;
+  using System.Text;
+  using Abstract;
+  using Concrete;
 
   public class Job : IJob
   {
+    private readonly IBookFactory _bookFactory;
+    private readonly IJobFolders _jobFolders;
     private readonly List<IBook> _books;
     
-    public Job()
+    public Job(IBookFactory bookFactory, IJobFolders jobFolders)
     {
+      _bookFactory = bookFactory;
+      _jobFolders = jobFolders;
       _books = new List<IBook>();
     }
 
     public IReadOnlyCollection<IBook> Books
     {
       get { return _books.AsReadOnly();}
+    }
+
+    public void PopulateJob(IEnumerable<IGrouping<string, IPatchRowExtract>> bookGroups)
+    {
+      var books = bookGroups
+        .Select(bg => _bookFactory.CreateBook(this, bg.Key, bg));
+
+      AddBookRange(books);
     }
 
     public void AddBook(IBook book)

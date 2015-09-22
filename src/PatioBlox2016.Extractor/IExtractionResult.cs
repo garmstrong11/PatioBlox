@@ -20,7 +20,7 @@
     IEnumerable<string> InvalidUpcs { get; }
     IEnumerable<Barcode> InvalidBarcodes { get; }
 
-    IEnumerable<Product> GetUniqueProducts();
+    IEnumerable<IProduct> GetUniqueProducts();
     IEnumerable<IGrouping<string, IPatchRowExtract>> BookGroups { get; }
   }
 }

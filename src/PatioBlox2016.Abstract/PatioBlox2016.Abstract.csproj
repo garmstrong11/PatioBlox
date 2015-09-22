@@ -58,6 +58,8 @@
     <Compile Include="IRepository.cs" />
     <Compile Include="ISection.cs" />
     <Compile Include="ISettingsService.cs" />
+    <Compile Include="IUpcReplacement.cs" />
+    <Compile Include="IUsageLocation.cs" />
     <Compile Include="Maybe.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

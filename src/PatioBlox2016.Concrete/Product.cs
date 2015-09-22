@@ -3,22 +3,19 @@
   using System;
   using System.Collections.Generic;
   using System.Linq;
+  using Abstract;
 
-  public class Product
+  public class Product : IProduct
   {
-    private readonly HashSet<UsageLocation> _usages;
+    private readonly HashSet<IUsageLocation> _usages;
     private Barcode _barcode;
     private string _upc;
 
-    private Product()
-    {
-      _usages = new HashSet<UsageLocation>();
-    }
-
-    public Product(int sku, string upc) : this()
+    public Product(int sku, string upc)
     {
       Sku = sku;
       Upc = upc;
+      _usages = new HashSet<IUsageLocation>();
       _barcode = new Barcode(upc);
     }
     
@@ -34,14 +31,14 @@
       }
     }
 
-    public List<UsageLocation> Usages
+    public List<IUsageLocation> Usages
     {
       get { return _usages.ToList(); }
     }
 
-    public bool HasValidBarcode
+    public bool IsBarcodeInvalid
     {
-      get { return _barcode.IsValid; }
+      get { return !_barcode.IsValid; }
     }
 
     public List<string> BarcodeErrors
@@ -49,13 +46,13 @@
       get { return _barcode.Errors.Select(b => b.ErrorMessage).ToList(); }
     }
 
-    public bool AddUsage(UsageLocation usage)
+    public bool AddUsage(IUsageLocation usage)
     {
       if (usage == null) throw new ArgumentNullException("usage");
       return _usages.Add(usage);
     }
 
-    public IEnumerable<List<UsageLocation>> PatchProductDuplicates
+    public IEnumerable<List<IUsageLocation>> PatchProductDuplicates
     {
       get
       {
@@ -92,16 +89,6 @@
       unchecked {
         return (Sku * 397) ^ (Upc != null ? Upc.GetHashCode() : 0);
       }
-    }
-
-    public static bool operator ==(Product left, Product right)
-    {
-      return Equals(left, right);
-    }
-
-    public static bool operator !=(Product left, Product right)
-    {
-      return !Equals(left, right);
     }
 
     public override string ToString()
