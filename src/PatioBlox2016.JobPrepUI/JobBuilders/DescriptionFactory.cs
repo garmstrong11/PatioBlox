@@ -1,11 +1,11 @@
-﻿namespace PatioBlox2016.Services.EfImpl
+﻿namespace PatioBlox2016.JobPrepUI.JobBuilders
 {
   using System;
   using System.Collections.Generic;
   using System.Globalization;
   using System.Linq;
-  using Concrete;
-  using Contracts;
+  using PatioBlox2016.Concrete;
+  using PatioBlox2016.Services.Contracts;
 
   public class DescriptionFactory : IDescriptionFactory
   {

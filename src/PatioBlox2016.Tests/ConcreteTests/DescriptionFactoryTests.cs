@@ -7,8 +7,8 @@
   using FakeItEasy;
   using FluentAssertions;
   using NUnit.Framework;
+  using PatioBlox2016.JobPrepUI.JobBuilders;
   using Services.Contracts;
-  using Services.EfImpl;
 
   [TestFixture]
   public class DescriptionFactoryTests : ExtractorTestBase

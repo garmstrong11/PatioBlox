@@ -20,5 +20,8 @@
     <Setting Name="CellsPerPage" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4</Value>
     </Setting>
+    <Setting Name="PatioBloxFactoryPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\Storage2\AraxiVolume_1183xx\Factory\Lowes\PatioBlox</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

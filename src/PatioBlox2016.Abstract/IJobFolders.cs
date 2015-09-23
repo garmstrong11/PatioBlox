@@ -5,7 +5,7 @@
 
   public interface IJobFolders : IJsxExportable
   {
-		string ReportPath { get; }
+		DirectoryInfo ReportPath { get; }
 		bool FileExists(string filePath);
 
     string SupportPath { get; }
@@ -16,6 +16,16 @@
     /// </summary>
     /// <returns></returns>
     IEnumerable<string> GetExistingPhotoFileNames();
+
+    /// <summary>
+    /// The path for output pdfs.
+    /// </summary>
+    string OutputPath { get; }
+
+    /// <summary>
+    /// The Job's Home path
+    /// </summary>
+    string JobRootPath { get; }
 
       /// <summary>
     /// Creates a FileInfo object from a given path.

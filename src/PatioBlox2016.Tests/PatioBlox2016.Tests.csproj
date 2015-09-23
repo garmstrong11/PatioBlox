@@ -114,6 +114,10 @@
       <Project>{b0fe40ea-32fc-41ce-8dc2-dd82b0597a85}</Project>
       <Name>PatioBlox2016.Extractor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.JobPrepUI\PatioBlox2016.JobPrepUI.csproj">
+      <Project>{1a228c44-2b19-48d3-bc12-a31ac247ee75}</Project>
+      <Name>PatioBlox2016.JobPrepUI</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PatioBlox2016.Services.Contracts\PatioBlox2016.Services.Contracts.csproj">
       <Project>{18304efe-78f3-4ecd-8253-099f5b37ee1c}</Project>
       <Name>PatioBlox2016.Services.Contracts</Name>

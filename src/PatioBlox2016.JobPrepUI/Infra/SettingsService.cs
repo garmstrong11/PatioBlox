@@ -52,5 +52,11 @@
       get { return _props.UpcIndex; }
       set { _props.UpcIndex = value; }
     }
+
+    public string PatioBloxFactoryPath
+    {
+      get { return _props.PatioBloxFactoryPath; }
+      set { _props.PatioBloxFactoryPath = value; }
+    }
   }
 }

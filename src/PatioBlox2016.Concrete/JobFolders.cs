@@ -9,51 +9,73 @@
   [Serializable]
 	public class JobFolders : IJobFolders
   {
-		private FileInfo _excelFileInfo;
-    private string _jobFolderPath;
-    private string _icPath;
-    private List<string> _allPaths; 
-		private string _udfPath;
+    private readonly ISettingsService _settings;
+    private FileInfo _excelFileInfo;
+    private DirectoryInfo _udfRoot;
+    private List<DirectoryInfo> _allUdfDirs;
+    private DirectoryInfo _icDir;
+    private DirectoryInfo _supportDir;
 
-		private const string IcDir = @"PartsMaster\IC";
-		private const string UdfDir = "UserDefinedFolders";
+    private const string UdfDir = "UserDefinedFolders";
 
-    public void Initialize(string jobFolderPath)
+    public JobFolders(ISettingsService settingsService)
     {
-      _jobFolderPath = Pathing.GetUncPath(jobFolderPath);
-      _udfPath = Path.Combine(_jobFolderPath, UdfDir);
+      if (settingsService == null) throw new ArgumentNullException("settingsService");
 
-      if (!Directory.Exists(_udfPath)) {
+      _settings = settingsService;
+    }
+
+    public void Initialize(string excelFilePath)
+    {
+      if (!excelFilePath.Contains(UdfDir))
+      {
         throw new DirectoryNotFoundException(
-          string.Format("Unable to find a '{0}' directory in your job folder.", UdfDir));
+          string.Format(
+            "Unable to find the directory '{0}' in the path to your Excel file.", UdfDir));
       }
 
-      _allPaths = Directory
-        .EnumerateDirectories(_jobFolderPath, "*.*", SearchOption.AllDirectories)
-        .ToList();
+      _excelFileInfo = new FileInfo(Pathing.GetUncPath(excelFilePath));
 
-      // Need IC\data\excel for data files
-      // IC\indd for generated InDesign files
-      // IC\data\jsx for jsx data files
-      // UserDefinedFolders\_Output for generated pdf files
-      // Factory\templates
+      if (!_excelFileInfo.Exists)
+        throw new FileNotFoundException(
+          string.Format("Unable to locate the Excel file\n{0}", _excelFileInfo.FullName));
+
+      if (!Directory.Exists(_settings.PatioBloxFactoryPath))
+        throw new DirectoryNotFoundException("Unable to locate the PatioBlox Factory Directory.");
+
+      var directories = GetDirectoriesInPath(_excelFileInfo.FullName).ToList();
+
+      _udfRoot = directories.Find(d => d.Name == UdfDir);
+
+      // We can't count on the name of the PartsMaster folder, so we find named children:
+      _allUdfDirs = _udfRoot.GetDirectories("*.*", SearchOption.AllDirectories).ToList();
+
+      _icDir = _allUdfDirs.Find(d => d.Name == "IC");
+      _supportDir = _allUdfDirs.Find(d => d.Name == "Support");
     }
 
     public IEnumerable<DirectoryInfo> GetDirectoriesInPath(string filepath)
-		{
-			var fileInfo = new FileInfo(filepath);
-			var parentDir = fileInfo.Directory;
+    {
+      var fileInfo = new FileInfo(filepath);
+      var parentDir = fileInfo.Directory;
 
-			while (parentDir != null) {
-				yield return parentDir;
-				parentDir = parentDir.Parent;
-			}
-		}
+      while (parentDir != null)
+      {
+        yield return parentDir;
+        parentDir = parentDir.Parent;
+      }
+    } 
 
 
     public IEnumerable<string> GetExistingPhotoFileNames()
     {
       throw new NotImplementedException();
+    }
+
+    public string OutputPath
+    {
+      get { return Path.Combine(_udfRoot.FullName, "_Output"); } 
+      
     }
 
     public FileInfo FileInfoFromPath(string path)
@@ -74,16 +96,7 @@
 			}
 		}
 
-		public string ExcelFileName
-		{
-			get
-			{
-				CheckInit();
-				return Path.GetFileNameWithoutExtension(_excelFileInfo.FullName);
-			}
-		}
-
-		private string JobRootPath 
+		public string JobRootPath 
     {
 			get
 			{
@@ -101,9 +114,11 @@
     //  }
     //}
 
-		public string ReportPath
+    
+
+		public DirectoryInfo ReportPath
 	  {
-		  get { return Path.Combine(JobRootPath, IcDir); }
+		  get { return _icDir.CreateSubdirectory("reports"); }
 	  }
 
 		public bool FileExists(string filePath)

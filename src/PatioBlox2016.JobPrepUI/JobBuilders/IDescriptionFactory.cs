@@ -1,6 +1,6 @@
-namespace PatioBlox2016.Services.Contracts
+namespace PatioBlox2016.JobPrepUI.JobBuilders
 {
-  using Concrete;
+  using PatioBlox2016.Concrete;
 
   public interface IDescriptionFactory
   {

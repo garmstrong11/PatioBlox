@@ -8,5 +8,7 @@
     int DescriptionIndex { get; set; }
     int PalletQtyIndex { get; set; }
     int UpcIndex { get; set; }
+
+    string PatioBloxFactoryPath { get; }
 	}
 }

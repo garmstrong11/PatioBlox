@@ -4,6 +4,7 @@
   using System.Linq;
   using Caliburn.Micro;
   using Extractor;
+  using PatioBlox2016.JobPrepUI.JobBuilders;
   using Services.Contracts;
 
   public class DescriptionManagerViewModel : Screen
