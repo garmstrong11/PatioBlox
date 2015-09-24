@@ -80,6 +80,7 @@
     <Compile Include="ConcreteTests\BarcodeTests.cs" />
     <Compile Include="ConcreteTests\CellTests.cs" />
     <Compile Include="ConcreteTests\DescriptionFactoryTests.cs" />
+    <Compile Include="ConcreteTests\JobFoldersTests.cs" />
     <Compile Include="ConcreteTests\KeywordDtoTests.cs" />
     <Compile Include="ConcreteTests\KeywordTests.cs" />
     <Compile Include="ConcreteTests\PageTests.cs" />

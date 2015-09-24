@@ -126,7 +126,7 @@
       var filePaths = (string[]) eventArgs.Data.GetData(DataFormats.FileDrop);
 
       return from filePath in filePaths 
-             let info = _jobFolders.FileInfoFromPath(filePath) 
+             let info = new FileInfo(filePath) 
              where (info.Attributes & FileAttributes.Directory) != FileAttributes.Directory 
              where Regex.IsMatch(filePath, @"\.xlsx?$") 
              select filePath;

@@ -3,6 +3,7 @@
   using System;
   using System.Collections.Generic;
   using System.IO;
+  using System.IO.Abstractions;
   using System.Linq;
   using Abstract;
 
@@ -10,19 +11,22 @@
 	public class JobFolders : IJobFolders
   {
     private readonly ISettingsService _settings;
-    private FileInfo _excelFileInfo;
-    private DirectoryInfo _udfRoot;
-    private List<DirectoryInfo> _allUdfDirs;
-    private DirectoryInfo _icDir;
-    private DirectoryInfo _supportDir;
+    private readonly IFileSystem _fileSystem;
+    private FileInfoBase _excelFileInfo;
+    private DirectoryInfoBase _udfRoot;
+    private List<DirectoryInfoBase> _allUdfDirs;
+    private DirectoryInfoBase _icDir;
+    private DirectoryInfoBase _supportDir;
 
     private const string UdfDir = "UserDefinedFolders";
 
-    public JobFolders(ISettingsService settingsService)
+    public JobFolders(ISettingsService settingsService, IFileSystem fileSystem)
     {
       if (settingsService == null) throw new ArgumentNullException("settingsService");
+      if (fileSystem == null) throw new ArgumentNullException("fileSystem");
 
       _settings = settingsService;
+      _fileSystem = fileSystem;
     }
 
     public void Initialize(string excelFilePath)
@@ -34,13 +38,13 @@
             "Unable to find the directory '{0}' in the path to your Excel file.", UdfDir));
       }
 
-      _excelFileInfo = new FileInfo(Pathing.GetUncPath(excelFilePath));
+      _excelFileInfo = _fileSystem.FileInfo.FromFileName(Pathing.GetUncPath(excelFilePath));
 
       if (!_excelFileInfo.Exists)
         throw new FileNotFoundException(
           string.Format("Unable to locate the Excel file\n{0}", _excelFileInfo.FullName));
 
-      if (!Directory.Exists(_settings.PatioBloxFactoryPath))
+      if (!_fileSystem.Directory.Exists(_settings.PatioBloxFactoryPath))
         throw new DirectoryNotFoundException("Unable to locate the PatioBlox Factory Directory.");
 
       var directories = GetDirectoriesInPath(_excelFileInfo.FullName).ToList();
@@ -54,9 +58,9 @@
       _supportDir = _allUdfDirs.Find(d => d.Name == "Support");
     }
 
-    public IEnumerable<DirectoryInfo> GetDirectoriesInPath(string filepath)
+    private IEnumerable<DirectoryInfoBase> GetDirectoriesInPath(string filepath)
     {
-      var fileInfo = new FileInfo(filepath);
+      var fileInfo = _fileSystem.FileInfo.FromFileName(filepath);
       var parentDir = fileInfo.Directory;
 
       while (parentDir != null)
@@ -66,7 +70,6 @@
       }
     } 
 
-
     public IEnumerable<string> GetExistingPhotoFileNames()
     {
       throw new NotImplementedException();
@@ -74,7 +77,7 @@
 
     public string OutputPath
     {
-      get { return Path.Combine(_udfRoot.FullName, "_Output"); } 
+      get { return _fileSystem.Path.Combine(_udfRoot.FullName, "_Output"); } 
       
     }
 
@@ -116,7 +119,7 @@
 
     
 
-		public DirectoryInfo ReportPath
+		public DirectoryInfoBase ReportPath
 	  {
 		  get { return _icDir.CreateSubdirectory("reports"); }
 	  }
@@ -128,7 +131,7 @@
 
     public string SupportPath
     {
-      get { return Path.Combine(_udfRoot.FullName, "Support"); }
+      get { return _supportDir.FullName; }
     }
 
     public string ToJsxString(int indentLevel)
