@@ -53,8 +53,10 @@
     <Compile Include="Book.cs" />
     <Compile Include="Cell.cs" />
     <Compile Include="Description.cs" />
+    <Compile Include="DirectoryInfoAdapter.cs" />
     <Compile Include="Exceptions\BookConstructionException.cs" />
     <Compile Include="Exceptions\CellConstructionException.cs" />
+    <Compile Include="FileInfoAdapter.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Section.cs" />

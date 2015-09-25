@@ -3,7 +3,6 @@
   using System;
   using System.Collections.Generic;
   using System.IO;
-  using System.IO.Abstractions;
   using System.Linq;
   using Abstract;
 
@@ -11,57 +10,42 @@
 	public class JobFolders : IJobFolders
   {
     private readonly ISettingsService _settings;
-    private readonly IFileSystem _fileSystem;
-    private FileInfoBase _excelFileInfo;
-    private DirectoryInfoBase _udfRoot;
-    private List<DirectoryInfoBase> _allUdfDirs;
-    private DirectoryInfoBase _icDir;
-    private DirectoryInfoBase _supportDir;
+    private IDirectoryInfoAdapter _udfRoot;
+    private IDirectoryInfoAdapter _icDir;
+    private IDirectoryInfoAdapter _supportDir;
+    private readonly HashSet<IDirectoryInfoAdapter> _allDirs; 
+    private IDirectoryInfoAdapter _patioBloxFactoryDirInfo;
 
     private const string UdfDir = "UserDefinedFolders";
 
-    public JobFolders(ISettingsService settingsService, IFileSystem fileSystem)
+    public JobFolders(ISettingsService settingsService)
     {
       if (settingsService == null) throw new ArgumentNullException("settingsService");
-      if (fileSystem == null) throw new ArgumentNullException("fileSystem");
 
       _settings = settingsService;
-      _fileSystem = fileSystem;
+      _allDirs = new HashSet<IDirectoryInfoAdapter>();
     }
 
-    public void Initialize(string excelFilePath)
+    public void Initialize(IFileInfoAdapter excelFileAdapter)
     {
-      if (!excelFilePath.Contains(UdfDir))
-      {
+      if (excelFileAdapter == null) { throw new ArgumentNullException("excelFileAdapter");}
+      if (!excelFileAdapter.Exists) { throw new ArgumentException("excelFileAdapter"); }
+
+      _allDirs.UnionWith(GetDirectoriesInPath(excelFileAdapter));
+
+      _udfRoot = _allDirs.FirstOrDefault(d => d.Name == UdfDir);
+
+      if (_udfRoot == null) {
         throw new DirectoryNotFoundException(
-          string.Format(
-            "Unable to find the directory '{0}' in the path to your Excel file.", UdfDir));
+          string.Format("Unable to find '{0}' in the path to your Excel file.", UdfDir));
       }
 
-      _excelFileInfo = _fileSystem.FileInfo.FromFileName(Pathing.GetUncPath(excelFilePath));
-
-      if (!_excelFileInfo.Exists)
-        throw new FileNotFoundException(
-          string.Format("Unable to locate the Excel file\n{0}", _excelFileInfo.FullName));
-
-      if (!_fileSystem.Directory.Exists(_settings.PatioBloxFactoryPath))
-        throw new DirectoryNotFoundException("Unable to locate the PatioBlox Factory Directory.");
-
-      var directories = GetDirectoriesInPath(_excelFileInfo.FullName).ToList();
-
-      _udfRoot = directories.Find(d => d.Name == UdfDir);
-
-      // We can't count on the name of the PartsMaster folder, so we find named children:
-      _allUdfDirs = _udfRoot.GetDirectories("*.*", SearchOption.AllDirectories).ToList();
-
-      _icDir = _allUdfDirs.Find(d => d.Name == "IC");
-      _supportDir = _allUdfDirs.Find(d => d.Name == "Support");
+      _allDirs.UnionWith(_udfRoot.GetDirectories("*.*", SearchOption.AllDirectories));
     }
 
-    private IEnumerable<DirectoryInfoBase> GetDirectoriesInPath(string filepath)
+    private static IEnumerable<IDirectoryInfoAdapter> GetDirectoriesInPath(IFileInfoAdapter excelAdapter)
     {
-      var fileInfo = _fileSystem.FileInfo.FromFileName(filepath);
-      var parentDir = fileInfo.Directory;
+      var parentDir = excelAdapter.Directory;
 
       while (parentDir != null)
       {
@@ -70,14 +54,19 @@
       }
     } 
 
-    public IEnumerable<string> GetExistingPhotoFileNames()
+    public IEnumerable<IFileInfoAdapter> GetExistingPhotoFiles()
     {
-      throw new NotImplementedException();
+      var supportDir = _allDirs.FirstOrDefault(d => d.Name == "Support");
+      if (supportDir == null) {
+        throw new DirectoryNotFoundException("Unable to find the 'Support' directory");
+      }
+
+      return supportDir.GetFiles("*.psd", SearchOption.AllDirectories);
     }
 
     public string OutputPath
     {
-      get { return _fileSystem.Path.Combine(_udfRoot.FullName, "_Output"); } 
+      get { return Path.Combine(_udfRoot.FullName, "_Output"); } 
       
     }
 
@@ -88,22 +77,13 @@
 
     public void Reset()
 		{
-			_excelFileInfo = new FileInfo(@"C:\waka\waka\jub\jub\bing.xlsx");
-		}
-
-
-    private void CheckInit()
-		{
-			if (!_excelFileInfo.Exists) {
-				throw new InvalidOperationException("JobFolders is not initialized");
-			}
+			_allDirs.Clear();
 		}
 
 		public string JobRootPath 
     {
 			get
 			{
-				CheckInit();
 				return _udfRoot.FullName;
 			}
     }
@@ -119,7 +99,7 @@
 
     
 
-		public DirectoryInfoBase ReportPath
+		public IDirectoryInfoAdapter ReportPath
 	  {
 		  get { return _icDir.CreateSubdirectory("reports"); }
 	  }
