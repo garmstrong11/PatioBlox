@@ -35,7 +35,7 @@
       {
         return _directoryInfo.Parent == null
           ? null
-          : new DirectoryInfoAdapter(_directoryInfo.FullName);
+          : new DirectoryInfoAdapter(_directoryInfo.Parent.FullName);
       }
     }
 

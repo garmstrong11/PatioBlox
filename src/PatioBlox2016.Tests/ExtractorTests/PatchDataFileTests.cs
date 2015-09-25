@@ -41,14 +41,14 @@
       act.ShouldThrow<InvalidOperationException>().WithMessage("*already exists.");
     }
 
-    [Test]
-    public void SetPath_PathDoesNotExist_Throws()
-    {
-      A.CallTo(() => _jobFolders.FileExists(A<string>._)).Returns(false);
-      var patchDataFile = new PatchDataFile(_jobFolders);
+    //[Test]
+    //public void SetPath_PathDoesNotExist_Throws()
+    //{
+    //  A.CallTo(() => _jobFolders.FileExists(A<string>._)).Returns(false);
+    //  var patchDataFile = new PatchDataFile(_jobFolders);
 
-      Action act = () => patchDataFile.Path = "booboo";
-      act.ShouldThrow<FileNotFoundException>();
-    }
+    //  Action act = () => patchDataFile.Path = "booboo";
+    //  act.ShouldThrow<FileNotFoundException>();
+    //}
   }
 }

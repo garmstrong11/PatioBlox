@@ -22,6 +22,16 @@
       get { return _fileInfo.FullName; }
     }
 
+    public string Name
+    {
+      get { return _fileInfo.Name; }
+    }
+
+    public string NameWithoutExtension
+    {
+      get { return Path.GetFileNameWithoutExtension(_fileInfo.FullName); }
+    }
+
     public IDirectoryInfoAdapter Directory
     {
       get

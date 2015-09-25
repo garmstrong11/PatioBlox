@@ -4,27 +4,47 @@
 
   public interface IJobFolders : IJsxExportable
   {
-		IDirectoryInfoAdapter ReportPath { get; }
-		bool FileExists(string filePath);
+		/// <summary>
+		/// A destination container for job reports
+		/// </summary>
+    IDirectoryInfoAdapter ReportDir { get; }
 
-    string SupportPath { get; }
+    /// <summary>
+    /// A destination container for output files.
+    /// </summary>
+    IDirectoryInfoAdapter OutputDir { get; }
+
+    /// <summary>
+    /// A source container for required art.
+    /// </summary>
+    IDirectoryInfoAdapter SupportDir { get; }
+
+    /// <summary>
+    /// A destination container for InDesign files.
+    /// </summary>
+    IDirectoryInfoAdapter InddDir { get; }
+
+    /// <summary>
+    /// A destination container for jsx data files.
+    /// </summary>
+    IDirectoryInfoAdapter JsxDir { get; }
+
+    /// <summary>
+    /// A source container for templates and base scripts.
+    /// </summary>
+    IDirectoryInfoAdapter FactoryDir { get; }
 
     /// <summary>
     /// Fetches a list of filenames (without extension)
     /// from the support folder of the job.
     /// </summary>
     /// <returns></returns>
-    IEnumerable<IFileInfoAdapter> GetExistingPhotoFiles();
-
-    /// <summary>
-    /// The path for output pdfs.
-    /// </summary>
-    string OutputPath { get; }
+    IEnumerable<string> GetExistingPhotoFileNames();
 
     /// <summary>
     /// The Job's Home path
     /// </summary>
-    string JobRootPath { get; }
+    string JobName { get; }
 
     void Initialize(IFileInfoAdapter jobFolderPath);
 		void Reset();

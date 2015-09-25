@@ -25,7 +25,7 @@
       {
         if (_path == value) return;
 
-        if (!_jobFolders.FileExists(value)) {
+        if (!File.Exists(value)) {
           throw new FileNotFoundException(value);
         }
 

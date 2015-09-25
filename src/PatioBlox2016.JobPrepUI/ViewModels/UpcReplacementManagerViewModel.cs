@@ -36,7 +36,7 @@
 
 
       //var dupes = products.Where(p => p.HasPatchProductDuplicates);
-      
+      UpcReplacements.Clear();
       UpcReplacements.AddRange(products.Select(p => new UpcReplacementViewModel(p)));
       
       base.OnActivate();

@@ -11,6 +11,7 @@
   using Extractor;
   using FluentValidation.Results;
   using Infra;
+  using PatioBlox2016.Concrete;
   using Xceed.Wpf.Toolkit;
 
   public class PatchFileDropViewModel : Screen, IPatchFileDropViewModel
@@ -97,6 +98,9 @@
           _extractor.Initialize(patchFileViewModel.FilePath);
           await Task.Run(() => _result.AddPatchRowExtractRange(_extractor.Extract()));
         }
+
+        var fileInfoAdapter = new FileInfoAdapter(PatchFiles.First().FilePath);
+        _jobFolders.Initialize(fileInfoAdapter);
       }
 
       catch (PatioBloxHeaderExtractionException exc) {

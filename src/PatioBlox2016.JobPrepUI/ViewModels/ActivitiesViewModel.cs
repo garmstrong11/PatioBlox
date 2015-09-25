@@ -1,5 +1,6 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
+  using System.Linq;
   using Caliburn.Micro;
 
   public class ActivitiesViewModel : Conductor<IScreen>.Collection.OneActive, IActivitiesViewModel
@@ -21,6 +22,12 @@
         _screens = value;
         NotifyOfPropertyChange(() => Screens);
       }
+    }
+
+    protected override void OnActivate()
+    {
+      SelectedScreen = Screens.First(s => s.GetType() == typeof (ExtractionResultValidationViewModel));
+      base.OnActivate();
     }
 
     public IScreen SelectedScreen

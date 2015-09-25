@@ -57,10 +57,13 @@
         var keywords = _container.GetInstance<KeywordManagerViewModel>();
         var descriptions = _container.GetInstance<DescriptionManagerViewModel>();
         var upcReplacements = _container.GetInstance<UpcReplacementManagerViewModel>();
+        var extractionResult = _container.GetInstance<ExtractionResultValidationViewModel>();
         keywords.DisplayName = "Keyword Manager";
         descriptions.DisplayName = "Description Manager";
         upcReplacements.DisplayName = "Upc Replacement Manager";
+        extractionResult.DisplayName = "Extraction Result";
 
+        vm.Screens.Add(extractionResult);
         vm.Screens.Add(keywords);
         vm.Screens.Add(descriptions);
         vm.Screens.Add(upcReplacements);

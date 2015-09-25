@@ -5,16 +5,15 @@
   using System.IO;
   using System.Linq;
   using Abstract;
+  using Concrete.Exceptions;
 
   [Serializable]
 	public class JobFolders : IJobFolders
   {
     private readonly ISettingsService _settings;
-    private IDirectoryInfoAdapter _udfRoot;
+    private IDirectoryInfoAdapter _udfDir;
     private IDirectoryInfoAdapter _icDir;
-    private IDirectoryInfoAdapter _supportDir;
     private readonly HashSet<IDirectoryInfoAdapter> _allDirs; 
-    private IDirectoryInfoAdapter _patioBloxFactoryDirInfo;
 
     private const string UdfDir = "UserDefinedFolders";
 
@@ -33,14 +32,38 @@
 
       _allDirs.UnionWith(GetDirectoriesInPath(excelFileAdapter));
 
-      _udfRoot = _allDirs.FirstOrDefault(d => d.Name == UdfDir);
-
-      if (_udfRoot == null) {
-        throw new DirectoryNotFoundException(
+      _udfDir = _allDirs.FirstOrDefault(d => d.Name == UdfDir);
+      if (_udfDir == null) {
+        throw new JobFoldersInitializationException(excelFileAdapter,
           string.Format("Unable to find '{0}' in the path to your Excel file.", UdfDir));
       }
 
-      _allDirs.UnionWith(_udfRoot.GetDirectories("*.*", SearchOption.AllDirectories));
+      FactoryDir = new DirectoryInfoAdapter(_settings.PatioBloxFactoryPath);
+      if (!FactoryDir.Exists) {
+        throw new JobFoldersInitializationException(excelFileAdapter,
+          "Unable to find the PatioBlox factory folder.");
+      }
+
+      _allDirs.UnionWith(_udfDir.GetDirectories("*.*", SearchOption.AllDirectories));
+
+      _icDir = _allDirs.FirstOrDefault(d => d.Name == "IC");
+      if (_icDir == null) {
+        throw new JobFoldersInitializationException(excelFileAdapter,
+          "Unable to find the 'IC' folder for this job");
+      }
+
+      SupportDir = _allDirs.FirstOrDefault(d => d.Name == "Support");
+      if (SupportDir == null) {
+          throw new JobFoldersInitializationException(excelFileAdapter,
+            "Unable to find the 'Support' folder for this job");
+      }
+
+      JobName = _udfDir.Parent.Name;
+      OutputDir = _udfDir.CreateSubdirectory("_Output");
+
+      ReportDir = _icDir.CreateSubdirectory("reports");
+      InddDir = _icDir.CreateSubdirectory("indd");
+      JsxDir = _icDir.CreateSubdirectory("jsx");
     }
 
     private static IEnumerable<IDirectoryInfoAdapter> GetDirectoriesInPath(IFileInfoAdapter excelAdapter)
@@ -52,67 +75,36 @@
         yield return parentDir;
         parentDir = parentDir.Parent;
       }
-    } 
+    }
 
-    public IEnumerable<IFileInfoAdapter> GetExistingPhotoFiles()
+    public IEnumerable<string> GetExistingPhotoFileNames()
     {
-      var supportDir = _allDirs.FirstOrDefault(d => d.Name == "Support");
-      if (supportDir == null) {
+      if (SupportDir == null) {
         throw new DirectoryNotFoundException("Unable to find the 'Support' directory");
       }
 
-      return supportDir.GetFiles("*.psd", SearchOption.AllDirectories);
-    }
-
-    public string OutputPath
-    {
-      get { return Path.Combine(_udfRoot.FullName, "_Output"); } 
-      
-    }
-
-    public FileInfo FileInfoFromPath(string path)
-    {
-      return new FileInfo(path);
+      return SupportDir.GetFiles("*.psd", SearchOption.AllDirectories)
+        .Select(f => f.NameWithoutExtension);
     }
 
     public void Reset()
-		{
-			_allDirs.Clear();
-		}
-
-		public string JobRootPath 
     {
-			get
-			{
-				return _udfRoot.FullName;
-			}
+      _allDirs.Clear();
     }
 
-    //private string JobName
-    //{
-    //  get
-    //  {
-    //    if (_udfRoot == null || _udfRoot.Parent == null) return "Unknown Job";
-    //    return _udfRoot.Parent.Name;
-    //  }
-    //}
+    public string JobName { get; private set; }
 
-    
+    public IDirectoryInfoAdapter OutputDir { get; private set; }
 
-		public IDirectoryInfoAdapter ReportPath
-	  {
-		  get { return _icDir.CreateSubdirectory("reports"); }
-	  }
+    public IDirectoryInfoAdapter FactoryDir { get; private set; }
 
-		public bool FileExists(string filePath)
-		{
-			return File.Exists(filePath);
-		}
+    public IDirectoryInfoAdapter JsxDir { get; private set; }
 
-    public string SupportPath
-    {
-      get { return _supportDir.FullName; }
-    }
+    public IDirectoryInfoAdapter ReportDir { get; private set; }
+
+    public IDirectoryInfoAdapter SupportDir { get; private set; }
+
+    public IDirectoryInfoAdapter InddDir { get; private set; }
 
     public string ToJsxString(int indentLevel)
     {

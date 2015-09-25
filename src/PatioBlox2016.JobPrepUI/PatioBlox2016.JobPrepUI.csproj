@@ -151,6 +151,9 @@
     <Compile Include="Views\ErrorWindowView.xaml.cs">
       <DependentUpon>ErrorWindowView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExtractionResultValidationView.xaml.cs">
+      <DependentUpon>ExtractionResultValidationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\KeywordManagerView.xaml.cs">
       <DependentUpon>KeywordManagerView.xaml</DependentUpon>
     </Compile>
@@ -233,6 +236,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ErrorWindowView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExtractionResultValidationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

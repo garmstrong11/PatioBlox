@@ -17,6 +17,7 @@
     private BindableCollection<IProduct> _invalidProducts;
     private BindableCollection<string> _missingPhotos;
     private BindableCollection<IProduct> _duplicateProducts;
+    private int _missingDescriptionCount;
 
     public ExtractionResultValidationViewModel(
       IDescriptionRepository descriptionRepo, 
@@ -37,14 +38,43 @@
 
     protected override void OnActivate()
     {
-      var missingDesrciptions = _descriptionRepo
+      MissingDescriptions .Clear();
+      var missingDescriptions = _descriptionRepo
         .FilterExisting(_extractionResult.UniqueDescriptions)
         .OrderBy(d => d);
 
-      MissingDescriptions.AddRange(missingDesrciptions);
+      MissingDescriptions.AddRange(missingDescriptions);
+      MissingDescriptionCount = MissingDescriptions.Count;
+
       InvalidProducts.AddRange(FindInvalidProducts());
       MissingPhotos.AddRange(FindSkusWithNoPhoto());
       DuplicateProducts.AddRange(FindDuplicateProducts());
+    }
+
+    public string PatchCount
+    {
+      get { return _extractionResult.PatchNames.Count().ToString(); }
+    }
+
+    public string DescriptionCount
+    {
+      get { return _extractionResult.UniqueDescriptions.Count().ToString(); }
+    }
+
+    public string JobName
+    {
+      get { return _jobFolders.JobName; }
+    }
+
+    public int MissingDescriptionCount
+    {
+      get { return _missingDescriptionCount; }
+      set
+      {
+        if (value == _missingDescriptionCount) return;
+        _missingDescriptionCount = value;
+        NotifyOfPropertyChange(() => MissingDescriptionCount);
+      }
     }
 
     public BindableCollection<string> MissingDescriptions

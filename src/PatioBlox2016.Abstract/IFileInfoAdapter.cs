@@ -4,6 +4,8 @@
   {
     bool Exists { get; }
     string FullName { get; }
+    string Name { get; }
+    string NameWithoutExtension { get; }
     IDirectoryInfoAdapter Directory { get; }
   }
 }
