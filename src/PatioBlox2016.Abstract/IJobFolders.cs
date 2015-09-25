@@ -1,11 +1,10 @@
 ﻿namespace PatioBlox2016.Abstract
 {
   using System.Collections.Generic;
-  using System.IO.Abstractions;
 
   public interface IJobFolders : IJsxExportable
   {
-		DirectoryInfoBase ReportPath { get; }
+		IDirectoryInfoAdapter ReportPath { get; }
 		bool FileExists(string filePath);
 
     string SupportPath { get; }
@@ -15,7 +14,7 @@
     /// from the support folder of the job.
     /// </summary>
     /// <returns></returns>
-    IEnumerable<string> GetExistingPhotoFileNames();
+    IEnumerable<IFileInfoAdapter> GetExistingPhotoFiles();
 
     /// <summary>
     /// The path for output pdfs.
@@ -27,7 +26,7 @@
     /// </summary>
     string JobRootPath { get; }
 
-		void Initialize(string jobFolderPath);
+    void Initialize(IFileInfoAdapter jobFolderPath);
 		void Reset();
   }
 }

@@ -49,6 +49,8 @@
     <Compile Include="IColumnIndexService.cs" />
     <Compile Include="IDataSourceAdapter.cs" />
     <Compile Include="IDescription.cs" />
+    <Compile Include="IDirectoryInfoAdapter.cs" />
+    <Compile Include="IFileInfoAdapter.cs" />
     <Compile Include="IJob.cs" />
     <Compile Include="IJobFolders.cs" />
     <Compile Include="IJsxExportable.cs" />
