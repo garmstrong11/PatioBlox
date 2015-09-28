@@ -1,5 +1,7 @@
 ﻿namespace PatioBlox2016.Concrete
 {
+  using System;
+  using System.Collections.Generic;
   using Abstract;
 
   public class UpcReplacement : IUpcReplacement

@@ -36,6 +36,11 @@
       get { return ExtractWordList(Text); }
     }
 
+    public bool IsUnresolved
+    {
+      get { return Vendor == null && Size == null && Color == null && Name == null; }
+    }
+
     public string FullName
     {
       get

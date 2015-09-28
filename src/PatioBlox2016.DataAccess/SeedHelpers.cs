@@ -62,6 +62,7 @@
     public static void SeedKeywords(PatioBloxContext context)
     {
 
+      var unknown = new Keyword("NEW") {Parent = null};
       var color = new Keyword("COLOR") {Parent = null};
       var vendor = new Keyword("VENDOR") { Parent = null };
       var name = new Keyword("NAME") { Parent = null };
@@ -69,6 +70,8 @@
 
       // Calling save changes after each so they will appear 
       // in the db in a specific order.
+      context.Keywords.AddOrUpdate(v => v.Word, unknown);
+      context.SaveChanges();
       context.Keywords.AddOrUpdate(v => v.Word, name);
       context.SaveChanges();
       context.Keywords.AddOrUpdate(v => v.Word, color);

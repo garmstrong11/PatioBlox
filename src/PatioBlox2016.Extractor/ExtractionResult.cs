@@ -110,5 +110,18 @@
         return badBarcodes;
       }
     }
+
+    public IEnumerable<string> InvalidUpcs
+    {
+      get
+      {
+        var invalidUpcs = from upc in UniqueUpcs
+          let barcode = new Barcode(upc)
+          where !barcode.IsValid
+          select upc;
+
+        return invalidUpcs;
+      }
+    }
   }
 }

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DescriptionRepository.cs" />
+    <Compile Include="ExtractionResultValidationUow.cs" />
     <Compile Include="KeywordRepository.cs" />
     <Compile Include="ProductUow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

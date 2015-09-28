@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDescriptionRepository.cs" />
+    <Compile Include="IExtractionResultValidationUow.cs" />
     <Compile Include="IKeywordRepository.cs" />
     <Compile Include="IProductUow.cs" />
     <Compile Include="IUpcReplacementRepository.cs" />

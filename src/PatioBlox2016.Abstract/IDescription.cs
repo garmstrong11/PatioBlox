@@ -11,5 +11,7 @@ namespace PatioBlox2016.Abstract
     string Size { get; set; }
     string Color { get; set; }
     string Name { get; set; }
+
+    bool IsUnresolved { get; }
   }
 }
