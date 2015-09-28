@@ -33,7 +33,7 @@
                 <LineBreak />
                 <Run>of which </Run>
                 <Run FontWeight="Bold" Text="{Binding MissingDescriptionCount}" />
-                <Run> do not exist in the database.</Run>
+                <Run> are unresolved.</Run>
             </TextBlock>
         </StackPanel>
     </Grid>

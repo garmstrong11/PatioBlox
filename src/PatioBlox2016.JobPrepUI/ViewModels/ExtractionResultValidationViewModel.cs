@@ -4,15 +4,12 @@
   using System.Linq;
   using Abstract;
   using Caliburn.Micro;
-  using Extractor;
   using Services.Contracts;
 
   public class ExtractionResultValidationViewModel : Screen
   {
-    private readonly IDescriptionRepository _descriptionRepo;
-    private readonly IExtractionResult _extractionResult;
+    private readonly IExtractionResultValidationUow _uow;
     private readonly IJobFolders _jobFolders;
-    private BindableCollection<string> _missingDescriptions;
     private BindableCollection<IProduct> _invalidProducts;
     private BindableCollection<string> _missingPhotos;
     private BindableCollection<IProduct> _duplicateProducts;
@@ -20,16 +17,13 @@
     private readonly List<IProduct> _products; 
 
     public ExtractionResultValidationViewModel(
-      IDescriptionRepository descriptionRepo, 
-      IExtractionResult extractionResult, 
-      IJobFolders jobFolders, IProductUow productUow)
+      IExtractionResultValidationUow uow,
+      IJobFolders jobFolders)
     {
-      _descriptionRepo = descriptionRepo;
-      _extractionResult = extractionResult;
+      _uow = uow;
       _jobFolders = jobFolders;
-      _products = productUow.GetProducts().ToList();
+      _products = new List<IProduct>();
 
-      _missingDescriptions = new BindableCollection<string>();
       _invalidProducts = new BindableCollection<IProduct>();
       _missingPhotos = new BindableCollection<string>();
       _duplicateProducts = new BindableCollection<IProduct>();
@@ -37,27 +31,35 @@
 
     protected override void OnActivate()
     {
-      MissingDescriptions .Clear();
-      var missingDescriptions = _descriptionRepo
-        .FilterExisting(_extractionResult.UniqueDescriptions)
-        .OrderBy(d => d);
+      ClearAllCollections();
 
-      MissingDescriptions.AddRange(missingDescriptions);
-      MissingDescriptionCount = MissingDescriptions.Count;
+      _uow.PersistNewDescriptions();
+      _uow.PersistNewUpcReplacements();
+      _uow.PersistNewKeywords();
 
+      _products.AddRange(_uow.GetProducts());
       InvalidProducts.AddRange(FindInvalidProducts());
       MissingPhotos.AddRange(FindSkusWithNoPhoto());
+      MissingDescriptionCount = _uow.GetUnresolvedDescriptions().Count;
       DuplicateProducts.AddRange(FindDuplicateProducts());
     }
 
-    public string PatchCount
+    private void ClearAllCollections()
     {
-      get { return _extractionResult.PatchNames.Count().ToString(); }
+      _products.Clear();
+      InvalidProducts.Clear();
+      MissingPhotos.Clear();
+      DuplicateProducts.Clear();
     }
 
-    public string DescriptionCount
+    public int PatchCount
     {
-      get { return _extractionResult.UniqueDescriptions.Count().ToString(); }
+      get { return _uow.GetPatchCount(); }
+    }
+
+    public int DescriptionCount
+    {
+      get { return _uow.GetUniqueDescriptionCount(); }
     }
 
     public string JobName
@@ -73,17 +75,6 @@
         if (value == _missingDescriptionCount) return;
         _missingDescriptionCount = value;
         NotifyOfPropertyChange(() => MissingDescriptionCount);
-      }
-    }
-
-    public BindableCollection<string> MissingDescriptions
-    {
-      get { return _missingDescriptions; }
-      set
-      {
-        if (Equals(value, _missingDescriptions)) return;
-        _missingDescriptions = value;
-        NotifyOfPropertyChange(() => MissingDescriptions);
       }
     }
 
@@ -122,7 +113,8 @@
 
     private IEnumerable<string> FindSkusWithNoPhoto()
     {
-      return _extractionResult.UniqueSkus.Select(s => s.ToString())
+      return _uow.GetUniqueSkus()
+        .Select(s => s.ToString())
         .Except(_jobFolders.GetExistingPhotoFileNames());
     }
 

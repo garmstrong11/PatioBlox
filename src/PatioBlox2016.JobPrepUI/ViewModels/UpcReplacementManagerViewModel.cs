@@ -1,35 +1,25 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
-  using System;
   using System.Linq;
   using Caliburn.Micro;
-  using Extractor;
   using Services.Contracts;
 
   public class UpcReplacementManagerViewModel : Screen
   {
-    private readonly IExtractionResult _extractionResult;
-    private readonly IUpcReplacementRepository _upcReplacementRepository;
-    private readonly IProductUow _productUow;
+    private readonly IExtractionResultValidationUow _uow;
     private BindableCollection<UpcReplacementViewModel> _upcReplacements;
     private UpcReplacementViewModel _selectedUpcReplacement;
 
-    public UpcReplacementManagerViewModel(
-      IExtractionResult extractionResult, 
-      IProductUow productUow)
+    public UpcReplacementManagerViewModel(IExtractionResultValidationUow uow)
     {
-      if (extractionResult == null) throw new ArgumentNullException("extractionResult");
-      if (productUow == null) throw new ArgumentNullException("productUow");
-
-      _extractionResult = extractionResult;
-      _productUow = productUow;
+      _uow = uow;
 
       UpcReplacements = new BindableCollection<UpcReplacementViewModel>();
     }
 
     protected override void OnActivate()
     {
-      var products = _productUow.GetProducts()
+      var products = _uow.GetProducts()
         .Where(p => p.IsBarcodeInvalid)
         .OrderBy(p => p.Sku).ToList();
 

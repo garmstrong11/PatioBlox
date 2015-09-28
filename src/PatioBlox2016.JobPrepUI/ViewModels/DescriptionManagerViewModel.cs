@@ -3,45 +3,29 @@
   using System;
   using System.Linq;
   using Caliburn.Micro;
-  using Extractor;
-  using PatioBlox2016.JobPrepUI.JobBuilders;
   using Services.Contracts;
 
   public class DescriptionManagerViewModel : Screen
   {
-    private readonly IDescriptionRepository _descriptionRepository;
-    private readonly IDescriptionFactory _descriptionFactory;
-    private readonly IExtractionResult _extractionResult;
+    private readonly IExtractionResultValidationUow _uow;
     private BindableCollection<DescriptionViewModel> _descriptions;
 
-    public DescriptionManagerViewModel(
-      IDescriptionRepository descriptionRepository, 
-      IDescriptionFactory descriptionFactory,
-      IExtractionResult extractionResult)
+    public DescriptionManagerViewModel(IExtractionResultValidationUow uow)
     {
-      if (descriptionRepository == null) throw new ArgumentNullException("descriptionRepository");
-      if (descriptionFactory == null) throw new ArgumentNullException("descriptionFactory");
-      if (extractionResult == null) throw new ArgumentNullException("extractionResult");
+      if (uow == null) throw new ArgumentNullException("uow");
 
-      _descriptionRepository = descriptionRepository;
-      _descriptionFactory = descriptionFactory;
-      _extractionResult = extractionResult;
+      _uow = uow;
 
       Descriptions = new BindableCollection<DescriptionViewModel>();
     }
 
     protected override void OnActivate()
     {
-      var newTexts = _descriptionRepository.FilterExisting(_extractionResult.UniqueDescriptions);
-      _descriptionFactory.UpdateKeywordDict();
+      Descriptions.Clear();
 
-      var descriptions = newTexts
-        .Select(d => _descriptionFactory.CreateDescription(d))
-        .ToList();
+      var descriptions = _uow.GetUnresolvedDescriptions();
 
       Descriptions.AddRange(descriptions.Select(d => new DescriptionViewModel(d)));
-
-      _descriptionRepository.AddRange(descriptions);
 
       base.OnActivate();
     }
@@ -61,8 +45,7 @@
 
     public void Save()
     {
-      _descriptionRepository.AddRange(Descriptions.Select(d => d.Description));
-      _descriptionRepository.SaveChanges();
+      _uow.SaveChanges();
     }
   }
 }

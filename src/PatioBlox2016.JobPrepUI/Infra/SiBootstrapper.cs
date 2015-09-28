@@ -45,6 +45,7 @@
       _container.RegisterSingle<IDescriptionRepository, DescriptionRepository>();
       _container.RegisterSingle<IUpcReplacementRepository, UpcReplacementRepository>();
       _container.RegisterSingle<IProductUow, ProductUow>();
+      _container.RegisterSingle<IExtractionResultValidationUow, ExtractionResultValidationUow>();
 
       _container.Register<ICellFactory, CellFactory>();
       _container.Register<IBookFactory, BookFactory>();

@@ -5,11 +5,11 @@
   using System.Collections.ObjectModel;
   using System.Data.Entity;
   using System.Linq;
-  using PatioBlox2016.Abstract;
-  using PatioBlox2016.Concrete;
-  using PatioBlox2016.DataAccess;
-  using PatioBlox2016.Extractor;
-  using PatioBlox2016.Services.Contracts;
+  using Abstract;
+  using Concrete;
+  using DataAccess;
+  using Extractor;
+  using Services.Contracts;
 
   public class ExtractionResultValidationUow : IExtractionResultValidationUow
   {
@@ -17,7 +17,9 @@
     private readonly IExtractionResult _extractionResult;
     private readonly ObservableCollection<UpcReplacement> _upcReplacements;
     private readonly ObservableCollection<Description> _descriptions;
-    private readonly ObservableCollection<Keyword> _keywords; 
+    private readonly ObservableCollection<Keyword> _keywords;
+
+    private const string DefaultName = "NEW";
 
     public ExtractionResultValidationUow(PatioBloxContext context, IExtractionResult extractionResult)
     {
@@ -64,7 +66,7 @@
       }
     }
 
-    public void PersistUpcReplacementsForInvalidUpcs()
+    public void PersistNewUpcReplacements()
     {
       var presentUpcs = _upcReplacements.Select(u => u.InvalidUpc);
       var invalidUpcs = _extractionResult.InvalidUpcs;
@@ -79,10 +81,11 @@
 
     public void PersistNewDescriptions()
     {
+      var now = DateTime.Now;
       var dbDescriptionTexts = _descriptions.Select(d => d.Text);
       var missingDescriptions = _extractionResult.UniqueDescriptions
         .Except(dbDescriptionTexts)
-        .Select(d => new Description(d));
+        .Select(d => new Description(d){InsertDate = now});
 
       _context.Descriptions.AddRange(missingDescriptions);
       _context.SaveChanges();
@@ -90,7 +93,7 @@
 
     public void PersistNewKeywords()
     {
-      var parent = _keywords.Single(k => k.Word == "NEW");
+      var parent = _keywords.Single(k => k.Word == DefaultName);
       var dbWords = _keywords.Select(k => k.Word);
       var missingWords = _extractionResult.UniqueWords
         .Except(dbWords)
@@ -98,6 +101,67 @@
 
       _context.Keywords.AddRange(missingWords);
       _context.SaveChanges();
+    }
+
+    public List<Keyword> GetRootKeywords()
+    {
+      return _keywords
+        .Where(k => k.Parent == null)
+        .ToList();
+    }
+
+    public List<Keyword> GetParentKeywords()
+    {
+      var rootWords = GetRootKeywords()
+        .Select(k => k.Word);
+
+      return _keywords
+        .Where(k => k.Parent != null)
+        .Where(k => rootWords.Contains(k.Parent.Word))
+        .ToList();
+    }
+
+    public Keyword GetDefaultParent()
+    {
+      return _keywords.Single(k => k.Word == DefaultName);
+    }
+
+    public List<Keyword> GetNewKeywords()
+    {
+      var nonRootKeywords = _keywords.Where(k => k.Parent != null);
+      return nonRootKeywords.Where(k => k.Parent.Word == DefaultName).ToList();
+    }
+
+    public List<string> GetUsagesForWord(string word)
+    {
+      return _extractionResult.UniqueDescriptions
+        .Where(d => Description.ExtractWordList(d).Contains(word))
+        .ToList();
+    }
+
+    public int SaveChanges()
+    {
+      return _context.SaveChanges();
+    }
+
+    public int GetPatchCount()
+    {
+      return _extractionResult.PatchNames.Count();
+    }
+
+    public int GetUniqueDescriptionCount()
+    {
+      return _extractionResult.UniqueDescriptions.Count();
+    }
+
+    public List<Description> GetUnresolvedDescriptions()
+    {
+      return _descriptions.Where(d => d.IsUnresolved).ToList();
+    }
+
+    public IEnumerable<int> GetUniqueSkus()
+    {
+      return _extractionResult.PatchRowExtracts.Select(pr => pr.Sku).Distinct();
     }
   }
 }

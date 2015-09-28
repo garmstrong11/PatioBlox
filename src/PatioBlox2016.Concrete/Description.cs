@@ -18,12 +18,10 @@
     {
       if (string.IsNullOrWhiteSpace(text)) throw new ArgumentNullException("text");
 
-		  Id = 0;
       Text = text;
-		  Size = ExtractSize();
     }
 
-    public int Id { get; private set; }
+    public int Id { get; set; }
     public string Text { get; private set; }
     public string Vendor { get; set; }
     public string Size { get; set; }
@@ -56,7 +54,7 @@
     /// </summary>
     /// <param name="text">The input string from which to remove size data.</param>
     /// <returns></returns>
-    private static string ExtractRemainder(string text)
+    public static string ExtractRemainder(string text)
     {
       return SizeRegex.Replace(text, string.Empty);
     }
