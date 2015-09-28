@@ -10,30 +10,28 @@
   {
     private readonly IExtractionResult _extractionResult;
     private readonly IUpcReplacementRepository _upcReplacementRepository;
+    private readonly IProductUow _productUow;
     private BindableCollection<UpcReplacementViewModel> _upcReplacements;
     private UpcReplacementViewModel _selectedUpcReplacement;
 
     public UpcReplacementManagerViewModel(
       IExtractionResult extractionResult, 
-      IUpcReplacementRepository upcReplacementRepository)
+      IProductUow productUow)
     {
       if (extractionResult == null) throw new ArgumentNullException("extractionResult");
-      if (upcReplacementRepository == null) throw new ArgumentNullException("upcReplacementRepository");
+      if (productUow == null) throw new ArgumentNullException("productUow");
 
       _extractionResult = extractionResult;
-      _upcReplacementRepository = upcReplacementRepository;
+      _productUow = productUow;
 
       UpcReplacements = new BindableCollection<UpcReplacementViewModel>();
     }
 
     protected override void OnActivate()
     {
-      var existingReplacements = _upcReplacementRepository.GetAll().Select(u => u.InvalidUpc);
-
-      var products = _extractionResult.GetUniqueProducts()
-        .Where(p => p.IsBarcodeInvalid && !existingReplacements.Contains(p.Upc))
+      var products = _productUow.GetProducts()
+        .Where(p => p.IsBarcodeInvalid)
         .OrderBy(p => p.Sku).ToList();
-
 
       //var dupes = products.Where(p => p.HasPatchProductDuplicates);
       UpcReplacements.Clear();

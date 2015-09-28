@@ -1,5 +1,6 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
+  using System;
   using System.Collections.Generic;
   using System.IO;
   using System.Linq;
@@ -8,6 +9,7 @@
   using System.Windows;
   using Abstract;
   using Caliburn.Micro;
+  using Concrete.Exceptions;
   using Extractor;
   using FluentValidation.Results;
   using Infra;
@@ -104,12 +106,22 @@
       }
 
       catch (PatioBloxHeaderExtractionException exc) {
-        var failure = new ValidationFailure("FlexCel Error", exc.Message);
+        var failure = new ValidationFailure("FlexCel Header Extraction Error", exc.Message);
         validationResult.Errors.Add(failure);
       }
 
       catch (FlexCelExtractionException exc) {
-        var failure = new ValidationFailure("FlexCel Error", exc.Message);
+        var failure = new ValidationFailure("FlexCel Cell Extraction Error", exc.Message);
+        validationResult.Errors.Add(failure);
+      }
+
+      catch (JobFoldersInitializationException exc) {
+        var failure = new ValidationFailure("Job Folders Initialization Error", exc.Message);
+        validationResult.Errors.Add(failure);
+      }
+
+      catch (Exception exc) {
+        var failure = new ValidationFailure("Unknown Exception", exc.Message);
         validationResult.Errors.Add(failure);
       }
 

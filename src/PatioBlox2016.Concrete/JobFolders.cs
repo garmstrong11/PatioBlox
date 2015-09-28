@@ -52,11 +52,11 @@
           "Unable to find the 'IC' folder for this job");
       }
 
-      SupportDir = _allDirs.FirstOrDefault(d => d.Name == "Support");
-      if (SupportDir == null) {
-          throw new JobFoldersInitializationException(excelFileAdapter,
-            "Unable to find the 'Support' folder for this job");
-      }
+      //SupportDir = _allDirs.FirstOrDefault(d => d.Name == "Support");
+      //if (SupportDir == null) {
+      //    throw new JobFoldersInitializationException(excelFileAdapter,
+      //      "Unable to find the 'Support' folder for this job");
+      //}
 
       JobName = _udfDir.Parent.Name;
       OutputDir = _udfDir.CreateSubdirectory("_Output");
@@ -64,6 +64,7 @@
       ReportDir = _icDir.CreateSubdirectory("reports");
       InddDir = _icDir.CreateSubdirectory("indd");
       JsxDir = _icDir.CreateSubdirectory("jsx");
+      SupportDir = FactoryDir.CreateSubdirectory("support");
     }
 
     private static IEnumerable<IDirectoryInfoAdapter> GetDirectoriesInPath(IFileInfoAdapter excelAdapter)

@@ -5,44 +5,57 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
-    <DockPanel Margin="9">
-        <Border DockPanel.Dock="Bottom"
-                Background="LightGray">
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-                <Button x:Name="Save"
-                        Content="Save"
-                        Margin="4.5 4.5 0 4.5"
-                        Padding="9 4.5"/>
-            </StackPanel>
-        </Border>
-        <DataGrid ItemsSource="{Binding UpcReplacements}"
-                  AutoGenerateColumns="False"
-                  CanUserReorderColumns="True"
-                  CanUserSortColumns="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn IsReadOnly="True"
-                                    Header="InvalidUpc"
-                                    Binding="{Binding InvalidUpc}"/>
-                <DataGridTextColumn IsReadOnly="True"
-                                    Header="Sku"
-                                    Binding="{Binding Sku}"/>
-                <DataGridTextColumn IsReadOnly="True"
-                                    Header="UsageCount"
-                                    Binding="{Binding UsageCount}">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Setter Property="ToolTip" Value="{Binding UsageList}"/>
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn Header="Replacement"
-                                    Binding="{Binding Replacement}"/>
-                <DataGridTextColumn Header="Errors"
-                                    Width="*"
-                                    IsReadOnly="True"
-                                    Binding="{Binding Errors}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-    </DockPanel>
+  <UserControl.Resources>
+    <Color x:Key="TextColor" R="128" G="128" B="128" A="255" />
+    <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}"/>
+  </UserControl.Resources>
+  <DockPanel Margin="9">
+      <Border DockPanel.Dock="Bottom"
+              Background="LightGray">
+          <StackPanel Orientation="Horizontal"
+                      HorizontalAlignment="Right">
+              <Button x:Name="Save"
+                      Content="Save"
+                      Margin="4.5 4.5 0 4.5"
+                      Padding="9 4.5"/>
+          </StackPanel>
+      </Border>
+      <DataGrid ItemsSource="{Binding UpcReplacements}"
+                AutoGenerateColumns="False"
+                CanUserReorderColumns="True"
+                CanUserSortColumns="True"
+                HorizontalGridLinesBrush="LightGray"
+                VerticalGridLinesBrush="LightGray"
+                RowHeight="30"
+                Foreground="{StaticResource TextBrush}">
+        <DataGrid.Resources>
+          <Style TargetType="DataGridCell">
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="DataGridCell">
+                  <Grid Background="{TemplateBinding Background}">
+                    <ContentPresenter VerticalAlignment="Center"
+                                      Margin="3"/>
+                  </Grid>
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </DataGrid.Resources>
+          <DataGrid.Columns>
+              <DataGridTextColumn IsReadOnly="True"
+                                  Header="INVALID UPC"
+                                  Binding="{Binding InvalidUpc}"/>
+              <DataGridTextColumn IsReadOnly="True"
+                                  Header="SKU"
+                                  Binding="{Binding Sku}"/>
+              <DataGridTextColumn Header="REPLACEMENT"
+                                  Binding="{Binding Replacement}"/>
+              <DataGridTextColumn Header="ERRORS"
+                                  Width="*"
+                                  IsReadOnly="True"
+                                  Binding="{Binding Errors}"/>
+          </DataGrid.Columns>
+      </DataGrid>
+  </DockPanel>
 </UserControl>

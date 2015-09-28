@@ -9,6 +9,12 @@
       // Set a default value for newly created objects
       Replacement = "111111111111";
     }
+
+    public UpcReplacement(string invalidUpc)
+    {
+      InvalidUpc = invalidUpc;
+      Replacement = invalidUpc;
+    }
     
     public int Id { get; set; }
     public string InvalidUpc { get; set; }

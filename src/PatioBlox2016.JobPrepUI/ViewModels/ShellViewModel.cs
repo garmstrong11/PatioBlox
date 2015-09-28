@@ -39,7 +39,7 @@
 
       var errorWindow = new ErrorWindowViewModel();
       var errorString = string.Join("\n", message.ValidationResult.Errors.Select(e => e.ErrorMessage));
-      errorWindow.DisplayName = "Acquisition Failed";
+      errorWindow.DisplayName = message.ValidationResult.Errors[0].PropertyName;
       errorWindow.Errors = errorString;
 
       _windowManager.ShowDialog(errorWindow);

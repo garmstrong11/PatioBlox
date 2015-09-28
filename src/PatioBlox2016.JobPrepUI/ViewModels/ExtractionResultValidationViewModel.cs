@@ -10,7 +10,6 @@
   public class ExtractionResultValidationViewModel : Screen
   {
     private readonly IDescriptionRepository _descriptionRepo;
-    private readonly IUpcReplacementRepository _upcRepo;
     private readonly IExtractionResult _extractionResult;
     private readonly IJobFolders _jobFolders;
     private BindableCollection<string> _missingDescriptions;
@@ -18,17 +17,17 @@
     private BindableCollection<string> _missingPhotos;
     private BindableCollection<IProduct> _duplicateProducts;
     private int _missingDescriptionCount;
+    private readonly List<IProduct> _products; 
 
     public ExtractionResultValidationViewModel(
       IDescriptionRepository descriptionRepo, 
-      IUpcReplacementRepository upcRepo, 
       IExtractionResult extractionResult, 
-      IJobFolders jobFolders)
+      IJobFolders jobFolders, IProductUow productUow)
     {
       _descriptionRepo = descriptionRepo;
-      _upcRepo = upcRepo;
       _extractionResult = extractionResult;
       _jobFolders = jobFolders;
+      _products = productUow.GetProducts().ToList();
 
       _missingDescriptions = new BindableCollection<string>();
       _invalidProducts = new BindableCollection<IProduct>();
@@ -129,10 +128,8 @@
 
     private IEnumerable<IProduct> FindInvalidProducts()
     {
-      var existingReplacements = _upcRepo.GetAll().Select(u => u.InvalidUpc);
-
-      var products = _extractionResult.GetUniqueProducts()
-        .Where(p => p.IsBarcodeInvalid && !existingReplacements.Contains(p.Upc))
+      var products = _products
+        .Where(p => p.IsBarcodeInvalid)
         .OrderBy(p => p.Sku).ToList();
 
       return products;
@@ -140,9 +137,7 @@
 
     private IEnumerable<IProduct> FindDuplicateProducts()
     {
-      return _extractionResult.GetUniqueProducts()
-        .Where(p => p.HasPatchProductDuplicates);
+      return _products.Where(p => p.HasPatchProductDuplicates);
     } 
-
   }
 }

@@ -91,39 +91,11 @@
       get { return _patchRowExtracts.Select(pr => pr.Sku).Distinct(); }
     }
 
-    public IEnumerable<string> InvalidUpcs
-    {
-      get
-      {
-        var badUpcs = from upc in UniqueUpcs
-          let barcode = new Barcode(upc)
-          where !barcode.IsValid
-          select upc;
-
-        return badUpcs;
-      }
-    }
-
-    private IEnumerable<PatchRowExtract> GetProductExtracts()
+    public IEnumerable<PatchRowExtract> GetProductExtracts()
     {
       return _patchRowExtracts
-        .Where(pr => pr.Sku > 0)
+        .Where(pr => pr.Sku >= 0)
         .Cast<PatchRowExtract>();
-    }
-
-    public IEnumerable<IProduct> GetUniqueProducts()
-    {
-      var extracts = GetProductExtracts();
-      var groops = extracts.GroupBy(g => new {g.Sku, g.Upc});
-
-      foreach (var groop in groops) {
-        var prod = new Product(groop.Key.Sku, groop.Key.Upc);
-        foreach (var extract in groop) {
-          prod.AddUsage(new UsageLocation(extract.PatchName, extract.RowIndex));
-        }
-
-        yield return prod;
-      }
     }
 
     public IEnumerable<Barcode> InvalidBarcodes

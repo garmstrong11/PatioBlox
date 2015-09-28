@@ -71,7 +71,6 @@
       get { return PatchProductDuplicates.Any(); }
     }
 
-
     protected bool Equals(Product other)
     {
       return Sku == other.Sku && string.Equals(Upc, other.Upc);

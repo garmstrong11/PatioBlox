@@ -148,6 +148,9 @@
     <Compile Include="Views\DescriptionManagerView.xaml.cs">
       <DependentUpon>DescriptionManagerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\DescriptionView.xaml.cs">
+      <DependentUpon>DescriptionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorWindowView.xaml.cs">
       <DependentUpon>ErrorWindowView.xaml</DependentUpon>
     </Compile>
@@ -232,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DescriptionManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DescriptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

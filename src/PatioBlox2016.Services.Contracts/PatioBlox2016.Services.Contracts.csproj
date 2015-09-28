@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="IDescriptionRepository.cs" />
     <Compile Include="IKeywordRepository.cs" />
+    <Compile Include="IProductUow.cs" />
     <Compile Include="IUpcReplacementRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -58,6 +59,10 @@
     <ProjectReference Include="..\PatioBlox2016.Concrete\PatioBlox2016.Concrete.csproj">
       <Project>{bddf1e05-0175-4314-97b1-3eb470558751}</Project>
       <Name>PatioBlox2016.Concrete</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.Extractor\PatioBlox2016.Extractor.csproj">
+      <Project>{b0fe40ea-32fc-41ce-8dc2-dd82b0597a85}</Project>
+      <Name>PatioBlox2016.Extractor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
