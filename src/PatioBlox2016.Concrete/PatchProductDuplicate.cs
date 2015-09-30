@@ -44,7 +44,7 @@
     public override string ToString()
     {
       var indices = string.Join(" and ", RowIndices);
-      return string.Format("Patch {2} has a duplicate item {0} (upc {1}) in rows {3}", Sku, Upc, PatchName, indices);
+      return string.Format("Patch {2} has item {0} (upc {1}) in rows {3}", Sku, Upc, PatchName, indices);
     }
   }
 }

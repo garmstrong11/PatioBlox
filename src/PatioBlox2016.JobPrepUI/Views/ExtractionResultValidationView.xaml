@@ -20,6 +20,7 @@
             <RowDefinition />
             <RowDefinition Height="9" />
             <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel>
             <TextBlock>
@@ -115,6 +116,10 @@
                 </ListView.ItemTemplate>
             </ListView>
         </GroupBox>
-
+            <Button Grid.Row="7" x:Name="SaveReport"
+                    HorizontalAlignment="Right"
+                    Content="Save Extraction Report"
+                    Margin="0 9 0 0"
+                    Padding="9 4.5"/>
     </Grid>
 </UserControl>

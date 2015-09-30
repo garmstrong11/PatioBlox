@@ -1,22 +1,27 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
   using System.Collections.Generic;
+  using System.IO;
   using System.Linq;
+  using System.Text;
   using Abstract;
   using Caliburn.Micro;
   using Services.Contracts;
 
   public class ExtractionResultValidationViewModel : Screen
   {
+    private readonly IWindowManager _windowManager;
     private readonly IExtractionResultValidationUow _uow;
     private readonly IJobFolders _jobFolders;
     private int _missingDescriptionCount;
     private readonly List<IProduct> _products;
 
     public ExtractionResultValidationViewModel(
+      IWindowManager windowManager,
       IExtractionResultValidationUow uow,
       IJobFolders jobFolders)
     {
+      _windowManager = windowManager;
       _uow = uow;
       _jobFolders = jobFolders;
       _products = new List<IProduct>();
@@ -102,6 +107,39 @@
     private IEnumerable<IPatchProductDuplicate> FindDuplicateProducts()
     {
       return _uow.GetPatchProductDuplicates();
-    } 
+    }
+
+    public void SaveReport()
+    {
+      var reportFilePath = Path.Combine(_jobFolders.ReportDir.FullName, "ExtractionReport.txt");
+
+      var sb = new StringBuilder();
+      sb.AppendFormat("Job name is {0}\n", _jobFolders.JobName);
+      sb.AppendFormat("Extractor found {0} patches in the data files\n", PatchCount);
+      sb.AppendFormat("\nPhotos are not found for these {0} item numbers:\n", MissingPhotos.Count);
+
+      foreach (var photo in MissingPhotos) {
+        sb.AppendFormat("\t{0}\n", photo);
+      }
+
+      sb.AppendFormat("\nThese {0} upcs are invalid:\n", InvalidProducts.Count);
+
+      foreach (var invalidProduct in InvalidProducts) {
+        sb.AppendFormat("\tUpc {0}, Item {1}: {2}\n",
+          invalidProduct.Upc, invalidProduct.Sku, string.Join(", ", invalidProduct.BarcodeErrors));
+      }
+
+      sb.AppendFormat("\nThese {0} Patches have duplicate rows:\n", DuplicateProducts.Count);
+
+      foreach (var duplicate in DuplicateProducts) {
+        sb.AppendFormat("\t{0}\n", duplicate);
+      }
+
+      File.WriteAllText(reportFilePath, sb.ToString());
+
+      var messageWindow = new MessageWindowViewModel("File saved successfully!") {DisplayName = "Success!"};
+
+      _windowManager.ShowDialog(messageWindow);
+    }
   }
 }

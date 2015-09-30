@@ -136,6 +136,7 @@
     <Compile Include="ViewModels\IShell.cs" />
     <Compile Include="ViewModels\KeywordManagerViewModel.cs" />
     <Compile Include="ViewModels\KeywordViewModel.cs" />
+    <Compile Include="ViewModels\MessageWindowViewModel.cs" />
     <Compile Include="ViewModels\PatchFileDropViewModel.cs" />
     <Compile Include="ViewModels\PatchFileViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
@@ -159,6 +160,9 @@
     </Compile>
     <Compile Include="Views\KeywordManagerView.xaml.cs">
       <DependentUpon>KeywordManagerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MessageWindowView.xaml.cs">
+      <DependentUpon>MessageWindowView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PatchFileDropView.xaml.cs">
       <DependentUpon>PatchFileDropView.xaml</DependentUpon>
@@ -251,6 +255,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\KeywordManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MessageWindowView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
