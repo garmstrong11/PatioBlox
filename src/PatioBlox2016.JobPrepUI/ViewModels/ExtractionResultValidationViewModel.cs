@@ -10,11 +10,8 @@
   {
     private readonly IExtractionResultValidationUow _uow;
     private readonly IJobFolders _jobFolders;
-    private BindableCollection<IProduct> _invalidProducts;
-    private BindableCollection<string> _missingPhotos;
-    private BindableCollection<IProduct> _duplicateProducts;
     private int _missingDescriptionCount;
-    private readonly List<IProduct> _products; 
+    private readonly List<IProduct> _products;
 
     public ExtractionResultValidationViewModel(
       IExtractionResultValidationUow uow,
@@ -24,32 +21,32 @@
       _jobFolders = jobFolders;
       _products = new List<IProduct>();
 
-      _invalidProducts = new BindableCollection<IProduct>();
-      _missingPhotos = new BindableCollection<string>();
-      _duplicateProducts = new BindableCollection<IProduct>();
+      InvalidProducts = new BindableCollection<IProduct>();
+      MissingPhotos = new BindableCollection<string>();
+      DuplicateProducts = new BindableCollection<IPatchProductDuplicate>();
     }
 
     protected override void OnActivate()
     {
-      ClearAllCollections();
-
       _uow.PersistNewDescriptions();
       _uow.PersistNewUpcReplacements();
       _uow.PersistNewKeywords();
 
       _products.AddRange(_uow.GetProducts());
       InvalidProducts.AddRange(FindInvalidProducts());
+
       MissingPhotos.AddRange(FindSkusWithNoPhoto());
       MissingDescriptionCount = _uow.GetUnresolvedDescriptions().Count;
       DuplicateProducts.AddRange(FindDuplicateProducts());
     }
 
-    private void ClearAllCollections()
+    protected override void OnDeactivate(bool close)
     {
       _products.Clear();
       InvalidProducts.Clear();
       MissingPhotos.Clear();
       DuplicateProducts.Clear();
+      base.OnDeactivate(close);
     }
 
     public int PatchCount
@@ -78,44 +75,19 @@
       }
     }
 
-    public BindableCollection<IProduct> InvalidProducts
-    {
-      get { return _invalidProducts; }
-      set
-      {
-        if (Equals(value, _invalidProducts)) return;
-        _invalidProducts = value;
-        NotifyOfPropertyChange(() => InvalidProducts);
-      }
-    }
+    public BindableCollection<IProduct> InvalidProducts { get; private set; }
 
-    public BindableCollection<string> MissingPhotos
-    {
-      get { return _missingPhotos; }
-      set
-      {
-        if (Equals(value, _missingPhotos)) return;
-        _missingPhotos = value;
-        NotifyOfPropertyChange(() => MissingPhotos);
-      }
-    }
+    public BindableCollection<string> MissingPhotos { get; private set; }
 
-    public BindableCollection<IProduct> DuplicateProducts
-    {
-      get { return _duplicateProducts; }
-      set
-      {
-        if (Equals(value, _duplicateProducts)) return;
-        _duplicateProducts = value;
-        NotifyOfPropertyChange(() => DuplicateProducts);
-      }
-    }
+    public BindableCollection<IPatchProductDuplicate> DuplicateProducts { get; private set; }
+
 
     private IEnumerable<string> FindSkusWithNoPhoto()
     {
       return _uow.GetUniqueSkus()
         .Select(s => s.ToString())
-        .Except(_jobFolders.GetExistingPhotoFileNames());
+        .Except(_jobFolders.GetExistingPhotoFileNames())
+        .OrderBy(sku => sku);
     }
 
     private IEnumerable<IProduct> FindInvalidProducts()
@@ -127,9 +99,9 @@
       return products;
     }
 
-    private IEnumerable<IProduct> FindDuplicateProducts()
+    private IEnumerable<IPatchProductDuplicate> FindDuplicateProducts()
     {
-      return _products.Where(p => p.HasPatchProductDuplicates);
+      return _uow.GetPatchProductDuplicates();
     } 
   }
 }

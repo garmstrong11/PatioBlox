@@ -59,6 +59,7 @@
     <Compile Include="Exceptions\JobFoldersInitializationException.cs" />
     <Compile Include="FileInfoAdapter.cs" />
     <Compile Include="Page.cs" />
+    <Compile Include="PatchProductDuplicate.cs" />
     <Compile Include="Product.cs" />
     <Compile Include="Section.cs" />
     <Compile Include="SectionName.cs" />

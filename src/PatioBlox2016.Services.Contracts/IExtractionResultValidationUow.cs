@@ -96,6 +96,10 @@
     /// <returns></returns>
     IEnumerable<int> GetUniqueSkus();
 
-
+    /// <summary>
+    /// Gets a sequence of Products that are duplicated on a patch
+    /// </summary>
+    /// <returns></returns>
+    IEnumerable<IPatchProductDuplicate> GetPatchProductDuplicates();
   }
 }

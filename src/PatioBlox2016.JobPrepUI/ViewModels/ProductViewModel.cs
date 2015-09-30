@@ -1,7 +1,6 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
   using System.Collections.Generic;
-  using System.Linq;
   using Caliburn.Micro;
   using PatioBlox2016.Concrete;
 

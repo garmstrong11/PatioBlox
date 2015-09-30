@@ -161,7 +161,26 @@
 
     public IEnumerable<int> GetUniqueSkus()
     {
-      return _extractionResult.PatchRowExtracts.Select(pr => pr.Sku).Distinct();
+      return _extractionResult.PatchRowExtracts
+        .Where(pr => pr.Sku >= 0)
+        .Select(pr => pr.Sku)
+        .Distinct();
+    }
+
+    public IEnumerable<IPatchProductDuplicate> GetPatchProductDuplicates()
+    {
+      var dupeProducts = GetProducts().Where(p => p.HasPatchProductDuplicates);
+
+      foreach (var dupeProduct in dupeProducts) {
+        var dupeSets = dupeProduct.PatchProductDuplicates;
+        foreach (var dupeSet in dupeSets) {
+          var patchProductDuplicate = new PatchProductDuplicate(dupeProduct.Sku, dupeProduct.Upc);
+          patchProductDuplicate.PatchName = dupeSet.First().PatchName;
+          patchProductDuplicate.AddIndexRange(dupeSet.Select(d => d.RowIndex));
+
+          yield return patchProductDuplicate;
+        }
+      }
     }
   }
 }

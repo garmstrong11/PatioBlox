@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="300"
-             Background="LightGray">
+             Background="White">
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="Margin" Value="0 4.5"></Setter>
@@ -13,7 +13,12 @@
     </UserControl.Resources>
     <Grid Margin="9">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="9" />
             <RowDefinition />
+            <RowDefinition Height="9" />
+            <RowDefinition />
+            <RowDefinition Height="9" />
             <RowDefinition />
         </Grid.RowDefinitions>
         <StackPanel>
@@ -36,5 +41,80 @@
                 <Run> are unresolved.</Run>
             </TextBlock>
         </StackPanel>
+        <GroupBox Grid.Row="2"
+                  BorderThickness="1"
+                  BorderBrush="DarkGray">
+            <GroupBox.Header>
+                <TextBlock>
+                        <Run>Items for which no photo can be found (</Run>
+                        <Run Text="{Binding ElementName=MissingPhotoList, Path=Items.Count, Mode=OneWay}"
+                             FontWeight="Bold" />
+                        <Run>) </Run>
+                </TextBlock>
+            </GroupBox.Header>
+            <ListBox x:Name="MissingPhotoList" 
+                     ItemsSource="{Binding MissingPhotos, Mode=OneWay}"
+                     Margin="0" />
+        </GroupBox>
+        <GridSplitter Grid.Row="3" 
+                      Height="9" 
+                      HorizontalAlignment="Stretch"
+                      Background="White"/>
+        <GroupBox Grid.Row="4"
+                  BorderThickness="1"
+                  BorderBrush="DarkGray">
+            <GroupBox.Header>
+                <TextBlock>
+                    <Run>Invalid barcodes (</Run>
+                    <Run Text="{Binding ElementName=InvalidProducts, Path=Items.Count, Mode=OneWay}"
+                         FontWeight="Bold"/>
+                    <Run>)</Run>
+                </TextBlock>
+            </GroupBox.Header>
+            <DataGrid x:Name="InvalidProducts" 
+                      ItemsSource="{Binding InvalidProducts, Mode=OneWay}"
+                      AutoGenerateColumns="False"
+                      HorizontalGridLinesBrush="LightGray"
+                      VerticalGridLinesBrush="LightGray">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="UPC"
+                                        IsReadOnly="True"
+                                        Binding="{Binding Upc}" />
+                    <DataGridTextColumn Header="ITEM NO."
+                                        IsReadOnly="True"
+                                        Binding="{Binding Sku}"/>
+                    <DataGridTextColumn Header="ERROR"
+                                        IsReadOnly="True"
+                                        Width="*"
+                                        Binding="{Binding BarcodeErrors[0]}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
+        <GridSplitter Grid.Row="5" 
+                      Height="9"
+                      Background="White"
+                      HorizontalAlignment="Stretch" >
+        </GridSplitter>
+        <GroupBox Grid.Row="6"
+                  BorderThickness="1"
+                  BorderBrush="DarkGray">
+            <GroupBox.Header>
+                <TextBlock>
+                    <Run>Patches with duplicate products (</Run>
+                    <Run Text="{Binding ElementName=DuplicateProducts, Path=Items.Count, Mode=OneWay}"
+                         FontWeight="Bold"/>
+                    <Run>)</Run>
+                </TextBlock>
+            </GroupBox.Header>
+            <ListView x:Name="DuplicateProducts"
+                     ItemsSource="{Binding DuplicateProducts, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Margin="0" Padding="0" Text="{Binding}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </GroupBox>
+
     </Grid>
 </UserControl>
