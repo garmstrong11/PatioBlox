@@ -182,5 +182,11 @@
         }
       }
     }
+
+    public void ResolveDescription(Description description)
+    {
+      var keywordDict = _context.Keywords.Local.ToDictionary(k => k.Word);
+
+    }
   }
 }

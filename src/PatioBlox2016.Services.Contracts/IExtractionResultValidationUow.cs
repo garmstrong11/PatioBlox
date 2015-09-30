@@ -101,5 +101,12 @@
     /// </summary>
     /// <returns></returns>
     IEnumerable<IPatchProductDuplicate> GetPatchProductDuplicates();
+
+    /// <summary>
+    /// Extract the Vendor, Size, Color, and Name components
+    /// from the Description's Text property.
+    /// </summary>
+    /// <param name="description">The description to resolve.</param>
+    void ResolveDescription(Description description);
   }
 }
