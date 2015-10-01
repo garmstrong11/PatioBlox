@@ -3,7 +3,8 @@
   using System.Collections.Generic;
   using System.Linq;
   using Caliburn.Micro;
-  using Concrete;
+  using PatioBlox2016.Abstract;
+  using PatioBlox2016.Concrete;
   using Services.Contracts;
 
   public class KeywordManagerViewModel : Screen
@@ -28,7 +29,7 @@
       var newKeywords = _uow.GetNewKeywords();
 
       var keywordViewModels = newKeywords
-        .Select(v => new KeywordViewModel(v))
+        .Select(v => new KeywordViewModel(v, _uow.GetKeywords()))
         .ToList();
 
       foreach (var viewModel in keywordViewModels)
@@ -49,6 +50,7 @@
       }
 
       Keywords.AddRange(keywordViewModels);
+      _uow.AddKeyword(new Keyword("Skeezer") {ParentId = 3});
 
       base.OnActivate();
     }

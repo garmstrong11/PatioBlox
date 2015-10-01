@@ -1,6 +1,7 @@
 ﻿namespace PatioBlox2016.Services.Contracts
 {
   using System.Collections.Generic;
+  using System.Collections.ObjectModel;
   using Abstract;
   using Concrete;
 
@@ -33,7 +34,11 @@
     /// </summary>
     void PersistNewKeywords();
 
-    /// <summary>
+    ObservableCollection<Keyword> GetKeywords();
+
+    void AddKeyword(Keyword keyword);
+
+      /// <summary>
     /// Get a list of top-level keywords that represent the
     /// all the available WordType variants.
     /// </summary>
@@ -65,6 +70,12 @@
     /// <param name="word">The key for finding Description usages.</param>
     /// <returns></returns>
     List<string> GetUsagesForWord(string word);
+
+    /// <summary>
+    /// Gets a dictionary of Keywords, indexed by word.
+    /// </summary>
+    /// <returns></returns>
+    Dictionary<string, Keyword> GetKeywordDict(); 
 
     /// <summary>
     /// Exposes a method that saves changes that have been made to the context.
@@ -101,12 +112,5 @@
     /// </summary>
     /// <returns></returns>
     IEnumerable<IPatchProductDuplicate> GetPatchProductDuplicates();
-
-    /// <summary>
-    /// Extract the Vendor, Size, Color, and Name components
-    /// from the Description's Text property.
-    /// </summary>
-    /// <param name="description">The description to resolve.</param>
-    void ResolveDescription(Description description);
   }
 }

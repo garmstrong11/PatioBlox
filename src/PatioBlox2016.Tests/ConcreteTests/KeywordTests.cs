@@ -22,7 +22,7 @@
     [Test]
     public void WordTypeGet_AbbreviatedMember_FindsWordType()
     {
-      _abbreviation.WordType.Should().Be(WordType.Color);
+      _abbreviation.RootWord.Should().Be(Keyword.ColorKey);
     }
 
     [Test]
@@ -30,19 +30,19 @@
     {
       var newRoot = new Keyword("Unknown");
       var expan = new Keyword("ASPEN") {Parent = newRoot};
-      expan.WordType.Should().Be(WordType.Name);
+      expan.RootWord.Should().Be(Keyword.NameKey);
     }
 
     [Test]
     public void WordTypeGet_ExpandedMember_FindsWordType()
     {
-      _expansion.WordType.Should().Be(WordType.Color);
+      _expansion.RootWord.Should().Be(Keyword.ColorKey);
     }
 
     [Test]
     public void WordTypeGet_RootMember_FindsWordType()
     {
-      _root.WordType.Should().Be(WordType.Color);
+      _root.RootWord.Should().Be(Keyword.ColorKey);
     }
 
     [Test]

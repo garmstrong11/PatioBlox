@@ -1,14 +1,18 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
   using System.Collections.Generic;
+  using System.Collections.ObjectModel;
+  using System.Collections.Specialized;
+  using System.Linq;
   using Caliburn.Micro;
-  using Concrete;
+  using PatioBlox2016.Concrete;
 
   public class KeywordViewModel : PropertyChangedBase
   {
     private List<string> _usages;
     private readonly Keyword _keyword;
     private BindableCollection<Keyword> _parents;
+    private readonly ObservableCollection<Keyword> _dbKeywords; 
 
     public KeywordViewModel()
     {
@@ -19,6 +23,30 @@
     public KeywordViewModel(Keyword keyword) : this()
     {
       _keyword = keyword;
+    }
+
+    public KeywordViewModel(Keyword keyword, ObservableCollection<Keyword> dbKeywords)
+      : this(keyword)
+    {
+      _keyword = keyword;
+      _dbKeywords = dbKeywords;
+      _dbKeywords.CollectionChanged += _dbKeywords_CollectionChanged;
+    }
+
+    private void _dbKeywords_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    {
+      if (e.NewItems != null) {
+        foreach (var newItem in e.NewItems) {
+          var newKey = (Keyword) newItem;
+
+          if(_keyword.Word.StartsWith(newKey.Word.Substring(0, 1)))
+          Parents.Insert(5, newKey);
+        }
+      }
+
+      if (e.OldItems != null) {
+        Parents.RemoveRange(e.OldItems.Cast<Keyword>());
+      }
     }
 
     public string Word

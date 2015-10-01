@@ -1,6 +1,7 @@
 namespace PatioBlox2016.Abstract
 {
   using System;
+  using System.Collections.Generic;
 
   public interface IDescription
   {
@@ -13,5 +14,6 @@ namespace PatioBlox2016.Abstract
     string Name { get; set; }
 
     bool IsUnresolved { get; }
+    void Resolve(IDictionary<string, IKeyword> keywordDict);
   }
 }

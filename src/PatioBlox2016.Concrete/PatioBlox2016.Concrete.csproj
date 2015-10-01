@@ -52,12 +52,14 @@
     <Compile Include="BarcodeType.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Cell.cs" />
+    <Compile Include="ColorKeywordList.cs" />
     <Compile Include="Description.cs" />
     <Compile Include="DirectoryInfoAdapter.cs" />
     <Compile Include="Exceptions\BookConstructionException.cs" />
     <Compile Include="Exceptions\CellConstructionException.cs" />
     <Compile Include="Exceptions\JobFoldersInitializationException.cs" />
     <Compile Include="FileInfoAdapter.cs" />
+    <Compile Include="KeywordList.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="PatchProductDuplicate.cs" />
     <Compile Include="Product.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="UpcReplacement.cs" />
     <Compile Include="UsageLocation.cs" />
     <Compile Include="Validators\BarcodeValidator.cs" />
+    <Compile Include="VendorKeywordList.cs" />
     <Compile Include="WordType.cs" />
   </ItemGroup>
   <ItemGroup>

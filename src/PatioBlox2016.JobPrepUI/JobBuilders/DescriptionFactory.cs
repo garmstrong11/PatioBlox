@@ -49,7 +49,8 @@
     {
       if (!keywords.Any()) return null;
 
-      var lowered = keywords.Where(k => k.WordType == wordType).Select(p => p.Expansion.ToLower());
+      //var lowered = keywords.Where(k => k.WordType == wordType).Select(p => p.Expansion.ToLower());
+      var lowered = keywords.Select(p => p.Expansion.ToLower());
       var cased = lowered.Select(p => CultureInfo.CurrentCulture.TextInfo.ToTitleCase(p));
 
       var joined = string.Join(joiner, cased);

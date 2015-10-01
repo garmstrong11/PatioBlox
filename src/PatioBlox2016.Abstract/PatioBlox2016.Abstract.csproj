@@ -54,6 +54,7 @@
     <Compile Include="IJob.cs" />
     <Compile Include="IJobFolders.cs" />
     <Compile Include="IJsxExportable.cs" />
+    <Compile Include="IKeyword.cs" />
     <Compile Include="IPage.cs" />
     <Compile Include="IPatchProductDuplicate.cs" />
     <Compile Include="IPatchRowExtract.cs" />

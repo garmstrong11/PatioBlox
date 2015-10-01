@@ -1,10 +1,16 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-  using System;
   using System.Collections.Generic;
+  using PatioBlox2016.Abstract;
 
   public class Keyword
-	{
+  {
+    public static readonly string ColorKey = "COLOR";
+    public static readonly string VendorKey = "VENDOR";
+    public static readonly string NameKey = "NAME";
+    public static readonly string SizeKey = "SIZE";
+    public static readonly string NewKey = "NEW";
+    
     public Keyword()
     {
       Members = new List<Keyword>();
@@ -22,21 +28,18 @@
 
     public ICollection<Keyword> Members { get; set; }
 
-    public WordType WordType
+    public string RootWord
     {
       get
       {
-        WordType wordType;
-        string word;
+        if (Parent == null) return Word;
 
-        if (Parent == null) word = Word;
-        else {
-          var current = Parent;
-          while (current.Parent != null) current = current.Parent;
-          word = current.Word;
+        var current = Parent;
+        while (current.Parent != null) {
+          current = current.Parent;
         }
 
-        return Enum.TryParse(word, true, out wordType) ? wordType : WordType.Name;
+        return current.Word;
       }
     }
 
@@ -65,24 +68,14 @@
       return obj.GetType() == GetType() && Equals((Keyword) obj);
     }
 
-    public override string ToString()
-    {
-      return Word;
-    }
-
     protected bool Equals(Keyword other)
     {
       return string.Equals(Word, other.Word);
     }
 
-    public static bool operator ==(Keyword left, Keyword right)
+    public override string ToString()
     {
-      return Equals(left, right);
-    }
-
-    public static bool operator !=(Keyword left, Keyword right)
-    {
-      return !Equals(left, right);
+      return Word;
     }
 	}
 }

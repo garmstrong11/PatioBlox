@@ -103,6 +103,16 @@
       _context.SaveChanges();
     }
 
+    public ObservableCollection<Keyword> GetKeywords()
+    {
+      return _keywords;
+    }
+
+    public void AddKeyword(Keyword keyword)
+    {
+      _keywords.Add(keyword);
+    }
+
     public List<Keyword> GetRootKeywords()
     {
       return _keywords
@@ -129,7 +139,9 @@
     public List<Keyword> GetNewKeywords()
     {
       var nonRootKeywords = _keywords.Where(k => k.Parent != null);
-      return nonRootKeywords.Where(k => k.Parent.Word == DefaultName).ToList();
+      return nonRootKeywords
+        .Where(k => k.Parent.Word == DefaultName)
+        .ToList();
     }
 
     public List<string> GetUsagesForWord(string word)
@@ -137,6 +149,11 @@
       return _extractionResult.UniqueDescriptions
         .Where(d => Description.ExtractWordList(d).Contains(word))
         .ToList();
+    }
+
+    public Dictionary<string, Keyword> GetKeywordDict()
+    {
+      return _keywords.ToDictionary(k => k.Word);
     }
 
     public int SaveChanges()
@@ -181,12 +198,6 @@
           yield return patchProductDuplicate;
         }
       }
-    }
-
-    public void ResolveDescription(Description description)
-    {
-      var keywordDict = _context.Keywords.Local.ToDictionary(k => k.Word);
-
     }
   }
 }

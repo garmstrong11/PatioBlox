@@ -4,9 +4,10 @@
   using System.Linq;
   using Abstract;
   using System.Collections.Generic;
+  using System.Globalization;
   using System.Text.RegularExpressions;
 
-  public class Description : IDescription
+  public class Description
 	{
     private static readonly Regex SizeRegex = 
       new Regex(@"(\d+\.?\d*)-?(I-?N|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", 
@@ -37,6 +38,35 @@
     public bool IsUnresolved
     {
       get { return Vendor == null && Size == null && Color == null && Name == null; }
+    }
+
+    public void Resolve(IDictionary<string, Keyword> keywordDict)
+    {
+      Keyword keyword;
+      var nameRoot = keywordDict[Keyword.NameKey];
+
+      // If a remainder word is not found in _keywordDict,
+      // make a new keyword for it assigned to WordType.Name
+      var wordList = ExtractWordList(Text)
+        .Select(k => keywordDict.TryGetValue(k, out keyword) 
+          ? keyword 
+          : new Keyword(k) {Parent = nameRoot})
+        .ToList();
+
+      var colorList = new ColorKeywordList(wordList.Where(w => w.RootWord == Keyword.ColorKey));
+      var sizeList = new KeywordList(wordList.Where(w => w.RootWord == Keyword.SizeKey));
+      var vendorList = new VendorKeywordList(wordList.Where(w => w.RootWord == Keyword.VendorKey));
+
+      // Combine Name keywords and New keywords There should not be any keywords labeled 
+      // 'new' but if there are, combine them with name words so they will not be skipped.
+      var nameWords = wordList.Where(w => w.RootWord == Keyword.NameKey || w.RootWord == Keyword.NewKey);
+      var nameList = new KeywordList(nameWords);
+
+      // Segment the keywords according to their RootWords:
+      Color = colorList.ToTitleCasePhrase();
+      Vendor = vendorList.ToTitleCasePhrase();
+      Name = nameList.ToTitleCasePhrase();
+      Size = sizeList.ToTitleCasePhrase(ExtractSize());
     }
 
     public string FullName
@@ -71,13 +101,12 @@
     {
       var matchList = new List<string>();
       var matches = SizeRegex.Matches(Text);
-      var square = Text.Contains("SQUARE") ? " Square" : "";
 
       for (var i = 0; i < matches.Count; i++) {
         matchList.Add(matches[i].Value.ToUpper().Trim(' ', 'X'));
       }
 
-      return string.Format("{0}{1}", string.Join(" x ", matchList), square);
+      return string.Join(" x ", matchList);
     }
 
     protected bool Equals(Description other)
