@@ -1,5 +1,6 @@
 ﻿namespace PatioBlox2016.JobPrepUI.JobBuilders
 {
+  using System;
   using System.Collections.Generic;
   using System.Linq;
   using System.Text;
@@ -9,14 +10,16 @@
   public class Job : IJob
   {
     private readonly IBookFactory _bookFactory;
-    private readonly IJobFolders _jobFolders;
     private readonly List<IBook> _books;
+    private readonly List<IDescription> _descriptions; 
     
-    public Job(IBookFactory bookFactory, IJobFolders jobFolders)
+    public Job(IBookFactory bookFactory)
     {
+      if (bookFactory == null) throw new ArgumentNullException("bookFactory");
+
       _bookFactory = bookFactory;
-      _jobFolders = jobFolders;
       _books = new List<IBook>();
+      _descriptions = new List<IDescription>();
     }
 
     public IReadOnlyCollection<IBook> Books
@@ -47,6 +50,16 @@
       _books.Remove(book);
     }
 
+    public void AddDescriptionRange(IEnumerable<IDescription> descriptions)
+    {
+      _descriptions.AddRange(descriptions);
+    }
+
+    public IReadOnlyCollection<IDescription> Descriptions
+    {
+      get { return _descriptions.AsReadOnly(); }
+    }
+
     public string ToJsxString(int indentLevel)
     {
       var sb = new StringBuilder();
@@ -58,6 +71,17 @@
       var bookStrings = string.Join(",\n", books);
 
       sb.AppendLine(bookStrings);
+      sb.AppendLine("}".Indent(indentLevel));
+
+      sb.AppendLine("\nvar descriptions = {".Indent(indentLevel));
+
+      var descriptions = Descriptions
+        .Cast<Description>()
+        .Select(d => d.ToJsxString(contentLevel));
+
+      var descText = string.Join(",\n", descriptions);
+
+      sb.AppendLine(descText);
       sb.AppendLine("}".Indent(indentLevel));
 
       return sb.ToString();

@@ -10,6 +10,7 @@
   using Extractor;
   using DataAccess;
   using JobBuilders;
+  using PatioBlox2016.JobPrepUI.JobVisualizer;
   using Services.Contracts;
   using Services.EfImpl;
   using SimpleInjector;
@@ -60,15 +61,19 @@
         var descriptions = _container.GetInstance<DescriptionManagerViewModel>();
         var upcReplacements = _container.GetInstance<UpcReplacementManagerViewModel>();
         var extractionResult = _container.GetInstance<ExtractionResultValidationViewModel>();
+        var jobVisualizer = _container.GetInstance<JobVisualizerViewModel>();
+
         keywords.DisplayName = "Keywords";
         descriptions.DisplayName = "Descriptions";
         upcReplacements.DisplayName = "Upc Replacements";
         extractionResult.DisplayName = "Extraction Result";
+        jobVisualizer.DisplayName = "Job Visualizer";
 
         vm.Screens.Add(extractionResult);
         vm.Screens.Add(keywords);
         vm.Screens.Add(descriptions);
         vm.Screens.Add(upcReplacements);
+        vm.Screens.Add(jobVisualizer);
       });
 
       _container.Verify();

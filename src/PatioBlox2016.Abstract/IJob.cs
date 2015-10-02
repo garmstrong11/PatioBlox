@@ -10,6 +10,9 @@
     void AddBookRange(IEnumerable<IBook> books);
     void RemoveBook(IBook book);
 
+    IReadOnlyCollection<IDescription> Descriptions { get; }
+    void AddDescriptionRange(IEnumerable<IDescription> descriptions);
+
     void PopulateJob(IEnumerable<IGrouping<string, IPatchRowExtract>> bookGroups);
   }
 }

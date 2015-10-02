@@ -2,6 +2,7 @@
 {
   using System.Collections.Generic;
   using System.Collections.ObjectModel;
+  using System.Linq;
   using Abstract;
   using Concrete;
 
@@ -34,8 +35,17 @@
     /// </summary>
     void PersistNewKeywords();
 
+    /// <summary>
+    /// Get an ObservableCollection of Keywords tracked by the
+    /// PatioBloxContext
+    /// </summary>
+    /// <returns></returns>
     ObservableCollection<Keyword> GetKeywords();
 
+    /// <summary>
+    /// Add a Keyword to the PatioBloxContext
+    /// </summary>
+    /// <param name="keyword"></param>
     void AddKeyword(Keyword keyword);
 
       /// <summary>
@@ -112,5 +122,16 @@
     /// </summary>
     /// <returns></returns>
     IEnumerable<IPatchProductDuplicate> GetPatchProductDuplicates();
+
+    /// <summary>
+    /// Gets a sequence of PatchRowExtracts, grouped by Patch name.
+    /// </summary>
+    IEnumerable<IGrouping<string, IPatchRowExtract>> GetBookGroups();
+
+    /// <summary>
+    /// Gets a sequence of Descriptions specific to this job.
+    /// </summary>
+    /// <returns></returns>
+    IEnumerable<Description> GetDescriptionsForJob();
   }
 }

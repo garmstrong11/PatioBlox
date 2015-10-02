@@ -4,8 +4,9 @@
   using System.Linq;
   using System.Collections.Generic;
   using System.Text.RegularExpressions;
+  using PatioBlox2016.Abstract;
 
-  public class Description
+  public class Description : IDescription, IJsxExportable
 	{
     private static readonly Regex SizeRegex = 
       new Regex(@"(\d+\.?\d*)-?(I-?N|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", 

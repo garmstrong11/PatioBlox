@@ -122,6 +122,10 @@
     <Compile Include="JobBuilders\IBookFactory.cs" />
     <Compile Include="JobBuilders\ICellFactory.cs" />
     <Compile Include="JobBuilders\SectionNameEqualityComparer.cs" />
+    <Compile Include="JobVisualizer\JobVisualizerView.xaml.cs">
+      <DependentUpon>JobVisualizerView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JobVisualizer\JobVisualizerViewModel.cs" />
     <Compile Include="ViewModels\ActivitiesViewModel.cs" />
     <Compile Include="ViewModels\BuildJobViewModel.cs" />
     <Compile Include="ViewModels\ExtractionResultValidationViewModel.cs" />
@@ -233,6 +237,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="JobVisualizer\JobVisualizerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ActivitiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

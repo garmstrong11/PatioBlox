@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="PatioBlox2016.JobPrepUI.JobVisualizer.JobVisualizerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <DockPanel Margin="9">
+        <StackPanel DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Right">
+            <Button x:Name="SaveJobJsx"
+                    Content="Save Job Data"
+                    Padding="9 4.5" />
+        </StackPanel>
+        <Grid>
+            
+        </Grid>
+    </DockPanel>
+</UserControl>

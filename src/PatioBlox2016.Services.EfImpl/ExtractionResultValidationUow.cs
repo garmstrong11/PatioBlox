@@ -176,6 +176,11 @@
       return _descriptions.Where(d => d.IsUnresolved).ToList();
     }
 
+    public IEnumerable<Description> GetDescriptionsForJob()
+    {
+      return _descriptions.Where(d => _extractionResult.UniqueDescriptions.Contains(d.Text));
+    } 
+
     public IEnumerable<int> GetUniqueSkus()
     {
       return _extractionResult.PatchRowExtracts
@@ -198,6 +203,11 @@
           yield return patchProductDuplicate;
         }
       }
+    }
+
+    public IEnumerable<IGrouping<string, IPatchRowExtract>> GetBookGroups()
+    {
+      return _extractionResult.BookGroups;
     }
   }
 }
