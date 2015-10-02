@@ -5,9 +5,10 @@
   using FluentAssertions;
   using NUnit.Framework;
   using PatioBlox2016.Concrete;
+  using PatioBlox2016.JobPrepUI.ViewModels;
 
   [TestFixture]
-  public class DescriptionTests
+  public class DescriptionViewModelTests
   {
     private Dictionary<string, Keyword> _keywordDict;
     
@@ -46,45 +47,50 @@
     public void Resolve_ReturnsCorrectVendorCompoundString()
     {
       var description = new Description("CNTST 16-IN X 12-IN TAN/BLACK BLEND DURANGO STONE");
-      description.Resolve(_keywordDict);
+      var vm = new DescriptionViewModel(description, _keywordDict);
+      vm.Resolve();
 
-      description.Vendor.Should().Be("Country Stone");
+      vm.Vendor.Should().Be("Country Stone");
     }
 
     [Test]
     public void PropertyGet_Size_IsCorrect()
     {
       var description = new Description("CNTST 16-IN X 12-IN TAN/BLACK BLEND DURANGO STONE");
-      description.Resolve(_keywordDict);
+      var vm = new DescriptionViewModel(description, _keywordDict);
+      vm.Resolve();
 
-      description.Size.Should().Be("16-IN x 12-IN");
+      vm.Size.Should().Be("16-IN x 12-IN");
     }
 
     [Test]
     public void PropertyGet_SizeWithSq_IsCorrect()
     {
       var description = new Description("CNTST 16-IN SQ TAN/BLACK BLEND DURANGO STONE");
-      description.Resolve(_keywordDict);
+      var vm = new DescriptionViewModel(description, _keywordDict);
+      vm.Resolve();
 
-      description.Size.Should().Be("16-IN Square");
+      vm.Size.Should().Be("16-IN Square");
     }
 
     [Test]
     public void PropertyGet_ColorWithBlend_IsCorrect()
     {
       var description = new Description("CNTST 16-IN SQ TAN/BLACK BLEND DURANGO STONE");
-      description.Resolve(_keywordDict);
+      var vm = new DescriptionViewModel(description, _keywordDict);
+      vm.Resolve();
 
-      description.Color.Should().Be("Tan/Black Blend");
+      vm.Color.Should().Be("Tan/Black Blend");
     }
 
     [Test]
     public void PropertyGet_ColorWithHill_IsCorrect()
     {
       var description = new Description("CNTST 16-IN X 12-IN SAND HILL DURANGO STONE");
-      description.Resolve(_keywordDict);
+      var vm = new DescriptionViewModel(description, _keywordDict);
+      vm.Resolve();
 
-      description.Color.Should().Be("Sand Hill");
+      vm.Color.Should().Be("Sand Hill");
     }
   }
 }

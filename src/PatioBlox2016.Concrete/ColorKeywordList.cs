@@ -3,7 +3,6 @@
   using System.Collections.Generic;
   using System.Linq;
   using System.Text;
-  using PatioBlox2016.Abstract;
 
   public class ColorKeywordList : KeywordList
   {

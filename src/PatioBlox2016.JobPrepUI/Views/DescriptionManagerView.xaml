@@ -5,42 +5,62 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
+    <UserControl.Resources>
+        <Color x:Key="TextColor" R="64" G="64" B="64" A="255" />
+        <SolidColorBrush x:Key="TextBrush" Color="{StaticResource TextColor}"/>
+    </UserControl.Resources>
     <DockPanel>
-      <Border DockPanel.Dock="Bottom"
-                  Background="LightGray">
-        <StackPanel Orientation="Horizontal"
-                          HorizontalAlignment="Right">
-          <Button x:Name="Save"
+        <StackPanel DockPanel.Dock="Bottom" 
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button x:Name="ResolveAll"
+                    Content="Resolve All"
+                    Margin="4.5 9"
+                    Padding="9 4.5"/>
+            <Button x:Name="Save"
                           Content="Save"
-                          Margin="4.5 4.5 10 4.5"
+                          Margin="9"
                           Padding="9 4.5"/>
         </StackPanel>
-      </Border>
-    <DataGrid ItemsSource="{Binding Descriptions}"
-                 AutoGenerateColumns="False"
-                 CanUserReorderColumns="True"
-                 CanUserSortColumns="True"
-              Margin="9 0 ">
-         <DataGrid.Columns>
-           <DataGridTextColumn Header="Id"
+        <DataGrid ItemsSource="{Binding Descriptions}"
+                  AutoGenerateColumns="False"
+                  CanUserReorderColumns="True"
+                  CanUserSortColumns="True"
+                  HorizontalGridLinesBrush="LightGray"
+                  VerticalGridLinesBrush="LightGray"
+                  RowHeight="30"
+                  Foreground="{StaticResource TextBrush}">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="DataGridCell">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                      Margin="3"/>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
+           <DataGrid.Columns>
+           <DataGridTextColumn Header="ID"
                                IsReadOnly="True"
                                Binding="{Binding Id}"/>
-           <DataGridTextColumn Header="Text"
+           <DataGridTextColumn Header="TEXT"
                                IsReadOnly="True"
                                Binding="{Binding Text}"/>
-           <DataGridTextColumn Header="Size"
+           <DataGridTextColumn Header="SIZE"
                                Binding="{Binding Size}"/>
-           <DataGridTextColumn Header="Color"
+           <DataGridTextColumn Header="COLOR"
                                Binding="{Binding Color}"/>
-           <DataGridTextColumn Header="Name"
+           <DataGridTextColumn Header="NAME"
                                Binding="{Binding Name}"/>
-           <DataGridTextColumn Header="Vendor"
-                               Binding="{Binding Vendor}"/>
-           <DataGridTextColumn Header="Insert Date"
-                               IsReadOnly="True"
-                               Binding="{Binding InsertDate}"
+           <DataGridTextColumn Header="VENDOR"
+                               Binding="{Binding Vendor}"
                                Width="*"/>
-         </DataGrid.Columns>
+          </DataGrid.Columns>
        </DataGrid>     
     </DockPanel>
 </UserControl>

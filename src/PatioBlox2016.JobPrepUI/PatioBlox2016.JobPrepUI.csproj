@@ -116,8 +116,6 @@
     <Compile Include="Infra\AcquisitionCompleteEvent.cs" />
     <Compile Include="Infra\ColumnIndexService.cs" />
     <Compile Include="Infra\SettingsService.cs" />
-    <Compile Include="JobBuilders\DescriptionFactory.cs" />
-    <Compile Include="JobBuilders\IDescriptionFactory.cs" />
     <Compile Include="JobBuilders\Job.cs" />
     <Compile Include="JobBuilders\BookFactory.cs" />
     <Compile Include="JobBuilders\CellFactory.cs" />
@@ -141,6 +139,7 @@
     <Compile Include="ViewModels\PatchFileViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="ViewModels\UpcReplacementManagerViewModel.cs" />
     <Compile Include="ViewModels\UpcReplacementViewModel.cs" />
     <Compile Include="Views\ActivitiesView.xaml.cs">

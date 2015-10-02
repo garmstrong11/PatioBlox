@@ -2,7 +2,6 @@
 {
   using System.Collections.Generic;
   using System.Linq;
-  using PatioBlox2016.Abstract;
 
   public class VendorKeywordList : KeywordList
   {   

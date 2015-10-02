@@ -20,8 +20,6 @@
       Property(p => p.Color).HasMaxLength(50);
       Property(p => p.Size).HasMaxLength(50);
       Property(p => p.Name).HasMaxLength(50);
-
-      Ignore(p => p.WordList);
     } 
   }
 }

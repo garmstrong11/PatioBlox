@@ -50,7 +50,7 @@
       }
 
       Keywords.AddRange(keywordViewModels);
-      _uow.AddKeyword(new Keyword("Skeezer") {ParentId = 3});
+      //_uow.AddKeyword(new Keyword("Skeezer") {ParentId = 3});
 
       base.OnActivate();
     }

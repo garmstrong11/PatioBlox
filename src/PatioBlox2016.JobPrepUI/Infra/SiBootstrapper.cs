@@ -40,11 +40,11 @@
       _container.RegisterSingle<IDataSourceAdapter, FlexCelDataSourceAdapter>();
       _container.RegisterSingle<IPatchExtractor, PatchExtractor>();
       _container.RegisterSingle<IExtractionResult, ExtractionResult>();
-      _container.RegisterSingle<IDescriptionFactory, DescriptionFactory>();
+      //_container.RegisterSingle<IDescriptionFactory, DescriptionFactory>();
       _container.RegisterSingle<IKeywordRepository, KeywordRepository>();
       _container.RegisterSingle<IDescriptionRepository, DescriptionRepository>();
       _container.RegisterSingle<IUpcReplacementRepository, UpcReplacementRepository>();
-      _container.RegisterSingle<IProductUow, ProductUow>();
+      //_container.RegisterSingle<IProductUow, ProductUow>();
       _container.RegisterSingle<IExtractionResultValidationUow, ExtractionResultValidationUow>();
 
       _container.Register<ICellFactory, CellFactory>();
