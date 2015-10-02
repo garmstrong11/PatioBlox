@@ -76,7 +76,6 @@
       sb.AppendLine("\nvar descriptions = {".Indent(indentLevel));
 
       var descriptions = Descriptions
-        .Cast<Description>()
         .Select(d => d.ToJsxString(contentLevel));
 
       var descText = string.Join(",\n", descriptions);

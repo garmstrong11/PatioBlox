@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConcreteTests\BarcodeTests.cs" />
+    <Compile Include="ConcreteTests\BookTests.cs" />
     <Compile Include="ConcreteTests\CellTests.cs" />
     <Compile Include="ConcreteTests\DescriptionViewModelTests.cs" />
     <Compile Include="ConcreteTests\JobFoldersTests.cs" />

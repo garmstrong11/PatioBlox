@@ -1,9 +1,8 @@
 namespace PatioBlox2016.Abstract
 {
   using System;
-  using System.Collections.Generic;
 
-  public interface IDescription
+  public interface IDescription : IJsxExportable
   {
     DateTime InsertDate { get; set; }
     int Id { get; }

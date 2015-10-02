@@ -1,6 +1,7 @@
 ﻿namespace PatioBlox2016.Concrete
 {
-	using System.Collections.Generic;
+  using System;
+  using System.Collections.Generic;
 	using System.Linq;
 	using System.Text;
 	using Abstract;
@@ -12,6 +13,9 @@
     
     public Book(IJob job, string bookName)
 	  {
+      if (job == null) throw new ArgumentNullException("job");
+      if (string.IsNullOrWhiteSpace(bookName)) throw new ArgumentNullException("bookName");
+
       Job = job;
       BookName = bookName;
       _sections = new List<ISection>();
@@ -40,6 +44,17 @@
 	  {
 	    _sections.Remove(section);
 	  }
+
+    public IEnumerable<string> PdfFileNames
+    {
+      get
+      {
+        var count = PageCount;
+        for (var i = 0; i < count; i += 2) {
+          yield return string.Format("{0}_{1:D2}-{2:D2}.pdf", BookName, i + 1, i + 2);
+        }
+      }
+    }
 
     protected bool Equals(Book other)
     {
