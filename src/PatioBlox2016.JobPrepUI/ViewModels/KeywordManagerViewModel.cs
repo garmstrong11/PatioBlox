@@ -1,20 +1,26 @@
 ﻿namespace PatioBlox2016.JobPrepUI.ViewModels
 {
+  using System;
   using System.Collections.Generic;
   using System.Linq;
+  using AddKeyword;
   using Caliburn.Micro;
-  using PatioBlox2016.Abstract;
-  using PatioBlox2016.Concrete;
+  using Concrete;
   using Services.Contracts;
 
   public class KeywordManagerViewModel : Screen
   {
     private readonly IExtractionResultValidationUow _uow;
+    private readonly IWindowManager _windowManager;
     private BindableCollection<KeywordViewModel> _keywords;
 
-    public KeywordManagerViewModel(IExtractionResultValidationUow uow)
+    public KeywordManagerViewModel(IExtractionResultValidationUow uow, IWindowManager windowManager)
     {
+      if (uow == null) throw new ArgumentNullException("uow");
+      if (windowManager == null) throw new ArgumentNullException("windowManager");
+
       _uow = uow;
+      _windowManager = windowManager;
 
       Keywords = new BindableCollection<KeywordViewModel>();
     }
@@ -74,6 +80,15 @@
     public void Save()
     {
       _uow.SaveChanges();
+    }
+
+    public void AddKeyword()
+    {
+      var existingWords = _uow.GetKeywords().Select(k => k.Word);
+      var validator = new AddKeywordViewModelValidator(existingWords);
+      var vm = new AddKeywordViewModel(validator, _uow) {DisplayName = "Add A Keyword"};
+
+      _windowManager.ShowDialog(vm);
     }
   }
 }

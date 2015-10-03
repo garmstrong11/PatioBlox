@@ -93,7 +93,7 @@
 
     public void PersistNewKeywords()
     {
-      var parent = _keywords.Single(k => k.Word == DefaultName);
+      var parent = _keywords.Single(k => k.Word == Keyword.NewKey);
       var dbWords = _keywords.Select(k => k.Word);
       var missingWords = _extractionResult.UniqueWords
         .Except(dbWords)
@@ -133,14 +133,14 @@
 
     public Keyword GetDefaultParent()
     {
-      return _keywords.Single(k => k.Word == DefaultName);
+      return _keywords.Single(k => k.Word == Keyword.NewKey);
     }
 
     public List<Keyword> GetNewKeywords()
     {
       var nonRootKeywords = _keywords.Where(k => k.Parent != null);
       return nonRootKeywords
-        .Where(k => k.Parent.Word == DefaultName)
+        .Where(k => k.Parent.Word == Keyword.NewKey)
         .ToList();
     }
 

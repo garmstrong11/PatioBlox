@@ -1,7 +1,6 @@
 ﻿namespace PatioBlox2016.Concrete
 {
   using System.Collections.Generic;
-  using PatioBlox2016.Abstract;
 
   public class Keyword
   {

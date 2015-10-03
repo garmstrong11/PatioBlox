@@ -5,7 +5,7 @@
   using System.Collections.Specialized;
   using System.Linq;
   using Caliburn.Micro;
-  using PatioBlox2016.Concrete;
+  using Concrete;
 
   public class KeywordViewModel : PropertyChangedBase
   {
@@ -30,10 +30,10 @@
     {
       _keyword = keyword;
       _dbKeywords = dbKeywords;
-      _dbKeywords.CollectionChanged += _dbKeywords_CollectionChanged;
+      _dbKeywords.CollectionChanged += DbKeywordsCollectionChanged;
     }
 
-    private void _dbKeywords_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+    private void DbKeywordsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
       if (e.NewItems != null) {
         foreach (var newItem in e.NewItems) {

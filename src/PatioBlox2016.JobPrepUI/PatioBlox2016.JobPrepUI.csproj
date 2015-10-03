@@ -109,6 +109,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddKeyword\AddKeywordView.xaml.cs">
+      <DependentUpon>AddKeywordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddKeyword\AddKeywordViewModel.cs" />
+    <Compile Include="AddKeyword\AddKeywordViewModelValidator.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -146,6 +151,7 @@
     <Compile Include="ViewModels\TreeViewItemViewModel.cs" />
     <Compile Include="ViewModels\UpcReplacementManagerViewModel.cs" />
     <Compile Include="ViewModels\UpcReplacementViewModel.cs" />
+    <Compile Include="ViewModels\ValidatingScreen.cs" />
     <Compile Include="Views\ActivitiesView.xaml.cs">
       <DependentUpon>ActivitiesView.xaml</DependentUpon>
     </Compile>
@@ -237,6 +243,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="AddKeyword\AddKeywordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JobVisualizer\JobVisualizerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -293,6 +303,7 @@
     <Resource Include="Images\Question_48.png" />
     <Resource Include="Images\Stop_48.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
