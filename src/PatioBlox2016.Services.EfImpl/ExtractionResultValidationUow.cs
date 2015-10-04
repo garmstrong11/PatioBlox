@@ -9,7 +9,7 @@
   using Concrete;
   using DataAccess;
   using Extractor;
-  using Services.Contracts;
+  using Contracts;
 
   public class ExtractionResultValidationUow : IExtractionResultValidationUow
   {
@@ -18,8 +18,6 @@
     private readonly ObservableCollection<UpcReplacement> _upcReplacements;
     private readonly ObservableCollection<Description> _descriptions;
     private readonly ObservableCollection<Keyword> _keywords;
-
-    private const string DefaultName = "NEW";
 
     public ExtractionResultValidationUow(PatioBloxContext context, IExtractionResult extractionResult)
     {
@@ -176,10 +174,20 @@
       return _descriptions.Where(d => d.IsUnresolved).ToList();
     }
 
+    public Dictionary<string, int> GetDescriptionTextToIdDict()
+    {
+      return _descriptions.ToDictionary(k => k.Text, v => v.Id);
+    }
+
     public IEnumerable<Description> GetDescriptionsForJob()
     {
       return _descriptions.Where(d => _extractionResult.UniqueDescriptions.Contains(d.Text));
-    } 
+    }
+
+    public IDictionary<string, string> GetUpcReplacementDictionary()
+    {
+      return _upcReplacements.ToDictionary(k => k.InvalidUpc, v => v.Replacement);
+    }
 
     public IEnumerable<int> GetUniqueSkus()
     {

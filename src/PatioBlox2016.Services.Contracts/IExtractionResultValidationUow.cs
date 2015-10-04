@@ -101,7 +101,6 @@
     /// <summary>
     /// Gets the count of unique description texts in the Extraction.
     /// </summary>
-    /// <returns></returns>
     int GetUniqueDescriptionCount();
 
     /// <summary>
@@ -110,6 +109,12 @@
     /// </summary>
     /// <returns></returns>
     List<Description> GetUnresolvedDescriptions();
+
+    /// <summary>
+    /// Gets a dictionary of Descriptions indexed by Text property.
+    /// </summary>
+    /// <returns></returns>
+    Dictionary<string, int> GetDescriptionTextToIdDict();
 
     /// <summary>
     /// Gets a list of the unique skus in the Extraction.
@@ -133,5 +138,12 @@
     /// </summary>
     /// <returns></returns>
     IEnumerable<Description> GetDescriptionsForJob();
+
+    /// <summary>
+    /// Gets a dictionary of UpcReplacements indexed by incorrect
+    /// Upc value and referencing the corrected value.
+    /// </summary>
+    /// <returns></returns>
+    IDictionary<string, string> GetUpcReplacementDictionary();
   }
 }

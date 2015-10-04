@@ -1,6 +1,6 @@
 ﻿// See http://www.codeproject.com/Articles/26288/Simplifying-the-WPF-TreeView-by-Using-the-ViewMode
 
-namespace PatioBlox2016.JobPrepUI.ViewModels
+namespace PatioBlox2016.JobPrepUI.JobVisualizer
 {
   using System.Collections.ObjectModel;
   using System.Windows.Input;

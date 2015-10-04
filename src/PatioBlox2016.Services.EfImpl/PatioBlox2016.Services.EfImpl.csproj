@@ -50,13 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DescriptionRepository.cs" />
     <Compile Include="ExtractionResultValidationUow.cs" />
-    <Compile Include="KeywordRepository.cs" />
-    <Compile Include="ProductUow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryBase.cs" />
-    <Compile Include="UpcReplacementRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PatioBlox2016.Abstract\PatioBlox2016.Abstract.csproj">

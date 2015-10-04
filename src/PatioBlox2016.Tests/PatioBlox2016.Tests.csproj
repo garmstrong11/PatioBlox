@@ -100,7 +100,6 @@
     <Compile Include="ExtractorTests\PatchExtractorTests.cs" />
     <Compile Include="ExtractorTests\SeedExtractorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceTests\KeywordRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -139,6 +138,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ServiceTests\" />
     <Folder Include="ViewModelTests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

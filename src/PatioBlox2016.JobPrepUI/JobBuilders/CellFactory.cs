@@ -1,6 +1,5 @@
 ﻿namespace PatioBlox2016.JobPrepUI.JobBuilders
 {
-  using System;
   using System.Collections.Generic;
   using Abstract;
   using Concrete;
@@ -12,15 +11,10 @@
     private readonly IDictionary<string, int> _descriptionDict;
     private readonly IDictionary<string, string> _upcReplacementDict;
 
-    public CellFactory(
-      IDescriptionRepository descriptionRepository,
-      IUpcReplacementRepository upcReplacementRepository)
+    public CellFactory(IExtractionResultValidationUow uow)
     {
-      if (descriptionRepository == null) throw new ArgumentNullException("descriptionRepository");
-      if (upcReplacementRepository == null) throw new ArgumentNullException("upcReplacementRepository");
-
-      _descriptionDict = descriptionRepository.GetTextToIdDict();
-      _upcReplacementDict = upcReplacementRepository.GetUpcReplacementDictionary();
+      _descriptionDict = uow.GetDescriptionTextToIdDict();
+      _upcReplacementDict = uow.GetUpcReplacementDictionary();
     }
     
     public Cell CreateCell(IPatchRowExtract extract)
@@ -37,7 +31,8 @@
           "Unable to find a Description for the Cell at index {0}, Sku: {1}, Description: {2}",
           extract.RowIndex, extract.Sku, extract.Description);
 
-        var exception = new CellConstructionException(extract.RowIndex, extract.Sku, extract.Description, message);
+        var exception = new CellConstructionException(
+          extract.RowIndex, extract.Sku, extract.Description, message);
 
         throw exception;
       }

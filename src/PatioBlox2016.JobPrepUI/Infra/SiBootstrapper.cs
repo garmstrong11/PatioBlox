@@ -10,7 +10,7 @@
   using Extractor;
   using DataAccess;
   using JobBuilders;
-  using PatioBlox2016.JobPrepUI.JobVisualizer;
+  using JobVisualizer;
   using Services.Contracts;
   using Services.EfImpl;
   using SimpleInjector;
@@ -41,11 +41,6 @@
       _container.RegisterSingle<IDataSourceAdapter, FlexCelDataSourceAdapter>();
       _container.RegisterSingle<IPatchExtractor, PatchExtractor>();
       _container.RegisterSingle<IExtractionResult, ExtractionResult>();
-      //_container.RegisterSingle<IDescriptionFactory, DescriptionFactory>();
-      _container.RegisterSingle<IKeywordRepository, KeywordRepository>();
-      _container.RegisterSingle<IDescriptionRepository, DescriptionRepository>();
-      _container.RegisterSingle<IUpcReplacementRepository, UpcReplacementRepository>();
-      //_container.RegisterSingle<IProductUow, ProductUow>();
       _container.RegisterSingle<IExtractionResultValidationUow, ExtractionResultValidationUow>();
 
       _container.Register<ICellFactory, CellFactory>();
