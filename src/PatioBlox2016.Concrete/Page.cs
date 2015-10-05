@@ -16,7 +16,14 @@
     {
       Index = index;
       Section = section;
-      _cells = new List<ICell>(cells);
+
+      var cellList = new List<ICell>(cells);
+
+      foreach (var cell in cellList) {
+        cell.Page = this;
+      }
+
+      _cells = new List<ICell>(cellList);
     }
     
     public ISection Section { get; private set; }

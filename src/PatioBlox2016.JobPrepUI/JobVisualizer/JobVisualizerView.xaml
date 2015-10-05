@@ -4,55 +4,72 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:PatioBlox2016.JobPrepUI.JobVisualizer"
-             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-  <DockPanel Margin="9">
-    <StackPanel DockPanel.Dock="Bottom"
-                HorizontalAlignment="Right">
-      <Button x:Name="SaveJobJsx"
-              Content="Save Job Data"
-              Padding="9 4.5" />
-    </StackPanel>
-    <TreeView ItemsSource="{Binding Books}">
-      <TreeView.ItemContainerStyle>
-        <Style TargetType="TreeViewItem">
-          <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-          <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-          <Setter Property="FontWeight" Value="Normal" />
-          <Style.Triggers>
-            <Trigger Property="IsSelected" Value="True">
-              <Setter Property="FontWeight" Value="Bold" />
-            </Trigger>
-          </Style.Triggers>
+    <UserControl.Resources>
+        <Style x:Key="GroupHeaderStyle" TargetType="{x:Type GroupItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                        <StackPanel>
+                            <TextBlock>
+                                <Run>Page </Run>
+                                <Run Text="{Binding Name, Mode=OneTime}" />
+                            </TextBlock>
+                            <ItemsPresenter />
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-      </TreeView.ItemContainerStyle>
-      
-      <TreeView.Resources>
-        <HierarchicalDataTemplate DataType="{x:Type vm:BookViewModel}" 
-                                  ItemsSource="{Binding Children}">
-          <TextBlock Text="{Binding BookHeader}" />
-        </HierarchicalDataTemplate>
-          
-        <HierarchicalDataTemplate DataType="{x:Type vm:SectionViewModel}"
-                                  ItemsSource="{Binding Children}">
-            <TextBlock Text="{Binding SectionName}" />
-        </HierarchicalDataTemplate>
-          
-        <DataTemplate DataType="{x:Type vm:PageViewModel}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <TextBlock Text="{Binding PageHeader}" />
-                <DataGrid Grid.Row="1" ItemsSource="{Binding Cells}">
-                    
-                </DataGrid>
-            </Grid>
-        </DataTemplate>
-          
-        <!--<HierarchicalDataTemplate DataType="{x:Type vm:CellViewModel}">
+    </UserControl.Resources>
+    <DockPanel Margin="9">
+        <StackPanel DockPanel.Dock="Bottom"
+                    HorizontalAlignment="Right">
+            <Button x:Name="SaveJobJsx"
+                    Content="Save Job Data"
+                    Padding="9 4.5" />
+        </StackPanel>
+        <TreeView ItemsSource="{Binding Books}">
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type vm:BookViewModel}"
+                                          ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding BookHeader}" />
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type vm:SectionViewModel}"
+                                          ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding SectionName}" />
+                </HierarchicalDataTemplate>
+
+                <DataTemplate DataType="{x:Type vm:CellSetViewModel}">
+                    <DataGrid ItemsSource="{Binding Cells}">
+                        <DataGrid.GroupStyle>
+                            <GroupStyle ContainerStyle="{StaticResource GroupHeaderStyle}">
+                                <GroupStyle.Panel>
+                                    <ItemsPanelTemplate>
+                                        <DataGridRowsPresenter />
+                                    </ItemsPanelTemplate>
+                                </GroupStyle.Panel>
+                            </GroupStyle>
+                        </DataGrid.GroupStyle>
+                    </DataGrid>
+                </DataTemplate>
+
+                <!--<HierarchicalDataTemplate DataType="{x:Type vm:CellViewModel}">
             <TextBlock>
                 <Run>Item: </Run>
                 <Run FontWeight="Bold" Text="{Binding Sku, Mode=OneTime}" />
@@ -64,7 +81,7 @@
                 <Run FontWeight="Bold" Text="{Binding PalletQty, Mode=OneTime}" />
             </TextBlock>
         </HierarchicalDataTemplate>-->
-      </TreeView.Resources>
-    </TreeView>
-  </DockPanel>
+            </TreeView.Resources>
+        </TreeView>
+    </DockPanel>
 </UserControl>
