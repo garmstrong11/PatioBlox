@@ -11,6 +11,7 @@
     int DescriptionId { get; set; }
     string Upc { get; set; }
     ISection Section { get; set; }
+    IPage Page { get; set; }
     string Image { get; }
     void FindSection(IEnumerable<ISection> sections);
   }

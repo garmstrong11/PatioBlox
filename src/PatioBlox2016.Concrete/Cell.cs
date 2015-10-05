@@ -30,6 +30,7 @@
     public int DescriptionId { get; set; }
     public string Upc { get; set; }
     public ISection Section { get; set; }
+    public IPage Page { get; set; }
 
     public void FindSection(IEnumerable<ISection> sections)
     {
@@ -54,7 +55,7 @@
       throw exception;
     }
 
-	  public string Image
+    public string Image
 	  {
 			get { return string.Format("{0}.psd", Sku); }
 	  }

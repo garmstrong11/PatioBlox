@@ -27,11 +27,17 @@
 
     public void AddCellRange(IEnumerable<ICell> cells)
     {
-      _cells.AddRange(cells);
+      var cellList = cells.ToList();
+      foreach (var cell in cellList) {
+        cell.Page = this;
+      }
+      
+      _cells.AddRange(cellList);
     }
 
     public void AddCell(ICell cell)
     {
+      cell.Page = this;
       _cells.Add(cell);
     }
 

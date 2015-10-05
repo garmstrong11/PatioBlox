@@ -36,5 +36,10 @@
     {
       get { return _cell.PalletQty; }
     }
+
+    public int PageIndex
+    {
+      get { return _cell.Page.Index; }
+    }
   }
 }

@@ -51,7 +51,6 @@
                     
                 </DataGrid>
             </Grid>
-            
         </HierarchicalDataTemplate>
           
         <!--<HierarchicalDataTemplate DataType="{x:Type vm:CellViewModel}">
