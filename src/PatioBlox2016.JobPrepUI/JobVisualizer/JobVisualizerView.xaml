@@ -39,8 +39,7 @@
             <TextBlock Text="{Binding SectionName}" />
         </HierarchicalDataTemplate>
           
-        <HierarchicalDataTemplate DataType="{x:Type vm:PageViewModel}"
-                                  ItemsSource="{Binding Children}">
+        <DataTemplate DataType="{x:Type vm:PageViewModel}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -51,7 +50,7 @@
                     
                 </DataGrid>
             </Grid>
-        </HierarchicalDataTemplate>
+        </DataTemplate>
           
         <!--<HierarchicalDataTemplate DataType="{x:Type vm:CellViewModel}">
             <TextBlock>
