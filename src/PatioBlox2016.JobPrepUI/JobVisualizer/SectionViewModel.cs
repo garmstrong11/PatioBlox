@@ -12,7 +12,7 @@
       _section = section;
     }
 
-    public string RegionName
+    public string SectionName
     {
       get { return _section.SectionName; }
     }

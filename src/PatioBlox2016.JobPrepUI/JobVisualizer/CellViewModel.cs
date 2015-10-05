@@ -6,7 +6,12 @@
   {
     private readonly ICell _cell;
 
-    public CellViewModel(TreeViewItemViewModel parent, ICell cell) 
+    //public CellViewModel(ICell cell)
+    //{
+    //  _cell = cell;
+    //}
+
+    public CellViewModel(TreeViewItemViewModel parent, ICell cell)
       : base(parent, true)
     {
       _cell = cell;

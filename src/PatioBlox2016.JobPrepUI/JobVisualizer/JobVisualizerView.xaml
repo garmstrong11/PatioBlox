@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:vm="clr-namespace:PatioBlox2016.JobPrepUI.JobVisualizer"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
   <DockPanel Margin="9">
@@ -28,9 +29,43 @@
       </TreeView.ItemContainerStyle>
       
       <TreeView.Resources>
-        <HierarchicalDataTemplate DataType="vm:BookViewModel" ItemsSource="{Binding Children}">
-          
+        <HierarchicalDataTemplate DataType="{x:Type vm:BookViewModel}" 
+                                  ItemsSource="{Binding Children}">
+          <TextBlock Text="{Binding BookHeader}" />
         </HierarchicalDataTemplate>
+          
+        <HierarchicalDataTemplate DataType="{x:Type vm:SectionViewModel}"
+                                  ItemsSource="{Binding Children}">
+            <TextBlock Text="{Binding SectionName}" />
+        </HierarchicalDataTemplate>
+          
+        <HierarchicalDataTemplate DataType="{x:Type vm:PageViewModel}"
+                                  ItemsSource="{Binding Children}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <TextBlock Text="{Binding PageHeader}" />
+                <DataGrid Grid.Row="1" ItemsSource="{Binding Cells}">
+                    
+                </DataGrid>
+            </Grid>
+            
+        </HierarchicalDataTemplate>
+          
+        <!--<HierarchicalDataTemplate DataType="{x:Type vm:CellViewModel}">
+            <TextBlock>
+                <Run>Item: </Run>
+                <Run FontWeight="Bold" Text="{Binding Sku, Mode=OneTime}" />
+                <Run> Description: </Run>
+                <Run FontWeight="Bold" Text="{Binding Description, Mode=OneTime}" />
+                <Run> Upc: </Run>
+                <Run FontWeight="Bold" Text="{Binding Upc, Mode=OneTime}" />
+                <Run> Pallet Qty: </Run>
+                <Run FontWeight="Bold" Text="{Binding PalletQty, Mode=OneTime}" />
+            </TextBlock>
+        </HierarchicalDataTemplate>-->
       </TreeView.Resources>
     </TreeView>
   </DockPanel>
