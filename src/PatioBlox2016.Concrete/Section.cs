@@ -56,7 +56,7 @@
         var cellGroups = SplitCellsIntoPages();
 
         return cellGroups
-          .Select(cg => new Page(this, cg.OrderBy(c => c.SourceRowIndex)))
+          .Select((cg, i) => new Page(this, cg.OrderBy(c => c.SourceRowIndex), i + 1))
           .ToList();
       }
     }

@@ -12,8 +12,9 @@
     private static readonly TextInfo TextInfo = new CultureInfo("en-US", false).TextInfo;
     private static readonly StringBuilder Sb = new StringBuilder();
 
-    public Page(ISection section, IEnumerable<ICell> cells)
+    public Page(ISection section, IEnumerable<ICell> cells, int index)
     {
+      Index = index;
       Section = section;
       _cells = new List<ICell>(cells);
     }
@@ -33,6 +34,8 @@
     {
       _cells.Add(cell);
     }
+
+    public int Index { get; private set; }
 
     public string Header
     {

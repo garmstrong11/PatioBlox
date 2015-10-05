@@ -127,10 +127,15 @@
     <Compile Include="JobBuilders\IBookFactory.cs" />
     <Compile Include="JobBuilders\ICellFactory.cs" />
     <Compile Include="JobBuilders\SectionNameEqualityComparer.cs" />
+    <Compile Include="JobVisualizer\BookViewModel.cs" />
+    <Compile Include="JobVisualizer\CellViewModel.cs" />
+    <Compile Include="JobVisualizer\JobViewModel.cs" />
     <Compile Include="JobVisualizer\JobVisualizerView.xaml.cs">
       <DependentUpon>JobVisualizerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="JobVisualizer\JobVisualizerViewModel.cs" />
+    <Compile Include="JobVisualizer\PageViewModel.cs" />
+    <Compile Include="JobVisualizer\SectionViewModel.cs" />
     <Compile Include="JobVisualizer\TreeViewItemViewModel.cs" />
     <Compile Include="ViewModels\ActivitiesViewModel.cs" />
     <Compile Include="ViewModels\BuildJobViewModel.cs" />
