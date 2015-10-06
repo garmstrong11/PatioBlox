@@ -89,7 +89,7 @@
 
     public string ToJsxString(int indentLevel)
     {
-      var idLine = string.Format("'{0}' : {{ 'size' : '{1}', 'color' : '{2}', 'name' : '{3}' }}",
+      var idLine = string.Format("{0} : {{ 'size' : '{1}', 'color' : '{2}', 'name' : '{3}' }}",
         Id, Size, Color, FullName);
 
       return idLine.Indent(indentLevel);
