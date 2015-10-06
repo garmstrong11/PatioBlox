@@ -56,6 +56,16 @@
       }
     }
 
+    public void SetPageIndices()
+    {
+      var pages = Sections.SelectMany(s => s.Pages).ToList();
+      var pageCount = pages.Count;
+
+      for (var i = 0; i < pageCount; i++) {
+        pages[i].Index = i + 1;
+      }
+    }
+
     protected bool Equals(Book other)
     {
       return string.Equals(BookName, other.BookName) 

@@ -15,5 +15,7 @@
     void AddCell(ICell cell);
     void AddCellRange(IEnumerable<ICell> cells);
     void RemoveCell(ICell cell);
+
+    void BuildPages();
   }
 }

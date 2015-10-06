@@ -48,7 +48,7 @@
       _cells.Add(cell);
     }
 
-    public int Index { get; private set; }
+    public int Index { get; set; }
 
     public string Header
     {

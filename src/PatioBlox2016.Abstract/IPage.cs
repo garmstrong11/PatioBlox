@@ -9,6 +9,6 @@ namespace PatioBlox2016.Abstract
     string Header { get; }
     void AddCellRange(IEnumerable<ICell> cells);
     void AddCell(ICell cell);
-    int Index { get; }
+    int Index { get; set; }
   }
 }

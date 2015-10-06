@@ -17,6 +17,8 @@ namespace PatioBlox2016.Abstract
     void AddSectionRange(IEnumerable<ISection> sections);
     void RemoveSection(ISection section);
 
-    IEnumerable<string> PdfFileNames { get; } 
+    IEnumerable<string> PdfFileNames { get; }
+
+    void SetPageIndices();
   }
 }
