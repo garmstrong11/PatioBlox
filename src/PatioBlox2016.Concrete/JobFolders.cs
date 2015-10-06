@@ -4,6 +4,7 @@
   using System.Collections.Generic;
   using System.IO;
   using System.Linq;
+  using System.Text;
   using Abstract;
   using Concrete.Exceptions;
 
@@ -65,6 +66,7 @@
       InddDir = _icDir.CreateSubdirectory("indd");
       JsxDir = _icDir.CreateSubdirectory("jsx");
       SupportDir = FactoryDir.CreateSubdirectory("support");
+      FactoryScriptsDir = FactoryDir.CreateSubdirectory("scripts");
     }
 
     private static IEnumerable<IDirectoryInfoAdapter> GetDirectoriesInPath(IFileInfoAdapter excelAdapter)
@@ -107,9 +109,30 @@
 
     public IDirectoryInfoAdapter InddDir { get; private set; }
 
+    public IDirectoryInfoAdapter FactoryScriptsDir { get; private set; }
+
     public string ToJsxString(int indentLevel)
     {
-      throw new NotImplementedException();
+      var contentLevel = indentLevel + 1;
+      var sb = new StringBuilder();
+
+      var inddPath = string.Format("'inddPath' : '{0}/',", InddDir.FullName.FlipSlashes());
+
+      var outputPath = string.Format("'outputPath' : '{0}/',", OutputDir.FullName.FlipSlashes());
+
+      var supportPath = string.Format("'supportPath' : '{0}/',", SupportDir.FullName.FlipSlashes());
+
+      var templatePath = string.Format("'templatePath' : '{0}'", 
+        Path.Combine(FactoryDir.FullName, "template", "book.idml")).FlipSlashes();
+
+      sb.AppendLine("var jobFolders = {".Indent(indentLevel));
+      sb.AppendLine(inddPath.Indent(contentLevel));
+      sb.AppendLine(outputPath.Indent(contentLevel));
+      sb.AppendLine(supportPath.Indent(contentLevel));
+      sb.AppendLine(templatePath.Indent(contentLevel));
+      sb.AppendLine("};".Indent(indentLevel));
+
+      return sb.ToString();
     }
   }
 }

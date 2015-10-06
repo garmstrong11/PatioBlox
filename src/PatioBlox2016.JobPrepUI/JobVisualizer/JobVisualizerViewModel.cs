@@ -4,8 +4,11 @@
   using System.Collections.ObjectModel;
   using System.IO;
   using System.Linq;
+  using System.Text;
   using Caliburn.Micro;
   using Abstract;
+  using JobBuilders;
+  using PatioBlox2016.Concrete;
   using Services.Contracts;
 
   public class JobVisualizerViewModel : Screen
@@ -44,9 +47,24 @@
     public void SaveJobJsx()
     {
       var jsx = _job.ToJsxString(0);
-      var dataFilePath = Path.Combine(_jobFolders.JsxDir.FullName, "JobData.jsx");
+      var dataFilePath = Path.Combine(_jobFolders.JsxDir.FullName, Job.JobDataFileName);
 
       File.WriteAllText(dataFilePath, jsx);
+    }
+
+    public string BuildIncludePaths()
+    {
+      var sb = new StringBuilder();
+      var uiScriptPath = Path.Combine(_jobFolders.FactoryScriptsDir.FullName, "ui.jsx");
+      var eanScriptPath = Path.Combine(_jobFolders.FactoryScriptsDir.FullName, "EAN13.jsx");
+      var underscoreScriptPath = Path.Combine(_jobFolders.FactoryScriptsDir.FullName, "underscore.jsx");
+
+      sb.AppendFormat("#include \"{0}\";", uiScriptPath);
+      sb.AppendFormat("\n#include \"{0}\";", eanScriptPath);
+      sb.AppendFormat("\n#include \"{0}\";", underscoreScriptPath);
+      sb.AppendFormat("\n#include \"{0}\";", Job.JobDataFileName);
+
+      return sb.ToString().FlipSlashes();
     }
   }
 }

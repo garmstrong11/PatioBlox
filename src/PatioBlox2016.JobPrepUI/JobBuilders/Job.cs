@@ -10,14 +10,17 @@
   public class Job : IJob
   {
     private readonly IBookFactory _bookFactory;
+    private readonly IJobFolders _jobFolders;
     private readonly List<IBook> _books;
-    private readonly List<IDescription> _descriptions; 
+    private readonly List<IDescription> _descriptions;
+    public static readonly string JobDataFileName = "JobData.jsx";
     
-    public Job(IBookFactory bookFactory)
+    public Job(IBookFactory bookFactory, IJobFolders jobFolders)
     {
       if (bookFactory == null) throw new ArgumentNullException("bookFactory");
 
       _bookFactory = bookFactory;
+      _jobFolders = jobFolders;
       _books = new List<IBook>();
       _descriptions = new List<IDescription>();
     }
@@ -65,13 +68,15 @@
       var sb = new StringBuilder();
       var contentLevel = indentLevel + 1;
 
+      sb.AppendLine(_jobFolders.ToJsxString(indentLevel));
+
       sb.AppendLine("var patches = {".Indent(indentLevel));
 
       var books = Books.Select(b => b.ToJsxString(contentLevel));
       var bookStrings = string.Join(",\n", books);
 
       sb.AppendLine(bookStrings);
-      sb.AppendLine("}".Indent(indentLevel));
+      sb.AppendLine("};".Indent(indentLevel));
 
       sb.AppendLine("\nvar descriptions = {".Indent(indentLevel));
 
@@ -81,7 +86,7 @@
       var descText = string.Join(",\n", descriptions);
 
       sb.AppendLine(descText);
-      sb.AppendLine("}".Indent(indentLevel));
+      sb.AppendLine("};".Indent(indentLevel));
 
       return sb.ToString();
     }

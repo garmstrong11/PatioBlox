@@ -46,6 +46,11 @@
     /// </summary>
     string JobName { get; }
 
+    /// <summary>
+    /// A Source container for script include files
+    /// </summary>
+    IDirectoryInfoAdapter FactoryScriptsDir { get; }
+
     void Initialize(IFileInfoAdapter jobFolderPath);
 		void Reset();
   }
