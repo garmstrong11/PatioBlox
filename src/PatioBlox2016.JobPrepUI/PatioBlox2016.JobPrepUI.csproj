@@ -128,6 +128,7 @@
     <Compile Include="JobBuilders\ICellFactory.cs" />
     <Compile Include="JobBuilders\SectionNameEqualityComparer.cs" />
     <Compile Include="JobVisualizer\BookViewModel.cs" />
+    <Compile Include="JobVisualizer\CellSetViewModel.cs" />
     <Compile Include="JobVisualizer\CellViewModel.cs" />
     <Compile Include="JobVisualizer\JobViewModel.cs" />
     <Compile Include="JobVisualizer\JobVisualizerView.xaml.cs">

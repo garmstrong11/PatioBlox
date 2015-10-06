@@ -94,7 +94,7 @@
     public string ToJsxString(int indentCount)
     {
       const string fmt =
-        "{{ 'sku' : {0}, 'upc' : '{1}', 'dId' : {2}, 'qty' : '{3}' }}";
+        "{{ 'sku' : {0}, 'upc' : '{1}', 'desc' : {2}, 'qty' : '{3}' }}";
 
       return string.Format(fmt, Sku, Upc, DescriptionId, PalletQty).Indent(indentCount);
     }

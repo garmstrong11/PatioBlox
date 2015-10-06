@@ -10,6 +10,7 @@
   {
     private readonly int _cellsPerPage;
     private readonly List<ICell> _cells;
+    private readonly List<IPage> _pages; 
     
     public Section(IBook book, string name, int rowIndex, int cellsPerPage)
     {
@@ -22,6 +23,7 @@
       SourceRowIndex = rowIndex - 1;
 
       _cells = new List<ICell>();
+      _pages = new List<IPage>();
     }
 
     public string SectionName { get; private set; }
@@ -44,6 +46,17 @@
       _cells.Remove(cell);
     }
 
+    public void BuildPages()
+    {
+      var cellGroups = SplitCellsIntoPages();
+
+      var pages = cellGroups
+        .Select((cg, i) => new Page(this, cg.OrderBy(c => c.SourceRowIndex), i + 1))
+        .ToList();
+
+      _pages.AddRange(pages);
+    }
+
     public ReadOnlyCollection<ICell> Cells
     {
       get { return _cells.AsReadOnly(); }
@@ -51,14 +64,7 @@
 
     public IReadOnlyList<IPage> Pages
     {
-      get
-      {
-        var cellGroups = SplitCellsIntoPages();
-
-        return cellGroups
-          .Select((cg, i) => new Page(this, cg.OrderBy(c => c.SourceRowIndex), i + 1))
-          .ToList();
-      }
+      get { return _pages.AsReadOnly(); }
     }
 
     public int PageCount

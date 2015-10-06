@@ -57,8 +57,13 @@
         cell.FindSection(sections);
       }
 
+      foreach (var section in sections) {
+        section.BuildPages();
+      }
+
       // Filter empty sections and add to book:
       book.AddSectionRange(sections.Where(s => s.Cells.Any()));
+      book.SetPageIndices();
 
       return book;
     }

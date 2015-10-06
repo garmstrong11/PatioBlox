@@ -19,9 +19,11 @@
 
     protected override void LoadChildren()
     {
-      foreach (var page in _section.Pages) {
-        Children.Add(new PageViewModel(this, page));
-      }
+      //foreach (var page in _section.Pages) {
+      //  Children.Add(new PageViewModel(this, page));
+      //}
+      Children.Add(new CellSetViewModel(this, _section));
+
       base.LoadChildren();
     }
   }
