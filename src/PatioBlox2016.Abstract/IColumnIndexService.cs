@@ -7,5 +7,10 @@
     int DescriptionIndex { get; set; }
     int PalletQtyIndex { get; set; }
     int UpcIndex { get; set; }
+
+    int PatchAreaIndex { get; set; }
+    int StoreIdIndex { get; set; }
+    int StoreNameIndex { get; set; }
+    int RegionIndex { get; set; }
 	}
 }

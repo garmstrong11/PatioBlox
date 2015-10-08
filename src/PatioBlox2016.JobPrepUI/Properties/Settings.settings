@@ -23,5 +23,17 @@
     <Setting Name="PatioBloxFactoryPath" Type="System.String" Scope="User">
       <Value Profile="(Default)">\\Storage2\AraxiVolume_1183xx\Factory\Lowes\PatioBlox</Value>
     </Setting>
+    <Setting Name="PatchAreaIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="StoreIdIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">6</Value>
+    </Setting>
+    <Setting Name="StoreNameIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="RegionIndex" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

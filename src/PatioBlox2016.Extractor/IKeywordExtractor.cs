@@ -2,7 +2,7 @@
 {
 	using Concrete;
 
-	public interface IKeywordExractor : IExtractor<SeedAggregate>
+	public interface IKeywordExtractor : IExtractor<SeedAggregate>
 	{
 		 
 	}

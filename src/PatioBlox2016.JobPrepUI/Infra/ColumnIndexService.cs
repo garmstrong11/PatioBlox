@@ -41,5 +41,29 @@
       get { return _props.UpcIndex; }
       set { _props.UpcIndex = value; }
     }
+
+    public int PatchAreaIndex
+    {
+      get { return _props.PatchAreaIndex; }
+      set { _props.PatchAreaIndex = value; }
+    }
+
+    public int StoreIdIndex
+    {
+      get { return _props.StoreIdIndex; }
+      set { _props.StoreIdIndex = value; }
+    }
+
+    public int StoreNameIndex
+    {
+      get { return _props.StoreNameIndex; }
+      set { _props.StoreNameIndex = value; }
+    }
+
+    public int RegionIndex
+    {
+      get { return _props.RegionIndex; }
+      set { _props.RegionIndex = value; }
+    }
   }
 }

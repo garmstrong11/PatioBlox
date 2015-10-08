@@ -7,7 +7,5 @@
   {
     IEnumerable<string> ExtractPatchNames();
 	  IEnumerable<IPatchRowExtract> ExtractOnePatch(string patchName);
-    //int FindHeaderRow();
-    //void ChangeCurrentPatch(string patchName);
   }
 }

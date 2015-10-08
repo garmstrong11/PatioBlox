@@ -1,7 +1,5 @@
 ﻿namespace PatioBlox2016.Extractor
 {
-  using System.Collections.Generic;
-
   /// <summary>
   /// A container for data extracted from a patch Excel worksheet
   /// </summary>

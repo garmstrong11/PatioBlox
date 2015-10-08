@@ -7,7 +7,7 @@
 	using Concrete;
 	using Concrete.Seeding;
 
-  public class SeedExtractor : ExtractorBase<SeedAggregate>, IKeywordExractor
+  public class SeedExtractor : ExtractorBase<SeedAggregate>, IKeywordExtractor
 	{
 		public SeedExtractor(IDataSourceAdapter adapter, IFileSystem fileSystem) 
 			: base(adapter, fileSystem)

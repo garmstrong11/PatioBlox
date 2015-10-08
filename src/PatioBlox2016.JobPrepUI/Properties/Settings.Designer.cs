@@ -106,5 +106,53 @@ namespace PatioBlox2016.JobPrepUI.Properties {
                 this["PatioBloxFactoryPath"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int PatchAreaIndex {
+            get {
+                return ((int)(this["PatchAreaIndex"]));
+            }
+            set {
+                this["PatchAreaIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        public int StoreIdIndex {
+            get {
+                return ((int)(this["StoreIdIndex"]));
+            }
+            set {
+                this["StoreIdIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public int StoreNameIndex {
+            get {
+                return ((int)(this["StoreNameIndex"]));
+            }
+            set {
+                this["StoreNameIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int RegionIndex {
+            get {
+                return ((int)(this["RegionIndex"]));
+            }
+            set {
+                this["RegionIndex"] = value;
+            }
+        }
     }
 }
