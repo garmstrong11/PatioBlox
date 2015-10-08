@@ -17,6 +17,7 @@
     private readonly HashSet<IDirectoryInfoAdapter> _allDirs; 
 
     private const string UdfDir = "UserDefinedFolders";
+    private const string JobInputDirName = "_Input";
 
     public JobFolders(ISettingsService settingsService)
     {
@@ -53,18 +54,13 @@
           "Unable to find the 'IC' folder for this job");
       }
 
-      //SupportDir = _allDirs.FirstOrDefault(d => d.Name == "Support");
-      //if (SupportDir == null) {
-      //    throw new JobFoldersInitializationException(excelFileAdapter,
-      //      "Unable to find the 'Support' folder for this job");
-      //}
-
       JobName = _udfDir.Parent.Name;
       OutputDir = _udfDir.CreateSubdirectory("_Output");
 
       ReportDir = _icDir.CreateSubdirectory("reports");
       InddDir = _icDir.CreateSubdirectory("indd");
       JsxDir = _icDir.CreateSubdirectory("jsx");
+      PdfResultDir = _icDir.Parent.CreateSubdirectory(JobInputDirName);
       SupportDir = FactoryDir.CreateSubdirectory("support");
       FactoryScriptsDir = FactoryDir.CreateSubdirectory("scripts");
     }
@@ -99,6 +95,8 @@
 
     public IDirectoryInfoAdapter OutputDir { get; private set; }
 
+    public IDirectoryInfoAdapter PdfResultDir { get; private set; }
+
     public IDirectoryInfoAdapter FactoryDir { get; private set; }
 
     public IDirectoryInfoAdapter JsxDir { get; private set; }
@@ -116,14 +114,14 @@
       var contentLevel = indentLevel + 1;
       var sb = new StringBuilder();
 
-      var inddPath = string.Format("'inddPath' : '{0}/',", InddDir.FullName.FlipSlashes());
+      var inddPath = string.Format("'inddPath' : '{0}/',", InddDir.FullName);
 
-      var outputPath = string.Format("'outputPath' : '{0}/',", OutputDir.FullName.FlipSlashes());
+      var outputPath = string.Format("'pdfResultPath' : '{0}/',", PdfResultDir.FullName);
 
-      var supportPath = string.Format("'supportPath' : '{0}/',", SupportDir.FullName.FlipSlashes());
+      var supportPath = string.Format("'supportPath' : '{0}/',", SupportDir.FullName);
 
       var templatePath = string.Format("'templatePath' : '{0}'", 
-        Path.Combine(FactoryDir.FullName, "template", "book.idml")).FlipSlashes();
+        Path.Combine(FactoryDir.FullName, "template", "book.idml"));
 
       sb.AppendLine("var jobFolders = {".Indent(indentLevel));
       sb.AppendLine(inddPath.Indent(contentLevel));
@@ -132,7 +130,7 @@
       sb.AppendLine(templatePath.Indent(contentLevel));
       sb.AppendLine("};".Indent(indentLevel));
 
-      return sb.ToString();
+      return sb.ToString().FlipSlashes();
     }
   }
 }

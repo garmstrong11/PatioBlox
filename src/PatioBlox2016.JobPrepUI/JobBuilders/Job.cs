@@ -13,6 +13,10 @@
     private readonly IJobFolders _jobFolders;
     private readonly List<IBook> _books;
     private readonly List<IDescription> _descriptions;
+
+    /// <summary>
+    /// The globally accessible name of the job's data file
+    /// </summary>
     public static readonly string JobDataFileName = "JobData.jsx";
     
     public Job(IBookFactory bookFactory, IJobFolders jobFolders)
