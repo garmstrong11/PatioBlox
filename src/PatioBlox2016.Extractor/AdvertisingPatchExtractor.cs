@@ -1,15 +1,17 @@
 ﻿namespace PatioBlox2016.Extractor
 {
+  using System;
   using System.Collections.Generic;
   using System.IO.Abstractions;
   using System.Linq;
   using PatioBlox2016.Abstract;
+  using PatioBlox2016.Concrete;
 
-  public class RetailStoreExtractor : ExtractorBase<RetailStoreExtract>
+  public class AdvertisingPatchExtractor : ExtractorBase<IAdvertisingPatch>, IAdvertisingPatchExtractor
   {
     private readonly IColumnIndexService _columnIndexService;
 
-    public RetailStoreExtractor(
+    public AdvertisingPatchExtractor(
       IDataSourceAdapter adapter, 
       IFileSystem fileSystem,
       IColumnIndexService columnIndexService) 
@@ -18,27 +20,24 @@
       _columnIndexService = columnIndexService;
     }
 
-    #region Overrides of ExtractorBase<IRetailStore>
-
-    public override IEnumerable<RetailStoreExtract> Extract()
+    public override IEnumerable<IAdvertisingPatch> Extract()
     {
       var rowCount = XlAdapter.RowCount;
-      var set = new HashSet<RetailStoreExtract>();
+      var result = new List<Tuple<string, int>>();
 
       for (var row = 2; row <= rowCount; row++) {
         var patchArea = XlAdapter.ExtractString(row, _columnIndexService.PatchAreaIndex);
-        var regionId = XlAdapter.ExtractInteger(row, _columnIndexService.RegionIndex);
         var storeId = XlAdapter.ExtractInteger(row, _columnIndexService.StoreIdIndex);
-        var storeName = XlAdapter.ExtractString(row, _columnIndexService.StoreNameIndex);
+        
+        // Disallow duplicate storeIds:
+        if (result.Any(p => p.Item2 == storeId)) continue;
 
-        // Use a hash set here to eliminate duplicates
-        // RetailStoreExtract equality is based on StoreId only
-        set.Add(new RetailStoreExtract(regionId, patchArea, storeId, storeName));
+        result.Add(new Tuple<string, int>(patchArea, storeId));
       }
 
-      return set.AsEnumerable();
+      var patchGroups = result.GroupBy(t => t.Item1);
+      return patchGroups
+        .Select(patchGroup => new AdvertisingPatch(patchGroup.Key, patchGroup.Select(p => p.Item2)));
     }
-
-    #endregion
   }
 }

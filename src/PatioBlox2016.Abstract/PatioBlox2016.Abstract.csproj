@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IAdvertisingPatch.cs" />
     <Compile Include="IBook.cs" />
     <Compile Include="ICell.cs" />
     <Compile Include="IColumnIndexService.cs" />

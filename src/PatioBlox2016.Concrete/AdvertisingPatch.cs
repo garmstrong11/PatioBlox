@@ -7,56 +7,62 @@
 
   public class AdvertisingPatch : IAdvertisingPatch
   {
-    private readonly List<IRetailStore> _stores;
+    private readonly List<int> _storeIds;
 
-    public AdvertisingPatch(string name, int regionId)
+    public AdvertisingPatch(string name)
     {
       if (string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException("name");
 
       Name = name;
-      RegionId = regionId;
 
-      _stores = new List<IRetailStore>();
+      _storeIds = new List<int>();
+    }
+
+    public AdvertisingPatch(string name, IEnumerable<int> stores )
+    {
+      Name = name;
+      _storeIds = new List<int>(stores);
     }
     
     public string Name { get; private set; }
-    public int RegionId { get; private set; }
 
-    public IReadOnlyCollection<IRetailStore> Stores
+    public int StoreCount
     {
-      get { return _stores.AsReadOnly(); }
+      get { return _storeIds.Count; }
     }
 
-    public void AddRetailStore(IRetailStore store)
+    public IReadOnlyCollection<int> StoreIds
     {
-      store.AdertisingPatch = this;
-      _stores.Add(store);
+      get { return _storeIds.AsReadOnly(); }
     }
 
-    public void AddRetailStoreRange(IEnumerable<IRetailStore> stores)
+    public void AddStoreId(int storeId)
     {
-      var storesToAdd = stores.ToList();
-
-      foreach (var store in storesToAdd) {
-        store.AdertisingPatch = this;
-      }
-
-      _stores.AddRange(storesToAdd);
+      _storeIds.Add(storeId);
     }
 
-    public void RemoveRetailStore(IRetailStore store)
+    public void AddStoreIdRange(IEnumerable<int> storeIds)
     {
-      store.AdertisingPatch = null;
-      _stores.Remove(store);
+      _storeIds.AddRange(storeIds);
     }
+
+    public void RemoveRetailStore(int storeId)
+    {
+      _storeIds.Remove(storeId);
+    }
+
+    public IReadOnlyCollection<int> Stores
+    {
+      get { return _storeIds.AsReadOnly(); }
+    }
+
 
     #region Equality members
 
     protected bool Equals(AdvertisingPatch other)
     {
       return Stores.SequenceEqual(other.Stores)
-        && string.Equals(Name, other.Name) 
-        && RegionId == other.RegionId;
+        && string.Equals(Name, other.Name);
     }
 
     public override bool Equals(object obj)
@@ -71,9 +77,18 @@
       unchecked {
         var hashCode = Stores.GetHashCode();
         hashCode = (hashCode*397) ^ Name.GetHashCode();
-        hashCode = (hashCode*397) ^ RegionId;
         return hashCode;
       }
+    }
+
+    #endregion
+
+    #region Overrides of Object
+
+    public override string ToString()
+    {
+      var suffix = StoreCount == 1 ? "store" : "stores";
+      return string.Format("{0}: {1} {2}", Name, StoreCount, suffix);
     }
 
     #endregion

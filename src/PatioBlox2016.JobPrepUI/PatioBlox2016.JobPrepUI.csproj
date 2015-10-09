@@ -127,6 +127,10 @@
     <Compile Include="JobBuilders\IBookFactory.cs" />
     <Compile Include="JobBuilders\ICellFactory.cs" />
     <Compile Include="JobBuilders\SectionNameEqualityComparer.cs" />
+    <Compile Include="JobReporter\JobReporterView.xaml.cs">
+      <DependentUpon>JobReporterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="JobReporter\JobReporterViewModel.cs" />
     <Compile Include="JobVisualizer\BookViewModel.cs" />
     <Compile Include="JobVisualizer\CellSetViewModel.cs" />
     <Compile Include="JobVisualizer\CellViewModel.cs" />
@@ -250,6 +254,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="AddKeyword\AddKeywordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="JobReporter\JobReporterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

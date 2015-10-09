@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvertisingPatch.cs" />
     <Compile Include="BarcodeType.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Cell.cs" />

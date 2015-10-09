@@ -130,29 +130,5 @@ namespace PatioBlox2016.JobPrepUI.Properties {
                 this["StoreIdIndex"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("7")]
-        public int StoreNameIndex {
-            get {
-                return ((int)(this["StoreNameIndex"]));
-            }
-            set {
-                this["StoreNameIndex"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public int RegionIndex {
-            get {
-                return ((int)(this["RegionIndex"]));
-            }
-            set {
-                this["RegionIndex"] = value;
-            }
-        }
     }
 }

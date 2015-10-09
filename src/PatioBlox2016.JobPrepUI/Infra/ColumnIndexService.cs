@@ -53,17 +53,5 @@
       get { return _props.StoreIdIndex; }
       set { _props.StoreIdIndex = value; }
     }
-
-    public int StoreNameIndex
-    {
-      get { return _props.StoreNameIndex; }
-      set { _props.StoreNameIndex = value; }
-    }
-
-    public int RegionIndex
-    {
-      get { return _props.RegionIndex; }
-      set { _props.RegionIndex = value; }
-    }
   }
 }

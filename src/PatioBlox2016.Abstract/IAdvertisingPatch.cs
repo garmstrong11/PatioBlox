@@ -5,11 +5,12 @@
   public interface IAdvertisingPatch
   {
     string Name { get; }
-    int RegionId { get; }
+    int StoreCount { get; }
 
-    IReadOnlyCollection<IRetailStore> Stores { get; }
-    void AddRetailStore(IRetailStore store);
-    void AddRetailStoreRange(IEnumerable<IRetailStore> stores);
-    void RemoveRetailStore(IRetailStore store);
+    IReadOnlyCollection<int> StoreIds { get; }
+
+    void AddStoreId(int storeId);
+    void AddStoreIdRange(IEnumerable<int> storeIds);
+    void RemoveRetailStore(int storeId);
   }
 }

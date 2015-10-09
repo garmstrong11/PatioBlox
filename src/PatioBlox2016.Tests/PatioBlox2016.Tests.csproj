@@ -91,7 +91,6 @@
     <Compile Include="ConcreteTests\CellTests.cs" />
     <Compile Include="ConcreteTests\DescriptionViewModelTests.cs" />
     <Compile Include="ConcreteTests\JobFoldersTests.cs" />
-    <Compile Include="ConcreteTests\KeywordDtoTests.cs" />
     <Compile Include="ConcreteTests\KeywordTests.cs" />
     <Compile Include="ConcreteTests\PageTests.cs" />
     <Compile Include="DataAccessTests\DbTests.cs" />
@@ -99,12 +98,14 @@
     <Compile Include="ExtractorTests\PatchDataFileTests.cs" />
     <Compile Include="ExtractorTests\PatchExtractorTests.cs" />
     <Compile Include="ExtractorTests\SeedExtractorTests.cs" />
+    <Compile Include="ExtractorTests\AdvertisingPatchExtractorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="ExtractorTests\DataFiles\Patches1.xlsx" />
     <None Include="ExtractorTests\DataFiles\Patches2.xlsx" />
+    <None Include="ExtractorTests\DataFiles\StoreList.xlsx" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
