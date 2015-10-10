@@ -7,9 +7,9 @@
   using System.Text.RegularExpressions;
   using System.Windows;
   using Caliburn.Micro;
-  using PatioBlox2016.Abstract;
-  using PatioBlox2016.Extractor;
-  using PatioBlox2016.JobPrepUI.ViewModels;
+  using Abstract;
+  using Extractor;
+  using JobPrepUI.ViewModels;
 
   public class JobReporterViewModel : Screen
   {
@@ -17,7 +17,7 @@
     private readonly IAdvertisingPatchExtractor _patchExtractor;
     private readonly IJob _job;
     private readonly IJobFolders _jobFolders;
-    private string _storeListPath;
+    private BindableCollection<PatchFileViewModel> _storeListFiles;
 
     public JobReporterViewModel(
       IWindowManager windowManager, 
@@ -34,6 +34,8 @@
       _patchExtractor = patchExtractor;
       _job = job;
       _jobFolders = jobFolders;
+
+      StoreListFiles = new BindableCollection<PatchFileViewModel>();
     }
 
     public void BuildPatchList()
@@ -44,6 +46,17 @@
     public void BuildMetrixFile()
     {
       
+    }
+
+    public BindableCollection<PatchFileViewModel> StoreListFiles
+    {
+      get { return _storeListFiles; }
+      set
+      {
+        if (Equals(value, _storeListFiles)) return;
+        _storeListFiles = value;
+        NotifyOfPropertyChange(() => StoreListFiles);
+      }
     }
 
     public void HandleFileDrag(object evtArgs)
@@ -68,7 +81,7 @@
       var storeFile = validPaths.FirstOrDefault();
 
       if (storeFile != null) {
-        _storeListPath = storeFile;
+        StoreListFiles.Add(new PatchFileViewModel(storeFile));
       }
 
       args.Handled = true;

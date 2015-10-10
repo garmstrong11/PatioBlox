@@ -10,6 +10,7 @@
   using Extractor;
   using DataAccess;
   using JobBuilders;
+  using JobReporter;
   using JobVisualizer;
   using Services.Contracts;
   using Services.EfImpl;
@@ -40,6 +41,7 @@
       _container.RegisterSingle<ISettingsService, SettingsService>();
       _container.RegisterSingle<IDataSourceAdapter, FlexCelDataSourceAdapter>();
       _container.RegisterSingle<IPatchExtractor, PatchExtractor>();
+      _container.RegisterSingle<IAdvertisingPatchExtractor, AdvertisingPatchExtractor>();
       _container.RegisterSingle<IExtractionResult, ExtractionResult>();
       _container.RegisterSingle<IExtractionResultValidationUow, ExtractionResultValidationUow>();
 
@@ -57,18 +59,21 @@
         var upcReplacements = _container.GetInstance<UpcReplacementManagerViewModel>();
         var extractionResult = _container.GetInstance<ExtractionResultValidationViewModel>();
         var jobVisualizer = _container.GetInstance<JobVisualizerViewModel>();
+        var reporter = _container.GetInstance<JobReporterViewModel>();
 
         keywords.DisplayName = "Keywords";
         descriptions.DisplayName = "Descriptions";
         upcReplacements.DisplayName = "Upc Replacements";
         extractionResult.DisplayName = "Extraction Result";
         jobVisualizer.DisplayName = "Job Visualizer";
+        reporter.DisplayName = "Job Reporter";
 
         vm.Screens.Add(extractionResult);
         vm.Screens.Add(keywords);
         vm.Screens.Add(descriptions);
         vm.Screens.Add(upcReplacements);
         vm.Screens.Add(jobVisualizer);
+        vm.Screens.Add(reporter);
       });
 
       _container.Verify();

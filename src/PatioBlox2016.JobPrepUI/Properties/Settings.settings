@@ -21,7 +21,7 @@
       <Value Profile="(Default)">4</Value>
     </Setting>
     <Setting Name="PatioBloxFactoryPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\Storage2\AraxiVolume_1183xx\Factory\Lowes\PatioBlox</Value>
+      <Value Profile="(Default)">C:\Users\gma\Fake Lowes US 2016 Patio Blocks</Value>
     </Setting>
     <Setting Name="PatchAreaIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">5</Value>

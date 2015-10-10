@@ -9,8 +9,8 @@
   using Caliburn.Micro;
   using Abstract;
   using JobBuilders;
-  using PatioBlox2016.Concrete;
-  using PatioBlox2016.JobPrepUI.ViewModels;
+  using Concrete;
+  using ViewModels;
   using Services.Contracts;
 
   public class JobVisualizerViewModel : Screen
