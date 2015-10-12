@@ -1,13 +1,12 @@
 ﻿namespace PatioBlox2016.Tests.ExtractorTests
 {
-  using System.IO;
   using System.IO.Abstractions;
   using System.Linq;
   using FakeItEasy;
   using FluentAssertions;
   using NUnit.Framework;
-  using PatioBlox2016.Abstract;
-  using PatioBlox2016.Extractor;
+  using Abstract;
+  using Extractor;
 
   [TestFixture]
   public class AdvertisingPatchExtractorTests : ExtractorTestBase
@@ -33,7 +32,7 @@
 
       var patches = extractor.Extract();
 
-      patches.Count().Should().Be(216);
+      patches.Count().Should().Be(217);
     }
 
     [Test]

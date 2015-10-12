@@ -44,6 +44,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{D700D58F-7C76-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.JobPrepUI", "PatioBlox2016.JobPrepUI\PatioBlox2016.JobPrepUI.csproj", "{1A228C44-2B19-48D3-BC12-A31AC247EE75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Reporter", "PatioBlox2016.Reporter\PatioBlox2016.Reporter.csproj", "{A012BC24-C3A2-4FC8-A2DD-32758660D370}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,10 @@ Global
 		{1A228C44-2B19-48D3-BC12-A31AC247EE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A228C44-2B19-48D3-BC12-A31AC247EE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A228C44-2B19-48D3-BC12-A31AC247EE75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A012BC24-C3A2-4FC8-A2DD-32758660D370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A012BC24-C3A2-4FC8-A2DD-32758660D370}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A012BC24-C3A2-4FC8-A2DD-32758660D370}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A012BC24-C3A2-4FC8-A2DD-32758660D370}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

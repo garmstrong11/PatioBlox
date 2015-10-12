@@ -9,7 +9,7 @@
   using Caliburn.Micro;
   using Abstract;
   using Extractor;
-  using JobPrepUI.ViewModels;
+  using ViewModels;
 
   public class JobReporterViewModel : Screen
   {

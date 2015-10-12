@@ -1,7 +1,6 @@
-﻿namespace PatioBlox2016.Extractor
+﻿namespace PatioBlox2016.Abstract
 {
   using System.Collections.Generic;
-  using Abstract;
 
   public interface IPatchExtractor : IExtractor<IPatchRowExtract>
   {

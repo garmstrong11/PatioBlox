@@ -97,7 +97,7 @@ namespace PatioBlox2016.JobPrepUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\gma\\Fake Lowes US 2016 Patio Blocks")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\gma\\Factory\\Lowes\\PatioBlox")]
         public string PatioBloxFactoryPath {
             get {
                 return ((string)(this["PatioBloxFactoryPath"]));

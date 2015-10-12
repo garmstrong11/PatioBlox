@@ -1,6 +1,7 @@
 ﻿namespace PatioBlox2016.Extractor
 {
-	using Concrete;
+  using Abstract;
+  using Concrete;
 
 	public interface IKeywordExtractor : IExtractor<SeedAggregate>
 	{
