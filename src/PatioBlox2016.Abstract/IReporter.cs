@@ -6,6 +6,7 @@
     string OutputPath { get; set; }
 
     void BuildDtoList(string storeListPath);
-    void Run();
+    void BuildPatchReport();
+    void BuildMetrixCsv();
   }
 }

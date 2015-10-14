@@ -46,7 +46,7 @@
                      });
     }
 
-    public void Run()
+    public void BuildPatchReport()
     {
       {
         if (!File.Exists(TemplatePath)) {
@@ -60,8 +60,16 @@
       }
     }
 
+    public void BuildMetrixCsv()
+    {
+      throw new NotImplementedException();
+    }
+
     public void BuildDtoList(string storeListPath)
     {
+      if (string.IsNullOrWhiteSpace(storeListPath)) throw new ArgumentNullException("storeListPath");
+      if (!File.Exists(storeListPath)) throw new FileNotFoundException("Store list file not found");
+
       _adPatchExtractor.Initialize(storeListPath);
       var patches = _adPatchExtractor.Extract()
         .ToDictionary(k => k.Name, v => v.StoreCount);

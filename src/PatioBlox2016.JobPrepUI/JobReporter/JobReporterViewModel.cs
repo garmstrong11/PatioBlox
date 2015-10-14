@@ -8,44 +8,66 @@
   using System.Windows;
   using Caliburn.Micro;
   using Abstract;
-  using Extractor;
   using ViewModels;
 
   public class JobReporterViewModel : Screen
   {
     private readonly IWindowManager _windowManager;
-    private readonly IAdvertisingPatchExtractor _patchExtractor;
-    private readonly IJob _job;
+    private readonly IReporter _reporter;
     private readonly IJobFolders _jobFolders;
     private BindableCollection<PatchFileViewModel> _storeListFiles;
 
     public JobReporterViewModel(
-      IWindowManager windowManager, 
-      IAdvertisingPatchExtractor patchExtractor, 
-      IJob job, 
-      IJobFolders jobFolders)
+      IWindowManager windowManager,  
+      IJobFolders jobFolders, 
+      IReporter reporter)
     {
       if (windowManager == null) throw new ArgumentNullException("windowManager");
-      if (patchExtractor == null) throw new ArgumentNullException("patchExtractor");
-      if (job == null) throw new ArgumentNullException("job");
       if (jobFolders == null) throw new ArgumentNullException("jobFolders");
+      if (reporter == null) throw new ArgumentNullException("reporter");
 
       _windowManager = windowManager;
-      _patchExtractor = patchExtractor;
-      _job = job;
       _jobFolders = jobFolders;
+      _reporter = reporter;
 
       StoreListFiles = new BindableCollection<PatchFileViewModel>();
     }
 
+    public bool CanBuildPatchList()
+    {
+      return true;
+    }
+
     public void BuildPatchList()
     {
+      var storeListPath = StoreListFiles.Select(f => f.FilePath).FirstOrDefault();
+      _reporter.TemplatePath = Path.Combine(_jobFolders.ReportDir.FullName, "PatchReport.xlsx");
+      _reporter.OutputPath = Path.Combine(_jobFolders.ReportDir.FullName, "PageCount.xlsx");
+
+      try {
+        _reporter.BuildDtoList(storeListPath);
+        _reporter.BuildPatchReport();
+      }
+      catch (Exception exc) {
+        ShowErrorWindow(exc.Message);
+      }
       
     }
 
     public void BuildMetrixFile()
     {
       
+    }
+
+    private void ShowErrorWindow(string message)
+    {
+      var errorWindow = new ErrorWindowViewModel
+      {
+        DisplayName = "Warning, error encountered",
+        Errors = message
+      };
+
+      _windowManager.ShowDialog(errorWindow);
     }
 
     public BindableCollection<PatchFileViewModel> StoreListFiles
