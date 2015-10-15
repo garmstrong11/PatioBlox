@@ -9,6 +9,8 @@
     void AddBook(IBook book);
     void AddBookRange(IEnumerable<IBook> books);
     void RemoveBook(IBook book);
+    void ClearBooks();
+    void ClearDescriptions();
 
     IReadOnlyCollection<IDescription> Descriptions { get; }
     void AddDescriptionRange(IEnumerable<IDescription> descriptions);

@@ -13,17 +13,20 @@
     private readonly IWindowManager _windowManager;
     private readonly IExtractionResultValidationUow _uow;
     private readonly IJobFolders _jobFolders;
+    private readonly IJob _job;
     private int _missingDescriptionCount;
     private readonly List<IProduct> _products;
 
     public ExtractionResultValidationViewModel(
       IWindowManager windowManager,
       IExtractionResultValidationUow uow,
-      IJobFolders jobFolders)
+      IJobFolders jobFolders, 
+      IJob job)
     {
       _windowManager = windowManager;
       _uow = uow;
       _jobFolders = jobFolders;
+      _job = job;
       _products = new List<IProduct>();
 
       InvalidProducts = new BindableCollection<IProduct>();
@@ -37,12 +40,18 @@
       _uow.PersistNewUpcReplacements();
       _uow.PersistNewKeywords();
 
+      _job.ClearBooks();
+      _job.ClearDescriptions();
+
       _products.AddRange(_uow.GetProducts());
       InvalidProducts.AddRange(FindInvalidProducts());
 
       MissingPhotos.AddRange(FindSkusWithNoPhoto());
       MissingDescriptionCount = _uow.GetUnresolvedDescriptions().Count;
       DuplicateProducts.AddRange(FindDuplicateProducts());
+
+      _job.PopulateJob(_uow.GetBookGroups());
+      _job.AddDescriptionRange(_uow.GetDescriptionsForJob());
     }
 
     protected override void OnDeactivate(bool close)
@@ -51,6 +60,7 @@
       InvalidProducts.Clear();
       MissingPhotos.Clear();
       DuplicateProducts.Clear();
+      //_job.ClearBooks();
       base.OnDeactivate(close);
     }
 

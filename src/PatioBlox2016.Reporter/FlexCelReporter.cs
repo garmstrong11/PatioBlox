@@ -65,6 +65,11 @@
       throw new NotImplementedException();
     }
 
+    public void AddItems(IEnumerable<IPatchReportDto> items)
+    {
+      _items.AddRange(items);
+    }
+
     public void BuildDtoList(string storeListPath)
     {
       if (string.IsNullOrWhiteSpace(storeListPath)) throw new ArgumentNullException("storeListPath");

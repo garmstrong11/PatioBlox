@@ -41,7 +41,7 @@
     public void BuildPatchList()
     {
       var storeListPath = StoreListFiles.Select(f => f.FilePath).FirstOrDefault();
-      _reporter.TemplatePath = Path.Combine(_jobFolders.ReportDir.FullName, "PatchReport.xlsx");
+      _reporter.TemplatePath = Path.Combine(_jobFolders.FactoryDir.FullName, "template", "PatchReport.xlsx");
       _reporter.OutputPath = Path.Combine(_jobFolders.ReportDir.FullName, "PageCount.xlsx");
 
       try {

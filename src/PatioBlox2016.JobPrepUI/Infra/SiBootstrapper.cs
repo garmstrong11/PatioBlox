@@ -12,6 +12,7 @@
   using JobBuilders;
   using JobReporter;
   using JobVisualizer;
+  using PatioBlox2016.Reporter;
   using Services.Contracts;
   using Services.EfImpl;
   using SimpleInjector;
@@ -44,6 +45,7 @@
       _container.RegisterSingle<IAdvertisingPatchExtractor, AdvertisingPatchExtractor>();
       _container.RegisterSingle<IExtractionResult, ExtractionResult>();
       _container.RegisterSingle<IExtractionResultValidationUow, ExtractionResultValidationUow>();
+      _container.RegisterSingle<IReporter, FlexCelReporter>();
 
       _container.Register<ICellFactory, CellFactory>();
       _container.Register<IBookFactory, BookFactory>();

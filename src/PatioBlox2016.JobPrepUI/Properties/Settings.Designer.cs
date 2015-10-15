@@ -109,7 +109,7 @@ namespace PatioBlox2016.JobPrepUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
         public int PatchAreaIndex {
             get {
                 return ((int)(this["PatchAreaIndex"]));
@@ -121,7 +121,7 @@ namespace PatioBlox2016.JobPrepUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("6")]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int StoreIdIndex {
             get {
                 return ((int)(this["StoreIdIndex"]));

@@ -40,8 +40,8 @@
 
     protected override void OnActivate()
     {
-      _job.PopulateJob(_uow.GetBookGroups());
-      _job.AddDescriptionRange(_uow.GetDescriptionsForJob());
+      //_job.PopulateJob(_uow.GetBookGroups());
+      //_job.AddDescriptionRange(_uow.GetDescriptionsForJob());
 
       Books = new ReadOnlyCollection<BookViewModel>(
         _job.Books.Select(b => new BookViewModel(b)).ToList());

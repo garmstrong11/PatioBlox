@@ -57,6 +57,16 @@
       _books.Remove(book);
     }
 
+    public void ClearBooks()
+    {
+      _books.Clear();
+    }
+
+    public void ClearDescriptions()
+    {
+      _descriptions.Clear();
+    }
+
     public void AddDescriptionRange(IEnumerable<IDescription> descriptions)
     {
       _descriptions.AddRange(descriptions);
