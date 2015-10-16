@@ -5,48 +5,68 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:local="clr-namespace:PatioBlox2016.JobPrepUI.Infra"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300"
              Background="White">
-  <Grid>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-      <RowDefinition Height="Auto" />
-    </Grid.RowDefinitions>
-    <TextBlock FontSize="18"
-               Padding="9"
-               TextAlignment="Center">
-      Drag your Store List Excel<LineBreak />file into the box below
-    </TextBlock>
-    <ListView x:Name="StoreListFiles"
-              Grid.Row="1"
-              Margin="9 0"
-              AllowDrop="True">
-      <i:Interaction.Triggers>
-        <i:EventTrigger EventName="PreviewDragOver">
-          <cal:ActionMessage MethodName="HandleFileDrag">
-            <cal:Parameter Value="$eventArgs" />
-          </cal:ActionMessage>
-        </i:EventTrigger>
+    <UserControl.Resources>
+        <local:BoolToBrushConverter x:Key="BoolToBrushConverter" />
+        <local:PathToFilenameConverter x:Key="PathToFilenameConverter" />
+        <local:BoolToVizConverter x:Key="BoolToVizConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock FontSize="18"
+                   Padding="9"
+                   TextAlignment="Center">
+            Drag your Store List Excel<LineBreak />file into the box below
+        </TextBlock>
+        <Border x:Name="DragBox"
+                Grid.Row="1"
+                Margin="9 0"
+                AllowDrop="True"
+                Background="{Binding IsInitialized, Converter={StaticResource BoolToBrushConverter}}"
+                CornerRadius="18">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewDragOver">
+                    <cal:ActionMessage MethodName="HandleFileDrag">
+                        <cal:Parameter Value="$eventArgs" />
+                    </cal:ActionMessage>
+                </i:EventTrigger>
 
-        <i:EventTrigger EventName="PreviewDrop">
-          <cal:ActionMessage MethodName="HandleFileDrop">
-            <cal:Parameter Value="$executionContext" />
-          </cal:ActionMessage>
-        </i:EventTrigger>
-      </i:Interaction.Triggers>
-    </ListView>
-    <StackPanel Grid.Row="2" Orientation="Horizontal"
-                HorizontalAlignment="Right">
-      <Button x:Name="BuildPatchList"
-              Content="Build Patch List"
-              Padding="18 3"
-              Margin="0 9" />
-      <Button x:Name="BuildMetrixFile"
-              Content="Build Metrix File"
-              Padding="18 3"
-              Margin="9" />
-    </StackPanel>
-  </Grid>
+                <i:EventTrigger EventName="PreviewDrop">
+                    <cal:ActionMessage MethodName="HandleFileDrop">
+                        <cal:Parameter Value="$executionContext" />
+                    </cal:ActionMessage>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <StackPanel HorizontalAlignment="Center"
+                       VerticalAlignment="Center">
+                <Image Source="../Images/excelfile.png"
+                       Width="48"
+                       Height="48"
+                       Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVizConverter}}"/>
+                <TextBlock 
+                       FontSize="15"
+                       FontWeight="Bold"
+                       TextTrimming="CharacterEllipsis"
+                       Text="{Binding StoreListPath, Converter={StaticResource PathToFilenameConverter}}" />
+            </StackPanel>
+        </Border>
+        <StackPanel Grid.Row="2" Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button x:Name="BuildPatchList"
+                    Content="Build Patch List"
+                    Padding="18 3"
+                    Margin="0 9" />
+            <Button x:Name="BuildMetrixFile"
+                    Content="Build Metrix File"
+                    Padding="18 3"
+                    Margin="9" />
+        </StackPanel>
+    </Grid>
 </UserControl>

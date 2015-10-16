@@ -17,6 +17,8 @@
     private readonly IReporter _reporter;
     private readonly IJobFolders _jobFolders;
     private BindableCollection<PatchFileViewModel> _storeListFiles;
+    private bool _isInitialized;
+    private string _storeListPath;
 
     public JobReporterViewModel(
       IWindowManager windowManager,  
@@ -31,12 +33,25 @@
       _jobFolders = jobFolders;
       _reporter = reporter;
 
+      IsInitialized = false;
+      StoreListPath = "";
       StoreListFiles = new BindableCollection<PatchFileViewModel>();
     }
 
     public bool CanBuildPatchList
     {
-      get { return _reporter.IsInitialized; }
+      get { return IsInitialized; }
+    }
+
+    public string StoreListPath 
+    {
+      get { return _storeListPath; }
+      set
+      {
+        if (value == _storeListPath) return;
+        _storeListPath = value;
+        NotifyOfPropertyChange(() => StoreListPath);
+      }
     }
 
     public async Task BuildPatchList()
@@ -56,7 +71,7 @@
 
     public bool CanBuildMetrixFile
     {
-      get { return _reporter.IsInitialized; }
+      get { return IsInitialized; }
     }
 
     public async Task BuildMetrixFile()
@@ -103,6 +118,17 @@
       }
     }
 
+    public bool IsInitialized 
+    {
+      get { return _isInitialized; }
+      set
+      {
+        if (value == _isInitialized) return;
+        _isInitialized = value;
+        NotifyOfPropertyChange(() => IsInitialized);
+      }
+    }
+
     public void HandleFileDrag(object evtArgs)
     {
       var args = (DragEventArgs)evtArgs;
@@ -130,6 +156,8 @@
 
       try {
         _reporter.Initialize(storeFile);
+        StoreListPath = storeFile;
+        IsInitialized = true;
       }
       catch (Exception exception) {
         ShowErrorWindow(exception.Message);
