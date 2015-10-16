@@ -1,16 +1,13 @@
 ﻿namespace PatioBlox2016.Abstract
 {
-  using System.Collections.Generic;
+  using System.Threading.Tasks;
 
   public interface IReporter
   {
-    string TemplatePath { get; set; }
-    string OutputPath { get; set; }
+    void Initialize(string storeListPath);
+    Task BuildPatchReport(string templatePath, string outputPath);
+    Task BuildMetrixCsv(string outputPath);
 
-    void BuildDtoList(string storeListPath);
-    void BuildPatchReport();
-    void BuildMetrixCsv();
-
-    void AddItems(IEnumerable<IPatchReportDto> items);
+    bool IsInitialized { get; }
   }
 }

@@ -5,6 +5,7 @@
   using System.IO;
   using System.Linq;
   using System.Text.RegularExpressions;
+  using System.Threading.Tasks;
   using System.Windows;
   using Caliburn.Micro;
   using Abstract;
@@ -33,30 +34,44 @@
       StoreListFiles = new BindableCollection<PatchFileViewModel>();
     }
 
-    public bool CanBuildPatchList()
+    public bool CanBuildPatchList
     {
-      return true;
+      get { return _reporter.IsInitialized; }
     }
 
-    public void BuildPatchList()
+    public async Task BuildPatchList()
     {
-      var storeListPath = StoreListFiles.Select(f => f.FilePath).FirstOrDefault();
-      _reporter.TemplatePath = Path.Combine(_jobFolders.FactoryDir.FullName, "template", "PatchReport.xlsx");
-      _reporter.OutputPath = Path.Combine(_jobFolders.ReportDir.FullName, "PageCount.xlsx");
+      var templatePath = Path.Combine(_jobFolders.FactoryDir.FullName, "template", "PatchReport.xlsx");
+      var outputPath = Path.Combine(_jobFolders.ReportDir.FullName, "PageCount.xlsx");
 
       try {
-        _reporter.BuildDtoList(storeListPath);
-        _reporter.BuildPatchReport();
+        await _reporter.BuildPatchReport(templatePath, outputPath);
       }
       catch (Exception exc) {
         ShowErrorWindow(exc.Message);
       }
-      
+
+      ShowMessageWindow("Excel page count file export was successfully completed");
     }
 
-    public void BuildMetrixFile()
+    public bool CanBuildMetrixFile
     {
-      
+      get { return _reporter.IsInitialized; }
+    }
+
+    public async Task BuildMetrixFile()
+    {
+      var filename = string.Format("{0}_MetrixPages.csv", _jobFolders.JobName);
+      var outputPath = Path.Combine(_jobFolders.ReportDir.FullName, filename);
+
+      try {
+        await _reporter.BuildMetrixCsv(outputPath);
+      }
+      catch (Exception exc) {
+        ShowErrorWindow(exc.Message);
+      }
+
+      ShowMessageWindow("Metrix file export was successfully completed");
     }
 
     private void ShowErrorWindow(string message)
@@ -68,6 +83,13 @@
       };
 
       _windowManager.ShowDialog(errorWindow);
+    }
+
+    private void ShowMessageWindow(string message)
+    {
+      var windo = new MessageWindowViewModel(message);
+
+      _windowManager.ShowDialog(windo);
     }
 
     public BindableCollection<PatchFileViewModel> StoreListFiles
@@ -106,7 +128,17 @@
         StoreListFiles.Add(new PatchFileViewModel(storeFile));
       }
 
-      args.Handled = true;
+      try {
+        _reporter.Initialize(storeFile);
+      }
+      catch (Exception exception) {
+        ShowErrorWindow(exception.Message);
+      }
+      finally {
+        args.Handled = true;
+        NotifyOfPropertyChange(() => CanBuildPatchList);
+        NotifyOfPropertyChange(() => CanBuildMetrixFile);
+      }
     }
 
     private static IEnumerable<string> GetPathFromEventArgs(DragEventArgs eventArgs)

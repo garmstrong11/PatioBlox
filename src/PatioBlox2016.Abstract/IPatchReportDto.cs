@@ -5,5 +5,6 @@
     string Name { get; }
     int PageCount { get; }
     int StoreCount { get; }
+    int CopiesPerStore { get; }
   }
 }

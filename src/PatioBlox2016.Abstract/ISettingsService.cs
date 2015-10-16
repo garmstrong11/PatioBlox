@@ -9,6 +9,10 @@
     int PalletQtyIndex { get; set; }
     int UpcIndex { get; set; }
 
-    string PatioBloxFactoryPath { get; }
+    int PatchAreaIndex { get; set; }
+    int StoreIdIndex { get; set; }
+
+    string PatioBloxFactoryPath { get; set; }
+    int CopiesPerStore { get; set; }
 	}
 }

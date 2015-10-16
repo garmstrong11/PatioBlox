@@ -53,10 +53,28 @@
       set { _props.UpcIndex = value; }
     }
 
+    public int PatchAreaIndex
+    {
+      get { return _props.PatchAreaIndex; }
+      set { _props.PatchAreaIndex = value; }
+    }
+
+    public int StoreIdIndex
+    {
+      get { return _props.StoreIdIndex; }
+      set { _props.StoreIdIndex = value; }
+    }
+
     public string PatioBloxFactoryPath
     {
       get { return _props.PatioBloxFactoryPath; }
       set { _props.PatioBloxFactoryPath = value; }
+    }
+
+    public int CopiesPerStore
+    {
+      get { return _props.CopiesPerStore; }
+      set { _props.CopiesPerStore = value; }
     }
   }
 }

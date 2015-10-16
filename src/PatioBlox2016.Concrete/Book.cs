@@ -51,7 +51,7 @@
       {
         var count = PageCount;
         for (var i = 0; i < count; i += 2) {
-          yield return string.Format("{0}_{1:D2}-{2:D2}.pdf", BookName, i + 1, i + 2);
+          yield return string.Format("{0}_{1:D2}-{2:D2}", BookName, i + 1, i + 2);
         }
       }
     }
