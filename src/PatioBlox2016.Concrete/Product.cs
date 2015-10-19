@@ -90,6 +90,12 @@
       }
     }
 
+    public string ToJsxString(int indentLevel)
+    {
+      var prod = string.Format("{{ 'sku' : {0}, 'upc' : '{1}' }}", Sku, Upc);
+      return prod.Indent(indentLevel);
+    }
+
     public override string ToString()
     {
       return string.Format("Sku: {0}, Upc: {1}", Sku, Upc);

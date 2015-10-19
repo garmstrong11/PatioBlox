@@ -12,7 +12,7 @@
   using JobBuilders;
   using JobReporter;
   using JobVisualizer;
-  using PatioBlox2016.Reporter;
+  using Reporter;
   using Services.Contracts;
   using Services.EfImpl;
   using SimpleInjector;

@@ -13,6 +13,7 @@
     private readonly IJobFolders _jobFolders;
     private readonly List<IBook> _books;
     private readonly List<IDescription> _descriptions;
+    private readonly List<IProduct> _products; 
 
     /// <summary>
     /// The globally accessible name of the job's data file
@@ -27,6 +28,7 @@
       _jobFolders = jobFolders;
       _books = new List<IBook>();
       _descriptions = new List<IDescription>();
+      _products = new List<IProduct>();
     }
 
     public IReadOnlyCollection<IBook> Books
@@ -34,27 +36,12 @@
       get { return _books.AsReadOnly();}
     }
 
-    public void PopulateJob(IEnumerable<IGrouping<string, IPatchRowExtract>> bookGroups)
+    public void PopulateBooks(IEnumerable<IGrouping<string, IPatchRowExtract>> bookGroups)
     {
       var books = bookGroups
         .Select(bg => _bookFactory.CreateBook(this, bg.Key, bg));
 
-      AddBookRange(books);
-    }
-
-    public void AddBook(IBook book)
-    {
-      _books.Add(book);
-    }
-
-    public void AddBookRange(IEnumerable<IBook> books)
-    {
       _books.AddRange(books);
-    }
-
-    public void RemoveBook(IBook book)
-    {
-      _books.Remove(book);
     }
 
     public void ClearBooks()
@@ -65,6 +52,21 @@
     public void ClearDescriptions()
     {
       _descriptions.Clear();
+    }
+
+    public IReadOnlyCollection<IProduct> Products
+    {
+      get { return _products.AsReadOnly(); }
+    }
+
+    public void PopulateProducts(IEnumerable<IProduct> products)
+    {
+      _products.AddRange(products);
+    }
+
+    public void ClearProducts()
+    {
+      _products.Clear();
     }
 
     public void AddDescriptionRange(IEnumerable<IDescription> descriptions)

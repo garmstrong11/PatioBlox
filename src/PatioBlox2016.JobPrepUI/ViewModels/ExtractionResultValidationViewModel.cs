@@ -15,7 +15,6 @@
     private readonly IJobFolders _jobFolders;
     private readonly IJob _job;
     private int _missingDescriptionCount;
-    private readonly List<IProduct> _products;
 
     public ExtractionResultValidationViewModel(
       IWindowManager windowManager,
@@ -27,7 +26,6 @@
       _uow = uow;
       _jobFolders = jobFolders;
       _job = job;
-      _products = new List<IProduct>();
 
       InvalidProducts = new BindableCollection<IProduct>();
       MissingPhotos = new BindableCollection<string>();
@@ -42,25 +40,23 @@
 
       _job.ClearBooks();
       _job.ClearDescriptions();
+      _job.ClearProducts();
 
-      _products.AddRange(_uow.GetProducts());
+      _job.PopulateBooks(_uow.GetBookGroups());
+      _job.AddDescriptionRange(_uow.GetDescriptionsForJob());
+      _job.PopulateProducts(_uow.GetProducts());
+
       InvalidProducts.AddRange(FindInvalidProducts());
-
       MissingPhotos.AddRange(FindSkusWithNoPhoto());
       MissingDescriptionCount = _uow.GetUnresolvedDescriptions().Count;
       DuplicateProducts.AddRange(FindDuplicateProducts());
-
-      _job.PopulateJob(_uow.GetBookGroups());
-      _job.AddDescriptionRange(_uow.GetDescriptionsForJob());
     }
 
     protected override void OnDeactivate(bool close)
     {
-      _products.Clear();
       InvalidProducts.Clear();
       MissingPhotos.Clear();
       DuplicateProducts.Clear();
-      //_job.ClearBooks();
       base.OnDeactivate(close);
     }
 
@@ -107,7 +103,7 @@
 
     private IEnumerable<IProduct> FindInvalidProducts()
     {
-      var products = _products
+      var products = _job.Products
         .Where(p => p.IsBarcodeInvalid)
         .OrderBy(p => p.Sku).ToList();
 

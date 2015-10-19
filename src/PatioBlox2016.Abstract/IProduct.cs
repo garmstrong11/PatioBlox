@@ -2,7 +2,7 @@
 {
   using System.Collections.Generic;
 
-  public interface IProduct
+  public interface IProduct : IJsxExportable
   {
     int Sku { get; }
     string Upc { get; set; }

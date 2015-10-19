@@ -6,15 +6,15 @@
   public interface IJob : IJsxExportable
   {
     IReadOnlyCollection<IBook> Books { get; }
-    void AddBook(IBook book);
-    void AddBookRange(IEnumerable<IBook> books);
-    void RemoveBook(IBook book);
+    void PopulateBooks(IEnumerable<IGrouping<string, IPatchRowExtract>> bookGroups);
     void ClearBooks();
 
     IReadOnlyCollection<IDescription> Descriptions { get; }
     void AddDescriptionRange(IEnumerable<IDescription> descriptions);
     void ClearDescriptions();
 
-    void PopulateJob(IEnumerable<IGrouping<string, IPatchRowExtract>> bookGroups);
+    IReadOnlyCollection<IProduct> Products { get; }
+    void PopulateProducts(IEnumerable<IProduct> products);
+    void ClearProducts();
   }
 }
