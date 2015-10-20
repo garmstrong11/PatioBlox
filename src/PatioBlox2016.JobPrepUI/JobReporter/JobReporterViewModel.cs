@@ -17,7 +17,7 @@
     private readonly IReporter _reporter;
     private readonly IJobFolders _jobFolders;
     private BindableCollection<PatchFileViewModel> _storeListFiles;
-    private bool _isInitialized;
+    private bool _isReporterInitialized;
     private string _storeListPath;
 
     public JobReporterViewModel(
@@ -33,14 +33,14 @@
       _jobFolders = jobFolders;
       _reporter = reporter;
 
-      IsInitialized = false;
+      IsReporterInitialized = false;
       StoreListPath = "";
       StoreListFiles = new BindableCollection<PatchFileViewModel>();
     }
 
     public bool CanBuildPatchList
     {
-      get { return IsInitialized; }
+      get { return IsReporterInitialized; }
     }
 
     public string StoreListPath 
@@ -71,7 +71,7 @@
 
     public bool CanBuildMetrixFile
     {
-      get { return IsInitialized; }
+      get { return IsReporterInitialized; }
     }
 
     public async Task BuildMetrixFile()
@@ -115,14 +115,14 @@
       }
     }
 
-    public bool IsInitialized 
+    public bool IsReporterInitialized 
     {
-      get { return _isInitialized; }
+      get { return _isReporterInitialized; }
       set
       {
-        if (value == _isInitialized) return;
-        _isInitialized = value;
-        NotifyOfPropertyChange(() => IsInitialized);
+        if (value == _isReporterInitialized) return;
+        _isReporterInitialized = value;
+        NotifyOfPropertyChange(() => IsReporterInitialized);
       }
     }
 
@@ -154,7 +154,7 @@
       try {
         _reporter.Initialize(storeFile);
         StoreListPath = storeFile;
-        IsInitialized = true;
+        IsReporterInitialized = true;
       }
       catch (Exception exception) {
         ShowErrorWindow(exception.Message);

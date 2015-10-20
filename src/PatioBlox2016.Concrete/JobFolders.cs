@@ -26,8 +26,8 @@
     private const string UdfDir = "UserDefinedFolders";
     private const string JobInputDirName = "_Input";
     private const string BookBuilderScriptName = "BookBuilder.jsx";
+    private const string BarcodeBuilderScriptName = "BarcodeBuilder.jsx";
     private const string JobDataFileName = "JobData.jsx";
-
 
     public JobFolders(ISettingsService settingsService)
     {
@@ -150,6 +150,16 @@
     public string JobDataOutputScriptPath
     {
       get { return Path.Combine(_jsxDir.FullName, JobDataFileName); }
+    }
+
+    public string BarcodeBuilderBaseScriptPath
+    {
+      get { return Path.Combine(_factoryScriptsDir.FullName, BarcodeBuilderScriptName); ; }
+    }
+
+    public string BarcodeBuilderOutputScriptPath
+    {
+      get { return Path.Combine(_jsxDir.FullName, BarcodeBuilderScriptName); }
     }
 
     public string ToJsxString(int indentLevel)

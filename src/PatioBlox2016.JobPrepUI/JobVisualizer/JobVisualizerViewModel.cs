@@ -46,11 +46,17 @@
     {
       var jobDataPath = _jobFolders.JobDataOutputScriptPath;
       var bookBuilderPath = _jobFolders.BookBuilderOutputScriptPath;
+      var barcodeBuilderPath = _jobFolders.BarcodeBuilderOutputScriptPath;
 
       try {
         using (var stream = File.CreateText(bookBuilderPath)) {
-          var localScript = await BuildLocalScript();
+          var localScript = await ComposeBookBuilderScript(_jobFolders.BookBuilderBaseScriptPath);
           await stream.WriteAsync(localScript);
+        }
+
+        using (var stream = File.CreateText(barcodeBuilderPath)) {
+          var barcodeScript = await ComposeBookBuilderScript(_jobFolders.BarcodeBuilderBaseScriptPath);
+          await stream.WriteAsync(barcodeScript);
         }
 
         using (var data = File.CreateText(jobDataPath)) {
@@ -73,20 +79,25 @@
       }
     }
 
-    private string BuildIncludePaths()
+    private string BuildIncludePaths(bool isBookBuilder)
     {
       var sb = new StringBuilder();
 
-      sb.AppendFormat("#include \"{0}\";", _jobFolders.UiScriptIncludePath);
-      sb.AppendFormat("\n#include \"{0}\";", _jobFolders.Ean13IncludeScriptPath);
-      sb.AppendFormat("\n#include \"{0}\";\n", Job.JobDataFileName);
+      sb.AppendFormat("#include \"{0}\";", _jobFolders.Ean13IncludeScriptPath);
+      sb.AppendFormat("\n#include \"{0}\";", _jobFolders.JobDataOutputScriptPath);
+
+      if (isBookBuilder) {
+        sb.AppendFormat("\n#include \"{0}\";", _jobFolders.UiScriptIncludePath);
+      }
+
+      sb.AppendLine();
 
       return sb.ToString().FlipSlashes();
     }
 
-    private async Task<string> BuildLocalScript()
+    private async Task<string> ComposeBookBuilderScript(string baseScriptPath)
     {
-      var baseScriptPath = Path.Combine(_jobFolders.BookBuilderBaseScriptPath);
+      var isBookBuilder = baseScriptPath == _jobFolders.BookBuilderBaseScriptPath;
 
       if (!File.Exists(baseScriptPath)) {
         throw new FileNotFoundException(
@@ -99,7 +110,7 @@
         baseScript = await baseScriptFile.ReadToEndAsync();
       }
 
-      var sb = new StringBuilder(BuildIncludePaths());
+      var sb = new StringBuilder(BuildIncludePaths(isBookBuilder));
       sb.AppendLine(baseScript);
 
       return sb.ToString();

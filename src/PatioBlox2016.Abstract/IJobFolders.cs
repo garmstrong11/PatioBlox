@@ -65,6 +65,18 @@
     /// </summary>
     string JobDataOutputScriptPath { get; }
 
+    /// <summary>
+    /// The file system source path of the InDesign javascript
+    /// barcode builder base file
+    /// </summary>
+    string BarcodeBuilderBaseScriptPath { get; }
+
+    /// <summary>
+    /// The file system destination path of the InDesign javascript
+    /// barcode builder output file
+    /// </summary>
+    string BarcodeBuilderOutputScriptPath { get; }
+
     void Initialize(IFileInfoAdapter jobFolderPath);
 		void Reset();
   }
