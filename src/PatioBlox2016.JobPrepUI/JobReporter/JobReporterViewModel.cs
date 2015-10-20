@@ -56,8 +56,8 @@
 
     public async Task BuildPatchList()
     {
-      var templatePath = Path.Combine(_jobFolders.FactoryDir.FullName, "template", "PatchReport.xlsx");
-      var outputPath = Path.Combine(_jobFolders.ReportDir.FullName, "PageCount.xlsx");
+      var templatePath = _jobFolders.PageCountExcelTemplatePath;
+      var outputPath = _jobFolders.PageCountReportPath;
 
       try {
         await _reporter.BuildPatchReport(templatePath, outputPath);
@@ -76,11 +76,8 @@
 
     public async Task BuildMetrixFile()
     {
-      var filename = string.Format("{0}_MetrixPages.csv", _jobFolders.JobName);
-      var outputPath = Path.Combine(_jobFolders.ReportDir.FullName, filename);
-
       try {
-        await _reporter.BuildMetrixCsv(outputPath);
+        await _reporter.BuildMetrixCsv(_jobFolders.MetrixCsvPath);
       }
       catch (Exception exc) {
         ShowErrorWindow(exc.Message);

@@ -117,8 +117,6 @@
 
     public void SaveReport()
     {
-      var reportFilePath = Path.Combine(_jobFolders.ReportDir.FullName, "ExtractionReport.txt");
-
       var sb = new StringBuilder();
       sb.AppendFormat("Job name is {0}\n", _jobFolders.JobName);
       sb.AppendFormat("Extractor found {0} patches in the data files\n", PatchCount);
@@ -141,7 +139,7 @@
         sb.AppendFormat("\t{0}\n", duplicate);
       }
 
-      File.WriteAllText(reportFilePath, sb.ToString());
+      File.WriteAllText(_jobFolders.ExtractionReportPath, sb.ToString());
 
       var messageWindow = new MessageWindowViewModel("File saved successfully!") {DisplayName = "Success!"};
 

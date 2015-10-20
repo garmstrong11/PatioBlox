@@ -27,6 +27,7 @@
     </UserControl.Resources>
     <DockPanel Margin="9">
         <StackPanel DockPanel.Dock="Bottom"
+                    Margin="0 9 0 0"
                     HorizontalAlignment="Right">
             <Button x:Name="SaveJobJsx"
                     Content="Save Job Data"

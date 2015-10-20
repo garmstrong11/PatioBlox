@@ -11,29 +11,23 @@
   using JobBuilders;
   using Concrete;
   using ViewModels;
-  using Services.Contracts;
 
   public class JobVisualizerViewModel : Screen
   {
     private readonly IWindowManager _windowManager;
-    private readonly IExtractionResultValidationUow _uow;
     private readonly IJobFolders _jobFolders;
     private readonly IJob _job;
-    private static readonly string BookBuilderScriptName = "BookBuilder.jsx";
 
     public JobVisualizerViewModel(
       IWindowManager windowManager,
-      IExtractionResultValidationUow uow,
       IJobFolders jobFolders, 
       IJob job)
     {
       if (windowManager == null) throw new ArgumentNullException("windowManager");
-      if (uow == null) throw new ArgumentNullException("uow");
       if (jobFolders == null) throw new ArgumentNullException("jobFolders");
       if (job == null) throw new ArgumentNullException("job");
 
       _windowManager = windowManager;
-      _uow = uow;
       _jobFolders = jobFolders;
       _job = job;
     }
@@ -50,16 +44,16 @@
 
     public async Task SaveJobJsx()
     {
-      var dataFilePath = Path.Combine(_jobFolders.JsxDir.FullName, Job.JobDataFileName);
-      var resultPath = Path.Combine(_jobFolders.JsxDir.FullName, BookBuilderScriptName);
+      var jobDataPath = _jobFolders.JobDataOutputScriptPath;
+      var bookBuilderPath = _jobFolders.BookBuilderOutputScriptPath;
 
       try {
-        using (var stream = File.CreateText(resultPath)) {
+        using (var stream = File.CreateText(bookBuilderPath)) {
           var localScript = await BuildLocalScript();
           await stream.WriteAsync(localScript);
         }
 
-        using (var data = File.CreateText(dataFilePath)) {
+        using (var data = File.CreateText(jobDataPath)) {
           await data.WriteAsync(_job.ToJsxString(0));
         }
 
@@ -82,11 +76,9 @@
     private string BuildIncludePaths()
     {
       var sb = new StringBuilder();
-      var uiScriptPath = Path.Combine(_jobFolders.FactoryScriptsDir.FullName, "ui.jsx");
-      var eanScriptPath = Path.Combine(_jobFolders.FactoryScriptsDir.FullName, "EAN-13.jsx");
 
-      sb.AppendFormat("#include \"{0}\";", uiScriptPath);
-      sb.AppendFormat("\n#include \"{0}\";", eanScriptPath);
+      sb.AppendFormat("#include \"{0}\";", _jobFolders.UiScriptIncludePath);
+      sb.AppendFormat("\n#include \"{0}\";", _jobFolders.Ean13IncludeScriptPath);
       sb.AppendFormat("\n#include \"{0}\";\n", Job.JobDataFileName);
 
       return sb.ToString().FlipSlashes();
@@ -94,11 +86,12 @@
 
     private async Task<string> BuildLocalScript()
     {
-      var baseScriptPath = Path.Combine(_jobFolders.FactoryScriptsDir.FullName, BookBuilderScriptName);
+      var baseScriptPath = Path.Combine(_jobFolders.BookBuilderBaseScriptPath);
 
       if (!File.Exists(baseScriptPath)) {
         throw new FileNotFoundException(
-          string.Format("Unable to locate the base InDesign script fragment '{0}'", BookBuilderScriptName));
+          string.Format("Unable to locate the base InDesign script fragment '{0}'", 
+            Path.GetFileName(baseScriptPath)));
       }
 
       string baseScript;
