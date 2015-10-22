@@ -65,7 +65,6 @@
       }
 
       JobName = _udfDir.Parent.Name;
-      //OutputDir = _udfDir.CreateSubdirectory("_Output");
 
       _reportDir = _icDir.CreateSubdirectory("reports");
       _inddDir = _icDir.CreateSubdirectory("indd");
@@ -154,7 +153,7 @@
 
     public string BarcodeBuilderBaseScriptPath
     {
-      get { return Path.Combine(_factoryScriptsDir.FullName, BarcodeBuilderScriptName); ; }
+      get { return Path.Combine(_factoryScriptsDir.FullName, BarcodeBuilderScriptName); }
     }
 
     public string BarcodeBuilderOutputScriptPath
@@ -176,11 +175,15 @@
       var templatePath = string.Format("'templatePath' : '{0}'", 
         Path.Combine(_factoryDir.FullName, "template", "book.idml"));
 
+      var barcodeTemplatePath = string.Format("'barcodeTemplatePath' : '{0}'",
+        Path.Combine(_factoryDir.FullName, "template", "barcode.idml"));
+
       sb.AppendLine("var jobFolders = {".Indent(indentLevel));
       sb.AppendLine(inddPath.Indent(contentLevel));
       sb.AppendLine(outputPath.Indent(contentLevel));
       sb.AppendLine(supportPath.Indent(contentLevel));
       sb.AppendLine(templatePath.Indent(contentLevel));
+      sb.AppendLine(barcodeTemplatePath.Indent(contentLevel));
       sb.AppendLine("};".Indent(indentLevel));
 
       return sb.ToString().FlipSlashes();

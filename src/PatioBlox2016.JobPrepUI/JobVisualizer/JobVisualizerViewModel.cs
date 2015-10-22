@@ -44,22 +44,21 @@
 
     public async Task SaveJobJsx()
     {
-      var jobDataPath = _jobFolders.JobDataOutputScriptPath;
-      var bookBuilderPath = _jobFolders.BookBuilderOutputScriptPath;
-      var barcodeBuilderPath = _jobFolders.BarcodeBuilderOutputScriptPath;
-
       try {
-        using (var stream = File.CreateText(bookBuilderPath)) {
+        using (var stream = File.CreateText(_jobFolders.BookBuilderOutputScriptPath))
+        {
           var localScript = await ComposeBookBuilderScript(_jobFolders.BookBuilderBaseScriptPath);
           await stream.WriteAsync(localScript);
         }
 
-        using (var stream = File.CreateText(barcodeBuilderPath)) {
+        using (var stream = File.CreateText(_jobFolders.BarcodeBuilderOutputScriptPath))
+        {
           var barcodeScript = await ComposeBookBuilderScript(_jobFolders.BarcodeBuilderBaseScriptPath);
           await stream.WriteAsync(barcodeScript);
         }
 
-        using (var data = File.CreateText(jobDataPath)) {
+        using (var data = File.CreateText(_jobFolders.JobDataOutputScriptPath))
+        {
           await data.WriteAsync(_job.ToJsxString(0));
         }
 
