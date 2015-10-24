@@ -104,7 +104,7 @@
       sb.AppendLine(descText);
       sb.AppendLine("};".Indent(indentLevel));
 
-      sb.AppendLine("\nvar products = {".Indent(indentLevel));
+      sb.AppendLine("\nvar products = [".Indent(indentLevel));
 
       var products = Products
         .OrderBy(p => p.Sku)
@@ -113,7 +113,7 @@
       var prodText = string.Join(",\n", products);
 
       sb.AppendLine(prodText);
-      sb.AppendLine("};".Indent(indentLevel));
+      sb.AppendLine("];".Indent(indentLevel));
 
       return sb.ToString();
     }

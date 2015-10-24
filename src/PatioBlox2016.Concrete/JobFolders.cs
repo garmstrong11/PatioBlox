@@ -172,7 +172,7 @@
 
       var supportPath = string.Format("'supportPath' : '{0}/',", _supportDir.FullName);
 
-      var templatePath = string.Format("'templatePath' : '{0}'", 
+      var templatePath = string.Format("'templatePath' : '{0}',", 
         Path.Combine(_factoryDir.FullName, "template", "book.idml"));
 
       var barcodeTemplatePath = string.Format("'barcodeTemplatePath' : '{0}'",
