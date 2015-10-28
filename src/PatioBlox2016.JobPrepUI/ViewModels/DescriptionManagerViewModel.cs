@@ -13,7 +13,7 @@
     private readonly IExtractionResultValidationUow _uow;
     private readonly IWindowManager _windowManager;
     private BindableCollection<DescriptionViewModel> _descriptions;
-    private readonly Dictionary<string, Keyword> _keywordDict; 
+    private Dictionary<string, Keyword> _keywordDict; 
 
     public DescriptionManagerViewModel(IExtractionResultValidationUow uow, IWindowManager windowManager)
     {
@@ -21,8 +21,8 @@
 
       _uow = uow;
       _windowManager = windowManager;
-      _keywordDict = _uow.GetKeywordDict();
-
+      _keywordDict = new Dictionary<string, Keyword>();
+      
       Descriptions = new BindableCollection<DescriptionViewModel>();
     }
 
@@ -31,6 +31,7 @@
       Descriptions.Clear();
 
       var descriptions = _uow.GetUnresolvedDescriptions();
+      _keywordDict = _uow.GetKeywordDict();
 
       Descriptions.AddRange(descriptions.Select(d => new DescriptionViewModel(d, _keywordDict)));
 

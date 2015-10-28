@@ -152,7 +152,8 @@
 
     public Dictionary<string, Keyword> GetKeywordDict()
     {
-      return _keywords.ToDictionary(k => k.Word);
+      //return _keywords.ToDictionary(k => k.Word);
+      return _context.Keywords.Local.ToDictionary(k => k.Word);
     }
 
     public int SaveChanges()
@@ -178,8 +179,9 @@
     public Dictionary<string, int> GetDescriptionTextToIdDict()
     {
       //return _descriptions.ToDictionary(k => k.Text, v => v.Id);
-      var descriptions = _context.Descriptions.Local;
-      return descriptions.ToDictionary(k => k.Text, v => v.Id);
+      //var descriptions = _context.Descriptions.Local;
+      //return descriptions.ToDictionary(k => k.Text, v => v.Id);
+      return _context.DescriptionDict;
     }
 
     public IEnumerable<Description> GetDescriptionsForJob()

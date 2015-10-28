@@ -101,7 +101,7 @@
       // Combine Name keywords and New keywords. There should not be any keywords labeled 
       // 'new' but if there are, combine them with name words so they will not be skipped.
       var nameWords = wordLookup[Keyword.NameKey].Concat(wordLookup[Keyword.NewKey]);
-      var nameList = new KeywordList(nameWords);
+      var nameList = new NameKeywordList(nameWords);
 
       // Segment the keywords according to their RootWords:
       Color = colorList.ToTitleCasePhrase();

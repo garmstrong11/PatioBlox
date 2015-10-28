@@ -1,7 +1,9 @@
 ﻿namespace PatioBlox2016.DataAccess
 {
-	using System.Data.Entity;
-	using Concrete;
+  using System.Collections.Generic;
+  using System.Data.Entity;
+  using System.Linq;
+  using Concrete;
 	using Config;
 
 	public class PatioBloxContext : DbContext
@@ -25,5 +27,10 @@
 		  modelBuilder.Configurations.Add(new DescriptionTypeConfiguration());
 		  modelBuilder.Configurations.Add(new UpcReplacementTypeConfiguration());
 		}
+
+	  public Dictionary<string, int> DescriptionDict
+	  {
+	    get { return Descriptions.Local.ToDictionary(k => k.Text, v => v.Id); }
+	  } 
 	}
 }

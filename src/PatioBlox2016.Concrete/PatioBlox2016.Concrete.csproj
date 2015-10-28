@@ -61,6 +61,7 @@
     <Compile Include="Exceptions\JobFoldersInitializationException.cs" />
     <Compile Include="FileInfoAdapter.cs" />
     <Compile Include="KeywordList.cs" />
+    <Compile Include="NameKeywordList.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="PatchProductDuplicate.cs" />
     <Compile Include="Product.cs" />
