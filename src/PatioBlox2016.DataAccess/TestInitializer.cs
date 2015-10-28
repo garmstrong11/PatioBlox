@@ -12,14 +12,14 @@
 
       //context.Database.ExecuteSqlCommand(File.ReadAllText(keywordsFile));
       //context.Database.ExecuteSqlCommand(File.ReadAllText(descriptionsFile));
-      var descriptions = SeedHelpers.GetDescriptionSeeds();
+      //var descriptions = SeedHelpers.GetDescriptionSeeds();
 
-      foreach (var description in descriptions) {
-        context.Descriptions.AddOrUpdate(d => d.Text, description);
-      }
+      //foreach (var description in descriptions) {
+      //  context.Descriptions.AddOrUpdate(d => d.Text, description);
+      //}
 
       SeedHelpers.SeedKeywords(context);
-      SeedHelpers.SeedUpcReplacements(context);
+      //SeedHelpers.SeedUpcReplacements(context);
 
       context.SaveChanges();
 

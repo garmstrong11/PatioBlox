@@ -7,16 +7,19 @@
   using Abstract;
   using Concrete;
   using Concrete.Exceptions;
+  using PatioBlox2016.DataAccess;
 
   public class BookFactory : IBookFactory
   {
     private readonly ICellFactory _cellFactory;
     private readonly ISettingsService _settings;
+    private readonly PatioBloxContext _context;
 
-    public BookFactory(ICellFactory cellFactory, ISettingsService settings)
+    public BookFactory(ICellFactory cellFactory, ISettingsService settings, PatioBloxContext context)
     {
       _cellFactory = cellFactory;
       _settings = settings;
+      _context = context;
     }
 
     public Book CreateBook(Job job, string name, IEnumerable<IPatchRowExtract> patchRows)
@@ -37,11 +40,14 @@
 
       IEnumerable<Cell> cells;
 
+      var descriptionDict = _context.Descriptions.Local.ToDictionary(k => k.Text, v => v.Id);
+      var upcDict = _context.UpcReplacements.ToDictionary(k => k.InvalidUpc, v => v.Replacement);
+
       try {
         // Filter patchRows with Sku = -1
         cells = extracts
           .Where(e => e.Sku >= 0)
-          .Select(pr => _cellFactory.CreateCell(pr))
+          .Select(pr => _cellFactory.CreateCell(pr, descriptionDict, upcDict))
           .ToList();
       }
 

@@ -17,7 +17,7 @@ namespace PatioBlox2016.DataAccess.Migrations
       //  context.Descriptions.AddOrUpdate(d => d.Text, description);
       //}
 
-      //SeedHelpers.SeedKeywords(context);
+      SeedHelpers.SeedKeywords(context);
       //SeedHelpers.SeedUpcReplacements(context);
       //context.SaveChanges();
 

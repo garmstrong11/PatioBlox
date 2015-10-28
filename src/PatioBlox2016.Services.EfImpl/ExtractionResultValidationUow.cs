@@ -125,6 +125,7 @@
 
       return _keywords
         .Where(k => k.Parent != null)
+        .Where(k => k.Parent.Word != Keyword.NewKey)
         .Where(k => rootWords.Contains(k.Parent.Word))
         .ToList();
     }
@@ -176,7 +177,9 @@
 
     public Dictionary<string, int> GetDescriptionTextToIdDict()
     {
-      return _descriptions.ToDictionary(k => k.Text, v => v.Id);
+      //return _descriptions.ToDictionary(k => k.Text, v => v.Id);
+      var descriptions = _context.Descriptions.Local;
+      return descriptions.ToDictionary(k => k.Text, v => v.Id);
     }
 
     public IEnumerable<Description> GetDescriptionsForJob()

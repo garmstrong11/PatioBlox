@@ -8,23 +8,26 @@
 
   public class CellFactory : ICellFactory
   {
-    private readonly IDictionary<string, int> _descriptionDict;
-    private readonly IDictionary<string, string> _upcReplacementDict;
+    private readonly IExtractionResultValidationUow _uow;
 
     public CellFactory(IExtractionResultValidationUow uow)
     {
-      _descriptionDict = uow.GetDescriptionTextToIdDict();
-      _upcReplacementDict = uow.GetUpcReplacementDictionary();
+      _uow = uow;
     }
     
-    public Cell CreateCell(IPatchRowExtract extract)
+    public Cell CreateCell(IPatchRowExtract extract, 
+      Dictionary<string, int> descriptionDict, 
+      Dictionary<string, string> upcReplacementDict)
     {
       int descriptionId;
       string upc;
 
+      //var descriptionDict = _uow.GetDescriptionTextToIdDict();
+      //var upcReplacementDict = _uow.GetUpcReplacementDictionary();
+
       var cell = new Cell(extract);
 
-      var found = _descriptionDict.TryGetValue(extract.Description, out descriptionId);
+      var found = descriptionDict.TryGetValue(extract.Description, out descriptionId);
 
       if (!found) {
         var message = string.Format(
@@ -37,7 +40,7 @@
         throw exception;
       }
 
-      cell.Upc = _upcReplacementDict.TryGetValue(extract.Upc, out upc) 
+      cell.Upc = upcReplacementDict.TryGetValue(extract.Upc, out upc) 
         ? upc 
         : extract.Upc;
 

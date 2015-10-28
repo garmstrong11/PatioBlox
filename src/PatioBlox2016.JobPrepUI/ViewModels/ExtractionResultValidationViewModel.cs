@@ -38,12 +38,12 @@
       _uow.PersistNewUpcReplacements();
       _uow.PersistNewKeywords();
 
-      _job.ClearBooks();
-      _job.ClearDescriptions();
-      _job.ClearProducts();
+      //_job.ClearBooks();
+      //_job.ClearDescriptions();
+      //_job.ClearProducts();
 
-      _job.PopulateBooks(_uow.GetBookGroups());
       _job.AddDescriptionRange(_uow.GetDescriptionsForJob());
+      _job.PopulateBooks(_uow.GetBookGroups());
       _job.PopulateProducts(_uow.GetProducts());
 
       InvalidProducts.AddRange(FindInvalidProducts());
