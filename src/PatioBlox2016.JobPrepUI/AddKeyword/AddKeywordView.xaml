@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:infra="clr-namespace:PatioBlox2016.JobPrepUI.Infra"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d"
              d:DesignHeight="100" d:DesignWidth="300">
   <UserControl.Resources>
@@ -34,7 +36,11 @@
         <ColumnDefinition Width="9" />
         <ColumnDefinition Width="3*"/>
       </Grid.ColumnDefinitions>
-      <TextBox x:Name="Word" />
+            <TextBox x:Name="Word">
+               <i:Interaction.Behaviors>
+                   <infra:FocusBehavior IsFocused="{Binding IsNameFocused, Mode=TwoWay}"/>
+               </i:Interaction.Behaviors>
+            </TextBox>
       <ComboBox x:Name="Parents"
                 Grid.Column="2"
                 DisplayMemberPath="Word"/>

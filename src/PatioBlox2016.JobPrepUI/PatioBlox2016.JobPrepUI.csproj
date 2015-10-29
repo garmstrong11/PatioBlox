@@ -122,6 +122,7 @@
     <Compile Include="Infra\BoolToBrushConverter.cs" />
     <Compile Include="Infra\BoolToVizConverter.cs" />
     <Compile Include="Infra\ColumnIndexService.cs" />
+    <Compile Include="Infra\FocusBehavior.cs" />
     <Compile Include="Infra\PathToFilenameConverter.cs" />
     <Compile Include="Infra\SettingsService.cs" />
     <Compile Include="JobBuilders\Job.cs" />

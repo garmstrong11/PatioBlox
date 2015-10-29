@@ -14,6 +14,7 @@
     private BindableCollection<Keyword> _parents;
     private Keyword _selectedParent;
     private bool _canSave;
+    private bool _isNameFocused;
 
     public AddKeywordViewModel(IValidator validator, IExtractionResultValidationUow uow) 
       : base(validator)
@@ -26,6 +27,8 @@
     {
       Parents.AddRange(_uow.GetRootKeywords().Where(k => k.Word != Keyword.NewKey));
       SelectedParent = Parents.First(k => k.Word == Keyword.NameKey);
+      IsNameFocused = true;
+
       base.OnActivate();
     }
 
@@ -49,6 +52,17 @@
         if (Equals(value, _parents)) return;
         _parents = value;
         NotifyOfPropertyChange(() => Parents);
+      }
+    }
+
+    public bool IsNameFocused
+    {
+      get { return _isNameFocused; }
+      set
+      {
+        if (value == _isNameFocused) return;
+        _isNameFocused = value;
+        NotifyOfPropertyChange(() => IsNameFocused);
       }
     }
 
