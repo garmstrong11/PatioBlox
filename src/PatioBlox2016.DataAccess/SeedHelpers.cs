@@ -18,7 +18,7 @@
       var fileSystem = new FileSystem();
 
       var extractor = new DescriptionExtractor(dapter, fileSystem);
-      var seedPath = fileSystem.Path.Combine(GetSeedPath(), "Descriptions_2015.xlsx");
+      var seedPath = fileSystem.Path.Combine(GetSeedPath(), "Descriptions_All.xlsx");
       extractor.Initialize(seedPath);
 
       var descriptions = extractor.Extract().Select(d => new Description(d.Text)
@@ -179,6 +179,9 @@
       var country = new Keyword("COUNTRY") { Parent = name };
       context.Keywords.AddOrUpdate(k => k.Word, country);
 
+      var countrymanor = new Keyword("COUNTRYMANOR") { Parent = name };
+      context.Keywords.AddOrUpdate(k => k.Word, countrymanor);
+
       var cumberland = new Keyword("CUMBERLAND") { Parent = name };
       context.Keywords.AddOrUpdate(k => k.Word, cumberland);
 
@@ -250,9 +253,6 @@
 
       var joint = new Keyword("JOINT") { Parent = name };
       context.Keywords.AddOrUpdate(k => k.Word, joint);
-
-      var jumbo = new Keyword("JUMBO") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, jumbo);
 
       var lakestone = new Keyword("LAKESTONE") { Parent = name };
       context.Keywords.AddOrUpdate(k => k.Word, lakestone);
@@ -406,6 +406,20 @@
 
       context.SaveChanges();
 
+      var large = new Keyword("LARGE") { Parent = size };
+      context.Keywords.AddOrUpdate(k => k.Word, large);
+
+      var medium = new Keyword("MEDIUM") { Parent = size };
+      context.Keywords.AddOrUpdate(k => k.Word, medium);
+
+      var small = new Keyword("SMALL") { Parent = size };
+      context.Keywords.AddOrUpdate(k => k.Word, small);
+
+      var jumbo = new Keyword("JUMBO") { Parent = size };
+      context.Keywords.AddOrUpdate(k => k.Word, jumbo);
+
+      context.SaveChanges();
+
       var allegheny = new Keyword("ALLEGHENY") { Parent = color };
       context.Keywords.AddOrUpdate(k => k.Word, allegheny);
 
@@ -478,11 +492,17 @@
       var dark = new Keyword("DARK") { Parent = color };
       context.Keywords.AddOrUpdate(k => k.Word, dark);
 
+      var darkbuff = new Keyword("DARKBUFF") { Parent = color };
+      context.Keywords.AddOrUpdate(k => k.Word, darkbuff);
+
       var desert = new Keyword("DESERT") { Parent = color };
       context.Keywords.AddOrUpdate(k => k.Word, desert);
 
       var duncan = new Keyword("DUNCAN") { Parent = color };
       context.Keywords.AddOrUpdate(k => k.Word, duncan);
+
+      var fredrickson = new Keyword("FREDRICKSON") { Parent = color };
+      context.Keywords.AddOrUpdate(k => k.Word, fredrickson);
 
       var everglade = new Keyword("EVERGLADE") { Parent = color };
       context.Keywords.AddOrUpdate(k => k.Word, everglade);
@@ -498,6 +518,9 @@
 
       var grey = new Keyword("GREY") { Parent = color };
       context.Keywords.AddOrUpdate(k => k.Word, grey);
+
+      var grigio = new Keyword("GRIGIO") { Parent = color };
+      context.Keywords.AddOrUpdate(k => k.Word, grigio);
 
       var harvest = new Keyword("HARVEST") { Parent = color };
       context.Keywords.AddOrUpdate(k => k.Word, harvest);
@@ -597,6 +620,18 @@
       var anchor = new Keyword("ANCHOR") { Parent = vendor };
       context.Keywords.AddOrUpdate(k => k.Word, anchor);
 
+      var davis = new Keyword("DAVIS") { Parent = vendor };
+      context.Keywords.AddOrUpdate(k => k.Word, davis);
+
+      var fulton = new Keyword("FULTON") { Parent = vendor };
+      context.Keywords.AddOrUpdate(k => k.Word, fulton);
+
+      var bertram = new Keyword("BERTRAM") { Parent = vendor };
+      context.Keywords.AddOrUpdate(k => k.Word, bertram);
+
+      var luxora = new Keyword("LUXORA") { Parent = vendor };
+      context.Keywords.AddOrUpdate(k => k.Word, luxora);
+
       context.SaveChanges();
 
       var alghn = new Keyword("ALGHN") { Parent = allegheny };
@@ -634,6 +669,15 @@
 
       var cappcno = new Keyword("CAPPCNO") { Parent = cappuccino };
       context.Keywords.AddOrUpdate(k => k.Word, cappcno);
+
+      var cm = new Keyword("CM") { Parent = countrymanor };
+      context.Keywords.AddOrUpdate(k => k.Word, cm);
+
+      var cobbble = new Keyword("COBBBLE") { Parent = cobble};
+      context.Keywords.AddOrUpdate(k => k.Word, cobbble);
+
+      var cobbel = new Keyword("COBBEL") { Parent = cobble };
+      context.Keywords.AddOrUpdate(k => k.Word, cobbel);
 
       var cpchn = new Keyword("CPCHN") { Parent = cappuccino };
       context.Keywords.AddOrUpdate(k => k.Word, cpchn);
