@@ -29,7 +29,7 @@
                 Grid.Row="1"
                 Margin="9 0"
                 AllowDrop="True"
-                Background="{Binding IsInitialized, Converter={StaticResource BoolToBrushConverter}}"
+                Background="{Binding IsReporterInitialized, Converter={StaticResource BoolToBrushConverter}}"
                 CornerRadius="18">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="PreviewDragOver">
@@ -49,7 +49,7 @@
                 <Image Source="../Images/excelfile.png"
                        Width="48"
                        Height="48"
-                       Visibility="{Binding IsInitialized, Converter={StaticResource BoolToVizConverter}}"/>
+                       Visibility="{Binding IsReporterInitialized, Converter={StaticResource BoolToVizConverter}}"/>
                 <TextBlock 
                        FontSize="15"
                        FontWeight="Bold"
