@@ -18,10 +18,8 @@
       //  context.Descriptions.AddOrUpdate(d => d.Text, description);
       //}
 
-      SeedHelpers.SeedKeywords(context);
+      SeedHelpers.TestSeed(context);
       //SeedHelpers.SeedUpcReplacements(context);
-
-      context.SaveChanges();
 
       base.Seed(context);
     }
