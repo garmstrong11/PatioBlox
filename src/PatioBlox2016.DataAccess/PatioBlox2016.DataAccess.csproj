@@ -57,69 +57,9 @@
     <Compile Include="Config\DescriptionTypeConfiguration.cs" />
     <Compile Include="Config\KeywordTypeConfiguration.cs" />
     <Compile Include="Config\UpcReplacementTypeConfiguration.cs" />
-    <Compile Include="Migrations\201507061429293_Initial Create.cs" />
-    <Compile Include="Migrations\201507061429293_Initial Create.Designer.cs">
-      <DependentUpon>201507061429293_Initial Create.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507061459532_Job and JobFile config.cs" />
-    <Compile Include="Migrations\201507061459532_Job and JobFile config.Designer.cs">
-      <DependentUpon>201507061459532_Job and JobFile config.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507061504185_JobFile name to 255 chars.cs" />
-    <Compile Include="Migrations\201507061504185_JobFile name to 255 chars.Designer.cs">
-      <DependentUpon>201507061504185_JobFile name to 255 chars.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507081317400_Add Products and Descriptions.cs" />
-    <Compile Include="Migrations\201507081317400_Add Products and Descriptions.Designer.cs">
-      <DependentUpon>201507081317400_Add Products and Descriptions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507091529277_Add DescriptionUsages.cs" />
-    <Compile Include="Migrations\201507091529277_Add DescriptionUsages.Designer.cs">
-      <DependentUpon>201507091529277_Add DescriptionUsages.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507091907425_Add Book Section Page and Cell.cs" />
-    <Compile Include="Migrations\201507091907425_Add Book Section Page and Cell.Designer.cs">
-      <DependentUpon>201507091907425_Add Book Section Page and Cell.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507092150445_Add Sku to DescriptionUsage.cs" />
-    <Compile Include="Migrations\201507092150445_Add Sku to DescriptionUsage.Designer.cs">
-      <DependentUpon>201507092150445_Add Sku to DescriptionUsage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507112015405_Unique index for Description Text.cs" />
-    <Compile Include="Migrations\201507112015405_Unique index for Description Text.Designer.cs">
-      <DependentUpon>201507112015405_Unique index for Description Text.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507212052421_Remove JobId from Description.cs" />
-    <Compile Include="Migrations\201507212052421_Remove JobId from Description.Designer.cs">
-      <DependentUpon>201507212052421_Remove JobId from Description.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201507212056580_Remove JobId from Description Again.cs" />
-    <Compile Include="Migrations\201507212056580_Remove JobId from Description Again.Designer.cs">
-      <DependentUpon>201507212056580_Remove JobId from Description Again.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201508221207281_Add Insertion Dates.cs" />
-    <Compile Include="Migrations\201508221207281_Add Insertion Dates.Designer.cs">
-      <DependentUpon>201508221207281_Add Insertion Dates.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509041549275_KeywordSingleTable.cs" />
-    <Compile Include="Migrations\201509041549275_KeywordSingleTable.Designer.cs">
-      <DependentUpon>201509041549275_KeywordSingleTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509041652546_RemoveExpansionTable.cs" />
-    <Compile Include="Migrations\201509041652546_RemoveExpansionTable.Designer.cs">
-      <DependentUpon>201509041652546_RemoveExpansionTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509061405421_ConvertKeywordToHierarchy.cs" />
-    <Compile Include="Migrations\201509061405421_ConvertKeywordToHierarchy.Designer.cs">
-      <DependentUpon>201509061405421_ConvertKeywordToHierarchy.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509121949125_Remove Job, Section, Book, Cell, SectionName.cs" />
-    <Compile Include="Migrations\201509121949125_Remove Job, Section, Book, Cell, SectionName.Designer.cs">
-      <DependentUpon>201509121949125_Remove Job, Section, Book, Cell, SectionName.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201509171200557_UpcReplacement.cs" />
-    <Compile Include="Migrations\201509171200557_UpcReplacement.Designer.cs">
-      <DependentUpon>201509171200557_UpcReplacement.cs</DependentUpon>
+    <Compile Include="Migrations\201510301700522_InitialMigration.cs" />
+    <Compile Include="Migrations\201510301700522_InitialMigration.Designer.cs">
+      <DependentUpon>201510301700522_InitialMigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
@@ -146,53 +86,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507061429293_Initial Create.resx">
-      <DependentUpon>201507061429293_Initial Create.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507061459532_Job and JobFile config.resx">
-      <DependentUpon>201507061459532_Job and JobFile config.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507061504185_JobFile name to 255 chars.resx">
-      <DependentUpon>201507061504185_JobFile name to 255 chars.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507081317400_Add Products and Descriptions.resx">
-      <DependentUpon>201507081317400_Add Products and Descriptions.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507091529277_Add DescriptionUsages.resx">
-      <DependentUpon>201507091529277_Add DescriptionUsages.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507091907425_Add Book Section Page and Cell.resx">
-      <DependentUpon>201507091907425_Add Book Section Page and Cell.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507092150445_Add Sku to DescriptionUsage.resx">
-      <DependentUpon>201507092150445_Add Sku to DescriptionUsage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507112015405_Unique index for Description Text.resx">
-      <DependentUpon>201507112015405_Unique index for Description Text.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507212052421_Remove JobId from Description.resx">
-      <DependentUpon>201507212052421_Remove JobId from Description.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201507212056580_Remove JobId from Description Again.resx">
-      <DependentUpon>201507212056580_Remove JobId from Description Again.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508221207281_Add Insertion Dates.resx">
-      <DependentUpon>201508221207281_Add Insertion Dates.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509041549275_KeywordSingleTable.resx">
-      <DependentUpon>201509041549275_KeywordSingleTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509041652546_RemoveExpansionTable.resx">
-      <DependentUpon>201509041652546_RemoveExpansionTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509061405421_ConvertKeywordToHierarchy.resx">
-      <DependentUpon>201509061405421_ConvertKeywordToHierarchy.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509121949125_Remove Job, Section, Book, Cell, SectionName.resx">
-      <DependentUpon>201509121949125_Remove Job, Section, Book, Cell, SectionName.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509171200557_UpcReplacement.resx">
-      <DependentUpon>201509171200557_UpcReplacement.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201510301700522_InitialMigration.resx">
+      <DependentUpon>201510301700522_InitialMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
