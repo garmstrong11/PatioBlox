@@ -57,6 +57,7 @@
     <Compile Include="Config\DescriptionTypeConfiguration.cs" />
     <Compile Include="Config\KeywordTypeConfiguration.cs" />
     <Compile Include="Config\UpcReplacementTypeConfiguration.cs" />
+    <Compile Include="FullInitializer.cs" />
     <Compile Include="Migrations\201510301700522_InitialMigration.cs" />
     <Compile Include="Migrations\201510301700522_InitialMigration.Designer.cs">
       <DependentUpon>201510301700522_InitialMigration.cs</DependentUpon>

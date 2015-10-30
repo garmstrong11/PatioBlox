@@ -15,10 +15,11 @@
 		public PatioBloxContext() : base("name=PatioBloxConnectionString")
 		{
 		  Database.SetInitializer(
-        new TestInitializer());
-        //new NullDatabaseInitializer<PatioBloxContext>());
-		    //new DropCreateDatabaseAlways<PatioBloxContext>());
-		    //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
+      //new TestInitializer());
+		  new FullInitializer());
+		  //new NullDatabaseInitializer<PatioBloxContext>());
+		  //new DropCreateDatabaseAlways<PatioBloxContext>());
+		  //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)

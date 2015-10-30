@@ -2,11 +2,11 @@
 {
   using System.Data.Entity;
 
-  public class TestInitializer : DropCreateDatabaseAlways<PatioBloxContext>
+  public class FullInitializer : DropCreateDatabaseAlways<PatioBloxContext>
   {
     protected override void Seed(PatioBloxContext context)
     {
-      SeedHelpers.TestSeed(context);
+      SeedHelpers.FullSeed(context);
 
       base.Seed(context);
     }
