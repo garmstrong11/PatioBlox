@@ -55,12 +55,21 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config\DescriptionTypeConfiguration.cs" />
+    <Compile Include="Config\JobSourceTypeConfiguration.cs" />
     <Compile Include="Config\KeywordTypeConfiguration.cs" />
     <Compile Include="Config\UpcReplacementTypeConfiguration.cs" />
     <Compile Include="FullInitializer.cs" />
     <Compile Include="Migrations\201510301700522_InitialMigration.cs" />
     <Compile Include="Migrations\201510301700522_InitialMigration.Designer.cs">
       <DependentUpon>201510301700522_InitialMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510301839488_JobSourcesDescriptions.cs" />
+    <Compile Include="Migrations\201510301839488_JobSourcesDescriptions.Designer.cs">
+      <DependentUpon>201510301839488_JobSourcesDescriptions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201510301909196_ConfigJobSources.cs" />
+    <Compile Include="Migrations\201510301909196_ConfigJobSources.Designer.cs">
+      <DependentUpon>201510301909196_ConfigJobSources.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PatioBloxContext.cs" />
@@ -89,6 +98,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201510301700522_InitialMigration.resx">
       <DependentUpon>201510301700522_InitialMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510301839488_JobSourcesDescriptions.resx">
+      <DependentUpon>201510301839488_JobSourcesDescriptions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201510301909196_ConfigJobSources.resx">
+      <DependentUpon>201510301909196_ConfigJobSources.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
