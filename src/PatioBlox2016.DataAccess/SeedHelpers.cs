@@ -33,7 +33,7 @@
       return descriptions;
     }
 
-    public static string GetSeedPath()
+    private static string GetSeedPath()
     {
       var nameDict = new Dictionary<string, string>
                       {
@@ -49,7 +49,7 @@
       throw new InvalidOperationException("Seed path can't be found. Check your Dropbox path.");
     }
 
-    public static void SeedUpcReplacements(PatioBloxContext context)
+    private static void SeedUpcReplacements(PatioBloxContext context)
     {
       var ae34 = new UpcReplacement() {InvalidUpc = "712626103100", Replacement = "712626103101"};
       context.UpcReplacements.AddOrUpdate(v => v.InvalidUpc, ae34);
@@ -71,8 +71,58 @@
       }
     }
 
+    private static void SeedJobSources(PatioBloxContext context)
+    {
+      const string path2014 = @"\\Storage2\AraxiVolume_InSiteJobs\Jobs\Lowes US 2014 Patio Blocks";
+      const string path2015 = @"\\Storage2\AraxiVolume_InSiteJobs\Jobs\Lowes US 2015 Patio Blocks";
+      var source2014 = new JobSource {JobPath = path2014};
+      var source2015 = new JobSource {JobPath = path2015};
+      var now = DateTime.Now;
+
+      var desc1 = new Description("TEST DESCRIPTION NUMBER ONE") {InsertDate = now};
+      var desc2 = new Description("TEST DESCRIPTION NUMBER TWO") { InsertDate = now };
+      var desc3 = new Description("TEST DESCRIPTION NUMBER THREE") { InsertDate = now };
+      var desc4 = new Description("TEST DESCRIPTION NUMBER FOUR") { InsertDate = now };
+
+      source2014.Descriptions.Add(desc1);
+      source2014.Descriptions.Add(desc2);
+      source2015.Descriptions.Add(desc1);
+      source2015.Descriptions.Add(desc3);
+      source2015.Descriptions.Add(desc4);
+
+      context.JobSources.Add(source2014);
+      context.JobSources.Add(source2015);
+      context.Descriptions.Add(desc1);
+      context.Descriptions.Add(desc2);
+      context.Descriptions.Add(desc3);
+      context.Descriptions.Add(desc4);
+
+      context.SaveChanges();
+    }
+
+    public static void FullSeed(PatioBloxContext context)
+    {
+      SeedKeywords(context, true);
+
+      var descriptions = GetDescriptionSeeds();
+
+      foreach (var description in descriptions)
+      {
+        context.Descriptions.AddOrUpdate(d => d.Text, description);
+      }
+
+      SeedUpcReplacements(context);
+      context.SaveChanges();
+    }
+
+    public static void TestSeed(PatioBloxContext context)
+    {
+      SeedKeywords(context);
+      SeedJobSources(context);
+    }
+
     [SuppressMessage("ReSharper", "UnusedVariable")]
-    public static void SeedKeywords(PatioBloxContext context)
+    private static void SeedKeywords(PatioBloxContext context, bool isFullSeed = false)
     {
       context.Keywords.Load();
       var unknown = new Keyword(Keyword.NewKey) {Parent = null};
@@ -89,937 +139,939 @@
       AddKeywordToContextIfNotExists(vendor, context, true);
       AddKeywordToContextIfNotExists(size, context, true);
 
-      var beveled = new Keyword("BEVELED") { Parent = name };
+      if (!isFullSeed) return;
+
+      var beveled = new Keyword("BEVELED") {Parent = name};
       AddKeywordToContextIfNotExists(beveled, context);
 
       var marquette = new Keyword("MARQUETTE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, marquette);
+      AddKeywordToContextIfNotExists(marquette, context);
 
       var countryside = new Keyword("COUNTRYSIDE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, countryside);
+      AddKeywordToContextIfNotExists(countryside, context);
 
       var fourcobble = new Keyword("FOURCOBBLE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, fourcobble);
+      AddKeywordToContextIfNotExists(fourcobble, context);
 
       var frederick = new Keyword("FREDERICK") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, frederick);
+      AddKeywordToContextIfNotExists(frederick, context);
 
       var weathered = new Keyword("WEATHERED") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, weathered);
+      AddKeywordToContextIfNotExists(weathered, context);
 
       var side = new Keyword("SIDE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, side);
+      AddKeywordToContextIfNotExists(side, context);
 
       var alameda = new Keyword("ALAMEDA") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, alameda);
+      AddKeywordToContextIfNotExists(alameda, context);
 
       var antique = new Keyword("ANTIQUE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, antique);
+      AddKeywordToContextIfNotExists(antique, context);
 
       var aspen = new Keyword("ASPEN") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, aspen);
+      AddKeywordToContextIfNotExists(aspen, context);
 
       var austin = new Keyword("AUSTIN") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, austin);
+      AddKeywordToContextIfNotExists(austin, context);
 
       var basalt = new Keyword("BASALT") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, basalt);
+      AddKeywordToContextIfNotExists(basalt, context);
 
       var basic = new Keyword("BASIC") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, basic);
+      AddKeywordToContextIfNotExists(basic, context);
 
       var belgium = new Keyword("BELGIUM") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, belgium);
+      AddKeywordToContextIfNotExists(belgium, context);
 
       var block = new Keyword("BLOCK") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, block);
+      AddKeywordToContextIfNotExists(block, context);
 
       var brick = new Keyword("BRICK") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, brick);
+      AddKeywordToContextIfNotExists(brick, context);
 
       var brickface = new Keyword("BRICKFACE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, brickface);
+      AddKeywordToContextIfNotExists(brickface, context);
 
       var bullet = new Keyword("BULLET") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, bullet);
+      AddKeywordToContextIfNotExists(bullet, context);
 
       var camden = new Keyword("CAMDEN") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, camden);
+      AddKeywordToContextIfNotExists(camden, context);
 
       var campton = new Keyword("CAMPTON") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, campton);
+      AddKeywordToContextIfNotExists(campton, context);
 
       var canyon = new Keyword("CANYON") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, canyon);
+      AddKeywordToContextIfNotExists(canyon, context);
 
       var cap = new Keyword("CAP") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, cap);
+      AddKeywordToContextIfNotExists(cap, context);
 
       var chilton = new Keyword("CHILTON") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, chilton);
+      AddKeywordToContextIfNotExists(chilton, context);
 
       var chiseled = new Keyword("CHISELED") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, chiseled);
+      AddKeywordToContextIfNotExists(chiseled, context);
 
       var chiselwall = new Keyword("CHISELWALL") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, chiselwall);
+      AddKeywordToContextIfNotExists(chiselwall, context);
 
       var cobble = new Keyword("COBBLE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, cobble);
+      AddKeywordToContextIfNotExists(cobble, context);
 
       var cobblestone = new Keyword("COBBLESTONE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, cobblestone);
+      AddKeywordToContextIfNotExists(cobblestone, context);
 
       var concord = new Keyword("CONCORD") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, concord);
+      AddKeywordToContextIfNotExists(concord, context);
 
       var corner = new Keyword("CORNER") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, corner);
+      AddKeywordToContextIfNotExists(corner, context);
 
       var country = new Keyword("COUNTRY") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, country);
+      AddKeywordToContextIfNotExists(country, context);
 
       var countrymanor = new Keyword("COUNTRYMANOR") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, countrymanor);
+      AddKeywordToContextIfNotExists(countrymanor, context);
 
       var cumberland = new Keyword("CUMBERLAND") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, cumberland);
+      AddKeywordToContextIfNotExists(cumberland, context);
 
       var custom = new Keyword("CUSTOM") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, custom);
+      AddKeywordToContextIfNotExists(custom, context);
 
       var doublesplit = new Keyword("DOUBLESPLIT") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, doublesplit);
+      AddKeywordToContextIfNotExists(doublesplit, context);
 
       var durango = new Keyword("DURANGO") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, durango);
+      AddKeywordToContextIfNotExists(durango, context);
 
       var dutch = new Keyword("DUTCH") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, dutch);
+      AddKeywordToContextIfNotExists(dutch, context);
 
       var edger = new Keyword("EDGER") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, edger);
+      AddKeywordToContextIfNotExists(edger, context);
 
       var edinburgh = new Keyword("EDINBURGH") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, edinburgh);
+      AddKeywordToContextIfNotExists(edinburgh, context);
 
       var everest = new Keyword("EVEREST") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, everest);
+      AddKeywordToContextIfNotExists(everest, context);
 
       var flagstone = new Keyword("FLAGSTONE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, flagstone);
+      AddKeywordToContextIfNotExists(flagstone, context);
 
       var flash = new Keyword("FLASH") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, flash);
+      AddKeywordToContextIfNotExists(flash, context);
 
       var footnotes = new Keyword("FOOTNOTES") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, footnotes);
+      AddKeywordToContextIfNotExists(footnotes, context);
 
       var fresco = new Keyword("FRESCO") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, fresco);
+      AddKeywordToContextIfNotExists(fresco, context);
 
       var galena = new Keyword("GALENA") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, galena);
+      AddKeywordToContextIfNotExists(galena, context);
 
       var garden = new Keyword("GARDEN") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, garden);
+      AddKeywordToContextIfNotExists(garden, context);
 
       var geometric = new Keyword("GEOMETRIC") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, geometric);
+      AddKeywordToContextIfNotExists(geometric, context);
 
       var german = new Keyword("GERMAN") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, german);
+      AddKeywordToContextIfNotExists(german, context);
 
       var grand = new Keyword("GRAND") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, grand);
+      AddKeywordToContextIfNotExists(grand, context);
 
       var grandstone = new Keyword("GRANDSTONE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, grandstone);
+      AddKeywordToContextIfNotExists(grandstone, context);
 
       var hampton = new Keyword("HAMPTON") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, hampton);
+      AddKeywordToContextIfNotExists(hampton, context);
 
       var holland = new Keyword("HOLLAND") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, holland);
+      AddKeywordToContextIfNotExists(holland, context);
 
       var homestead = new Keyword("HOMESTEAD") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, homestead);
+      AddKeywordToContextIfNotExists(homestead, context);
 
       var hudson = new Keyword("HUDSON") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, hudson);
+      AddKeywordToContextIfNotExists(hudson, context);
 
       var insignia = new Keyword("INSIGNIA") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, insignia);
+      AddKeywordToContextIfNotExists(insignia, context);
 
       var joint = new Keyword("JOINT") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, joint);
+      AddKeywordToContextIfNotExists(joint, context);
 
       var lakestone = new Keyword("LAKESTONE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, lakestone);
+      AddKeywordToContextIfNotExists(lakestone, context);
 
       var laredo = new Keyword("LAREDO") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, laredo);
+      AddKeywordToContextIfNotExists(laredo, context);
 
       var ledge = new Keyword("LEDGE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, ledge);
+      AddKeywordToContextIfNotExists(ledge, context);
 
       var ledgewall = new Keyword("LEDGEWALL") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, ledgewall);
+      AddKeywordToContextIfNotExists(ledgewall, context);
 
       var lexington = new Keyword("LEXINGTON") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, lexington);
+      AddKeywordToContextIfNotExists(lexington, context);
 
       var log = new Keyword("LOG") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, log);
+      AddKeywordToContextIfNotExists(log, context);
 
       var manor = new Keyword("MANOR") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, manor);
+      AddKeywordToContextIfNotExists(manor, context);
 
       var mini = new Keyword("MINI") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, mini);
+      AddKeywordToContextIfNotExists(mini, context);
 
       var mission = new Keyword("MISSION") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, mission);
+      AddKeywordToContextIfNotExists(mission, context);
 
       var mm = new Keyword("MM") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, mm);
+      AddKeywordToContextIfNotExists(mm, context);
 
       var old = new Keyword("OLD") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, old);
+      AddKeywordToContextIfNotExists(old, context);
 
       var patio = new Keyword("PATIO") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, patio);
+      AddKeywordToContextIfNotExists(patio, context);
 
       var paver = new Keyword("PAVER") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, paver);
+      AddKeywordToContextIfNotExists(paver, context);
 
       var pinnacle = new Keyword("PINNACLE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, pinnacle);
+      AddKeywordToContextIfNotExists(pinnacle, context);
 
       var plank = new Keyword("PLANK") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, plank);
+      AddKeywordToContextIfNotExists(plank, context);
 
       var planter = new Keyword("PLANTER") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, planter);
+      AddKeywordToContextIfNotExists(planter, context);
 
       var portage = new Keyword("PORTAGE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, portage);
+      AddKeywordToContextIfNotExists(portage, context);
 
       var prism = new Keyword("PRISM") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, prism);
+      AddKeywordToContextIfNotExists(prism, context);
 
       var random = new Keyword("RANDOM") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, random);
+      AddKeywordToContextIfNotExists(random, context);
 
       var rectangular = new Keyword("RECTANGULAR") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, rectangular);
+      AddKeywordToContextIfNotExists(rectangular, context);
 
       var renaissance = new Keyword("RENAISSANCE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, renaissance);
+      AddKeywordToContextIfNotExists(renaissance, context);
 
       var ring = new Keyword("RING") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, ring);
+      AddKeywordToContextIfNotExists(ring, context);
 
       var rivers = new Keyword("RIVERS") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, rivers);
+      AddKeywordToContextIfNotExists(rivers, context);
 
       var riverwalk = new Keyword("RIVERWALK") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, riverwalk);
+      AddKeywordToContextIfNotExists(riverwalk, context);
 
       var sandia = new Keyword("SANDIA") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, sandia);
+      AddKeywordToContextIfNotExists(sandia, context);
 
       var sandstone = new Keyword("SANDSTONE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, sandstone);
+      AddKeywordToContextIfNotExists(sandstone, context);
 
       var scallop = new Keyword("SCALLOP") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, scallop);
+      AddKeywordToContextIfNotExists(scallop, context);
 
       var select = new Keyword("SELECT") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, select);
+      AddKeywordToContextIfNotExists(@select, context);
 
       var sereno = new Keyword("SERENO") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, sereno);
+      AddKeywordToContextIfNotExists(sereno, context);
 
       var singles = new Keyword("SINGLES") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, singles);
+      AddKeywordToContextIfNotExists(singles, context);
 
       var slate = new Keyword("SLATE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, slate);
+      AddKeywordToContextIfNotExists(slate, context);
 
       var soldier = new Keyword("SOLDIER") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, soldier);
+      AddKeywordToContextIfNotExists(soldier, context);
 
       var southwest = new Keyword("SOUTHWEST") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, southwest);
+      AddKeywordToContextIfNotExists(southwest, context);
 
       var splashblock = new Keyword("SPLASHBLOCK") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, splashblock);
+      AddKeywordToContextIfNotExists(splashblock, context);
 
       var split = new Keyword("SPLIT") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, split);
+      AddKeywordToContextIfNotExists(split, context);
 
       var square = new Keyword("SQUARE") { Parent = size };
-      context.Keywords.AddOrUpdate(k => k.Word, square);
+      AddKeywordToContextIfNotExists(square, context);
 
       var stacked = new Keyword("STACKED") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, stacked);
+      AddKeywordToContextIfNotExists(stacked, context);
 
       var stepper = new Keyword("STEPPER") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, stepper);
+      AddKeywordToContextIfNotExists(stepper, context);
 
       var stone = new Keyword("STONE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, stone);
+      AddKeywordToContextIfNotExists(stone, context);
 
       var straight = new Keyword("STRAIGHT") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, straight);
+      AddKeywordToContextIfNotExists(straight, context);
 
       var tahoe = new Keyword("TAHOE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, tahoe);
+      AddKeywordToContextIfNotExists(tahoe, context);
 
       var tof = new Keyword("TOF") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, tof);
+      AddKeywordToContextIfNotExists(tof, context);
 
       var tree = new Keyword("TREE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, tree);
+      AddKeywordToContextIfNotExists(tree, context);
 
       var tumbled = new Keyword("TUMBLED") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, tumbled);
+      AddKeywordToContextIfNotExists(tumbled, context);
 
       var vrnda = new Keyword("VRNDA") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, vrnda);
+      AddKeywordToContextIfNotExists(vrnda, context);
 
       var wall = new Keyword("WALL") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, wall);
+      AddKeywordToContextIfNotExists(wall, context);
 
       var wallstone = new Keyword("WALLSTONE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, wallstone);
+      AddKeywordToContextIfNotExists(wallstone, context);
 
       var wetcast = new Keyword("WETCAST") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, wetcast);
+      AddKeywordToContextIfNotExists(wetcast, context);
 
       var yorkstone = new Keyword("YORKSTONE") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, yorkstone);
+      AddKeywordToContextIfNotExists(yorkstone, context);
 
       var stepping = new Keyword("STEPPING") { Parent = name };
-      context.Keywords.AddOrUpdate(k => k.Word, stepping);
+      AddKeywordToContextIfNotExists(stepping, context);
 
       context.SaveChanges();
 
       var large = new Keyword("LARGE") { Parent = size };
-      context.Keywords.AddOrUpdate(k => k.Word, large);
+      AddKeywordToContextIfNotExists(large, context);
 
       var medium = new Keyword("MEDIUM") { Parent = size };
-      context.Keywords.AddOrUpdate(k => k.Word, medium);
+      AddKeywordToContextIfNotExists(medium, context);
 
       var small = new Keyword("SMALL") { Parent = size };
-      context.Keywords.AddOrUpdate(k => k.Word, small);
+      AddKeywordToContextIfNotExists(small, context);
 
       var jumbo = new Keyword("JUMBO") { Parent = size };
-      context.Keywords.AddOrUpdate(k => k.Word, jumbo);
+      AddKeywordToContextIfNotExists(jumbo, context);
 
       context.SaveChanges();
 
       var allegheny = new Keyword("ALLEGHENY") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, allegheny);
+      AddKeywordToContextIfNotExists(allegheny, context);
 
       var cappuccino = new Keyword("CAPPUCCINO") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, cappuccino);
+      AddKeywordToContextIfNotExists(cappuccino, context);
 
       var surrey = new Keyword("SURREY") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, surrey);
+      AddKeywordToContextIfNotExists(surrey, context);
 
       var toffee = new Keyword("TOFFEE") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, toffee);
+      AddKeywordToContextIfNotExists(toffee, context);
 
       var chaparral = new Keyword("CHAPARRAL") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, chaparral);
+      AddKeywordToContextIfNotExists(chaparral, context);
 
       var terracotta = new Keyword("TERRACOTTA") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, terracotta);
+      AddKeywordToContextIfNotExists(terracotta, context);
 
       var adobe = new Keyword("ADOBE") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, adobe);
+      AddKeywordToContextIfNotExists(adobe, context);
 
       var arcadian = new Keyword("ARCADIAN") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, arcadian);
+      AddKeywordToContextIfNotExists(arcadian, context);
 
       var ash = new Keyword("ASH") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, ash);
+      AddKeywordToContextIfNotExists(ash, context);
 
       var ashberry = new Keyword("ASHBERRY") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, ashberry);
+      AddKeywordToContextIfNotExists(ashberry, context);
 
       var ashland = new Keyword("ASHLAND") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, ashland);
+      AddKeywordToContextIfNotExists(ashland, context);
 
       var autumn = new Keyword("AUTUMN") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, autumn);
+      AddKeywordToContextIfNotExists(autumn, context);
 
       var black = new Keyword("BLACK") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, black);
+      AddKeywordToContextIfNotExists(black, context);
 
       var blend = new Keyword("BLEND") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, blend);
+      AddKeywordToContextIfNotExists(blend, context);
 
       var britt = new Keyword("BRITT") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, britt);
+      AddKeywordToContextIfNotExists(britt, context);
 
       var brown = new Keyword("BROWN") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, brown);
+      AddKeywordToContextIfNotExists(brown, context);
 
       var buff = new Keyword("BUFF") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, buff);
+      AddKeywordToContextIfNotExists(buff, context);
 
       var california = new Keyword("CALIFORNIA") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, california);
+      AddKeywordToContextIfNotExists(california, context);
 
       var chandler = new Keyword("CHANDLER") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, chandler);
+      AddKeywordToContextIfNotExists(chandler, context);
 
       var charcoal = new Keyword("CHARCOAL") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, charcoal);
+      AddKeywordToContextIfNotExists(charcoal, context);
 
       var coffee = new Keyword("COFFEE") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, coffee);
+      AddKeywordToContextIfNotExists(coffee, context);
 
       var copper = new Keyword("COPPER") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, copper);
+      AddKeywordToContextIfNotExists(copper, context);
 
       var creek = new Keyword("CREEK") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, creek);
+      AddKeywordToContextIfNotExists(creek, context);
 
       var dark = new Keyword("DARK") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, dark);
+      AddKeywordToContextIfNotExists(dark, context);
 
       var darkbuff = new Keyword("DARKBUFF") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, darkbuff);
+      AddKeywordToContextIfNotExists(darkbuff, context);
 
       var desert = new Keyword("DESERT") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, desert);
+      AddKeywordToContextIfNotExists(desert, context);
 
       var duncan = new Keyword("DUNCAN") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, duncan);
+      AddKeywordToContextIfNotExists(duncan, context);
 
       var fredrickson = new Keyword("FREDRICKSON") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, fredrickson);
+      AddKeywordToContextIfNotExists(fredrickson, context);
 
       var everglade = new Keyword("EVERGLADE") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, everglade);
+      AddKeywordToContextIfNotExists(everglade, context);
 
       var gold = new Keyword("GOLD") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, gold);
+      AddKeywordToContextIfNotExists(gold, context);
 
       var goldrush = new Keyword("GOLDRUSH") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, goldrush);
+      AddKeywordToContextIfNotExists(goldrush, context);
 
       var gray = new Keyword("GRAY") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, gray);
+      AddKeywordToContextIfNotExists(gray, context);
 
       var grey = new Keyword("GREY") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, grey);
+      AddKeywordToContextIfNotExists(grey, context);
 
       var grigio = new Keyword("GRIGIO") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, grigio);
+      AddKeywordToContextIfNotExists(grigio, context);
 
       var harvest = new Keyword("HARVEST") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, harvest);
+      AddKeywordToContextIfNotExists(harvest, context);
 
       var hill = new Keyword("HILL") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, hill);
+      AddKeywordToContextIfNotExists(hill, context);
 
       var jaxon = new Keyword("JAXON") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, jaxon);
+      AddKeywordToContextIfNotExists(jaxon, context);
 
       var limestone = new Keyword("LIMESTONE") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, limestone);
+      AddKeywordToContextIfNotExists(limestone, context);
 
       var natural = new Keyword("NATURAL") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, natural);
+      AddKeywordToContextIfNotExists(natural, context);
 
       var oakrun = new Keyword("OAKRUN") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, oakrun);
+      AddKeywordToContextIfNotExists(oakrun, context);
 
       var pastello = new Keyword("PASTELLO") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, pastello);
+      AddKeywordToContextIfNotExists(pastello, context);
 
       var peach = new Keyword("PEACH") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, peach);
+      AddKeywordToContextIfNotExists(peach, context);
 
       var peyton = new Keyword("PEYTON") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, peyton);
+      AddKeywordToContextIfNotExists(peyton, context);
 
       var postiano = new Keyword("POSTIANO") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, postiano);
+      AddKeywordToContextIfNotExists(postiano, context);
 
       var red = new Keyword("RED") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, red);
+      AddKeywordToContextIfNotExists(red, context);
 
       var river = new Keyword("RIVER") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, river);
+      AddKeywordToContextIfNotExists(river, context);
 
       var rose = new Keyword("ROSE") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, rose);
+      AddKeywordToContextIfNotExists(rose, context);
 
       var rush = new Keyword("RUSH") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, rush);
+      AddKeywordToContextIfNotExists(rush, context);
 
       var sand = new Keyword("SAND") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, sand);
+      AddKeywordToContextIfNotExists(sand, context);
 
       var sandy = new Keyword("SANDY") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, sandy);
+      AddKeywordToContextIfNotExists(sandy, context);
 
       var sierra = new Keyword("SIERRA") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, sierra);
+      AddKeywordToContextIfNotExists(sierra, context);
 
       var sierrgray = new Keyword("SIERRGRAY") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, sierrgray);
+      AddKeywordToContextIfNotExists(sierrgray, context);
 
       var smoke = new Keyword("SMOKE") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, smoke);
+      AddKeywordToContextIfNotExists(smoke, context);
 
       var sonoma = new Keyword("SONOMA") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, sonoma);
+      AddKeywordToContextIfNotExists(sonoma, context);
 
       var sunset = new Keyword("SUNSET") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, sunset);
+      AddKeywordToContextIfNotExists(sunset, context);
 
       var tan = new Keyword("TAN") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, tan);
+      AddKeywordToContextIfNotExists(tan, context);
 
       var tranquil = new Keyword("TRANQUIL") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, tranquil);
+      AddKeywordToContextIfNotExists(tranquil, context);
 
       var veranda = new Keyword("VERANDA") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, veranda);
+      AddKeywordToContextIfNotExists(veranda, context);
 
       var walnut = new Keyword("WALNUT") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, walnut);
+      AddKeywordToContextIfNotExists(walnut, context);
 
       var white = new Keyword("WHITE") { Parent = color };
-      context.Keywords.AddOrUpdate(k => k.Word, white);
+      AddKeywordToContextIfNotExists(white, context);
 
       context.SaveChanges();
 
       var pacificclay = new Keyword("PACIFICCLAY") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, pacificclay);
+      AddKeywordToContextIfNotExists(pacificclay, context);
 
       var riccobene = new Keyword("RICCOBENE") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, riccobene);
+      AddKeywordToContextIfNotExists(riccobene, context);
 
       var countrystone = new Keyword("COUNTRYSTONE") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, countrystone);
+      AddKeywordToContextIfNotExists(countrystone, context);
 
       var cassay = new Keyword("CASSAY") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, cassay);
+      AddKeywordToContextIfNotExists(cassay, context);
 
       var aR = new Keyword("A+R") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, aR);
+      AddKeywordToContextIfNotExists(aR, context);
 
       var anchor = new Keyword("ANCHOR") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, anchor);
+      AddKeywordToContextIfNotExists(anchor, context);
 
       var davis = new Keyword("DAVIS") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, davis);
+      AddKeywordToContextIfNotExists(davis, context);
 
       var fulton = new Keyword("FULTON") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, fulton);
+      AddKeywordToContextIfNotExists(fulton, context);
 
       var bertram = new Keyword("BERTRAM") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, bertram);
+      AddKeywordToContextIfNotExists(bertram, context);
 
       var luxora = new Keyword("LUXORA") { Parent = vendor };
-      context.Keywords.AddOrUpdate(k => k.Word, luxora);
+      AddKeywordToContextIfNotExists(luxora, context);
 
       context.SaveChanges();
 
       var alghn = new Keyword("ALGHN") { Parent = allegheny };
-      context.Keywords.AddOrUpdate(k => k.Word, alghn);
+      AddKeywordToContextIfNotExists(alghn, context);
 
       var alghny = new Keyword("ALGHNY") { Parent = allegheny };
-      context.Keywords.AddOrUpdate(k => k.Word, alghny);
+      AddKeywordToContextIfNotExists(alghny, context);
 
       var algny = new Keyword("ALGNY") { Parent = allegheny };
-      context.Keywords.AddOrUpdate(k => k.Word, algny);
+      AddKeywordToContextIfNotExists(algny, context);
 
       var allghny = new Keyword("ALLGHNY") { Parent = allegheny };
-      context.Keywords.AddOrUpdate(k => k.Word, allghny);
+      AddKeywordToContextIfNotExists(allghny, context);
 
       var bvld = new Keyword("BVLD") { Parent = beveled };
-      context.Keywords.AddOrUpdate(k => k.Word, bvld);
+      AddKeywordToContextIfNotExists(bvld, context);
 
       var paccly = new Keyword("PACCLY") { Parent = pacificclay };
-      context.Keywords.AddOrUpdate(k => k.Word, paccly);
+      AddKeywordToContextIfNotExists(paccly, context);
 
       var pcly = new Keyword("PCLY") { Parent = pacificclay };
-      context.Keywords.AddOrUpdate(k => k.Word, pcly);
+      AddKeywordToContextIfNotExists(pcly, context);
 
       var rcbne = new Keyword("RCBNE") { Parent = riccobene };
-      context.Keywords.AddOrUpdate(k => k.Word, rcbne);
+      AddKeywordToContextIfNotExists(rcbne, context);
 
       var capachno = new Keyword("CAPACHNO") { Parent = cappuccino };
-      context.Keywords.AddOrUpdate(k => k.Word, capachno);
+      AddKeywordToContextIfNotExists(capachno, context);
 
       var capcino = new Keyword("CAPCINO") { Parent = cappuccino };
-      context.Keywords.AddOrUpdate(k => k.Word, capcino);
+      AddKeywordToContextIfNotExists(capcino, context);
 
       var capcno = new Keyword("CAPCNO") { Parent = cappuccino };
-      context.Keywords.AddOrUpdate(k => k.Word, capcno);
+      AddKeywordToContextIfNotExists(capcno, context);
 
       var cappcno = new Keyword("CAPPCNO") { Parent = cappuccino };
-      context.Keywords.AddOrUpdate(k => k.Word, cappcno);
+      AddKeywordToContextIfNotExists(cappcno, context);
 
       var cm = new Keyword("CM") { Parent = countrymanor };
-      context.Keywords.AddOrUpdate(k => k.Word, cm);
+      AddKeywordToContextIfNotExists(cm, context);
 
-      var cobbble = new Keyword("COBBBLE") { Parent = cobble};
-      context.Keywords.AddOrUpdate(k => k.Word, cobbble);
+      var cobbble = new Keyword("COBBBLE") { Parent = cobble };
+      AddKeywordToContextIfNotExists(cobbble, context);
 
       var cobbel = new Keyword("COBBEL") { Parent = cobble };
-      context.Keywords.AddOrUpdate(k => k.Word, cobbel);
+      AddKeywordToContextIfNotExists(cobbel, context);
 
       var cpchn = new Keyword("CPCHN") { Parent = cappuccino };
-      context.Keywords.AddOrUpdate(k => k.Word, cpchn);
+      AddKeywordToContextIfNotExists(cpchn, context);
 
       var marqutte = new Keyword("MARQUTTE") { Parent = marquette };
-      context.Keywords.AddOrUpdate(k => k.Word, marqutte);
+      AddKeywordToContextIfNotExists(marqutte, context);
 
       var sur = new Keyword("SUR") { Parent = surrey };
-      context.Keywords.AddOrUpdate(k => k.Word, sur);
+      AddKeywordToContextIfNotExists(sur, context);
 
       var chprl = new Keyword("CHPRL") { Parent = chaparral };
-      context.Keywords.AddOrUpdate(k => k.Word, chprl);
+      AddKeywordToContextIfNotExists(chprl, context);
 
       var cnst = new Keyword("CNST") { Parent = countrystone };
-      context.Keywords.AddOrUpdate(k => k.Word, cnst);
+      AddKeywordToContextIfNotExists(cnst, context);
 
       var cntst = new Keyword("CNTST") { Parent = countrystone };
-      context.Keywords.AddOrUpdate(k => k.Word, cntst);
+      AddKeywordToContextIfNotExists(cntst, context);
 
       var cntrysd = new Keyword("CNTRYSD") { Parent = countryside };
-      context.Keywords.AddOrUpdate(k => k.Word, cntrysd);
+      AddKeywordToContextIfNotExists(cntrysd, context);
 
       var countrysid = new Keyword("COUNTRYSID") { Parent = countryside };
-      context.Keywords.AddOrUpdate(k => k.Word, countrysid);
+      AddKeywordToContextIfNotExists(countrysid, context);
 
       var cssay = new Keyword("CSSAY") { Parent = cassay };
-      context.Keywords.AddOrUpdate(k => k.Word, cssay);
+      AddKeywordToContextIfNotExists(cssay, context);
 
       var fourcbble = new Keyword("FOURCBBLE") { Parent = fourcobble };
-      context.Keywords.AddOrUpdate(k => k.Word, fourcbble);
+      AddKeywordToContextIfNotExists(fourcbble, context);
 
       var fredrck = new Keyword("FREDRCK") { Parent = frederick };
-      context.Keywords.AddOrUpdate(k => k.Word, fredrck);
+      AddKeywordToContextIfNotExists(fredrck, context);
 
       var trracta = new Keyword("TRRACTA") { Parent = terracotta };
-      context.Keywords.AddOrUpdate(k => k.Word, trracta);
+      AddKeywordToContextIfNotExists(trracta, context);
 
       var wthrd = new Keyword("WTHRD") { Parent = weathered };
-      context.Keywords.AddOrUpdate(k => k.Word, wthrd);
+      AddKeywordToContextIfNotExists(wthrd, context);
 
       var almeda = new Keyword("ALMEDA") { Parent = alameda };
-      context.Keywords.AddOrUpdate(k => k.Word, almeda);
+      AddKeywordToContextIfNotExists(almeda, context);
 
       var anch = new Keyword("ANCH") { Parent = anchor };
-      context.Keywords.AddOrUpdate(k => k.Word, anch);
+      AddKeywordToContextIfNotExists(anch, context);
 
       var anchr = new Keyword("ANCHR") { Parent = anchor };
-      context.Keywords.AddOrUpdate(k => k.Word, anchr);
+      AddKeywordToContextIfNotExists(anchr, context);
 
       var ancr = new Keyword("ANCR") { Parent = anchor };
-      context.Keywords.AddOrUpdate(k => k.Word, ancr);
+      AddKeywordToContextIfNotExists(ancr, context);
 
       var arcdn = new Keyword("ARCDN") { Parent = arcadian };
-      context.Keywords.AddOrUpdate(k => k.Word, arcdn);
+      AddKeywordToContextIfNotExists(arcdn, context);
 
       var ashbry = new Keyword("ASHBRY") { Parent = ashberry };
-      context.Keywords.AddOrUpdate(k => k.Word, ashbry);
+      AddKeywordToContextIfNotExists(ashbry, context);
 
       var ashld = new Keyword("ASHLD") { Parent = ashland };
-      context.Keywords.AddOrUpdate(k => k.Word, ashld);
+      AddKeywordToContextIfNotExists(ashld, context);
 
       var ashlnd = new Keyword("ASHLND") { Parent = ashland };
-      context.Keywords.AddOrUpdate(k => k.Word, ashlnd);
+      AddKeywordToContextIfNotExists(ashlnd, context);
 
       var aspn = new Keyword("ASPN") { Parent = aspen };
-      context.Keywords.AddOrUpdate(k => k.Word, aspn);
+      AddKeywordToContextIfNotExists(aspn, context);
 
       var atm = new Keyword("ATM") { Parent = autumn };
-      context.Keywords.AddOrUpdate(k => k.Word, atm);
+      AddKeywordToContextIfNotExists(atm, context);
 
       var atmn = new Keyword("ATMN") { Parent = autumn };
-      context.Keywords.AddOrUpdate(k => k.Word, atmn);
+      AddKeywordToContextIfNotExists(atmn, context);
 
       var blk = new Keyword("BLK") { Parent = black };
-      context.Keywords.AddOrUpdate(k => k.Word, blk);
+      AddKeywordToContextIfNotExists(blk, context);
 
       var bld = new Keyword("BLD") { Parent = blend };
-      context.Keywords.AddOrUpdate(k => k.Word, bld);
+      AddKeywordToContextIfNotExists(bld, context);
 
       var blnd = new Keyword("BLND") { Parent = blend };
-      context.Keywords.AddOrUpdate(k => k.Word, blnd);
+      AddKeywordToContextIfNotExists(blnd, context);
 
       var bock = new Keyword("BOCK") { Parent = block };
-      context.Keywords.AddOrUpdate(k => k.Word, bock);
+      AddKeywordToContextIfNotExists(bock, context);
 
       var brckfc = new Keyword("BRCKFC") { Parent = brickface };
-      context.Keywords.AddOrUpdate(k => k.Word, brckfc);
+      AddKeywordToContextIfNotExists(brckfc, context);
 
       var brckfce = new Keyword("BRCKFCE") { Parent = brickface };
-      context.Keywords.AddOrUpdate(k => k.Word, brckfce);
+      AddKeywordToContextIfNotExists(brckfce, context);
 
       var br = new Keyword("BR") { Parent = brown };
-      context.Keywords.AddOrUpdate(k => k.Word, br);
+      AddKeywordToContextIfNotExists(br, context);
 
       var brn = new Keyword("BRN") { Parent = brown };
-      context.Keywords.AddOrUpdate(k => k.Word, brn);
+      AddKeywordToContextIfNotExists(brn, context);
 
       var brw = new Keyword("BRW") { Parent = brown };
-      context.Keywords.AddOrUpdate(k => k.Word, brw);
+      AddKeywordToContextIfNotExists(brw, context);
 
       var brwn = new Keyword("BRWN") { Parent = brown };
-      context.Keywords.AddOrUpdate(k => k.Word, brwn);
+      AddKeywordToContextIfNotExists(brwn, context);
 
       var bf = new Keyword("BF") { Parent = buff };
-      context.Keywords.AddOrUpdate(k => k.Word, bf);
+      AddKeywordToContextIfNotExists(bf, context);
 
       var bff = new Keyword("BFF") { Parent = buff };
-      context.Keywords.AddOrUpdate(k => k.Word, bff);
+      AddKeywordToContextIfNotExists(bff, context);
 
       var buf = new Keyword("BUF") { Parent = buff };
-      context.Keywords.AddOrUpdate(k => k.Word, buf);
+      AddKeywordToContextIfNotExists(buf, context);
 
       var camdn = new Keyword("CAMDN") { Parent = camden };
-      context.Keywords.AddOrUpdate(k => k.Word, camdn);
+      AddKeywordToContextIfNotExists(camdn, context);
 
       var chandl = new Keyword("CHANDL") { Parent = chandler };
-      context.Keywords.AddOrUpdate(k => k.Word, chandl);
+      AddKeywordToContextIfNotExists(chandl, context);
 
       var chndlr = new Keyword("CHNDLR") { Parent = chandler };
-      context.Keywords.AddOrUpdate(k => k.Word, chndlr);
+      AddKeywordToContextIfNotExists(chndlr, context);
 
       var chnlr = new Keyword("CHNLR") { Parent = chandler };
-      context.Keywords.AddOrUpdate(k => k.Word, chnlr);
+      AddKeywordToContextIfNotExists(chnlr, context);
 
       var ch = new Keyword("CH") { Parent = charcoal };
-      context.Keywords.AddOrUpdate(k => k.Word, ch);
+      AddKeywordToContextIfNotExists(ch, context);
 
       var charq = new Keyword("CHAR") { Parent = charcoal };
-      context.Keywords.AddOrUpdate(k => k.Word, charq);
+      AddKeywordToContextIfNotExists(charq, context);
 
       var charcaol = new Keyword("CHARCAOL") { Parent = charcoal };
-      context.Keywords.AddOrUpdate(k => k.Word, charcaol);
+      AddKeywordToContextIfNotExists(charcaol, context);
 
       var chr = new Keyword("CHR") { Parent = charcoal };
-      context.Keywords.AddOrUpdate(k => k.Word, chr);
+      AddKeywordToContextIfNotExists(chr, context);
 
       var chisled = new Keyword("CHISLED") { Parent = chiseled };
-      context.Keywords.AddOrUpdate(k => k.Word, chisled);
+      AddKeywordToContextIfNotExists(chisled, context);
 
       var chisleled = new Keyword("CHISLELED") { Parent = chiseled };
-      context.Keywords.AddOrUpdate(k => k.Word, chisleled);
+      AddKeywordToContextIfNotExists(chisleled, context);
 
       var cbbl = new Keyword("CBBL") { Parent = cobble };
-      context.Keywords.AddOrUpdate(k => k.Word, cbbl);
+      AddKeywordToContextIfNotExists(cbbl, context);
 
       var cbl = new Keyword("CBL") { Parent = cobble };
-      context.Keywords.AddOrUpdate(k => k.Word, cbl);
+      AddKeywordToContextIfNotExists(cbl, context);
 
       var cob = new Keyword("COB") { Parent = cobble };
-      context.Keywords.AddOrUpdate(k => k.Word, cob);
+      AddKeywordToContextIfNotExists(cob, context);
 
       var cobbl = new Keyword("COBBL") { Parent = cobble };
-      context.Keywords.AddOrUpdate(k => k.Word, cobbl);
+      AddKeywordToContextIfNotExists(cobbl, context);
 
       var cobl = new Keyword("COBL") { Parent = cobble };
-      context.Keywords.AddOrUpdate(k => k.Word, cobl);
+      AddKeywordToContextIfNotExists(cobl, context);
 
       var cbblstn = new Keyword("CBBLSTN") { Parent = cobblestone };
-      context.Keywords.AddOrUpdate(k => k.Word, cbblstn);
+      AddKeywordToContextIfNotExists(cbblstn, context);
 
       var cncd = new Keyword("CNCD") { Parent = concord };
-      context.Keywords.AddOrUpdate(k => k.Word, cncd);
+      AddKeywordToContextIfNotExists(cncd, context);
 
       var cnr = new Keyword("CNR") { Parent = corner };
-      context.Keywords.AddOrUpdate(k => k.Word, cnr);
+      AddKeywordToContextIfNotExists(cnr, context);
 
       var cor = new Keyword("COR") { Parent = corner };
-      context.Keywords.AddOrUpdate(k => k.Word, cor);
+      AddKeywordToContextIfNotExists(cor, context);
 
       var cntry = new Keyword("CNTRY") { Parent = country };
-      context.Keywords.AddOrUpdate(k => k.Word, cntry);
+      AddKeywordToContextIfNotExists(cntry, context);
 
       var cnty = new Keyword("CNTY") { Parent = country };
-      context.Keywords.AddOrUpdate(k => k.Word, cnty);
+      AddKeywordToContextIfNotExists(cnty, context);
 
       var cny = new Keyword("CNY") { Parent = country };
-      context.Keywords.AddOrUpdate(k => k.Word, cny);
+      AddKeywordToContextIfNotExists(cny, context);
 
       var ct = new Keyword("CT") { Parent = country };
-      context.Keywords.AddOrUpdate(k => k.Word, ct);
+      AddKeywordToContextIfNotExists(ct, context);
 
       var cmbrlnd = new Keyword("CMBRLND") { Parent = cumberland };
-      context.Keywords.AddOrUpdate(k => k.Word, cmbrlnd);
+      AddKeywordToContextIfNotExists(cmbrlnd, context);
 
       var dcn = new Keyword("DCN") { Parent = duncan };
-      context.Keywords.AddOrUpdate(k => k.Word, dcn);
+      AddKeywordToContextIfNotExists(dcn, context);
 
       var dncn = new Keyword("DNCN") { Parent = duncan };
-      context.Keywords.AddOrUpdate(k => k.Word, dncn);
+      AddKeywordToContextIfNotExists(dncn, context);
 
       var edg = new Keyword("EDG") { Parent = edger };
-      context.Keywords.AddOrUpdate(k => k.Word, edg);
+      AddKeywordToContextIfNotExists(edg, context);
 
       var edgerer = new Keyword("EDGERER") { Parent = edger };
-      context.Keywords.AddOrUpdate(k => k.Word, edgerer);
+      AddKeywordToContextIfNotExists(edgerer, context);
 
       var edgr = new Keyword("EDGR") { Parent = edger };
-      context.Keywords.AddOrUpdate(k => k.Word, edgr);
+      AddKeywordToContextIfNotExists(edgr, context);
 
       var evrst = new Keyword("EVRST") { Parent = everest };
-      context.Keywords.AddOrUpdate(k => k.Word, evrst);
+      AddKeywordToContextIfNotExists(evrst, context);
 
       var flagstn = new Keyword("FLAGSTN") { Parent = flagstone };
-      context.Keywords.AddOrUpdate(k => k.Word, flagstn);
+      AddKeywordToContextIfNotExists(flagstn, context);
 
       var flgstn = new Keyword("FLGSTN") { Parent = flagstone };
-      context.Keywords.AddOrUpdate(k => k.Word, flgstn);
+      AddKeywordToContextIfNotExists(flgstn, context);
 
       var geometrc = new Keyword("GEOMETRC") { Parent = geometric };
-      context.Keywords.AddOrUpdate(k => k.Word, geometrc);
+      AddKeywordToContextIfNotExists(geometrc, context);
 
       var grnd = new Keyword("GRND") { Parent = grand };
-      context.Keywords.AddOrUpdate(k => k.Word, grnd);
+      AddKeywordToContextIfNotExists(grnd, context);
 
       var gr = new Keyword("GR") { Parent = gray };
-      context.Keywords.AddOrUpdate(k => k.Word, gr);
+      AddKeywordToContextIfNotExists(gr, context);
 
       var gry = new Keyword("GRY") { Parent = gray };
-      context.Keywords.AddOrUpdate(k => k.Word, gry);
+      AddKeywordToContextIfNotExists(gry, context);
 
       var harvst = new Keyword("HARVST") { Parent = harvest };
-      context.Keywords.AddOrUpdate(k => k.Word, harvst);
+      AddKeywordToContextIfNotExists(harvst, context);
 
       var hrvst = new Keyword("HRVST") { Parent = harvest };
-      context.Keywords.AddOrUpdate(k => k.Word, hrvst);
+      AddKeywordToContextIfNotExists(hrvst, context);
 
       var hl = new Keyword("HL") { Parent = hill };
-      context.Keywords.AddOrUpdate(k => k.Word, hl);
+      AddKeywordToContextIfNotExists(hl, context);
 
       var hlland = new Keyword("HLLAND") { Parent = holland };
-      context.Keywords.AddOrUpdate(k => k.Word, hlland);
+      AddKeywordToContextIfNotExists(hlland, context);
 
       var hlld = new Keyword("HLLD") { Parent = holland };
-      context.Keywords.AddOrUpdate(k => k.Word, hlld);
+      AddKeywordToContextIfNotExists(hlld, context);
 
       var hllnd = new Keyword("HLLND") { Parent = holland };
-      context.Keywords.AddOrUpdate(k => k.Word, hllnd);
+      AddKeywordToContextIfNotExists(hllnd, context);
 
       var hmstd = new Keyword("HMSTD") { Parent = homestead };
-      context.Keywords.AddOrUpdate(k => k.Word, hmstd);
+      AddKeywordToContextIfNotExists(hmstd, context);
 
       var homstd = new Keyword("HOMSTD") { Parent = homestead };
-      context.Keywords.AddOrUpdate(k => k.Word, homstd);
+      AddKeywordToContextIfNotExists(homstd, context);
 
       var jaxn = new Keyword("JAXN") { Parent = jaxon };
-      context.Keywords.AddOrUpdate(k => k.Word, jaxn);
+      AddKeywordToContextIfNotExists(jaxn, context);
 
       var jxn = new Keyword("JXN") { Parent = jaxon };
-      context.Keywords.AddOrUpdate(k => k.Word, jxn);
+      AddKeywordToContextIfNotExists(jxn, context);
 
       var lexngtn = new Keyword("LEXNGTN") { Parent = lexington };
-      context.Keywords.AddOrUpdate(k => k.Word, lexngtn);
+      AddKeywordToContextIfNotExists(lexngtn, context);
 
       var lxingtn = new Keyword("LXINGTN") { Parent = lexington };
-      context.Keywords.AddOrUpdate(k => k.Word, lxingtn);
+      AddKeywordToContextIfNotExists(lxingtn, context);
 
       var lxngtn = new Keyword("LXNGTN") { Parent = lexington };
-      context.Keywords.AddOrUpdate(k => k.Word, lxngtn);
+      AddKeywordToContextIfNotExists(lxngtn, context);
 
       var limstn = new Keyword("LIMSTN") { Parent = limestone };
-      context.Keywords.AddOrUpdate(k => k.Word, limstn);
+      AddKeywordToContextIfNotExists(limstn, context);
 
       var lm = new Keyword("LM") { Parent = limestone };
-      context.Keywords.AddOrUpdate(k => k.Word, lm);
+      AddKeywordToContextIfNotExists(lm, context);
 
       var lmestn = new Keyword("LMESTN") { Parent = limestone };
-      context.Keywords.AddOrUpdate(k => k.Word, lmestn);
+      AddKeywordToContextIfNotExists(lmestn, context);
 
       var lmst = new Keyword("LMST") { Parent = limestone };
-      context.Keywords.AddOrUpdate(k => k.Word, lmst);
+      AddKeywordToContextIfNotExists(lmst, context);
 
       var lmstn = new Keyword("LMSTN") { Parent = limestone };
-      context.Keywords.AddOrUpdate(k => k.Word, lmstn);
+      AddKeywordToContextIfNotExists(lmstn, context);
 
       var mnr = new Keyword("MNR") { Parent = manor };
-      context.Keywords.AddOrUpdate(k => k.Word, mnr);
+      AddKeywordToContextIfNotExists(mnr, context);
 
       var min = new Keyword("MIN") { Parent = mini };
-      context.Keywords.AddOrUpdate(k => k.Word, min);
+      AddKeywordToContextIfNotExists(min, context);
 
       var pvr = new Keyword("PVR") { Parent = paver };
-      context.Keywords.AddOrUpdate(k => k.Word, pvr);
+      AddKeywordToContextIfNotExists(pvr, context);
 
       var peytn = new Keyword("PEYTN") { Parent = peyton };
-      context.Keywords.AddOrUpdate(k => k.Word, peytn);
+      AddKeywordToContextIfNotExists(peytn, context);
 
       var pytn = new Keyword("PYTN") { Parent = peyton };
-      context.Keywords.AddOrUpdate(k => k.Word, pytn);
+      AddKeywordToContextIfNotExists(pytn, context);
 
       var plntr = new Keyword("PLNTR") { Parent = planter };
-      context.Keywords.AddOrUpdate(k => k.Word, plntr);
+      AddKeywordToContextIfNotExists(plntr, context);
 
       var rd = new Keyword("RD") { Parent = red };
-      context.Keywords.AddOrUpdate(k => k.Word, rd);
+      AddKeywordToContextIfNotExists(rd, context);
 
       var sd = new Keyword("SD") { Parent = sand };
-      context.Keywords.AddOrUpdate(k => k.Word, sd);
+      AddKeywordToContextIfNotExists(sd, context);
 
       var snd = new Keyword("SND") { Parent = sand };
-      context.Keywords.AddOrUpdate(k => k.Word, snd);
+      AddKeywordToContextIfNotExists(snd, context);
 
       var srra = new Keyword("SRRA") { Parent = sierra };
-      context.Keywords.AddOrUpdate(k => k.Word, srra);
+      AddKeywordToContextIfNotExists(srra, context);
 
       var slt = new Keyword("SLT") { Parent = slate };
-      context.Keywords.AddOrUpdate(k => k.Word, slt);
+      AddKeywordToContextIfNotExists(slt, context);
 
       var sq = new Keyword("SQ") { Parent = square };
-      context.Keywords.AddOrUpdate(k => k.Word, sq);
+      AddKeywordToContextIfNotExists(sq, context);
 
       var sqre = new Keyword("SQRE") { Parent = square };
-      context.Keywords.AddOrUpdate(k => k.Word, sqre);
+      AddKeywordToContextIfNotExists(sqre, context);
 
       var st = new Keyword("ST") { Parent = stone };
-      context.Keywords.AddOrUpdate(k => k.Word, st);
+      AddKeywordToContextIfNotExists(st, context);
 
       var stn = new Keyword("STN") { Parent = stone };
-      context.Keywords.AddOrUpdate(k => k.Word, stn);
+      AddKeywordToContextIfNotExists(stn, context);
 
       var stne = new Keyword("STNE") { Parent = stone };
-      context.Keywords.AddOrUpdate(k => k.Word, stne);
+      AddKeywordToContextIfNotExists(stne, context);
 
       var stnev = new Keyword("STNEV") { Parent = stone };
-      context.Keywords.AddOrUpdate(k => k.Word, stnev);
+      AddKeywordToContextIfNotExists(stnev, context);
 
       var tn = new Keyword("TN") { Parent = tan };
-      context.Keywords.AddOrUpdate(k => k.Word, tn);
+      AddKeywordToContextIfNotExists(tn, context);
 
       var tranql = new Keyword("TRANQL") { Parent = tranquil };
-      context.Keywords.AddOrUpdate(k => k.Word, tranql);
+      AddKeywordToContextIfNotExists(tranql, context);
 
       var trnql = new Keyword("TRNQL") { Parent = tranquil };
-      context.Keywords.AddOrUpdate(k => k.Word, trnql);
+      AddKeywordToContextIfNotExists(trnql, context);
 
       var trnqul = new Keyword("TRNQUL") { Parent = tranquil };
-      context.Keywords.AddOrUpdate(k => k.Word, trnqul);
+      AddKeywordToContextIfNotExists(trnqul, context);
 
       var wl = new Keyword("WL") { Parent = wall };
-      context.Keywords.AddOrUpdate(k => k.Word, wl);
+      AddKeywordToContextIfNotExists(wl, context);
 
       var wll = new Keyword("WLL") { Parent = wall };
-      context.Keywords.AddOrUpdate(k => k.Word, wll);
+      AddKeywordToContextIfNotExists(wll, context);
 
       context.SaveChanges();
     }

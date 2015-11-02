@@ -11,14 +11,16 @@
 		public DbSet<Keyword> Keywords { get; set; }
 		public DbSet<Description> Descriptions { get; set; }
     public DbSet<UpcReplacement> UpcReplacements { get; set; }
+    public DbSet<JobSource> JobSources { get; set; }
 
 		public PatioBloxContext() : base("name=PatioBloxConnectionString")
 		{
 		  Database.SetInitializer(
-        //new TestInitializer());
-        new NullDatabaseInitializer<PatioBloxContext>());
-		    //new DropCreateDatabaseAlways<PatioBloxContext>());
-		    //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
+      new TestInitializer());
+		  //new FullInitializer());
+		  //new NullDatabaseInitializer<PatioBloxContext>());
+		  //new DropCreateDatabaseAlways<PatioBloxContext>());
+		  //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
 		}
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -26,6 +28,7 @@
       modelBuilder.Configurations.Add(new KeywordTypeConfiguration());
 		  modelBuilder.Configurations.Add(new DescriptionTypeConfiguration());
 		  modelBuilder.Configurations.Add(new UpcReplacementTypeConfiguration());
+		  modelBuilder.Configurations.Add(new JobSourceTypeConfiguration());
 		}
 
 	  public Dictionary<string, int> DescriptionDict

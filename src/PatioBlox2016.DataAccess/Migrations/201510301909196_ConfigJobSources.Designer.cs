@@ -7,13 +7,13 @@ namespace PatioBlox2016.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class RemoveJobIdfromDescription : IMigrationMetadata
+    public sealed partial class ConfigJobSources : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(RemoveJobIdfromDescription));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ConfigJobSources));
         
         string IMigrationMetadata.Id
         {
-            get { return "201507212052421_Remove JobId from Description"; }
+            get { return "201510301909196_ConfigJobSources"; }
         }
         
         string IMigrationMetadata.Source

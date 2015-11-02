@@ -7,13 +7,13 @@ namespace PatioBlox2016.DataAccess.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddSkutoDescriptionUsage : IMigrationMetadata
+    public sealed partial class JobSourcesDescriptions : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddSkutoDescriptionUsage));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(JobSourcesDescriptions));
         
         string IMigrationMetadata.Id
         {
-            get { return "201507092150445_Add Sku to DescriptionUsage"; }
+            get { return "201510301839488_JobSourcesDescriptions"; }
         }
         
         string IMigrationMetadata.Source
