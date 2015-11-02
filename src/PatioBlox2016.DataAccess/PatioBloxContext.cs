@@ -15,9 +15,9 @@
 		public PatioBloxContext() : base("name=PatioBloxConnectionString")
 		{
 		  Database.SetInitializer(
-      new TestInitializer());
+      //new TestInitializer());
 		  //new FullInitializer());
-		  //new NullDatabaseInitializer<PatioBloxContext>());
+		  new NullDatabaseInitializer<PatioBloxContext>());
 		  //new DropCreateDatabaseAlways<PatioBloxContext>());
 		  //new MigrateDatabaseToLatestVersion<PatioBloxContext, Migrations.Configuration>());
 		}
