@@ -71,35 +71,6 @@
       }
     }
 
-    private static void SeedJobSources(PatioBloxContext context)
-    {
-      const string path2014 = @"\\Storage2\AraxiVolume_InSiteJobs\Jobs\Lowes US 2014 Patio Blocks";
-      const string path2015 = @"\\Storage2\AraxiVolume_InSiteJobs\Jobs\Lowes US 2015 Patio Blocks";
-      var source2014 = new JobSource {JobPath = path2014};
-      var source2015 = new JobSource {JobPath = path2015};
-      var now = DateTime.Now;
-
-      var desc1 = new Description("TEST DESCRIPTION NUMBER ONE") {InsertDate = now};
-      var desc2 = new Description("TEST DESCRIPTION NUMBER TWO") { InsertDate = now };
-      var desc3 = new Description("TEST DESCRIPTION NUMBER THREE") { InsertDate = now };
-      var desc4 = new Description("TEST DESCRIPTION NUMBER FOUR") { InsertDate = now };
-
-      source2014.Descriptions.Add(desc1);
-      source2014.Descriptions.Add(desc2);
-      source2015.Descriptions.Add(desc1);
-      source2015.Descriptions.Add(desc3);
-      source2015.Descriptions.Add(desc4);
-
-      context.JobSources.Add(source2014);
-      context.JobSources.Add(source2015);
-      context.Descriptions.Add(desc1);
-      context.Descriptions.Add(desc2);
-      context.Descriptions.Add(desc3);
-      context.Descriptions.Add(desc4);
-
-      context.SaveChanges();
-    }
-
     public static void FullSeed(PatioBloxContext context)
     {
       SeedKeywords(context, true);
@@ -118,7 +89,6 @@
     public static void TestSeed(PatioBloxContext context)
     {
       SeedKeywords(context);
-      SeedJobSources(context);
     }
 
     [SuppressMessage("ReSharper", "UnusedVariable")]

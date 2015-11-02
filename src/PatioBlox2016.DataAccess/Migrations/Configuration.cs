@@ -11,8 +11,8 @@ namespace PatioBlox2016.DataAccess.Migrations
 
     protected override void Seed(PatioBloxContext context)
     {
-      SeedHelpers.TestSeed(context);
-      //SeedHelpers.FullSeed(context);
+      //SeedHelpers.TestSeed(context);
+      SeedHelpers.FullSeed(context);
 
       base.Seed(context);
     }
