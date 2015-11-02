@@ -54,8 +54,10 @@
     <Compile Include="FlexCelExtractionException.cs" />
     <Compile Include="PatioBloxHeaderExtractionException.cs" />
     <Compile Include="IExtractionResult.cs" />
+    <Compile Include="IKeywordExtractor.cs" />
     <Compile Include="IPatchExtract.cs" />
     <Compile Include="AdvertisingPatchExtractor.cs" />
+    <Compile Include="SeedExtractor.cs" />
     <Compile Include="PatchDataFile.cs" />
     <Compile Include="ExtractionResult.cs" />
     <Compile Include="PatchExtractor.cs" />

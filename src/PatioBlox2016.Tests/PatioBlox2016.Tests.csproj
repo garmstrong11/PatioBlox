@@ -97,6 +97,7 @@
     <Compile Include="ExtractorTests\ExtractorTestBase.cs" />
     <Compile Include="ExtractorTests\PatchDataFileTests.cs" />
     <Compile Include="ExtractorTests\PatchExtractorTests.cs" />
+    <Compile Include="ExtractorTests\SeedExtractorTests.cs" />
     <Compile Include="ExtractorTests\AdvertisingPatchExtractorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

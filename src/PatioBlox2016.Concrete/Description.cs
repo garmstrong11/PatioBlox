@@ -6,7 +6,7 @@
   using System.Text.RegularExpressions;
   using PatioBlox2016.Abstract;
 
-  public class Description : IDescription
+  public class Description : IDescription, IJsxExportable
 	{
     private static readonly Regex SizeRegex = 
       new Regex(@"(\d+\.?\d*)-?(I-?N|SQ ?FT)?-? ?([Xx])? ?(H(?= ))? ?", 
@@ -19,7 +19,6 @@
       if (string.IsNullOrWhiteSpace(text)) throw new ArgumentNullException("text");
 
       Text = text;
-      JobSources = new List<JobSource>();
     }
 
     public int Id { get; set; }
@@ -29,7 +28,6 @@
     public string Color { get; set; }
     public string Name { get; set; }
     public DateTime InsertDate { get; set; }
-    public ICollection<JobSource> JobSources { get; set; }
 
     public bool IsUnresolved
     {
