@@ -17,7 +17,7 @@
       if (string.IsNullOrWhiteSpace(bookName)) throw new ArgumentNullException("bookName");
 
       Job = job;
-      BookName = bookName;
+      BookName = bookName.Trim();
       _sections = new List<ISection>();
 	  }
 
