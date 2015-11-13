@@ -60,10 +60,11 @@
                       {
                         Section = sec,
                         Sku = sku,
-                        Description = desc,
                         PalletQuanity = pq,
                         Upc = upc
                       };
+
+        if (desc != null) { extract.Description = desc.ToUpper(); }
 
         yield return extract;
       }
