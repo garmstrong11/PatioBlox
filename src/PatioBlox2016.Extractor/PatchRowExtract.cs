@@ -1,60 +1,42 @@
 ﻿namespace PatioBlox2016.Extractor
 {
-  using Abstract;
+  using PatioBlox2018.Core;
 
+  /// <summary>
+  /// A simple data transfer object to encapsulate rows
+  /// extracted from an Excel patch content worksheet.
+  /// </summary>
   public class PatchRowExtract : IPatchRowExtract
   {
-    public PatchRowExtract(string patchName, int rowIndex)
+    public PatchRowExtract(
+      string patchName, int sourceRowIndex, string section, 
+      int? blockIndex, int? sku, string vendor, 
+      string description, string palletQuanity, string barcode)
     {
       PatchName = patchName;
-      RowIndex = rowIndex;
+      SourceRowIndex = sourceRowIndex;
+      Section = section;
+      BlockIndex = blockIndex;
+      ItemNumber = sku;
+      Vendor = vendor;
+      Description = description;
+      PalletQuanity = palletQuanity;
+      Barcode = barcode;
     }
 
-    public string PatchName { get; private set; }
-    public int RowIndex { get; private set; }
-
-    public int Sku { get; set; }
-    public string Description { get; set; }
-    public string Section { get; set; }
-    public string PalletQuanity { get; set; }
-    public string Upc { get; set; }
-
-    protected bool Equals(PatchRowExtract other)
-    {
-      return Sku == other.Sku 
-        && string.Equals(PatchName, other.PatchName) 
-        && RowIndex == other.RowIndex 
-        && string.Equals(Description, other.Description) 
-        && string.Equals(Section, other.Section) 
-        && string.Equals(PalletQuanity, other.PalletQuanity) 
-        && string.Equals(Upc, other.Upc);
-    }
-
-    public override bool Equals(object obj)
-    {
-      if (ReferenceEquals(null, obj)) return false;
-      if (ReferenceEquals(this, obj)) return true;
-      if (obj.GetType() != this.GetType()) return false;
-      return Equals((PatchRowExtract) obj);
-    }
-
-    public override int GetHashCode()
-    {
-      unchecked {
-        var hashCode = Sku;
-        hashCode = (hashCode * 397) ^ PatchName.GetHashCode();
-        hashCode = (hashCode * 397) ^ RowIndex;
-        hashCode = (hashCode * 397) ^ Description.GetHashCode();
-        hashCode = (hashCode * 397) ^ Section.GetHashCode();
-        hashCode = (hashCode * 397) ^ PalletQuanity.GetHashCode();
-        hashCode = (hashCode * 397) ^ Upc.GetHashCode();
-        return hashCode;
-      }
-    }
+    public string PatchName { get; }
+    public int SourceRowIndex { get; }
+    public string Section { get; }
+    public int? BlockIndex { get; }
+    public int? ItemNumber { get; }
+    public string Vendor { get; }
+    public string Description { get; }
+    public string PalletQuanity { get; }
+    public string Barcode { get; }
 
     public override string ToString()
     {
-      return string.Format("RowIndex: {0}, Sku: {1}, Description: {2}", RowIndex, Sku, Description);
+      return $"RowIndex: {SourceRowIndex}, Sku: {ItemNumber}, Description: {Description}";
     }
   }
 }

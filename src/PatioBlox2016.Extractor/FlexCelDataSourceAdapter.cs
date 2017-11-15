@@ -3,9 +3,10 @@
   using System;
   using System.Collections.Generic;
   using System.Globalization;
-  using Abstract;
+  using System.Text.RegularExpressions;
   using FlexCel.Core;
   using FlexCel.XlsAdapter;
+  using PatioBlox2018.Core;
 
   public class FlexCelDataSourceAdapter : IDataSourceAdapter
 	{
@@ -19,18 +20,19 @@
 
 		public int GetRowColumnCount(int rowIndex)
 		{
-			if(rowIndex < 1) throw new ArgumentOutOfRangeException("rowIndex");
+			if(rowIndex < 1) throw new ArgumentOutOfRangeException(nameof(rowIndex));
 			return _xls.ColCountInRow(rowIndex);
 		}
 
-    public void SetActiveSheetByName(string sheetName)
-    {
-      _xls.ActiveSheetByName = sheetName;
-    }
+    public void SetActiveSheetByName(string sheetName) 
+      => _xls.ActiveSheetByName = sheetName;
 
-		public void Open(string sourcePath)
+    public void Open(string sourcePath)
 		{
-			_sourcePath = sourcePath;
+		  if (string.IsNullOrWhiteSpace(sourcePath))
+		    throw new ArgumentException("Value cannot be null or whitespace.", nameof(sourcePath));
+
+		  _sourcePath = sourcePath;
 
 			_xls.Open(_sourcePath);
 			ActiveSheet = 1;
@@ -38,54 +40,27 @@
 
 		public int ActiveSheet
 		{
-			get
-			{
-				if (string.IsNullOrWhiteSpace(_sourcePath)) return -1;
-				return _xls.ActiveSheet;
-			}
-			set { _xls.ActiveSheet = value; }
+			get => _xls.ActiveSheet;
+		  set => _xls.ActiveSheet = value;
 		}
 
-		public int ColumnCount
-		{
-			get
-			{
-				if (string.IsNullOrWhiteSpace(_sourcePath)) return -1;
-				return _xls.ColCount;
-			}
-		}
+		public int ColumnCount => _xls.ColCount;
 
-		public int RowCount
-		{
-			get
-			{
-				if (string.IsNullOrWhiteSpace(_sourcePath)) return -1;
-				return _xls.RowCount;
-			}
-		}
+	  public int RowCount => _xls.RowCount;
 
-		public int SheetCount
-		{
-			get { return _xls.SheetCount; }
-		}
+	  public int SheetCount => _xls.SheetCount;
 
-		public int GetRowCountForSheet(int sheetIndex)
-		{
-			return _xls.GetRowCount(sheetIndex);
-		}
+	  public int GetRowCountForSheet(int sheetIndex) => _xls.GetRowCount(sheetIndex);
 
-	  public int GetColumnCountForSheet(int sheetIndex)
-	  {
-	    return _xls.GetColCount(sheetIndex);
-	  }
+	  public int GetColumnCountForSheet(int sheetIndex) => _xls.GetColCount(sheetIndex);
 
-		/// <summary>
-		/// Use this method to extract string dates from date-formatted cells
-		/// </summary>
-		/// <param name="rowIndex"></param>
-		/// <param name="columnIndex"></param>
-		/// <returns></returns>
-		public string ExtractRawString(int rowIndex, int columnIndex)
+    /// <summary>
+    /// Use this method to extract string dates from date-formatted cells
+    /// </summary>
+    /// <param name="rowIndex"></param>
+    /// <param name="columnIndex"></param>
+    /// <returns></returns>
+    public string ExtractRawString(int rowIndex, int columnIndex)
 		{
 			var richString = _xls.GetStringFromCell(rowIndex, columnIndex);
 
@@ -139,44 +114,21 @@
 
 		private static string CheckString(object val)
 		{
-			if (val == null) return null;
+		  if (val == null) return string.Empty;
+      var extract = val.ToString().Trim().Replace("\n", " ");
 
-			var extract = val.ToString().Trim().Replace("\n", " ");
-
-			return extract;
+		  return Regex.Replace(extract, @" {2,}", " ");
 		}
 		#endregion
 
 		#region ExtractDouble
-		public double ExtractDouble(int rowIndex, int columnIndex)
-		{
-			var val = CheckDouble(_xls.GetCellValue(rowIndex, columnIndex));
+		public double? ExtractDouble(int rowIndex, int columnIndex)
+		  => CheckDouble(_xls.GetCellValue(rowIndex, columnIndex));
 
-			if (val != null) return val.Value;
-
-			var exception = new FlexCelExtractionException(_xls.ActiveSheet, rowIndex, columnIndex)
-			{
-				FileSpec = _sourcePath,
-				Type = typeof(double)
-			};
-
-			throw exception;
-		}
-
-		public double ExtractDouble(int sheetIndex, int rowIndex, int columnIndex)
+		public double? ExtractDouble(int sheetIndex, int rowIndex, int columnIndex)
 		{
 			var xf = 0;
-			var val = CheckDouble(_xls.GetCellValue(sheetIndex, rowIndex, columnIndex, ref xf));
-
-			if (val != null) return val.Value;
-
-			var exception = new FlexCelExtractionException(sheetIndex, rowIndex, columnIndex)
-				{
-				FileSpec = _sourcePath,
-				Type = typeof(double)
-				};
-
-			throw exception;
+			return CheckDouble(_xls.GetCellValue(sheetIndex, rowIndex, columnIndex, ref xf));
 		}
 
 		public bool IsCellNull(int rowIndex, int columnIndex)
@@ -188,39 +140,34 @@
 
 		private static double? CheckDouble(object extract)
 		{
-			if (extract == null) return -1.0;
+			if (extract == null) return null;
 
-			if (extract is string)
-			{
-				double dbl;
-				var str = extract.ToString().Trim();
-				if (string.IsNullOrWhiteSpace(str)) return 0.0;
-				if (double.TryParse(str, out dbl)) return dbl;
+		  if (!(extract is string)) return extract as double?;
 
-				return null;
-			}
+      var str = extract.ToString().Trim();
+      if (string.IsNullOrWhiteSpace(str)) return null;
+		  if (double.TryParse(str, out double dbl)) return dbl;
 
-			if (!(extract is double)) return 0.0;
-
-			return (double)extract;
+		  return null;
 		}
 
 		#endregion
 
 		#region ExtractInteger
-		public int ExtractInteger(int rowIndex, int columnIndex)
+		public int? ExtractInteger(int rowIndex, int columnIndex)
 		{
 			return CheckInteger(ExtractDouble(rowIndex, columnIndex));
 		}
 
-		public int ExtractInteger(int sheetIndex, int rowIndex, int columnIndex)
+		public int? ExtractInteger(int sheetIndex, int rowIndex, int columnIndex)
 		{
 			return CheckInteger(ExtractDouble(sheetIndex, rowIndex, columnIndex));
 		}
 
-		private static int CheckInteger(double val)
+		private static int? CheckInteger(double? val)
 		{
-			return Convert.ToInt32(Math.Ceiling(val));
+		  if (!val.HasValue) return null;
+			return Convert.ToInt32(Math.Ceiling(val.Value));
 		}
 		#endregion
 
@@ -230,26 +177,17 @@
 		}
 
 		public void SetCellValue(int rowIndex, int columnIndex, object value)
-		{
-			_xls.SetCellValue(rowIndex, columnIndex, value);
-		}
+			=>_xls.SetCellValue(rowIndex, columnIndex, value);
 
 		public void MarkForAutofit(int columnIndex)
-		{
-			_xls.MarkColForAutofit(columnIndex, true, 1.2);
-		}
+			=> _xls.MarkColForAutofit(columnIndex, true, 1.2);
 
 		public void AutofitColumns()
-		{
-			_xls.AutofitMarkedRowsAndCols(true, false, 1.0);
-		}
+			=> _xls.AutofitMarkedRowsAndCols(true, false, 1.0);
 
-		public void FreezeTopRow()
-		{
-			_xls.FreezePanes(new TCellAddress(2, 2));
-		}
+		public void FreezeTopRow() => _xls.FreezePanes(new TCellAddress(2, 2));
 
-		public Tuple<byte, byte, byte> GetCellColor(int rowIndex, int columnIndex)
+    public Tuple<byte, byte, byte> GetCellColor(int rowIndex, int columnIndex)
 		{
 		  var color = _xls.GetCellVisibleFormatDef(rowIndex, columnIndex)
         .FillPattern.FgColor.ToColor(_xls);
@@ -273,9 +211,6 @@
       }
     }
 
-    public string SheetName
-    {
-      get { return _xls.SheetName; }
-    }
+    public string SheetName => _xls.SheetName;
 	}
 }

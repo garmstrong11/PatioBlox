@@ -12,11 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{685B5D
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Abstract", "PatioBlox2016.Abstract\PatioBlox2016.Abstract.csproj", "{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2016.Reporter", "PatioBlox2016.Reporter\PatioBlox2016.Reporter.csproj", "{A012BC24-C3A2-4FC8-A2DD-32758660D370}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2018.Core", "PatioBlox2018.Core\PatioBlox2018.Core.csproj", "{FBF26DF0-6730-4495-8887-124B2AB856B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2018.Tests", "PatioBlox2018.Tests\PatioBlox2018.Tests.csproj", "{CD5A149D-1A15-46C8-9881-C7E6F83822C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,10 +28,6 @@ Global
 		{B0FE40EA-32FC-41CE-8DC2-DD82B0597A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0FE40EA-32FC-41CE-8DC2-DD82B0597A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0FE40EA-32FC-41CE-8DC2-DD82B0597A85}.Release|Any CPU.Build.0 = Release|Any CPU
-		{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{523B43A3-4603-4DAC-B4CE-E9BAEBFD5AD5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A012BC24-C3A2-4FC8-A2DD-32758660D370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A012BC24-C3A2-4FC8-A2DD-32758660D370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A012BC24-C3A2-4FC8-A2DD-32758660D370}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -40,6 +36,10 @@ Global
 		{FBF26DF0-6730-4495-8887-124B2AB856B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBF26DF0-6730-4495-8887-124B2AB856B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBF26DF0-6730-4495-8887-124B2AB856B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD5A149D-1A15-46C8-9881-C7E6F83822C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD5A149D-1A15-46C8-9881-C7E6F83822C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD5A149D-1A15-46C8-9881-C7E6F83822C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD5A149D-1A15-46C8-9881-C7E6F83822C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

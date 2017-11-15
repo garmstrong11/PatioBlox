@@ -4,8 +4,7 @@
   using System.Collections.Generic;
   using System.Linq;
   using System.Text.RegularExpressions;
-  using Abstract;
-  using Concrete;
+  using PatioBlox2018.Core;
 
   public class ExtractionResult : IExtractionResult
   {
@@ -16,20 +15,12 @@
       _patchRowExtracts = new List<IPatchRowExtract>();
     }
 
-    public IEnumerable<IPatchRowExtract> PatchRowExtracts
-    {
-      get { return _patchRowExtracts.AsEnumerable(); }
-    }
-
-    public void AddPatchRowExtract(IPatchRowExtract patchRowExtract)
-    {
-      if (patchRowExtract == null) throw new ArgumentNullException("patchRowExtract");
-      _patchRowExtracts.Add(patchRowExtract);
-    }
+    public IEnumerable<IPatchRowExtract> PatchRowExtracts 
+      => _patchRowExtracts.AsEnumerable();
 
     public void AddPatchRowExtractRange(IEnumerable<IPatchRowExtract> patchRowExtracts)
     {
-      if (patchRowExtracts == null) throw new ArgumentNullException("patchRowExtracts");
+      if (patchRowExtracts == null) throw new ArgumentNullException(nameof(patchRowExtracts));
       _patchRowExtracts.AddRange(patchRowExtracts);
     }
 
@@ -55,14 +46,6 @@
       get { return _patchRowExtracts.GroupBy(pr => pr.PatchName); }
     } 
 
-    public IEnumerable<string> UniqueUpcs
-    {
-      get { return _patchRowExtracts
-        .Where(pr => !string.IsNullOrWhiteSpace(pr.Upc) && pr.Sku > 0)
-        .Select(pr => pr.Upc)
-        .Distinct(); }
-    }
-
     public IEnumerable<string> UniqueSectionNames
     {
       get
@@ -72,55 +55,6 @@
           .Where(pr => !Regex.IsMatch(pr.Section, @"^Page ?\d+$"))
           .Select(pr => pr.Section)
           .Distinct();
-      }
-    }
-
-    public IEnumerable<string> UniqueWords
-    {
-      get
-      {
-        return UniqueDescriptions
-          .SelectMany(Description.ExtractWordList)
-          .Distinct()
-          .OrderBy(d => d);
-      }
-    }
-
-    public IEnumerable<int> UniqueSkus
-    {
-      get { return _patchRowExtracts.Select(pr => pr.Sku).Distinct(); }
-    }
-
-    public IEnumerable<PatchRowExtract> GetProductExtracts()
-    {
-      return _patchRowExtracts
-        .Where(pr => pr.Sku >= 0)
-        .Cast<PatchRowExtract>();
-    }
-
-    public IEnumerable<Barcode> InvalidBarcodes
-    {
-      get
-      {
-        var badBarcodes = from upc in UniqueUpcs
-          let barcode = new Barcode(upc)
-          where !barcode.IsValid
-          select barcode;
-
-        return badBarcodes;
-      }
-    }
-
-    public IEnumerable<string> InvalidUpcs
-    {
-      get
-      {
-        var invalidUpcs = from upc in UniqueUpcs
-          let barcode = new Barcode(upc)
-          where !barcode.IsValid
-          select upc;
-
-        return invalidUpcs;
       }
     }
   }

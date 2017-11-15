@@ -2,10 +2,8 @@
 {
   using System;
   using System.Collections.Generic;
-  using System.IO.Abstractions;
   using System.Linq;
-  using PatioBlox2016.Abstract;
-  using PatioBlox2016.Concrete;
+  using PatioBlox2018.Core;
 
   public class AdvertisingPatchExtractor : ExtractorBase<IAdvertisingPatch>, IAdvertisingPatchExtractor
   {
@@ -13,17 +11,16 @@
 
     public AdvertisingPatchExtractor(
       IDataSourceAdapter adapter, 
-      IFileSystem fileSystem,
       IColumnIndexService columnIndexService) 
-      : base(adapter, fileSystem)
+      : base(adapter)
     {
       _columnIndexService = columnIndexService;
     }
 
-    public override IEnumerable<IAdvertisingPatch> Extract()
+    public override IEnumerable<IAdvertisingPatch> Extract(IEnumerable<string> excelFilePaths)
     {
       var rowCount = XlAdapter.RowCount;
-      var result = new List<Tuple<string, int>>();
+      var result = new List<Tuple<string, int?>>();
       var patchIndex = _columnIndexService.PatchAreaIndex;
       var storeIdIndex = _columnIndexService.StoreIdIndex;
 
@@ -44,7 +41,7 @@
         // Disallow duplicate storeIds:
         if (result.Any(p => p.Item2 == storeId)) continue;
 
-        result.Add(new Tuple<string, int>(patchArea, storeId));
+        result.Add(new Tuple<string, int?>(patchArea, storeId));
       }
 
       var patchGroups = result.GroupBy(t => t.Item1);

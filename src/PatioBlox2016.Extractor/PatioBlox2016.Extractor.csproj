@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PatioBlox2016.Extractor</RootNamespace>
     <AssemblyName>PatioBlox2016.Extractor</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,6 +38,7 @@
       <HintPath>..\..\lib\FlexCel.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,24 +47,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DescriptionExtractor.cs" />
+    <Compile Include="AdvertisingPatch.cs" />
+    <Compile Include="FlexcelColumnIndexService.cs" />
     <Compile Include="ExtractorBase.cs" />
     <Compile Include="FlexCelDataSourceAdapter.cs" />
     <Compile Include="FlexCelExtractionException.cs" />
     <Compile Include="PatioBloxHeaderExtractionException.cs" />
-    <Compile Include="IExtractionResult.cs" />
-    <Compile Include="IPatchExtract.cs" />
     <Compile Include="AdvertisingPatchExtractor.cs" />
-    <Compile Include="PatchDataFile.cs" />
     <Compile Include="ExtractionResult.cs" />
     <Compile Include="PatchExtractor.cs" />
     <Compile Include="PatchRowExtract.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PatioBlox2016.Abstract\PatioBlox2016.Abstract.csproj">
-      <Project>{523b43a3-4603-4dac-b4ce-e9baebfd5ad5}</Project>
-      <Name>PatioBlox2016.Abstract</Name>
+    <ProjectReference Include="..\PatioBlox2018.Core\PatioBlox2018.Core.csproj">
+      <Project>{fbf26df0-6730-4495-8887-124b2ab856b3}</Project>
+      <Name>PatioBlox2018.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
