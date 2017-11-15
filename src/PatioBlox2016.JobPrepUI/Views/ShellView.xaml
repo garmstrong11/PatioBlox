@@ -1,8 +1,0 @@
-﻿<Window x:Class="PatioBlox2016.JobPrepUI.Views.ShellView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ShellView" Height="400" Width="500"
-        Background="LightGray">
-
-  <ContentControl x:Name="ActiveItem"/>
-</Window>
