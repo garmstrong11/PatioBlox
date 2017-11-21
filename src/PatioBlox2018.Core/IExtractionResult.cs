@@ -5,9 +5,9 @@
 
   public interface IExtractionResult
   {
-    IEnumerable<IPatchRowExtract> PatchRowExtracts { get; }
+    IEnumerable<IPatchRow> PatchRowExtracts { get; }
     //void AddPatchRowExtract(IPatchRowExtract patchRowExtract);
-    void AddPatchRowExtractRange(IEnumerable<IPatchRowExtract> patchRowExtracts);
+    //void AddPatchRowExtractRange(IEnumerable<IPatchRowExtract> patchRowExtracts);
 
     IEnumerable<string> PatchNames { get; }
     //IEnumerable<string> UniqueUpcs { get; }
@@ -17,6 +17,6 @@
 
     //IEnumerable<IProduct> GetUniqueProducts();
     //IEnumerable<IPatchRowExtract> GetPatchRowExtracts();
-    IEnumerable<IGrouping<string, IPatchRowExtract>> BookGroups { get; }
+    IEnumerable<IPatchRow> GetRowsForPatch(string patchName);
   }
 }

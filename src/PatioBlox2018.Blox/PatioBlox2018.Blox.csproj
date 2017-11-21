@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{FBF26DF0-6730-4495-8887-124B2AB856B3}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PatioBlox2018.Core</RootNamespace>
-    <AssemblyName>PatioBlox2018.Core</AssemblyName>
+    <ProjectGuid>{57AEA36D-430F-4873-95C1-8EF4C6E116CA}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>PatioBlox2018.Blox</RootNamespace>
+    <AssemblyName>Blox</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="SimpleInjector, Version=4.0.12.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\packages\SimpleInjector.4.0.12\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -41,16 +46,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IAdvertisingPatch.cs" />
-    <Compile Include="IAdvertisingPatchExtractor.cs" />
-    <Compile Include="IColumnIndexService.cs" />
-    <Compile Include="IDataSourceAdapter.cs" />
-    <Compile Include="IExtractionResult.cs" />
-    <Compile Include="IExtractor.cs" />
-    <Compile Include="IPatchRow.cs" />
-    <Compile Include="ISection.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScanbookEntities\IScanbookEntity.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PatioBlox2016.Extractor\PatioBlox2016.Extractor.csproj">
+      <Project>{b0fe40ea-32fc-41ce-8dc2-dd82b0597a85}</Project>
+      <Name>PatioBlox2016.Extractor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2018.Core\PatioBlox2018.Core.csproj">
+      <Project>{fbf26df0-6730-4495-8887-124b2ab856b3}</Project>
+      <Name>PatioBlox2018.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

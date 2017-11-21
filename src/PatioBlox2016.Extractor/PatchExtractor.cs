@@ -5,7 +5,7 @@
   using System.Linq;
   using PatioBlox2018.Core;
 
-  public class PatchExtractor : ExtractorBase<IPatchRowExtract>
+  public class PatchExtractor : ExtractorBase<IPatchRow>
   {
     private IColumnIndexService IndexService { get; }
 
@@ -15,11 +15,19 @@
       IndexService = indexService;
     }
 
-    public override IEnumerable<IPatchRowExtract> Extract(IEnumerable<string> excelFilePaths)
+    public override IEnumerable<IPatchRow> Extract(IEnumerable<string> excelFilePaths)
     {
-      var result = new List<IPatchRowExtract>();
+      if (excelFilePaths == null)
+        throw new ArgumentNullException(nameof(excelFilePaths));
 
-      foreach (var excelFilePath in excelFilePaths) {
+      var inList = excelFilePaths.ToList();
+
+      if (!inList.Any())
+        throw new ArgumentException("No Excel files specified for input", nameof(excelFilePaths));
+
+      var result = new List<IPatchRow>();
+
+      foreach (var excelFilePath in inList) {
         Initialize(excelFilePath);
 
         foreach (var name in XlAdapter.GetSheetNames()) {
@@ -27,10 +35,10 @@
         }
       }
 
-      return result.AsEnumerable();
+      return result;
     }
 
-    private IEnumerable<IPatchRowExtract> ExtractOnePatch(string patchName)
+    private IEnumerable<IPatchRow> ExtractOnePatch(string patchName)
     {
       if (string.IsNullOrWhiteSpace(patchName)) throw new ArgumentNullException(nameof(patchName));
 
@@ -49,7 +57,7 @@
         var pq = XlAdapter.ExtractString(row, IndexService.PalletQtyIndex);
         var upc = XlAdapter.ExtractString(row, IndexService.BarcodeIndex) ?? $"{sku}_{pq}";
 
-        yield return new PatchRowExtract(patchName, row, sec, addr, sku, vndr, desc, pq, upc);
+        yield return new PatchRow(patchName, row, sec, addr, sku, vndr, desc, pq, upc);
       }
     }
 

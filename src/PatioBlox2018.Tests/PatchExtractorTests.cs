@@ -13,7 +13,7 @@
   {
     private IColumnIndexService _indexService;
     private FlexCelDataSourceAdapter _adapter;
-    private IExtractor<IPatchRowExtract> _extractor;
+    private IExtractor<IPatchRow> _extractor;
 
     [SetUp]
     public void Init()

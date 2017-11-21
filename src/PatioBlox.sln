@@ -18,6 +18,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2018.Core", "Patio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2018.Tests", "PatioBlox2018.Tests\PatioBlox2018.Tests.csproj", "{CD5A149D-1A15-46C8-9881-C7E6F83822C9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2018.Blox", "PatioBlox2018.Blox\PatioBlox2018.Blox.csproj", "{57AEA36D-430F-4873-95C1-8EF4C6E116CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatioBlox2018.Impl", "PatioBlox2018.Impl\PatioBlox2018.Impl.csproj", "{C2D55DA5-52B4-4226-BDB1-5B30A9895E8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,6 +44,14 @@ Global
 		{CD5A149D-1A15-46C8-9881-C7E6F83822C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD5A149D-1A15-46C8-9881-C7E6F83822C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD5A149D-1A15-46C8-9881-C7E6F83822C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57AEA36D-430F-4873-95C1-8EF4C6E116CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57AEA36D-430F-4873-95C1-8EF4C6E116CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57AEA36D-430F-4873-95C1-8EF4C6E116CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57AEA36D-430F-4873-95C1-8EF4C6E116CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2D55DA5-52B4-4226-BDB1-5B30A9895E8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2D55DA5-52B4-4226-BDB1-5B30A9895E8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2D55DA5-52B4-4226-BDB1-5B30A9895E8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2D55DA5-52B4-4226-BDB1-5B30A9895E8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

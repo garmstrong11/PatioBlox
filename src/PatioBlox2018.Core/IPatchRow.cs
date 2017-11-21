@@ -1,6 +1,6 @@
 ﻿namespace PatioBlox2018.Core
 {
-  public interface IPatchRowExtract
+  public interface IPatchRow
   {
     /// <summary>
     /// The value extracted from the "Scanbook Section" column.
