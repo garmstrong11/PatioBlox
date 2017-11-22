@@ -14,7 +14,10 @@
     static PatchRowCollection() =>
       PageRegex = new Regex(@"^Page\s+(\d+)$", RegexOptions.Compiled);
 
-    public PatchRowCollection(List<IPatchRow> patchRows) => PatchRows = patchRows;
+    public PatchRowCollection(IEnumerable<IPatchRow> patchRows)
+    {
+      PatchRows = patchRows.ToList();
+    }
 
     private IEnumerable<IPatchRow> SectionContentRows =>
       PatchRows.Where(p => !string.IsNullOrWhiteSpace(p.Section));
@@ -27,5 +30,12 @@
 
     public IEnumerable<IPatchRow> BlockRows =>
       PatchRows.Where(p => p.ItemNumber.HasValue);
+
+    public IEnumerable<ISection> GetBook(string patchName)
+    {
+      var secs = from sec in SectionRows
+                 where
+    }
+
   }
 }

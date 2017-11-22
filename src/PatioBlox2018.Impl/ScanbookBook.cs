@@ -1,25 +1,39 @@
 ﻿namespace PatioBlox2018.Impl
 {
+  using System;
   using System.Collections.Generic;
-  using PatioBlox2018.Core;
+  using System.Linq;
+  using Newtonsoft.Json;
   using PatioBlox2018.Core.ScanbookEntities;
 
-  public class ScanbookBook : ScanbookEntityBase<IJob, ISection>, IBook
+  public class ScanbookBook : IBook
   {
-    public ScanbookBook(IEnumerable<IPatchRow> patchRows) : base(patchRows) { }
-    public override int SourceRowIndex { get; }
-    public override string Name { get; }
-    public override IJob Root { get; }
-    public override void AddBranch(IPatchRow patchRow)
+    private List<ISection> SectionList { get; }
+
+    public ScanbookBook(string patchName, IJob job)
     {
-      throw new System.NotImplementedException();
+      Name = patchName ?? throw new ArgumentNullException(nameof(patchName));
+      Job = job ?? throw new ArgumentNullException(nameof(job));
+
+      SectionList = new List<ISection>();
     }
 
-    public override void AddBranches(IEnumerable<IPatchRow> patchRows)
-    {
-      throw new System.NotImplementedException();
-    }
+    public IJob Job { get; }
 
-    public int PageCount { get; }
+    public IEnumerable<ISection> Sections => 
+      SectionList.OrderBy(s => s.SourceRowIndex).AsEnumerable();
+
+    public string Name { get; }
+    public void AddSection(ISection section) => SectionList.Add(section);
+
+    [JsonIgnore]
+    public int PageCount
+    {
+      get
+      {
+        var bookTotal = Sections.Sum(s => s.PageCount);
+        return bookTotal + (bookTotal % 2 == 0 ? 0 : 1);
+      }
+    }
   }
 }

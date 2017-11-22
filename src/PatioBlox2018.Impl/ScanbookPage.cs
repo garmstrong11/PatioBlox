@@ -1,30 +1,41 @@
 ﻿namespace PatioBlox2018.Impl
 {
+  using System;
   using System.Collections.Generic;
+  using System.Linq;
+  using Newtonsoft.Json;
   using PatioBlox2018.Core;
   using PatioBlox2018.Core.ScanbookEntities;
-  public class ScanbookPage : ScanbookEntityBase<ISection, IPatioBlok>, IPage
+
+  public class ScanbookPage : IPage
   {
-    public ScanbookPage(IEnumerable<IPatchRow> patchRows) : base(patchRows) { }
-    public override int SourceRowIndex { get; }
-    public override string Name { get; }
+    private IPatchRow PageRow { get; }
+    private List<IPatioBlok> BlokList { get; }
 
-    IBook IScanbookEntity<IBook, IPatioBlok>.Root
+    public ScanbookPage(IPatchRow pageRow, IEnumerable<ISection> sections)
     {
-      get { throw new System.NotImplementedException(); }
+      PageRow = pageRow ?? throw new ArgumentNullException(nameof(pageRow));
+      Section = sections?.Last(sec => sec.SourceRowIndex < SourceRowIndex) 
+        ?? throw new ArgumentNullException(nameof(sections));
+
+      Section.AddPage(this);
+      BlokList = new List<IPatioBlok>();
     }
 
-    public override ISection Root { get; }
-    public override void AddBranch(IPatchRow patchRow)
-    {
-      throw new System.NotImplementedException();
-    }
+    [JsonIgnore]
+    public ISection Section { get; }
 
-    public override void AddBranches(IEnumerable<IPatchRow> patchRows)
-    {
-      throw new System.NotImplementedException();
-    }
+    public string Header => Section.Name;
 
-    public string Header { get; }
+    public IEnumerable<IPatioBlok> PatioBlox => 
+      BlokList.OrderBy(b => b.SourceRowIndex).AsEnumerable();
+
+    [JsonIgnore]
+    public int BlockCount => BlokList.Count;
+
+    [JsonIgnore]
+    public int SourceRowIndex => PageRow.SourceRowIndex;
+
+    public void AddPatioBlok(IPatioBlok patioBlok) => BlokList.Add(patioBlok);
   }
 }

@@ -7,35 +7,33 @@
   using PatioBlox2018.Core;
   using PatioBlox2018.Core.ScanbookEntities;
 
-  public class ScanbookPatioBlok : ScanbookEntityBase<IPage, IPatioBlok>, IPatioBlok
+  public class ScanbookPatioBlok : IPatioBlok
   {
-    private IPatchRow PatchRow { get; }
-    private List<IPage> Pages { get; }
-    private Func<IEnumerable<IPage>, int, IPage> FindParentPage { get; }
+    private IPatchRow PatioBlokRow { get; }
 
-    public ScanbookPatioBlok(IEnumerable<IPatchRow> patchRows, IEnumerable<IPage> pages) : base(patchRows)
+    public ScanbookPatioBlok(IPatchRow patioBlokRow, IEnumerable<IPage> pages)
     {
-      PatchRow = PatchRows.FirstOrDefault()
-                 ?? throw new ArgumentException("No row defined for the requested Patio Blok");
+      PatioBlokRow = patioBlokRow ?? throw new ArgumentNullException(nameof(patioBlokRow));
 
-      if (pages == null) throw new ArgumentNullException(nameof(pages));
-      Pages = new List<IPage>(pages.OrderBy(p => p.SourceRowIndex));
+      if (PatioBlokRow.ItemNumber == null)
+        throw new ArgumentException("Row does not contain an ItemNumber", nameof(patioBlokRow));
 
-      if(!Pages.Any()) throw new ArgumentException("Page list cannot be empty", nameof(pages));
+      Page = pages?.Last(pg => pg.SourceRowIndex < PatioBlokRow.SourceRowIndex) 
+        ?? throw new ArgumentNullException(nameof(pages));
+
+      Page.AddPatioBlok(this);
     }
 
-    public override int SourceRowIndex => PatchRow.SourceRowIndex;
-    public override string Name => PatchRow.Description;
+    public string Name => PatioBlokRow.Description;
 
-    [JsonProperty("page")]
-    public override IPage Root => Pages.FindLast(p => p.SourceRowIndex <= SourceRowIndex);
+    [JsonIgnore]
+    public IPage Page { get; }
 
-    public override void AddBranch(IPatchRow patchRow) { }
-    public override void AddBranches(IEnumerable<IPatchRow> patchRows) { }
-
-    public int? ItemNumber => PatchRow.ItemNumber;
-    public string Vendor => PatchRow.Vendor;
-    public string PalletQuantity => PatchRow.PalletQuanity;
-    public string Barcode => PatchRow.Barcode;
+    public int ItemNumber => PatioBlokRow.ItemNumber.GetValueOrDefault();
+    public string Vendor => PatioBlokRow.Vendor;
+    public string Description => PatioBlokRow.Description;
+    public string PalletQuantity => PatioBlokRow.PalletQuanity;
+    public string Barcode => PatioBlokRow.Barcode;
+    public int SourceRowIndex => PatioBlokRow.SourceRowIndex;
   }
 }

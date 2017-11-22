@@ -3,6 +3,7 @@
   using System;
   using System.Collections.Generic;
   using System.Linq;
+  using System.Runtime.Remoting.Messaging;
   using PatioBlox2018.Core;
 
   public class PatchExtractionResult : IExtractionResult
@@ -34,10 +35,11 @@
       if (string.IsNullOrWhiteSpace(patchName))
         throw new ArgumentException("Value cannot be null or whitespace.", nameof(patchName));
 
-      if (!PatchNames.Contains(patchName))
-        throw new ArgumentException($"Requested patch {patchName} does not exist");
+      var patchRows = RowsByPatch
+        .FirstOrDefault(p => p.Key == patchName)
+        ?? throw new ArgumentException($"Requested patch {patchName} contains no rows.");
 
-      return RowsByPatch.First(p => p.Key == patchName);
+      return patchRows.OrderBy(p => p.SourceRowIndex);
     }
 
     private IEnumerable<IGrouping<string, IPatchRow>> RowsByPatch
