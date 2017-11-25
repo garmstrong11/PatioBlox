@@ -18,13 +18,11 @@
       if (PatioBlokRow.ItemNumber == null)
         throw new ArgumentException("Row does not contain an ItemNumber", nameof(patioBlokRow));
 
-      Page = pages?.Last(pg => pg.SourceRowIndex < PatioBlokRow.SourceRowIndex) 
+      Page = pages?.Last(pg => pg.SourceRowIndex <= PatioBlokRow.SourceRowIndex) 
         ?? throw new ArgumentNullException(nameof(pages));
 
       Page.AddPatioBlok(this);
     }
-
-    public string Name => PatioBlokRow.Description;
 
     [JsonIgnore]
     public IPage Page { get; }
@@ -35,5 +33,10 @@
     public string PalletQuantity => PatioBlokRow.PalletQuanity;
     public string Barcode => PatioBlokRow.Barcode;
     public int SourceRowIndex => PatioBlokRow.SourceRowIndex;
+
+    public override string ToString()
+    {
+      return $"Description: {Description}";
+    }
   }
 }

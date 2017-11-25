@@ -1,27 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PatioBlox2018.Blox
 {
-  using System.IO;
   using PatioBlox2016.Extractor;
   using PatioBlox2018.Core;
+  using PatioBlox2018.Impl;
   using SimpleInjector;
+  using System.IO;
 
-  class Program
+  internal class Program
   {
     public static void Main(string[] args)
     {
       var container = ConfigureContainer();
       var cwd = new DirectoryInfo(Environment.CurrentDirectory);
-      var xlFiles = cwd.EnumerateFiles("*.xlsx");
+      var xlFiles = cwd.EnumerateFiles("*.xlsx").ToList();
       var extractor = container.GetInstance<IExtractor<IPatchRow>>();
-      var rows = extractor.Extract(xlFiles.Select(f => f.FullName)).Take(100).ToList();
 
-      rows.ForEach(r => Console.WriteLine(r.ToString()));
+      var job = new ScanbookJob(extractor);
+      xlFiles.ForEach(x => job.AddDataSource(x.FullName));
+
+      job.BuildBooks();
 
       Console.ReadKey();
     }

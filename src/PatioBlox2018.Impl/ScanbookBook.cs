@@ -35,5 +35,16 @@
         return bookTotal + (bookTotal % 2 == 0 ? 0 : 1);
       }
     }
+
+    public override string ToString() => $"Book name: {Name}";
+
+    public IEnumerable<string> SheetNames => GetSheetNames();
+
+    private IEnumerable<string> GetSheetNames()
+    {
+      for (var i = 1; i < PageCount; i += 2) {
+        yield return $"{Name}_{i:D2}-{i + 1:D2}";
+      }
+    }
   }
 }

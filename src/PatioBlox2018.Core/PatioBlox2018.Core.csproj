@@ -45,12 +45,14 @@
     <Compile Include="IAdvertisingPatchExtractor.cs" />
     <Compile Include="IColumnIndexService.cs" />
     <Compile Include="IDataSourceAdapter.cs" />
-    <Compile Include="IExtractionResult.cs" />
     <Compile Include="IExtractor.cs" />
     <Compile Include="IPatchRow.cs" />
-    <Compile Include="ISection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScanbookEntities\IScanbookEntity.cs" />
+    <Compile Include="ScanbookEntities\IBook.cs" />
+    <Compile Include="ScanbookEntities\IJob.cs" />
+    <Compile Include="ScanbookEntities\IPage.cs" />
+    <Compile Include="ScanbookEntities\IPatioBlok.cs" />
+    <Compile Include="ScanbookEntities\ISection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

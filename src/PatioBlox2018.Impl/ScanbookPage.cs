@@ -15,7 +15,8 @@
     public ScanbookPage(IPatchRow pageRow, IEnumerable<ISection> sections)
     {
       PageRow = pageRow ?? throw new ArgumentNullException(nameof(pageRow));
-      Section = sections?.Last(sec => sec.SourceRowIndex < SourceRowIndex) 
+
+      Section = sections?.Last(sec => sec.SourceRowIndex < PageRow.SourceRowIndex) 
         ?? throw new ArgumentNullException(nameof(sections));
 
       Section.AddPage(this);

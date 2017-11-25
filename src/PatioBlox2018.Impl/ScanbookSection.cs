@@ -2,7 +2,9 @@
 {
   using System;
   using System.Collections.Generic;
+  using System.Globalization;
   using System.Linq;
+  using System.Threading;
   using Newtonsoft.Json;
   using PatioBlox2018.Core;
   using PatioBlox2018.Core.ScanbookEntities;
@@ -11,13 +13,21 @@
   {
     private List<IPage> PageList { get; }
     private IPatchRow SectionRow { get; }
+    private static TextInfo TextInfo { get; }
 
-    public ScanbookSection(IPatchRow sectionRow, IEnumerable<IBook> books)
+    static ScanbookSection()
     {
-      SectionRow = sectionRow ?? throw new ArgumentNullException(nameof(sectionRow));
-      Book = books?.FirstOrDefault(b => b.Name == SectionRow.PatchName) ??
-             throw new ArgumentException($"No book found with the name '{SectionRow.PatchName}'.", nameof(books));
+      TextInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
+    }
 
+    public ScanbookSection(IPatchRow sectionRow, IBook book)
+    {
+      SectionRow = sectionRow ?? 
+        throw new ArgumentNullException(nameof(sectionRow));
+      Book = book ?? 
+        throw new ArgumentNullException(nameof(book));
+
+      Book.AddSection(this);
       PageList = new List<IPage>();
     }
     
@@ -26,12 +36,14 @@
 
     public void AddPage(IPage page) => PageList.Add(page);
 
-    public IEnumerable<IPage> Pages => PageList.OrderBy(p => p.SourceRowIndex).AsEnumerable();
+    public IEnumerable<IPage> Pages => 
+      PageList.OrderBy(p => p.SourceRowIndex).AsEnumerable();
 
     [JsonIgnore]
     public int PageCount => Pages.Count();
 
-    public string Name => SectionRow.Section;
+    public string Name =>
+        TextInfo.ToTitleCase(SectionRow.Section.ToLower());
 
     [JsonIgnore]
     public IBook Book { get; }

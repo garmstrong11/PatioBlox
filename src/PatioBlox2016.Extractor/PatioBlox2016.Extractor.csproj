@@ -54,7 +54,6 @@
     <Compile Include="FlexCelExtractionException.cs" />
     <Compile Include="PatioBloxHeaderExtractionException.cs" />
     <Compile Include="AdvertisingPatchExtractor.cs" />
-    <Compile Include="PatchExtractionResult.cs" />
     <Compile Include="PatchExtractor.cs" />
     <Compile Include="PatchRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
