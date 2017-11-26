@@ -34,6 +34,9 @@
     [JsonIgnore]
     public int SourceRowIndex => SectionRow.SourceRowIndex;
 
+    public string Name =>
+      TextInfo.ToTitleCase(SectionRow.Section.ToLower());
+
     public void AddPage(IPage page) => PageList.Add(page);
 
     public IEnumerable<IPage> Pages => 
@@ -41,9 +44,6 @@
 
     [JsonIgnore]
     public int PageCount => Pages.Count();
-
-    public string Name =>
-        TextInfo.ToTitleCase(SectionRow.Section.ToLower());
 
     [JsonIgnore]
     public IBook Book { get; }

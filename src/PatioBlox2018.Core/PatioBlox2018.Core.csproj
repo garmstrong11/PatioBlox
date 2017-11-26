@@ -46,6 +46,7 @@
     <Compile Include="IColumnIndexService.cs" />
     <Compile Include="IDataSourceAdapter.cs" />
     <Compile Include="IExtractor.cs" />
+    <Compile Include="IFileOps.cs" />
     <Compile Include="IPatchRow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScanbookEntities\IBook.cs" />

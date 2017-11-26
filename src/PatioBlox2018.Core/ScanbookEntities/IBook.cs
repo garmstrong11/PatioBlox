@@ -5,6 +5,7 @@
   {
     IJob Job { get; }
     IEnumerable<ISection> Sections { get; }
+    IEnumerable<IPage> Pages { get; }
     int PageCount { get; }
     string Name { get; }
     void AddSection(ISection section);

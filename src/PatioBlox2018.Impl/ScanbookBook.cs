@@ -18,12 +18,17 @@
       SectionList = new List<ISection>();
     }
 
+    [JsonIgnore]
     public IJob Job { get; }
 
+    public string Name { get; }
+
+    [JsonIgnore]
     public IEnumerable<ISection> Sections => 
       SectionList.OrderBy(s => s.SourceRowIndex).AsEnumerable();
 
-    public string Name { get; }
+    public IEnumerable<IPage> Pages => SectionList.SelectMany(p => p.Pages);
+
     public void AddSection(ISection section) => SectionList.Add(section);
 
     [JsonIgnore]
@@ -38,6 +43,7 @@
 
     public override string ToString() => $"Book name: {Name}";
 
+    [JsonIgnore]
     public IEnumerable<string> SheetNames => GetSheetNames();
 
     private IEnumerable<string> GetSheetNames()

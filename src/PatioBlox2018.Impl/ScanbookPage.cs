@@ -26,8 +26,12 @@
     [JsonIgnore]
     public ISection Section { get; }
 
+    //[JsonIgnore]
+    //public string PatchName { get}
+
     public string Header => Section.Name;
 
+    [JsonProperty(PropertyName = "blocks")]
     public IEnumerable<IPatioBlok> PatioBlox => 
       BlokList.OrderBy(b => b.SourceRowIndex).AsEnumerable();
 
@@ -38,5 +42,10 @@
     public int SourceRowIndex => PageRow.SourceRowIndex;
 
     public void AddPatioBlok(IPatioBlok patioBlok) => BlokList.Add(patioBlok);
+
+    public override string ToString()
+    {
+      return $"{PageRow.PatchName}_{SourceRowIndex}";
+    }
   }
 }

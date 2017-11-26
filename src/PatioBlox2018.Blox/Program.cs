@@ -1,27 +1,31 @@
-﻿using System;
-using System.Linq;
-
-namespace PatioBlox2018.Blox
+﻿namespace PatioBlox2018.Blox
 {
   using PatioBlox2016.Extractor;
   using PatioBlox2018.Core;
   using PatioBlox2018.Impl;
   using SimpleInjector;
-  using System.IO;
+  using System;
 
   internal class Program
   {
     public static void Main(string[] args)
     {
       var container = ConfigureContainer();
-      var cwd = new DirectoryInfo(Environment.CurrentDirectory);
-      var xlFiles = cwd.EnumerateFiles("*.xlsx").ToList();
-      var extractor = container.GetInstance<IExtractor<IPatchRow>>();
 
-      var job = new ScanbookJob(extractor);
-      xlFiles.ForEach(x => job.AddDataSource(x.FullName));
+      try {
+        var fileOps = container.GetInstance<IFileOps>();
+        var patchRowExtractor = container.GetInstance<IExtractor<IPatchRow>>();
+        var storeExtractor = container.GetInstance<IExtractor<IAdvertisingPatch>>();
 
-      job.BuildBooks();
+        var job = new ScanbookJob(patchRowExtractor);
+        job.AddDataSource(fileOps.PatioBloxExcelFilePath);
+
+        job.BuildBooks();
+        var proj = job.GetJson();
+      }
+      catch (Exception exc) {
+        Console.WriteLine(exc.Message);
+      }
 
       Console.ReadKey();
     }
@@ -30,7 +34,9 @@ namespace PatioBlox2018.Blox
     {
       var container = new Container();
 
+      container.RegisterSingleton<IFileOps, ScanbookFileOps>();
       container.RegisterSingleton<IExtractor<IPatchRow>, PatchExtractor>();
+      container.RegisterSingleton<IExtractor<IAdvertisingPatch>, AdvertisingPatchExtractor>();
       container.RegisterSingleton<IDataSourceAdapter, FlexCelDataSourceAdapter>();
       container.RegisterSingleton<IColumnIndexService, FlexcelColumnIndexService>();
 

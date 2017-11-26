@@ -5,6 +5,7 @@
   using System.Configuration;
   using System.Linq;
   using Newtonsoft.Json;
+  using Newtonsoft.Json.Serialization;
   using PatioBlox2018.Core;
   using PatioBlox2018.Core.ScanbookEntities;
 
@@ -24,6 +25,7 @@
 
     public void AddBook(IBook book) => BookList.Add(book);
 
+    [JsonIgnore]
     public string Name => ConfigurationManager.AppSettings["JobName"];
 
     public void BuildBooks()
@@ -43,9 +45,22 @@
 
     public string GetJson()
     {
-      return "Hello from Jason!";
+      var resolver = new DefaultContractResolver
+      {
+        NamingStrategy = new CamelCaseNamingStrategy()
+      };
+
+      var settings = new JsonSerializerSettings
+      {
+        ContractResolver = resolver,
+        Formatting = Formatting.Indented,
+        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+      };
+
+      return JsonConvert.SerializeObject(this, settings);
     }
 
+    [JsonProperty(PropertyName = "patches")]
     public IDictionary<string, IBook> Books =>
       BookList.OrderBy(b => b.Name).ToDictionary(k => k.Name);
 

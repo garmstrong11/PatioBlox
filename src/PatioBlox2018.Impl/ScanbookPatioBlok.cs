@@ -27,11 +27,23 @@
     [JsonIgnore]
     public IPage Page { get; }
 
+    [JsonProperty(PropertyName = "sku")]
     public int ItemNumber => PatioBlokRow.ItemNumber.GetValueOrDefault();
+
+    [JsonProperty(PropertyName = "vndr")]
     public string Vendor => PatioBlokRow.Vendor;
+
+    [JsonProperty(PropertyName = "desc")]
     public string Description => PatioBlokRow.Description;
+
+    [JsonProperty(PropertyName = "qty")]
     public string PalletQuantity => PatioBlokRow.PalletQuanity;
+
+    // TODO: Validate bar code
+    [JsonProperty(PropertyName = "upc")]
     public string Barcode => PatioBlokRow.Barcode;
+
+    [JsonIgnore]
     public int SourceRowIndex => PatioBlokRow.SourceRowIndex;
 
     public override string ToString()

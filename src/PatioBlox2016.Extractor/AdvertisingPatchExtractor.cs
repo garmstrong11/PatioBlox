@@ -5,7 +5,7 @@
   using System.Linq;
   using PatioBlox2018.Core;
 
-  public class AdvertisingPatchExtractor : ExtractorBase<IAdvertisingPatch>, IAdvertisingPatchExtractor
+  public class AdvertisingPatchExtractor : ExtractorBase<IAdvertisingPatch>
   {
     private readonly IColumnIndexService _columnIndexService;
 
