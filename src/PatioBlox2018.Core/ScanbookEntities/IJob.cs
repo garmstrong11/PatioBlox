@@ -4,8 +4,6 @@ namespace PatioBlox2018.Core.ScanbookEntities {
   public interface IJob
   {
     IDictionary<string, IBook> Books { get; }
-    IEnumerable<string> DataSourcePaths { get; }
-    void AddDataSource(string dataSourcePath);
     int PageCount { get; }
     void AddBook(IBook book);
     string Name { get; }

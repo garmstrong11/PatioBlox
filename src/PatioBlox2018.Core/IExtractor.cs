@@ -4,6 +4,6 @@
 
   public interface IExtractor<out T> where T : class
 	{
-    IEnumerable<T> Extract(IEnumerable<string> excelFilePaths);
+    IEnumerable<T> Extract(string excelFilePath);
 	}
 }

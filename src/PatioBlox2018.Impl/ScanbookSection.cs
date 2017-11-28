@@ -7,12 +7,9 @@
   using System.Threading;
   using Newtonsoft.Json;
   using PatioBlox2018.Core;
-  using PatioBlox2018.Core.ScanbookEntities;
 
-  public class ScanbookSection : ISection
+  public class ScanbookSection : ScanbookEntityBase<ScanbookBook, ScanbookPage>
   {
-    private List<IPage> PageList { get; }
-    private IPatchRow SectionRow { get; }
     private static TextInfo TextInfo { get; }
 
     static ScanbookSection()
@@ -20,32 +17,22 @@
       TextInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
     }
 
-    public ScanbookSection(IPatchRow sectionRow, IBook book)
+    public ScanbookSection(IPatchRow sectionRow, Func<int, ScanbookBook> parentFinder)
+      : base(sectionRow, parentFinder)
     {
-      SectionRow = sectionRow ?? 
-        throw new ArgumentNullException(nameof(sectionRow));
-      Book = book ?? 
-        throw new ArgumentNullException(nameof(book));
-
-      Book.AddSection(this);
-      PageList = new List<IPage>();
+      Book = parentFinder(SourceRowIndex);
     }
-    
-    [JsonIgnore]
-    public int SourceRowIndex => SectionRow.SourceRowIndex;
+
+    public ScanbookBook Book { get; }
+
+    [JsonProperty(PropertyName = "pages")]
+    public IEnumerable<ScanbookPage> Pages => Children.AsEnumerable();
 
     public string Name =>
-      TextInfo.ToTitleCase(SectionRow.Section.ToLower());
-
-    public void AddPage(IPage page) => PageList.Add(page);
-
-    public IEnumerable<IPage> Pages => 
-      PageList.OrderBy(p => p.SourceRowIndex).AsEnumerable();
+      TextInfo.ToTitleCase(PatchRow.Section.ToLower());
 
     [JsonIgnore]
-    public int PageCount => Pages.Count();
+    public int PageCount => Children.Count;
 
-    [JsonIgnore]
-    public IBook Book { get; }
   }
 }

@@ -27,6 +27,6 @@
     }
 
     protected string SourcePath { get; private set; }
-    public abstract IEnumerable<T> Extract(IEnumerable<string> excelFilePaths);
+    public abstract IEnumerable<T> Extract(string excelFilePath);
   }
 }

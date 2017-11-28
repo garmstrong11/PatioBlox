@@ -5,47 +5,24 @@
   using System.Linq;
   using Newtonsoft.Json;
   using PatioBlox2018.Core;
-  using PatioBlox2018.Core.ScanbookEntities;
 
-  public class ScanbookPage : IPage
+  public class ScanbookPage : ScanbookEntityBase<ScanbookSection, ScanbookPatioBlok>
   {
-    private IPatchRow PageRow { get; }
-    private List<IPatioBlok> BlokList { get; }
-
-    public ScanbookPage(IPatchRow pageRow, IEnumerable<ISection> sections)
+    public ScanbookPage(IPatchRow pageRow, Func<int, ScanbookSection> parentFinder)
+      : base(pageRow, parentFinder)
     {
-      PageRow = pageRow ?? throw new ArgumentNullException(nameof(pageRow));
-
-      Section = sections?.Last(sec => sec.SourceRowIndex < PageRow.SourceRowIndex) 
-        ?? throw new ArgumentNullException(nameof(sections));
-
-      Section.AddPage(this);
-      BlokList = new List<IPatioBlok>();
+      Section = parentFinder(SourceRowIndex);
+      Section.AddChild(this);
     }
 
-    [JsonIgnore]
-    public ISection Section { get; }
+    public ScanbookSection Section { get; }
 
-    //[JsonIgnore]
-    //public string PatchName { get}
-
+    [JsonProperty]
     public string Header => Section.Name;
 
     [JsonProperty(PropertyName = "blocks")]
-    public IEnumerable<IPatioBlok> PatioBlox => 
-      BlokList.OrderBy(b => b.SourceRowIndex).AsEnumerable();
+    public IEnumerable<ScanbookPatioBlok> PatioBlox => Children.AsEnumerable();
 
-    [JsonIgnore]
-    public int BlockCount => BlokList.Count;
-
-    [JsonIgnore]
-    public int SourceRowIndex => PageRow.SourceRowIndex;
-
-    public void AddPatioBlok(IPatioBlok patioBlok) => BlokList.Add(patioBlok);
-
-    public override string ToString()
-    {
-      return $"{PageRow.PatchName}_{SourceRowIndex}";
-    }
+    public int BlockCount => Children.Count;
   }
 }

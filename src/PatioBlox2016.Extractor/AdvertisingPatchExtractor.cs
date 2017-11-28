@@ -17,8 +17,9 @@
       _columnIndexService = columnIndexService;
     }
 
-    public override IEnumerable<IAdvertisingPatch> Extract(IEnumerable<string> excelFilePaths)
+    public override IEnumerable<IAdvertisingPatch> Extract(string excelFilePath)
     {
+      Initialize(excelFilePath);
       var rowCount = XlAdapter.RowCount;
       var result = new List<Tuple<string, int?>>();
       var patchIndex = _columnIndexService.PatchAreaIndex;

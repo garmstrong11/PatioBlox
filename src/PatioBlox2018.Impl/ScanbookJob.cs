@@ -3,44 +3,45 @@
   using System;
   using System.Collections.Generic;
   using System.Configuration;
+  using System.IO;
   using System.Linq;
   using Newtonsoft.Json;
   using Newtonsoft.Json.Serialization;
   using PatioBlox2018.Core;
-  using PatioBlox2018.Core.ScanbookEntities;
 
-  public class ScanbookJob : IJob
+  [JsonObject(MemberSerialization.OptIn)]
+  public class ScanbookJob
   {
-    private List<string> SourcePaths { get; }
-    private List<IBook> BookList { get; }
-    private IExtractor<IPatchRow> Extractor { get; }
+    private List<ScanbookBook> BookList { get; }
+    private IFileOps FileOps { get; }
+    private IExtractor<IPatchRow> BlockExtractor { get; }
+    private IExtractor<IAdvertisingPatch> StoreExtractor { get; }
 
-    public ScanbookJob(IExtractor<IPatchRow> extractor)
+    public ScanbookJob(
+      IExtractor<IPatchRow> blockExtractor, 
+      IExtractor<IAdvertisingPatch> adPatchExtractor,
+      IFileOps fileOps)
     {
-      Extractor = extractor ?? throw new ArgumentNullException(nameof(extractor));
+      BlockExtractor = blockExtractor ?? throw new ArgumentNullException(nameof(blockExtractor));
+      StoreExtractor = adPatchExtractor ?? throw new ArgumentNullException(nameof(adPatchExtractor));
 
-      SourcePaths = new List<string>();
-      BookList = new List<IBook>();
+      BookList = new List<ScanbookBook>();
     }
 
-    public void AddBook(IBook book) => BookList.Add(book);
-
-    [JsonIgnore]
     public string Name => ConfigurationManager.AppSettings["JobName"];
 
-    public void BuildBooks()
+    public void BuildBooks(string blockPath, string storePath)
     {
-      var extracts = Extractor.Extract(SourcePaths).ToList();
-      var patchNames = extracts
-        .Select(e => e.PatchName)
-        .Distinct();
+      var blocks = BlockExtractor.Extract(blockPath).ToLookup(k => k.PatchName);
+      var stores = StoreExtractor.Extract(storePath).ToDictionary(k => k.Name);
 
-      foreach (var patchName in patchNames) {
-        var patchRows = extracts
-          .Where(e => e.PatchName.Equals(patchName, StringComparison.CurrentCultureIgnoreCase));
+      var missingStores = blocks.Select(b => b.Key).Except(stores.Keys).AsQueryable();
 
-        BookList.Add(BookBuilder.BuildBook(patchName, this, patchRows));
-      }
+      if (missingStores.Any())
+        throw new InvalidOperationException(
+          $"Some patches have no store data ({string.Join(", ", missingStores)}).");
+
+      BookList.AddRange(blocks.Select(b => new ScanbookBook(stores[b.Key], this, b)));
     }
 
     public string GetJson()
@@ -61,16 +62,9 @@
     }
 
     [JsonProperty(PropertyName = "patches")]
-    public IDictionary<string, IBook> Books =>
+    public IDictionary<string, ScanbookBook> Books =>
       BookList.OrderBy(b => b.Name).ToDictionary(k => k.Name);
 
-    [JsonIgnore]
-    public IEnumerable<string> DataSourcePaths => SourcePaths.AsEnumerable();
-
-    public void AddDataSource(string dataSourcePath) 
-      => SourcePaths.Add(dataSourcePath);
-
-    [JsonIgnore]
     public int PageCount => BookList.Sum(b => b.PageCount);
   }
 }

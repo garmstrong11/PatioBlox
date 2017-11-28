@@ -2,7 +2,6 @@
 {
   using System;
   using System.Collections.Generic;
-  using System.Linq;
   using PatioBlox2018.Core;
 
   public class PatchExtractor : ExtractorBase<IPatchRow>
@@ -15,24 +14,17 @@
       IndexService = indexService;
     }
 
-    public override IEnumerable<IPatchRow> Extract(IEnumerable<string> excelFilePaths)
+    public override IEnumerable<IPatchRow> Extract(string excelFilePath)
     {
-      if (excelFilePaths == null)
-        throw new ArgumentNullException(nameof(excelFilePaths));
-
-      var inList = excelFilePaths.ToList();
-
-      if (!inList.Any())
-        throw new ArgumentException("No Excel files specified for input", nameof(excelFilePaths));
+      if (string.IsNullOrWhiteSpace(excelFilePath))
+        throw new ArgumentException("Value cannot be null or whitespace.", nameof(excelFilePath));
 
       var result = new List<IPatchRow>();
 
-      foreach (var excelFilePath in inList) {
-        Initialize(excelFilePath);
+      Initialize(excelFilePath);
 
-        foreach (var name in XlAdapter.GetSheetNames()) {
-          result.AddRange(ExtractOnePatch(name));
-        }
+      foreach (var name in XlAdapter.GetSheetNames()) {
+        result.AddRange(ExtractOnePatch(name));
       }
 
       return result;
