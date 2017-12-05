@@ -2,7 +2,6 @@
 {
   public interface IFileOps
   {
-    string PatioBloxExcelFilePath { get; }
-    string StoreListExcelFilePath { get; }
+    void StringToFile(string content, string path);
   }
 }

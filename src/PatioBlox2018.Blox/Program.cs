@@ -5,15 +5,14 @@
   using PatioBlox2018.Impl;
   using SimpleInjector;
   using System;
-  using System.Configuration;
+  using PatioBlox2016.Reporter;
+  using PatioBlox2018.Impl.AbstractReporter;
 
   internal class Program
   {
     public static void Main(string[] args)
     {
       var container = ConfigureContainer();
-      var blockPath = ConfigurationManager.AppSettings["BlocksFilename"];
-      var storePath = ConfigurationManager.AppSettings["StoresFilename"];
 
       try {
         var fileOps = container.GetInstance<IFileOps>();
@@ -22,8 +21,18 @@
 
         var job = new ScanbookJob(blockExtractor, storeExtractor, fileOps);
 
-        job.BuildBooks(blockPath, storePath);
-        var proj = job.GetJson();
+        job.BuildBooks(ScanbookFileOps.PatioBloxExcelFilePath, ScanbookFileOps.StoreListExcelFilePath);
+        var proj = job.GetJsxBlocks();
+
+        fileOps.StringToFile(proj, ScanbookFileOps.JsxPath);
+        IReporter reporter = new FlexCelReporter(job);
+        reporter.BuildReport();
+
+        reporter = new MetrixCsvReporter(job);
+        reporter.BuildReport();
+
+        Console.WriteLine("Working directory: {0}", Environment.CurrentDirectory);
+        Console.WriteLine("Finished successfully. Press any key to exit.");
       }
       catch (Exception exc) {
         Console.WriteLine(exc.Message);

@@ -54,27 +54,14 @@
     private ScanbookPage FindParentPage(int sourceRowIndex)
       => PageSet.Last(p => p.SourceRowIndex <= sourceRowIndex);
 
-    private static int CopiesPerStore => int.Parse(ConfigurationManager.AppSettings["CopiesPerStore"]);
     private int TotalPages => PageSet.Count;
-    private int StoreCount => AdPatch.StoreCount;
-    private int PrintedPages => PageCount * StoreCount * CopiesPerStore;
     private int Augmentor => TotalPages % 2 == 0 ? 0 : 1;
+
+    public static int CopiesPerStore => int.Parse(ConfigurationManager.AppSettings["CopiesPerStore"]);
+    public int StoreCount => AdPatch.StoreCount;
     public int PageCount => TotalPages + Augmentor;
     public int SheetCount => PageCount / 2;
     public int SetsForPatch => StoreCount * CopiesPerStore;
-
-    public string EstimateRow =>
-      $@"{Name},{PageCount},{SheetCount},{StoreCount},{CopiesPerStore},{PrintedPages},{SetsForPatch}";
-
-    public IEnumerable<string> GetMetrixRows(string header)
-    {
-      var result = new List<string> {header};
-      var rows = GetSheetNames()
-        .Select(n => $@"{n},1,{SetsForPatch},8.5,5.5,,,{n}.pdf,,,,,,,,");
-      result.AddRange(rows);
-
-      return result.AsEnumerable();
-    }
 
     public ScanbookJob Job { get; }
 
@@ -87,7 +74,7 @@
     public override string ToString() => $"Book {Name}";
     public int GetBlockCount() => BlockSet.Count;
 
-    private IEnumerable<string> GetSheetNames()
+    public IEnumerable<string> GetSheetNames()
     {
       for (var i = 1; i < PageCount; i += 2) {
         yield return $"{Name}_{i:D2}-{i + 1:D2}";

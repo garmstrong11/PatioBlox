@@ -58,6 +58,10 @@
       <Project>{b0fe40ea-32fc-41ce-8dc2-dd82b0597a85}</Project>
       <Name>PatioBlox2016.Extractor</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PatioBlox2016.Reporter\PatioBlox2016.Reporter.csproj">
+      <Project>{a012bc24-c3a2-4fc8-a2dd-32758660d370}</Project>
+      <Name>PatioBlox2016.Reporter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PatioBlox2018.Core\PatioBlox2018.Core.csproj">
       <Project>{fbf26df0-6730-4495-8887-124b2ab856b3}</Project>
       <Name>PatioBlox2018.Core</Name>

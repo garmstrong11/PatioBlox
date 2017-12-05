@@ -45,8 +45,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FlexCelReporter.cs" />
+    <Compile Include="MetrixCsvReporter.cs" />
     <Compile Include="PatchReportDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PatioBlox2018.Impl\PatioBlox2018.Impl.csproj">
+      <Project>{c2d55da5-52b4-4226-bdb1-5b30a9895e8a}</Project>
+      <Name>PatioBlox2018.Impl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

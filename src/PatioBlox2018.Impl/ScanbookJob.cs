@@ -44,7 +44,7 @@
       BookList.AddRange(blocks.Select(b => new ScanbookBook(stores[b.Key], this, b)));
     }
 
-    public string GetJson()
+    private string GetJson()
     {
       var resolver = new DefaultContractResolver
       {
@@ -59,6 +59,24 @@
       };
 
       return JsonConvert.SerializeObject(this, settings);
+    }
+
+    private IEnumerable<string> UniqueUpcs =>
+      (
+      from book in BookList
+      from page in book.Pages
+      from block in page.PatioBlox
+      select block.Barcode
+      )
+      .Distinct();
+
+    public string GetJsxBlocks()
+    {
+      // Alter the JSON header to obtain a javascript IIFE:
+      var json = GetJson().Replace("{\r\n  \"patches\": ", "(function () {\r\n patches = ");
+
+      // Append the invocation parens:
+      return $"{json}) ();";
     }
 
     [JsonProperty(PropertyName = "patches")]
