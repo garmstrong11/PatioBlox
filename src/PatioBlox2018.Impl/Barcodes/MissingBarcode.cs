@@ -3,16 +3,9 @@
   public class MissingBarcode : BarcodeBase
   {
     public MissingBarcode(int itemNumber, string candidate)
-      : base(itemNumber, candidate)
-    {
-      LastDigit = -1;
-      CalculatedCheckDigit = -2;
-    }
+      : base(itemNumber, candidate) { }
 
-    public override string Error => 
+    public override string Value => 
       string.Format(ErrorFormatString, "is missing");
-
-    public override int LastDigit { get; }
-    public override int CalculatedCheckDigit { get; }
   }
 }

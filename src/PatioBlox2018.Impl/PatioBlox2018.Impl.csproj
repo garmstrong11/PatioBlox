@@ -57,14 +57,13 @@
     <Compile Include="AbstractReporter\IReporter.cs" />
     <Compile Include="Barcodes\BadCheckDigitBarcode.cs" />
     <Compile Include="Barcodes\BarcodeBase.cs" />
+    <Compile Include="Barcodes\ValidBarcode.cs" />
     <Compile Include="Barcodes\CheckDigitHelpers.cs" />
     <Compile Include="Barcodes\DefaultBarcodeFactory.cs" />
-    <Compile Include="Barcodes\Ean13Barcode.cs" />
     <Compile Include="Barcodes\MissingBarcode.cs" />
     <Compile Include="Barcodes\NonNumericBarcode.cs" />
     <Compile Include="Barcodes\TooLongBarcode.cs" />
     <Compile Include="Barcodes\TooShortBarcode.cs" />
-    <Compile Include="Barcodes\UpcaBarcode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScanbookBook.cs" />
     <Compile Include="ScanbookEntityBase.cs" />

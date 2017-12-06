@@ -5,10 +5,7 @@
     public NonNumericBarcode(int itemNumber, string candidate)
       : base(itemNumber, candidate) { }
 
-    public override string Error 
+    public override string Value 
       => string.Format(ErrorFormatString, "is not numeric");
-
-    public override int LastDigit => -1;
-    public override int CalculatedCheckDigit => -1;
   }
 }

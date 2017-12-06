@@ -1,5 +1,7 @@
 ﻿namespace PatioBlox2018.Impl.Barcodes
 {
+  using System;
+  using System.Linq;
   using System.Text.RegularExpressions;
   using PatioBlox2018.Core;
 
@@ -14,8 +16,6 @@
 
     public IBarcode Create(int itemNumber, string candidate)
     {
-      IBarcode result;
-
       if (string.IsNullOrWhiteSpace(candidate))
         return new MissingBarcode(itemNumber, candidate);
 
@@ -28,15 +28,26 @@
       if (candidate.Length > 13)
         return new TooLongBarcode(itemNumber, candidate);
 
-      if (candidate.Length == 12)
-        result = new UpcaBarcode(itemNumber, candidate);
-      else result = new Ean13Barcode(itemNumber, candidate);
+      var lastDigit = candidate.GetLastDigit();
+      var checkDigit = CalculateCheckDigit(candidate);
 
-      if (result.CalculatedCheckDigit != result.LastDigit)
-        result = new BadCheckDigitBarcode(
-          itemNumber, candidate, result.LastDigit, result.CalculatedCheckDigit);
+      if (lastDigit != checkDigit)
+        return new BadCheckDigitBarcode(itemNumber, candidate, lastDigit, checkDigit);
 
-      return result;
+      return new ValidBarcode(itemNumber, candidate);
+    }
+
+    private static int CalculateCheckDigit(string candidate)
+    {
+      if (string.IsNullOrWhiteSpace(candidate))
+        throw new ArgumentException("Value cannot be null or whitespace.", nameof(candidate));
+
+      var discriminator = candidate.Length == 13 ? 1 : 0;
+
+      var digits = candidate.GetUpcDigits(discriminator);
+      var calculatedCheckDigit = (10 - digits.Sum() % 10) % 10;
+
+      return calculatedCheckDigit;
     }
   }
 }

@@ -10,18 +10,20 @@
 
     protected BarcodeBase(int itemNumber, string candidate)
     {
-      if (string.IsNullOrWhiteSpace(candidate)) Candidate = string.Empty;
-
-      ItemNumber = itemNumber;
-      Candidate = candidate;
-      ErrorFormatString = $"The upc value '{Candidate}' for item '{ItemNumber}' {{0}}.";
+      if (!string.IsNullOrWhiteSpace(candidate))
+      {
+        ItemNumber = itemNumber;
+        Candidate = candidate;
+        Length = Candidate.Length;
+        ErrorFormatString = $"The upc value '{Candidate}' for item '{ItemNumber}' {{0}}.";
+      }
+      else {
+        Candidate = string.Empty;
+        Length = 0;
+      }
     }
 
     public virtual string Value => Candidate;
-    public virtual bool IsValid => false;
-    public abstract string Error { get; }
-    public abstract int LastDigit { get; }
-
-    public abstract int CalculatedCheckDigit { get; }
+    public int Length { get; }
   }
 }
