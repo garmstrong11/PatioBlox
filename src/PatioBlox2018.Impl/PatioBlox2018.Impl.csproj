@@ -33,9 +33,18 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.6.0\lib\net46\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Console, Version=3.1.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.Console.3.1.1\lib\net45\Serilog.Sinks.Console.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.3.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,6 +55,16 @@
   <ItemGroup>
     <Compile Include="AbstractReporter\IPatchReportDto.cs" />
     <Compile Include="AbstractReporter\IReporter.cs" />
+    <Compile Include="Barcodes\BadCheckDigitBarcode.cs" />
+    <Compile Include="Barcodes\BarcodeBase.cs" />
+    <Compile Include="Barcodes\CheckDigitHelpers.cs" />
+    <Compile Include="Barcodes\DefaultBarcodeFactory.cs" />
+    <Compile Include="Barcodes\Ean13Barcode.cs" />
+    <Compile Include="Barcodes\MissingBarcode.cs" />
+    <Compile Include="Barcodes\NonNumericBarcode.cs" />
+    <Compile Include="Barcodes\TooLongBarcode.cs" />
+    <Compile Include="Barcodes\TooShortBarcode.cs" />
+    <Compile Include="Barcodes\UpcaBarcode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScanbookBook.cs" />
     <Compile Include="ScanbookEntityBase.cs" />
@@ -54,6 +73,7 @@
     <Compile Include="ScanbookPage.cs" />
     <Compile Include="ScanbookPatioBlok.cs" />
     <Compile Include="ScanbookSection.cs" />
+    <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PatioBlox2018.Core\PatioBlox2018.Core.csproj">

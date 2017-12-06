@@ -3,7 +3,6 @@
   using System;
   using System.Collections.Generic;
   using System.Configuration;
-  using System.IO;
   using System.Linq;
   using Newtonsoft.Json;
   using Newtonsoft.Json.Serialization;
@@ -13,7 +12,6 @@
   public class ScanbookJob
   {
     private List<ScanbookBook> BookList { get; }
-    private IFileOps FileOps { get; }
     private IExtractor<IPatchRow> BlockExtractor { get; }
     private IExtractor<IAdvertisingPatch> StoreExtractor { get; }
 
@@ -61,14 +59,15 @@
       return JsonConvert.SerializeObject(this, settings);
     }
 
-    private IEnumerable<string> UniqueUpcs =>
-      (
-      from book in BookList
-      from page in book.Pages
-      from block in page.PatioBlox
-      select block.Barcode
-      )
-      .Distinct();
+    //private IEnumerable<string> UniqueUpcs =>
+    //  (
+    //  from book in BookList
+    //  from page in book.Pages
+    //  from block in page.PatioBlox
+    //  where block.Barcode.IsValid
+    //  select block.Barcode.Value
+    //  )
+    //  .Distinct();
 
     public string GetJsxBlocks()
     {

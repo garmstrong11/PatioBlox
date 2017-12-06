@@ -7,12 +7,14 @@
   using System;
   using PatioBlox2016.Reporter;
   using PatioBlox2018.Impl.AbstractReporter;
+  using Serilog;
 
   internal class Program
   {
     public static void Main(string[] args)
     {
       var container = ConfigureContainer();
+      ConfigureLogger();
 
       try {
         var fileOps = container.GetInstance<IFileOps>();
@@ -31,7 +33,7 @@
         reporter = new MetrixCsvReporter(job);
         reporter.BuildReport();
 
-        Console.WriteLine("Working directory: {0}", Environment.CurrentDirectory);
+        Log.Information("Working directory: {WorkDir}", Environment.CurrentDirectory);
         Console.WriteLine("Finished successfully. Press any key to exit.");
       }
       catch (Exception exc) {
@@ -53,5 +55,11 @@
 
       return container;
     }
+
+    public static void ConfigureLogger() =>
+      Log.Logger = new LoggerConfiguration()
+        .WriteTo.Console()
+        .Enrich.FromLogContext()
+        .CreateLogger();
   }
 }

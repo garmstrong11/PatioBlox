@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="IAdvertisingPatch.cs" />
     <Compile Include="IAdvertisingPatchExtractor.cs" />
+    <Compile Include="IBarcode.cs" />
+    <Compile Include="IBarcodeFactory.cs" />
     <Compile Include="IColumnIndexService.cs" />
     <Compile Include="IDataSourceAdapter.cs" />
     <Compile Include="IExtractor.cs" />

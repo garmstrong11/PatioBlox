@@ -13,7 +13,8 @@
     protected TContainer Parent { get; }
     protected SortedSet<TContained> Children { get; }
 
-    protected ScanbookEntityBase(IPatchRow patchRow, Func<int, TContainer> parentFinder)
+    protected ScanbookEntityBase(
+      IPatchRow patchRow, Func<int, TContainer> parentFinder)
     {
       PatchRow = patchRow;
       Parent = parentFinder(PatchRow.SourceRowIndex);

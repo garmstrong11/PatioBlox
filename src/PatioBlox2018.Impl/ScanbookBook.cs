@@ -7,15 +7,20 @@
   using System.Text.RegularExpressions;
   using Newtonsoft.Json;
   using PatioBlox2018.Core;
+  using PatioBlox2018.Impl.Barcodes;
 
   [JsonObject(MemberSerialization.OptIn)]
   public class ScanbookBook
   {
     private static Regex PageRegex { get; }
+    private static Regex DigitRegex { get; }
     private IAdvertisingPatch AdPatch { get; }
 
-    static ScanbookBook() =>
+    static ScanbookBook()
+    {
       PageRegex = new Regex(@"^Page", RegexOptions.Compiled);
+      DigitRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
+    }
 
     public ScanbookBook(IAdvertisingPatch adPatch, ScanbookJob job, IEnumerable<IPatchRow> patchRows)
     {
@@ -39,7 +44,7 @@
         pageRows.Select(p => new ScanbookPage(p, FindParentSection)));
 
       BlockSet = new SortedSet<ScanbookPatioBlok>(
-        patioBlockRows.Select(b => new ScanbookPatioBlok(b, FindParentPage)));
+        patioBlockRows.Select(b => new ScanbookPatioBlok(b, FindParentPage, CreateBarcode)));
     }
 
     private SortedSet<ScanbookSection> SectionSet { get; }
@@ -79,6 +84,26 @@
       for (var i = 1; i < PageCount; i += 2) {
         yield return $"{Name}_{i:D2}-{i + 1:D2}";
       }
+    }
+
+    private static IBarcode CreateBarcode(int itemNumber, string candidate)
+    {
+      if (string.IsNullOrWhiteSpace(candidate))
+        return new MissingBarcode(itemNumber, candidate);
+
+      if (candidate.Length < 12)
+        return new TooShortBarcode(itemNumber, candidate);
+
+      if (candidate.Length > 13)
+        return new TooLongBarcode(itemNumber, candidate);
+
+      if (!DigitRegex.IsMatch(candidate))
+        return new NonNumericBarcode(itemNumber, candidate);
+
+      if (candidate.Length == 13)
+        return new Ean13Barcode(itemNumber, candidate);
+
+      return new UpcaBarcode(itemNumber, candidate);
     }
   }
 }

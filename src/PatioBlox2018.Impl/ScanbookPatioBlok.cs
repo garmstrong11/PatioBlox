@@ -6,14 +6,21 @@
 
   public class ScanbookPatioBlok : ScanbookEntityBase<ScanbookPage, ScanbookPatioBlok>
   {
-    public ScanbookPatioBlok(IPatchRow patioBlokRow, Func<int, ScanbookPage> parentFinder)
+    private Func<int, string, IBarcode> BarcodeFactory { get; }
+    private Func<int, ScanbookPage> ParentFinder { get; }
+
+    public ScanbookPatioBlok(
+      IPatchRow patioBlokRow, 
+      Func<int, ScanbookPage> parentFinder,
+      Func<int, string, IBarcode> barcodeFactory)
       : base(patioBlokRow, parentFinder)
     {
-      Page = parentFinder(SourceRowIndex);
+      BarcodeFactory = barcodeFactory;
+      ParentFinder = parentFinder;
       Page.AddChild(this);
     }
 
-    public ScanbookPage Page { get; }
+    public ScanbookPage Page => ParentFinder(SourceRowIndex);
 
     [JsonProperty(PropertyName = "sku")]
     public int ItemNumber => PatchRow.ItemNumber.GetValueOrDefault();
@@ -27,9 +34,10 @@
     [JsonProperty(PropertyName = "qty")]
     public string PalletQuantity => PatchRow.PalletQuanity;
 
-    // TODO: Validate bar code
     [JsonProperty(PropertyName = "upc")]
-    public string Barcode => PatchRow.Barcode;
+    public string Upc => Barcode.Value;
+
+    public IBarcode Barcode => BarcodeFactory(ItemNumber, PatchRow.Barcode);
 
     public override string ToString()
     {
