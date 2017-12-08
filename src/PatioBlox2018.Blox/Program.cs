@@ -7,6 +7,7 @@
   using System;
   using PatioBlox2016.Reporter;
   using PatioBlox2018.Impl.AbstractReporter;
+  using PatioBlox2018.Impl.Barcodes;
   using Serilog;
 
   internal class Program
@@ -17,16 +18,11 @@
       ConfigureLogger();
 
       try {
-        var fileOps = container.GetInstance<IFileOps>();
-        var blockExtractor = container.GetInstance<IExtractor<IPatchRow>>();
-        var storeExtractor = container.GetInstance<IExtractor<IAdvertisingPatch>>();
-
-        var job = new ScanbookJob(blockExtractor, storeExtractor, fileOps);
+        var job = container.GetInstance<IJob>();
 
         job.BuildBooks(ScanbookFileOps.PatioBloxExcelFilePath, ScanbookFileOps.StoreListExcelFilePath);
-        var proj = job.GetJsxBlocks();
+        job.EmitPatchDataFile();
 
-        fileOps.StringToFile(proj, ScanbookFileOps.JsxPath);
         IReporter reporter = new FlexCelReporter(job);
         reporter.BuildReport();
 
@@ -34,10 +30,13 @@
         reporter.BuildReport();
 
         Log.Information("Working directory: {WorkDir}", Environment.CurrentDirectory);
-        Console.WriteLine("Finished successfully. Press any key to exit.");
+        Console.WriteLine("Finished successfully.");
       }
       catch (Exception exc) {
         Console.WriteLine(exc.Message);
+      }
+      finally {
+        Console.WriteLine("Press any key to exit.");
       }
 
       Console.ReadKey();
@@ -52,6 +51,8 @@
       container.RegisterSingleton<IExtractor<IAdvertisingPatch>, AdvertisingPatchExtractor>();
       container.RegisterSingleton<IDataSourceAdapter, FlexCelDataSourceAdapter>();
       container.RegisterSingleton<IColumnIndexService, FlexcelColumnIndexService>();
+      container.RegisterSingleton<IBarcodeFactory, DefaultBarcodeFactory>();
+      container.RegisterSingleton<IJob, ScanbookJob>();
 
       return container;
     }

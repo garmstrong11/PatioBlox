@@ -7,7 +7,7 @@
 
   public class ScanbookFileOps : IFileOps
   {
-    public static string JsxPath { get; }
+    private static string JsxPath { get; }
     public static string PatioBloxExcelFilePath { get; }
     public static string StoreListExcelFilePath { get; }
     public static string FlexCelReportTemplatePath { get; }
@@ -30,9 +30,9 @@
       JsxPath = ConfigurationManager.AppSettings["JsxBlockDataPath"];
     }
 
-    public void StringToFile(string content, string path)
+    public void EmitJsonDataFile(string content)
     {
-      File.WriteAllText(path, content);
+      File.WriteAllText(JsxPath, content);
     }
 
     private static string VerifyFilePath(string path)

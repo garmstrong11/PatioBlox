@@ -9,17 +9,22 @@
   using PatioBlox2018.Core;
 
   [JsonObject(MemberSerialization.OptIn)]
-  public class ScanbookJob
+  public class ScanbookJob : IJob
   {
+    private IFileOps FileOps { get; }
     private List<ScanbookBook> BookList { get; }
     private IExtractor<IPatchRow> BlockExtractor { get; }
+    private IBarcodeFactory BarcodeFactory { get; }
     private IExtractor<IAdvertisingPatch> StoreExtractor { get; }
 
     public ScanbookJob(
       IExtractor<IPatchRow> blockExtractor, 
       IExtractor<IAdvertisingPatch> adPatchExtractor,
+      IBarcodeFactory barcodeFactory, 
       IFileOps fileOps)
     {
+      FileOps = fileOps ?? throw new ArgumentNullException(nameof(fileOps));
+      BarcodeFactory = barcodeFactory ?? throw new ArgumentNullException(nameof(barcodeFactory));
       BlockExtractor = blockExtractor ?? throw new ArgumentNullException(nameof(blockExtractor));
       StoreExtractor = adPatchExtractor ?? throw new ArgumentNullException(nameof(adPatchExtractor));
 
@@ -39,7 +44,7 @@
         throw new InvalidOperationException(
           $"Some patches have no store data ({string.Join(", ", missingStores)}).");
 
-      BookList.AddRange(blocks.Select(b => new ScanbookBook(stores[b.Key], this, b, TODO)));
+      BookList.AddRange(blocks.Select(b => new ScanbookBook(stores[b.Key], this, b, BarcodeFactory)));
     }
 
     private string GetJson()
@@ -57,6 +62,11 @@
       };
 
       return JsonConvert.SerializeObject(this, settings);
+    }
+
+    public void EmitPatchDataFile()
+    {
+      FileOps.EmitJsonDataFile(GetJsxBlocks());
     }
 
     //private IEnumerable<string> UniqueUpcs =>

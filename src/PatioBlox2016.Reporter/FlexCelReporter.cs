@@ -10,7 +10,7 @@
   {
     private static string FlexCelTemplatePath { get; }
 
-    private ScanbookJob Job { get; }
+    private IJob Job { get; }
     private  FlexCelReport Report { get; }
 
     static FlexCelReporter()
@@ -18,7 +18,7 @@
       FlexCelTemplatePath = ScanbookFileOps.FlexCelReportTemplatePath;
     }
 
-    public FlexCelReporter(ScanbookJob job)
+    public FlexCelReporter(IJob job)
     {
       Job = job;
       Report = new FlexCelReport(true);

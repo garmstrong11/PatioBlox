@@ -45,7 +45,7 @@
       var discriminator = candidate.Length == 13 ? 1 : 0;
 
       var digits = candidate.GetUpcDigits(discriminator);
-      var calculatedCheckDigit = (10 - digits.Sum() % 10) % 10;
+      var calculatedCheckDigit = 10 - (digits.Sum() % 10) % 10;
 
       return calculatedCheckDigit;
     }

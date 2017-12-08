@@ -2,6 +2,6 @@
 {
   public interface IFileOps
   {
-    void StringToFile(string content, string path);
+    void EmitJsonDataFile(string content);
   }
 }

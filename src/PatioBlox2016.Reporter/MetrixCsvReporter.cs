@@ -10,9 +10,9 @@
 
   public class MetrixCsvReporter : IReporter
   {
-    private ScanbookJob Job { get; }
+    private IJob Job { get; }
 
-    public MetrixCsvReporter(ScanbookJob job)
+    public MetrixCsvReporter(IJob job)
     {
       Job = job;
 

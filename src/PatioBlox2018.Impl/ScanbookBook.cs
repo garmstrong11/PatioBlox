@@ -49,6 +49,7 @@
 
       BlockSet = new SortedSet<ScanbookPatioBlok>(
         patioBlockRows
+          // ReSharper disable once PossibleInvalidOperationException
         .Select(b => new ScanbookPatioBlok(b, FindParentPage, barcodeFactory.Create(b.ItemNumber.Value, b.Barcode))));
     }
 
