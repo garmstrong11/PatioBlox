@@ -1,12 +1,11 @@
 ﻿namespace PatioBlox2018.Impl.Barcodes
 {
-  public class TooShortBarcode : BarcodeBase
+  public class TooShortBarcode // : InvalidBarcode
   {
-    public TooShortBarcode(int itemNumber, string candidate)
-      : base(itemNumber, candidate) { }
+    //public TooShortBarcode(int itemNumber, string candidate)
+    //  : base(itemNumber, candidate) { }      
 
-    public override string Value =>
-      string.Format(
-        ErrorFormatString, $"is too short ({Length} characters)");
+    //public override string ErrorMessage =>
+    //  $"{MessageStub} is too short ({Value.Length} characters).";
   }
 }
