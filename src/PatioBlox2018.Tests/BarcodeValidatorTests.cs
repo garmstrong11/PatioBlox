@@ -18,7 +18,8 @@
     [TestCase("5034504935770", 12, 13, ExpectedResult = false, Reason = "Bad EAN-13 check digit rejected")]
     public bool BarcodeValidationCompositeTest(string candidate, int minChars, int maxChars)
     {
-      return BarcodeValidator.ValidateBarcode(candidate, minChars, maxChars).IsSuccess;
+      var bc = BarcodeValidator.ValidateBarcode(candidate, minChars, maxChars);
+      return bc.IsSuccess;
     }
   }
 }

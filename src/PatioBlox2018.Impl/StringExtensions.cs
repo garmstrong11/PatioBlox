@@ -25,14 +25,34 @@
     /// <param name="source"></param>
     /// <param name="factors"></param>
     /// <returns></returns>
-    public static IEnumerable<int> GetBarcodeDigits(this string source, IEnumerable<int> factors) =>
-      source
-        .Select(GetIntForNumeral)
-        .Take(source.Length - 1)
-        .Zip(factors, (digit, factor) => digit * factor)
-        .ToList();
+    public static Option<IEnumerable<int>> GetBarcodeDigits(
+      this string source, Option<IEnumerable<int>> factors)
+    {
+      if (factors.IsNone) return None;
+
+      var sourceNums = source.Select(GetIntForNumeral).Take(source.Length - 1);
+      return factors.Map(f => f.Zip(sourceNums, (fac, src) => fac * src));
+
+      //return factors.Bind(source.Select(GetIntForNumeral).Take(source.Length - 10).Zip(factors, (d, f) => d * f)
+      //);
+      //return source
+      //  .Select(GetIntForNumeral)
+      //  .Take(source.Length - 1)
+      //  .Zip(factors, (digit, factor) => digit * factor)
+      //  .ToList();
+    }
 
     private static int GetIntForNumeral(char numeral) 
       => Convert.ToInt32(char.GetNumericValue(numeral));
+
+    public static IEnumerable<T> Repeat<T>(this IEnumerable<T> sequence, int count)
+    {
+      var seq = sequence.ToList();
+      while (count-- > 0)
+      {
+        foreach (var item in seq)
+          yield return item;
+      }
+    }
   }
 }

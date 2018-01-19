@@ -13,10 +13,6 @@
 
   public static class BarcodeValidator
   {
-    static BarcodeValidator()
-    {
-      Factors = new List<int> {1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3};
-    }
     /// <summary>
     /// Ensures that the candidate is not null or empty.
     /// </summary>
@@ -103,23 +99,24 @@
     private static Option<int> CalculateCheckDigit(string candidate)
     {
       var len = candidate.Length;
-      var multipliers =
-        FactorMap.Find(len)
-          .IfNone(() => failwith<IEnumerable<int>>($"Can't find a factorMap for key '{len}'"));
+      var factorSeedMap = GetFactorMap();
+
+      var multipliers = factorSeedMap.Find(len);
 
       var digits = candidate.GetBarcodeDigits(multipliers);
-      var calculatedCheckDigit = (10 - (digits.Sum() % 10)) % 10;
-
-      return Some(calculatedCheckDigit);
+      
+      return digits.Map(d => (10 - d.Sum() % 10) %10);
     }
 
-    public static IEnumerable<int> Factors { get; }
+    private static Map<int, IEnumerable<int>> GetFactorMap()
+    {
+      var upcaSeeds = new[] { 3, 1 }.Repeat(6);
+      var eanSeeds  = new[] { 1, 3 }.Repeat(6);
 
-    private static Map<int, IEnumerable<int>> FactorMap
-      => ((12, GetUpcaMultipliers()), (13, GetEan13Multipliers()));
-
-    public static IEnumerable<int> GetUpcaMultipliers() => Factors.Skip(1).Take(11);
-
-    private static IEnumerable<int> GetEan13Multipliers() => Factors.Take(12);
+      return Map(
+        (12, upcaSeeds), 
+        (13, eanSeeds)
+      );
+    }
   }
 }
