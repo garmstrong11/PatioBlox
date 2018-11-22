@@ -28,7 +28,7 @@
 
     public string Name => ConfigurationManager.AppSettings["JobName"];
 
-    public void BuildBooks(string blockPath, string storePath)
+    public void BuildBooks(string blockPath, string storePath, IBarcodeFactory factory)
     {
       var blocks = BlockExtractor.Extract(blockPath).ToLookup(k => k.PatchName);
       var stores = StoreExtractor.Extract(storePath).ToDictionary(k => k.Name);
@@ -39,7 +39,7 @@
         throw new InvalidOperationException(
           $"Some patches have no store data ({string.Join(", ", missingStores)}).");
 
-      BookList.AddRange(blocks.Select(b => new ScanbookBook(stores[b.Key], this, b, TODO)));
+      BookList.AddRange(blocks.Select(b => new ScanbookBook(stores[b.Key], this, b, factory)));
     }
 
     private string GetJson()

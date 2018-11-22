@@ -7,23 +7,30 @@
   using System;
   using PatioBlox2016.Reporter;
   using PatioBlox2018.Impl.AbstractReporter;
+  using PatioBlox2018.Impl.Barcodes;
   using Serilog;
 
   internal class Program
   {
     public static void Main(string[] args)
     {
-      var container = ConfigureContainer();
       ConfigureLogger();
+      Log.Information("Working directory: {WorkDir}", Environment.CurrentDirectory);
+      var container = ConfigureContainer();
 
       try {
         var fileOps = container.GetInstance<IFileOps>();
         var blockExtractor = container.GetInstance<IExtractor<IPatchRow>>();
         var storeExtractor = container.GetInstance<IExtractor<IAdvertisingPatch>>();
+        var barcodeFactory = container.GetInstance<IBarcodeFactory>();
 
         var job = new ScanbookJob(blockExtractor, storeExtractor, fileOps);
 
-        job.BuildBooks(ScanbookFileOps.PatioBloxExcelFilePath, ScanbookFileOps.StoreListExcelFilePath);
+        job.BuildBooks(
+          ScanbookFileOps.PatioBloxExcelFilePath, 
+          ScanbookFileOps.StoreListExcelFilePath,
+          barcodeFactory);
+
         var proj = job.GetJsxBlocks();
 
         fileOps.StringToFile(proj, ScanbookFileOps.JsxPath);
@@ -52,6 +59,9 @@
       container.RegisterSingleton<IExtractor<IAdvertisingPatch>, AdvertisingPatchExtractor>();
       container.RegisterSingleton<IDataSourceAdapter, FlexCelDataSourceAdapter>();
       container.RegisterSingleton<IColumnIndexService, FlexcelColumnIndexService>();
+      container.RegisterSingleton<IBarcodeFactory, DefaultBarcodeFactory>();
+
+      container.Verify();
 
       return container;
     }

@@ -31,13 +31,13 @@
       A.CallTo(() => _indexService.BarcodeIndex).Returns(9);
     }
 
-    [Test]
-    public void CanExtractAllPatches()
-    {
-      var files = new List<string> {Patch3Path};
-      var patchRows = _extractor.Extract(files);
+    //[Test]
+    //public void CanExtractAllPatches()
+    //{
+    //  var files = new List<string> {Patch3Path};
+    //  var patchRows = _extractor.Extract(files);
 
-      patchRows.Count().Should().Be(13876);
-    }
+    //  patchRows.Count().Should().Be(13876);
+    //}
   }
 }

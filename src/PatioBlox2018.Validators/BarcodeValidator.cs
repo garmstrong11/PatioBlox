@@ -2,11 +2,11 @@
 {
   using FluentValidation;
 
-  public class BarcodeValidator : AbstractValidator<Barcode>
-  {
-    public BarcodeValidator()
-    {
+  //public class BarcodeValidator : AbstractValidator<IBarcode>
+  //{
+  //  public BarcodeValidator()
+  //  {
       
-    }
-  }
+  //  }
+  //}
 }

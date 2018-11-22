@@ -4,6 +4,7 @@
   using System.Configuration;
   using System.IO;
   using PatioBlox2018.Core;
+  using Serilog;
 
   public class ScanbookFileOps : IFileOps
   {
