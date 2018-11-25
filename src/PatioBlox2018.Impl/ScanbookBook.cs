@@ -7,7 +7,6 @@
   using System.Text.RegularExpressions;
   using Newtonsoft.Json;
   using PatioBlox2018.Core;
-  using PatioBlox2018.Impl.Barcodes;
 
   [JsonObject(MemberSerialization.OptIn)]
   public class ScanbookBook
@@ -49,12 +48,15 @@
 
       BlockSet = new SortedSet<ScanbookPatioBlok>(
         patioBlockRows
-        .Select(b => new ScanbookPatioBlok(b, FindParentPage, barcodeFactory.Create(b.ItemNumber.Value, b.Barcode))));
+        .Select(b => new ScanbookPatioBlok(
+            b, 
+            FindParentPage, 
+            barcodeFactory.Create(b.ItemNumber.GetValueOrDefault(), b.Barcode))));
     }
 
     private SortedSet<ScanbookSection> SectionSet { get; }
     private SortedSet<ScanbookPage> PageSet { get; }
-    private SortedSet<ScanbookPatioBlok> BlockSet { get; }
+    public SortedSet<ScanbookPatioBlok> BlockSet { get; }
 
     private ScanbookBook FindParentBook(int sourceRowIndex) => this;
 
@@ -63,6 +65,20 @@
 
     private ScanbookPage FindParentPage(int sourceRowIndex)
       => PageSet.Last(p => p.SourceRowIndex <= sourceRowIndex);
+
+    public IEnumerable<string> DuplicatePatioBloxWarnings
+    {
+      get
+      {
+        var doopGroops = BlockSet.GroupBy(b => b.ItemNumber);
+
+        foreach (var groop in doopGroops) {
+          var lines = groop.Select(g => g.SourceRowIndex);
+          yield return
+            $"Item {groop.Key} appears multiple times, in lines {string.Join(", ", lines)}";
+        }
+      }
+    }
 
     private int TotalPages => PageSet.Count;
     private int Augmentor => TotalPages % 2 == 0 ? 0 : 1;

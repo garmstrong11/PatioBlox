@@ -29,25 +29,20 @@
         return new TooLongBarcode(itemNumber, candidate);
 
       var lastDigit = candidate.GetLastDigit();
-      var checkDigit = CalculateCheckDigit(candidate);
+
+      var digits = candidate
+        .Take(candidate.Length - 1)
+        .Reverse()
+        .Select(d => Convert.ToInt32(char.GetNumericValue(d)));
+
+      var sum = digits.Select((d, i) => i % 2 == 0 ? d * 3 : d).Sum();
+
+      var checkDigit = (10 - sum % 10) % 10;
 
       if (lastDigit != checkDigit)
         return new BadCheckDigitBarcode(itemNumber, candidate, lastDigit, checkDigit);
 
       return new ValidBarcode(itemNumber, candidate);
-    }
-
-    private static int CalculateCheckDigit(string candidate)
-    {
-      if (string.IsNullOrWhiteSpace(candidate))
-        throw new ArgumentException("Value cannot be null or whitespace.", nameof(candidate));
-
-      var discriminator = candidate.Length == 13 ? 1 : 0;
-
-      var digits = candidate.GetUpcDigits(discriminator);
-      var calculatedCheckDigit = (10 - digits.Sum() % 10) % 10;
-
-      return calculatedCheckDigit;
     }
   }
 }

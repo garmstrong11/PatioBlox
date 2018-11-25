@@ -4,6 +4,7 @@
   using System.Collections.Generic;
   using System.Configuration;
   using System.Linq;
+  using MoreLinq;
   using Newtonsoft.Json;
   using Newtonsoft.Json.Serialization;
   using PatioBlox2018.Core;
@@ -59,15 +60,12 @@
       return JsonConvert.SerializeObject(this, settings);
     }
 
-    //private IEnumerable<string> UniqueUpcs =>
-    //  (
-    //  from book in BookList
-    //  from page in book.Pages
-    //  from block in page.PatioBlox
-    //  where block.Barcode.IsValid
-    //  select block.Barcode.Value
-    //  )
-    //  .Distinct();
+    public IEnumerable<string> ItemSectionWarnings => BookList
+      .SelectMany(b => b.BlockSet)
+      .DistinctBy(k => new {k.ItemNumber, k.Page.Section.Name})
+      .ToLookup(k => k.ItemNumber, v => v)
+      .Where(k => k.Count() > 1)
+      .SelectMany(v => v.Select(k => $"Item {k.ItemNumber} appears in section {k.Page.Section.Name} on patch {k.PatchName}"));
 
     public string GetJsxBlocks()
     {

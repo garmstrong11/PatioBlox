@@ -6,7 +6,7 @@
 
   public class ScanbookPatioBlok : ScanbookEntityBase<ScanbookPage, ScanbookPatioBlok>
   {
-    private IBarcode Barcode { get; }
+    public IBarcode Barcode { get; }
     private Func<int, ScanbookPage> ParentFinder { get; }
 
     public ScanbookPatioBlok(
@@ -36,6 +36,8 @@
 
     [JsonProperty(PropertyName = "upc")]
     public string Upc => Barcode.Value;
+
+    public string PhotoFilename => $"{ItemNumber}.psd";
 
     public override string ToString()
     {

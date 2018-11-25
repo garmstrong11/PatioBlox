@@ -18,14 +18,14 @@
       var info = new DirectoryInfo(photoDir);
       PhotoFileNames = 
         info.EnumerateFiles("*.psd")
-        .Select(i => Path.GetFileNameWithoutExtension(i.FullName));
+        .Select(i => Path.GetFileName(i.FullName));
     }
 
     public PhotoValidator()
     {
       RuleFor(p => p)
         .Must(f => PhotoFileNames.Contains(f))
-        .WithMessage("The photo for item {PropertyValue} could not be found at the path {}");
+        .WithMessage("The photo for item {PropertyValue} is missing.");
     }
   }
 }

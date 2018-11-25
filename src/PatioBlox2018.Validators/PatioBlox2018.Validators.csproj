@@ -57,6 +57,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PatioBlox2018.Core\PatioBlox2018.Core.csproj">
+      <Project>{fbf26df0-6730-4495-8887-124b2ab856b3}</Project>
+      <Name>PatioBlox2018.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PatioBlox2018.Impl\PatioBlox2018.Impl.csproj">
       <Project>{c2d55da5-52b4-4226-bdb1-5b30a9895e8a}</Project>
       <Name>PatioBlox2018.Impl</Name>
