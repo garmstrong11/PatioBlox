@@ -8,7 +8,7 @@
     public ScanbookPageValidator()
     {
       RuleFor(p => p.BlockCount).InclusiveBetween(1, 4);
-      RuleForEach(r => r.PatioBlox).SetValidator(new ScanbookPatioBlokValidator());
+      RuleForEach(r => r.PatioBlocks).SetValidator(new ScanbookPatioBlokValidator());
     }
   }
 }

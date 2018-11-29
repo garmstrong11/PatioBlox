@@ -7,7 +7,7 @@
   {
     public ScanbookJobValidator()
     {
-      
+      RuleForEach(r => r.Books.Values).SetValidator(new ScanbookBookValidator());
     }
   }
 }

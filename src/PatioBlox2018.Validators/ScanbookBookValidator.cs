@@ -6,7 +6,7 @@
   {
     public ScanbookBookValidator()
     {
-      
+      RuleForEach(r => r.Pages).SetValidator(new ScanbookPageValidator());
     }
   }
 }

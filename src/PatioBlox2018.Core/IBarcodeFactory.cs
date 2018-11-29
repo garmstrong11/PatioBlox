@@ -2,6 +2,6 @@
 {
   public interface IBarcodeFactory
   {
-    IBarcode Create(int itemNumber, string candidate);
+    IBarcode Create(IPatchRow patchRow);
   }
 }

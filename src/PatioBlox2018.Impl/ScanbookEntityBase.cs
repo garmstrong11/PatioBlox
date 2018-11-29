@@ -37,7 +37,7 @@
     public int CompareTo(ScanbookEntityBase<TContainer, TContained> other)
     {
       if (ReferenceEquals(this, other)) return 0;
-      if (ReferenceEquals(null, other)) return 1;
+      if (other is null) return 1;
 
       var sourceRowIndexComparison = SourceRowIndex.CompareTo(other.SourceRowIndex);
 
@@ -53,7 +53,7 @@
 
     public override bool Equals(object obj)
     {
-      if (ReferenceEquals(null, obj)) return false;
+      if (obj is null) return false;
       if (ReferenceEquals(this, obj)) return true;
 
       return obj.GetType() == GetType() && Equals((ScanbookEntityBase<TContainer, TContained>) obj);

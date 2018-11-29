@@ -30,12 +30,12 @@
     /// <summary>
     /// The value extracted from the "Pallet Qty" column
     /// </summary>
-    string PalletQuanity { get; }
+    string PalletQuantity { get; }
 
     /// <summary>
-    /// The value extracted from the "Barcode" column.
+    /// The value extracted from the "Upc" column.
     /// </summary>
-    string Barcode { get; }
+    string Upc { get; }
 
     /// <summary>
 		/// The value extracted from the source worksheet's name.

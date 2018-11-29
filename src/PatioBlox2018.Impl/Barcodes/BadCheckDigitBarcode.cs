@@ -1,12 +1,14 @@
 ﻿namespace PatioBlox2018.Impl.Barcodes
 {
+  using PatioBlox2018.Core;
+
   public class BadCheckDigitBarcode : BarcodeBase
   {
     private int LastDigit { get; }
     private int CheckDigit { get; }
 
-    public BadCheckDigitBarcode(int itemNumber, string candidate, int lastDigit, int checkDigit)
-      : base(itemNumber, candidate)
+    public BadCheckDigitBarcode(IPatchRow patchRow, int lastDigit, int checkDigit)
+      : base(patchRow)
     {
       LastDigit = lastDigit;
       CheckDigit = checkDigit;

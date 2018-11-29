@@ -14,24 +14,27 @@
       DigitRegex = new Regex(@"^\d+$", RegexOptions.Compiled);
     }
 
-    public IBarcode Create(int itemNumber, string candidate)
+    public IBarcode Create(IPatchRow row)
     {
-      if (string.IsNullOrWhiteSpace(candidate))
-        return new MissingBarcode(itemNumber, candidate);
+      var itemNumber = row.ItemNumber.GetValueOrDefault();
+      var length = row.Upc.Length;
 
-      if (!DigitRegex.IsMatch(candidate))
-        return new NonNumericBarcode(itemNumber, candidate);
+      if (string.IsNullOrWhiteSpace(row.Upc))
+        return new MissingBarcode(row);
 
-      if (candidate.Length < 12)
-        return new TooShortBarcode(itemNumber, candidate);
+      if (!DigitRegex.IsMatch(row.Upc))
+        return new NonNumericBarcode(row);
 
-      if (candidate.Length > 13)
-        return new TooLongBarcode(itemNumber, candidate);
+      if (row.Upc.Length < 12)
+        return new TooShortBarcode(row, length);
 
-      var lastDigit = candidate.GetLastDigit();
+      if (row.Upc.Length > 13)
+        return new TooLongBarcode(row, length);
 
-      var digits = candidate
-        .Take(candidate.Length - 1)
+      var lastDigit = row.Upc.GetLastDigit();
+
+      var digits = row.Upc
+        .Take(row.Upc.Length - 1)
         .Reverse()
         .Select(d => Convert.ToInt32(char.GetNumericValue(d)));
 
@@ -40,9 +43,9 @@
       var checkDigit = (10 - sum % 10) % 10;
 
       if (lastDigit != checkDigit)
-        return new BadCheckDigitBarcode(itemNumber, candidate, lastDigit, checkDigit);
+        return new BadCheckDigitBarcode(row, lastDigit, checkDigit);
 
-      return new ValidBarcode(itemNumber, candidate);
+      return new ValidBarcode(row);
     }
   }
 }

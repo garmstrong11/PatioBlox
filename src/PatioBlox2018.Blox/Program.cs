@@ -24,7 +24,7 @@
         var storeExtractor = container.GetInstance<IExtractor<IAdvertisingPatch>>();
         var barcodeFactory = container.GetInstance<IBarcodeFactory>();
 
-        var job = new ScanbookJob(blockExtractor, storeExtractor, fileOps);
+        var job = new ScanbookJob(blockExtractor, storeExtractor, barcodeFactory);
 
         job.BuildBooks(
           ScanbookFileOps.PatioBloxExcelFilePath, 
@@ -40,7 +40,6 @@
         reporter = new MetrixCsvReporter(job);
         reporter.BuildReport();
 
-        Log.Information("Working directory: {WorkDir}", Environment.CurrentDirectory);
         Console.WriteLine("Finished successfully. Press any key to exit.");
       }
       catch (Exception exc) {

@@ -1,11 +1,15 @@
 ﻿namespace PatioBlox2018.Impl.Barcodes
 {
+  using PatioBlox2018.Core;
+
   public class MissingBarcode : BarcodeBase
   {
-    public MissingBarcode(int itemNumber, string candidate)
-      : base(itemNumber, candidate) { }
+    public MissingBarcode(IPatchRow patchRow)
+      : base(patchRow)
+    {
+    }
 
     public override string Value => 
-      string.Format(ErrorFormatString, "is missing");
+      $"Missing Barcode for item {ItemNumber} on row {PatchRow.SourceRowIndex} in patch {PatchRow.PatchName}";
   }
 }

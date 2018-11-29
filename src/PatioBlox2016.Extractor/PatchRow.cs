@@ -11,7 +11,7 @@
     public PatchRow(
       string patchName, int sourceRowIndex, string section, 
       int? blockIndex, int? sku, string vendor, 
-      string description, string palletQuanity, string barcode)
+      string description, string palletQuantity, string barcode)
     {
       PatchName = patchName;
       SourceRowIndex = sourceRowIndex;
@@ -20,8 +20,8 @@
       ItemNumber = sku;
       Vendor = vendor;
       Description = description;
-      PalletQuanity = palletQuanity;
-      Barcode = barcode;
+      PalletQuantity = palletQuantity;
+      Upc = barcode;
     }
 
     public string PatchName { get; }
@@ -38,9 +38,9 @@
 
     public string Description { get; }
 
-    public string PalletQuanity { get; }
+    public string PalletQuantity { get; }
 
-    public string Barcode { get; }
+    public string Upc { get; }
 
     public override string ToString()
     {

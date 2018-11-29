@@ -1,8 +1,10 @@
 ﻿namespace PatioBlox2018.Impl
 {
   using System;
+  using System.Collections.Generic;
   using System.Configuration;
   using System.IO;
+  using System.Linq;
   using PatioBlox2018.Core;
   using Serilog;
 
@@ -13,6 +15,7 @@
     public static string StoreListExcelFilePath { get; }
     public static string FlexCelReportTemplatePath { get; }
     public static string FlexCelReportOutputPath { get; }
+    public static string FactoryPath { get; }
 
     static ScanbookFileOps()
     {
@@ -29,12 +32,20 @@
         ConfigurationManager.AppSettings["FlexCelOutputName"];
 
       JsxPath = ConfigurationManager.AppSettings["JsxBlockDataPath"];
+
+      FactoryPath = ConfigurationManager.AppSettings["PatioBloxFactoryPath"];
     }
 
     public void StringToFile(string content, string path)
     {
       File.WriteAllText(path, content);
     }
+
+    public static IEnumerable<string> PhotoFilenames =>
+      Directory
+        .EnumerateFiles(Path.Combine(FactoryPath, "support"), "*.psd")
+        .Select(Path.GetFileName);
+
 
     private static string VerifyFilePath(string path)
     {

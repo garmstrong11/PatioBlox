@@ -9,24 +9,22 @@
   using PatioBlox2018.Core;
 
   [JsonObject(MemberSerialization.OptIn)]
-  public class ScanbookBook
+  public class ScanbookBook //: IBook
   {
-    private IBarcodeFactory BarcodeFactory { get; }
     private static Regex PageRegex { get; }
     private IAdvertisingPatch AdPatch { get; }
 
     static ScanbookBook()
     {
-      PageRegex = new Regex(@"^Page", RegexOptions.Compiled);
+      PageRegex = new Regex(@"^[Pp]age", RegexOptions.Compiled);
     }
 
     public ScanbookBook(
       IAdvertisingPatch adPatch, 
       ScanbookJob job, 
       IEnumerable<IPatchRow> patchRows,
-      IBarcodeFactory barcodeFactory)
+      IDictionary<string, IBarcode> barcodeMap)
     {
-      BarcodeFactory = barcodeFactory;
       AdPatch = adPatch ?? throw new ArgumentNullException(nameof(adPatch));
       Job = job ?? throw new ArgumentNullException(nameof(job));
 
@@ -43,49 +41,42 @@
           .Except(pageRows)
           .Select(s => new ScanbookSection(s, FindParentBook)));
 
-      PageSet = new SortedSet<ScanbookPage>(
-        pageRows.Select(p => new ScanbookPage(p, FindParentSection)));
-
-      BlockSet = new SortedSet<ScanbookPatioBlok>(
+      PatioBlocks = new List<ScanbookPatioBlok>(
         patioBlockRows
         .Select(b => new ScanbookPatioBlok(
             b, 
-            FindParentPage, 
-            barcodeFactory.Create(b.ItemNumber.GetValueOrDefault(), b.Barcode))));
+            FindParentSection, 
+            barcodeMap[b.Upc])));
+
+      Pages = SectionSet.SelectMany(s => s.Pages).ToList();
     }
 
     private SortedSet<ScanbookSection> SectionSet { get; }
-    private SortedSet<ScanbookPage> PageSet { get; }
-    public SortedSet<ScanbookPatioBlok> BlockSet { get; }
+
+    [JsonProperty]
+    public List<ScanbookPage> Pages { get; }
+    public List<ScanbookPatioBlok> PatioBlocks { get; }
 
     private ScanbookBook FindParentBook(int sourceRowIndex) => this;
 
     private ScanbookSection FindParentSection(int sourceRowIndex)
       => SectionSet.Last(s => s.SourceRowIndex <= sourceRowIndex);
 
-    private ScanbookPage FindParentPage(int sourceRowIndex)
-      => PageSet.Last(p => p.SourceRowIndex <= sourceRowIndex);
+    public List<string> DuplicatePatioBlocks =>
+      PatioBlocks
+        .GroupBy(b => b.ItemNumber)
+        .Where(g => g.Count() > 1)
+        .Select(g =>
+          $"Item {g.Key} appears multiple times on patch {Name} in lines {string.Join(", ", g.Select(r => r.SourceRowIndex))}")
+        .ToList();
 
-    public IEnumerable<string> DuplicatePatioBloxWarnings
-    {
-      get
-      {
-        var doopGroops = BlockSet.GroupBy(b => b.ItemNumber);
+    public bool HasDuplicateRows => DuplicatePatioBlocks.Any();
 
-        foreach (var groop in doopGroops) {
-          var lines = groop.Select(g => g.SourceRowIndex);
-          yield return
-            $"Item {groop.Key} appears multiple times, in lines {string.Join(", ", lines)}";
-        }
-      }
-    }
-
-    private int TotalPages => PageSet.Count;
-    private int Augmentor => TotalPages % 2 == 0 ? 0 : 1;
+    private int TotalPages => Pages.Count;
 
     public static int CopiesPerStore => int.Parse(ConfigurationManager.AppSettings["CopiesPerStore"]);
     public int StoreCount => AdPatch.StoreCount;
-    public int PageCount => TotalPages + Augmentor;
+    public int PageCount => TotalPages + (TotalPages % 2 == 0 ? 0 : 1);
     public int SheetCount => PageCount / 2;
     public int SetsForPatch => StoreCount * CopiesPerStore;
 
@@ -94,11 +85,8 @@
     [JsonProperty]
     public string Name => AdPatch.Name;
 
-    [JsonProperty]
-    public IEnumerable<ScanbookPage> Pages => PageSet.AsEnumerable();
-
     public override string ToString() => $"Book {Name}";
-    public int GetBlockCount() => BlockSet.Count;
+    public int GetBlockCount() => PatioBlocks.Count;
 
     public IEnumerable<string> GetSheetNames()
     {

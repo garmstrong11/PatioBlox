@@ -1,30 +1,31 @@
 ﻿namespace PatioBlox2018.Impl.Barcodes {
+  using System;
+  using System.Collections.Generic;
   using PatioBlox2018.Core;
 
   public abstract class BarcodeBase : IBarcode
   {
+    protected IPatchRow PatchRow { get; }
     protected string ErrorFormatString { get; }
 
     protected int ItemNumber { get; }
-    protected string Candidate { get; }
+    public string Candidate { get; }
 
-    protected BarcodeBase(int itemNumber, string candidate)
+    protected BarcodeBase(IPatchRow patchRow)
     {
-      if (!string.IsNullOrWhiteSpace(candidate))
-      {
-        ItemNumber = itemNumber;
-        Candidate = candidate;
-        Length = Candidate.Length;
-        ErrorFormatString = $"The upc value {Candidate} for item {ItemNumber} {{0}}.";
-      }
-      else {
-        Candidate = string.Empty;
-        Length = 0;
-      }
+      PatchRow = patchRow ?? throw new ArgumentNullException(nameof(patchRow));
+
+      ItemNumber = PatchRow.ItemNumber.GetValueOrDefault();
+      Candidate = string.IsNullOrEmpty(PatchRow.Upc) ? "Missing" : PatchRow.Upc;
+      ErrorFormatString = $"The upc value {Candidate} for item {ItemNumber} {{0}}.";
+
+      Usages = new HashSet<string>(StringComparer.CurrentCultureIgnoreCase);
     }
 
     public virtual string Value => Candidate;
-    public int Length { get; }
+    public ISet<string> Usages { get; }
+
+    public void AddUsage(string bookName) => Usages.Add(bookName);
 
     protected bool Equals(BarcodeBase other)
     {

@@ -31,7 +31,7 @@
     int PalletQtyIndex { get; }
 
     /// <summary>
-    /// The spreadsheet column index at which the Barcode data can be found
+    /// The spreadsheet column index at which the Upc data can be found
     /// in the Patio Blocks Patches spreadsheet.
     /// </summary>
     int BarcodeIndex { get; }
