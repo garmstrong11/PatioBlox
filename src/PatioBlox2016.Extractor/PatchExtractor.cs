@@ -47,7 +47,7 @@
         var sku = XlAdapter.ExtractInteger(row, IndexService.ItemNumberIndex);
         var vndr = XlAdapter.ExtractString(row, IndexService.VendorIndex);
         var pq = XlAdapter.ExtractString(row, IndexService.PalletQtyIndex);
-        var upc = XlAdapter.ExtractString(row, IndexService.BarcodeIndex) ?? $"{sku}_{pq}";
+        var upc = XlAdapter.ExtractString(row, IndexService.BarcodeIndex);
 
         yield return new PatchRow(patchName, row, sec, addr, sku, vndr, desc, pq, upc);
       }
