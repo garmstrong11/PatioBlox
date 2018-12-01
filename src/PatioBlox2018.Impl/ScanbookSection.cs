@@ -5,6 +5,7 @@
   using System.Configuration;
   using System.Globalization;
   using System.Linq;
+  using System.Text.RegularExpressions;
   using System.Threading;
   using MoreLinq;
   using Newtonsoft.Json;
@@ -14,43 +15,32 @@
   {
     private static TextInfo TextInfo { get; }
     private static int BatchSize { get; }
-    private IEnumerable<ScanbookPatioBlok> PatioBlocks { get; }
+    private static Regex PageRegex { get; }
 
     static ScanbookSection()
     {
       TextInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
       BatchSize = int.Parse(ConfigurationManager.AppSettings["CellsPerPage"]);
+      PageRegex = new Regex(@"^[Pp]age", RegexOptions.Compiled);
     }
 
-    public ScanbookSection(IPatchRow sectionRow, Func<int, ScanbookBook> parentFinder)
-      : base(sectionRow, parentFinder)
+    public ScanbookSection(IEnumerable<IPatchRow> patchRows, Func<int, ScanbookBook> parentFinder, int sourceRowIndex)
+      : base(patchRows, parentFinder)
     {
-      Book = parentFinder(SourceRowIndex);
-      PatioBlocks = Book.PatioBlocks.Where(pb => pb.Section.Name == Name);
+      SourceRowIndex = sourceRowIndex;
     }
 
-    /// <summary>
-    /// The parent Book for this section
-    /// </summary>
-    public ScanbookBook Book { get; }
+    public int SourceRowIndex { get; }
+
+    private ScanbookSection FindParentSectionForPage(int pagePatchIndex) 
+      => Parent.Sections.Last(s => s.SourceRowIndex < pagePatchIndex);
 
     [JsonProperty(PropertyName = "pages")]
     public IEnumerable<ScanbookPage> Pages => 
       Children.Batch(BatchSize, b => new ScanbookPage(b.ToList(), this));
 
-    /// <summary>
-    /// Projects the section's PatioBlock content into a sequence of pages
-    /// </summary>
-    /// <param name="blocks"></param>
-    public void AddBlocks(IEnumerable<ScanbookPatioBlok> blocks)
-    {
-      foreach (var block in blocks.OrderBy(b => b.SourceRowIndex)) {
-        Children.Add(block);
-      }
-    }
-
     public string Name =>
-      TextInfo.ToTitleCase(PatchRow.Section.ToLower());
+      TextInfo.ToTitleCase(StartPatchRow.Section.ToLower());
 
     [JsonIgnore]
     public int PageCount

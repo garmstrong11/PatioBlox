@@ -4,24 +4,24 @@
   using Newtonsoft.Json;
   using PatioBlox2018.Core;
 
-  public class ScanbookPatioBlok : ScanbookEntityBase<ScanbookSection, ScanbookPatioBlok>
+  public class ScanbookPatioBlock : ScanbookEntityBase<ScanbookPage, ScanbookPatioBlock>
   {
     public IBarcode Barcode { get; }
-    private Func<int, ScanbookSection> ParentFinder { get; }
+    private Func<int, ScanbookPage> ParentFinder { get; }
 
-    public ScanbookPatioBlok(
-      IPatchRow patioBlokRow, 
-      Func<int, ScanbookSection> parentFinder,
+    public ScanbookPatioBlock(
+      IPatchRow patioBlockRows, 
+      Func<int, ScanbookPage> parentFinder,
       IBarcode barcode)
-      : base(patioBlokRow, parentFinder)
+      : base(patioBlockRows, parentFinder)
     {
       ParentFinder = parentFinder;
-      Section.AddChild(this);
+      Page.AddChild(this);
       Barcode = barcode;
-      Barcode.AddUsage(Section.Book.Name);
+      Barcode.AddUsage(Page.Section.Book.Name);
     }
 
-    public ScanbookSection Section => ParentFinder(SourceRowIndex);
+    public ScanbookPage Page => ParentFinder(SourceRowIndex);
 
     [JsonProperty(PropertyName = "sku")]
     public int ItemNumber => PatchRows.ItemNumber.GetValueOrDefault();
@@ -40,9 +40,6 @@
 
     public string PhotoFilename => $"{ItemNumber}.psd";
 
-    public override string ToString()
-    {
-      return $"Description: {Description}";
-    }
+    public override string ToString() => $"Description: {Description}";
   }
 }

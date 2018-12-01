@@ -4,16 +4,15 @@
   using System.Collections.Generic;
   using System.Configuration;
   using System.Linq;
-  using MoreLinq;
   using Newtonsoft.Json;
   using Newtonsoft.Json.Serialization;
   using PatioBlox2018.Core;
   using PatioBlox2018.Impl.Barcodes;
 
   [JsonObject(MemberSerialization.OptIn)]
-  public class ScanbookJob
+  public class ScanbookJob 
   {
-    private List<ScanbookBook> BookList { get; }
+    public List<ScanbookBook> BookList { get; }
     private IEnumerable<IPatchRow> PatchRows { get; }
     private IEnumerable<IAdvertisingPatch> Stores { get; }
     public IDictionary<string, IBarcode> BarcodeMap { get; }
@@ -52,8 +51,10 @@
         throw new InvalidOperationException(
           $"Some patches have no store data ({string.Join(", ", missingStores)}).");
 
-      BookList.AddRange(blocks.Select(b => new ScanbookBook(stores[b.Key], this, b, BarcodeMap)));
+      BookList.AddRange(blocks.Select(b => new ScanbookBook(b, FindParentJobForBook)));
     }
+
+    private ScanbookJob FindParentJobForBook(int doNotCare) => this;
 
     private string GetJson()
     {
@@ -71,13 +72,6 @@
 
       return JsonConvert.SerializeObject(this, settings);
     }
-
-    public IEnumerable<string> ItemSectionWarnings => BookList
-      .SelectMany(b => b.PatioBlocks)
-      .DistinctBy(k => new {k.ItemNumber, k.Section.Name})
-      .ToLookup(k => k.ItemNumber, v => v)
-      .Where(k => k.Count() > 1)
-      .SelectMany(v => v.Select(k => $"Item {k.ItemNumber} appears in section {k.Section.Name} on patch {k.PatchName}"));
 
     public string GetJsxBlocks()
     {

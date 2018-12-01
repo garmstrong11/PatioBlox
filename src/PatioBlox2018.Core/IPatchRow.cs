@@ -8,11 +8,6 @@
     string Section { get; }
 
     /// <summary>
-    /// The value extracted from the "Order of Items on Page" column.
-    /// </summary>
-    int? BlockIndex { get; }
-
-    /// <summary>
     /// The value extracted from the "Item #" column.
     /// </summary>
     int? ItemNumber { get; }
