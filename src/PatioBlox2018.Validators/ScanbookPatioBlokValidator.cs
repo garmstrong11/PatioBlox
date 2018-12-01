@@ -3,7 +3,7 @@
   using FluentValidation;
   using PatioBlox2018.Impl;
 
-  public class ScanbookPatioBlokValidator : AbstractValidator<ScanbookPatioBlok>
+  public class ScanbookPatioBlokValidator : AbstractValidator<ScanbookPatioBlock>
   {
     //public ScanbookPatioBlokValidator()
     //{

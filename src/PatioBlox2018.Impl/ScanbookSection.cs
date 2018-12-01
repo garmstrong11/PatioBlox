@@ -5,42 +5,41 @@
   using System.Configuration;
   using System.Globalization;
   using System.Linq;
-  using System.Text.RegularExpressions;
   using System.Threading;
   using MoreLinq;
   using Newtonsoft.Json;
   using PatioBlox2018.Core;
 
-  public class ScanbookSection : ScanbookEntityBase<ScanbookBook, ScanbookPage>
+  public class ScanbookSection
   {
     private static TextInfo TextInfo { get; }
     private static int BatchSize { get; }
-    private static Regex PageRegex { get; }
+
+    private IPatchRow SectionRow { get; }
+    private List<IPatchRow> BlockRows { get; }
 
     static ScanbookSection()
     {
       TextInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
       BatchSize = int.Parse(ConfigurationManager.AppSettings["CellsPerPage"]);
-      PageRegex = new Regex(@"^[Pp]age", RegexOptions.Compiled);
     }
 
-    public ScanbookSection(IEnumerable<IPatchRow> patchRows, Func<int, ScanbookBook> parentFinder, int sourceRowIndex)
-      : base(patchRows, parentFinder)
+    public ScanbookSection(IPatchRow sectionRow)
     {
-      SourceRowIndex = sourceRowIndex;
+      SectionRow = sectionRow ?? throw new ArgumentNullException(nameof(sectionRow));
+      BlockRows = new List<IPatchRow>();
     }
 
-    public int SourceRowIndex { get; }
-
-    private ScanbookSection FindParentSectionForPage(int pagePatchIndex) 
-      => Parent.Sections.Last(s => s.SourceRowIndex < pagePatchIndex);
+    public void AddBlockRow(IPatchRow blockRow) => BlockRows.Add(blockRow);
+    public int SourceRowIndex => SectionRow.SourceRowIndex;
 
     [JsonProperty(PropertyName = "pages")]
     public IEnumerable<ScanbookPage> Pages => 
-      Children.Batch(BatchSize, b => new ScanbookPage(b.ToList(), this));
+      BlockRows.Batch(BatchSize)
+        .Select(b => new ScanbookPage(b, this));
 
     public string Name =>
-      TextInfo.ToTitleCase(StartPatchRow.Section.ToLower());
+      TextInfo.ToTitleCase(SectionRow.Section.ToLower());
 
     [JsonIgnore]
     public int PageCount

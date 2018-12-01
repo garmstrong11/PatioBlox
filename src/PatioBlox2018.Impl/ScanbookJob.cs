@@ -28,7 +28,10 @@
 
       PatchRows = patchExtractor
         .Extract(ScanbookFileOps.PatioBloxExcelFilePath);
-      Stores = adPatchExtractor.Extract(ScanbookFileOps.StoreListExcelFilePath);
+
+      Stores = adPatchExtractor
+        .Extract(ScanbookFileOps.StoreListExcelFilePath);
+
       BookList = new List<ScanbookBook>();
 
       BarcodeMap = PatchRows

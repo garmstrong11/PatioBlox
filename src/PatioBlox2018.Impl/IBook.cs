@@ -2,7 +2,7 @@
   using System.Collections.Generic;
 
   public interface IBook {
-    SortedSet<ScanbookPatioBlok> BlockSet { get; }
+    SortedSet<ScanbookPatioBlock> BlockSet { get; }
     IEnumerable<string> DuplicatePatioBloxWarnings { get; }
     int StoreCount { get; }
     int PageCount { get; }

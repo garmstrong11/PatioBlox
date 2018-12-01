@@ -6,23 +6,23 @@
   using Newtonsoft.Json;
   using PatioBlox2018.Core;
 
-  public class ScanbookPage : ScanbookEntityBase<ScanbookSection, ScanbookPatioBlok>
+  public class ScanbookPage
   {
-    public ScanbookPage(IPatchRow pageRow, Func<int, ScanbookSection> parentFinder)
-      : base(pageRow, parentFinder)
+    private IEnumerable<IPatchRow> BlockRows { get; }
+
+    public ScanbookPage(IEnumerable<IPatchRow> blockRows, string header)
     {
-      Section = parentFinder(SourceRowIndex);
-      Section.AddChild(this);
+      BlockRows = blockRows;
+      Header = header;
     }
 
-    public ScanbookSection Section { get; }
-
     [JsonProperty]
-    public string Header => Section.Name;
+    public string Header { get; }
 
     [JsonProperty(PropertyName = "blocks")]
-    public IEnumerable<ScanbookPatioBlok> PatioBlox => Children.AsEnumerable();
+    public IEnumerable<ScanbookPatioBlock> PatioBlox =>
+      BlockRows.Select(b => new ScanbookPatioBlock(b));
 
-    public int BlockCount => Children.Count;
+    public int BlockCount => BlockRows.Count();
   }
 }

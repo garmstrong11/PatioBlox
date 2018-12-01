@@ -9,38 +9,38 @@
   using PatioBlox2018.Core;
 
   [JsonObject(MemberSerialization.OptIn)]
-  public class ScanbookBook : ScanbookEntityBase<ScanbookJob, ScanbookSection>
+  public class ScanbookBook
   {
     private static Regex PageRegex { get; }
     private IAdvertisingPatch AdPatch { get; }
     internal IEnumerable<ScanbookSection> Sections { get; }
 
-    static ScanbookBook()
+    static ScanbookBook() 
+      => PageRegex = new Regex(@"^Pa?ge", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    public ScanbookBook(IEnumerable<IPatchRow> patchRows, IAdvertisingPatch adPatch)
     {
-      PageRegex = new Regex(@"^[Pp]age", RegexOptions.Compiled);
+      if (patchRows == null) throw new ArgumentNullException(nameof(patchRows));
+      AdPatch = adPatch ?? throw new ArgumentNullException(nameof(adPatch));
+
+      var rowList = patchRows.ToList();
+      var blockRows = rowList
+        .Where(pr => pr.ItemNumber.HasValue)
+        .ToList();
+
+      var sectionOrPageRows = rowList.Where(pr => !string.IsNullOrWhiteSpace(pr.Section));
+      var pageRows = rowList.Where(pr => PageRegex.IsMatch(pr.Section));
+
+      Sections = sectionOrPageRows.Except(pageRows).Select(s => new ScanbookSection(s));
+      DistributeBlocks(blockRows);
     }
 
-    public ScanbookBook(IEnumerable<IPatchRow> patchRows, Func<int, ScanbookJob> parentFinder)
-      : base(patchRows, parentFinder)
+    private void DistributeBlocks(List<IPatchRow> blockRows)
     {
-      var sectionContentRows = PatchRows.Where(p => !string.IsNullOrWhiteSpace(p.Section)).ToList();
-      var pageRows = sectionContentRows.Where(p => PageRegex.IsMatch(p.Section)).ToList();
-
-      Sections =
-        sectionContentRows
-          .Except(pageRows)
-          .Select(s => new ScanbookSection(PatchRows, FindParentBookForSection, s.SourceRowIndex));
+      blockRows
+        .ForEach(block => Sections.Last(s => block.SourceRowIndex <= s.SourceRowIndex)
+          .AddBlockRow(block));
     }
-
-    private ScanbookBook FindParentBookForSection(int childIndex)
-    {
-      return this;
-    }
-
-    //private ScanbookBook FindParentBook(int sourceRowIndex) => this;
-
-    //private ScanbookSection FindParentSection(int sourceRowIndex)
-    //  => SectionSet.Last(s => s.SourceRowIndex <= sourceRowIndex);
 
     //public List<string> DuplicatePatioBlocks =>
     //  PatioBlocks
