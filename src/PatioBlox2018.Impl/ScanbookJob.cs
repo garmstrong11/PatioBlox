@@ -39,7 +39,6 @@
         .Select(barcodeFactory.Create)
         .Distinct(new BarcodeCandidateEqualityComparer())
         .ToDictionary(k => k.Candidate, StringComparer.CurrentCulture);
-      BarcodeMap.Add(string.Empty, new NullBarcode());
     }
 
 
@@ -102,21 +101,23 @@
       PatchRows
         .Select(p => $"{p.ItemNumber}.psd")
         .Except(ScanbookFileOps.PhotoFilenames)
-        .Select(p => $"A photo for item {p} could not be found");
+        .Select(p => $"A photo for item {p} could not be found")
+        .ToList();
 
     public List<string> BarcodeErrors =>
       BarcodeMap
         .Values
-        .Where(b => b.GetType() != typeof(ValidBarcode))
+        .Where(b => b.GetType() == typeof(NonNumericBarcode))
         .Select(b => $"{b.Value} used in patches {string.Join(", ", b.Usages)}")
         .ToList();
 
-    public List<string> MissingUpcs => PatchRows
-      .Where(pr => pr.ItemNumber.HasValue && string.IsNullOrEmpty(pr.Upc))
-      .Select(pr => new {ItemId = pr.ItemNumber.Value, pr.PatchName})
-      .GroupBy(b => b.ItemId)
-      .Select(b => $"Item {b.Key} has no barcode in patch(es) {string.Join(", ", b.Select(a => a.PatchName))}")
-      .ToList();
+    public List<string> MissingUpcs => 
+      PatchRows
+        .Where(pr => pr.ItemNumber.HasValue && string.IsNullOrEmpty(pr.Upc))
+        .Select(pr => new {ItemId = pr.ItemNumber.Value, pr.PatchName})
+        .GroupBy(b => b.ItemId)
+        .Select(b => $"Item {b.Key} has no barcode in patch(es) {string.Join(", ", b.Select(a => a.PatchName))}")
+        .ToList();
 
     public List<string> DuplicateItems =>
       BookList

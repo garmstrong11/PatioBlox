@@ -8,14 +8,15 @@
     protected IPatchRow PatchRow { get; }
     protected string ErrorFormatString { get; }
 
-    protected int ItemNumber { get; }
+    protected int ItemNumber => PatchRow.ItemNumber.GetValueOrDefault();
+    protected int SourceRowIndex => PatchRow.SourceRowIndex;
+    protected string PatchName => PatchRow.PatchName;
     public string Candidate { get; }
 
     protected BarcodeBase(IPatchRow patchRow)
     {
       PatchRow = patchRow ?? throw new ArgumentNullException(nameof(patchRow));
 
-      ItemNumber = PatchRow.ItemNumber.GetValueOrDefault();
       Candidate = string.IsNullOrEmpty(PatchRow.Upc) ? "Missing" : PatchRow.Upc;
       ErrorFormatString = $"The upc value {Candidate} for item {ItemNumber} {{0}}.";
 
