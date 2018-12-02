@@ -5,6 +5,7 @@
   using PatioBlox2018.Impl;
   using SimpleInjector;
   using System;
+  using System.IO;
   using PatioBlox2016.Reporter;
   using PatioBlox2018.Impl.AbstractReporter;
   using PatioBlox2018.Impl.Barcodes;
@@ -39,6 +40,9 @@
 
         reporter = new MetrixCsvReporter(job);
         reporter.BuildReport();
+
+        var errors = job.CreatePunchList();
+        File.WriteAllText(Path.Combine(ScanbookFileOps.ReportPath, "PunchList.txt"), errors);
 
         Console.WriteLine("Finished successfully. Press any key to exit.");
       }

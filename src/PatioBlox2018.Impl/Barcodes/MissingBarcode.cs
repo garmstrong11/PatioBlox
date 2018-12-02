@@ -10,6 +10,6 @@
     }
 
     public override string Value => 
-      $"Missing Barcode for item {ItemNumber} on row {PatchRow.SourceRowIndex} in patch {PatchRow.PatchName}";
+      string.Format(ErrorFormatString, "is missing");
   }
 }

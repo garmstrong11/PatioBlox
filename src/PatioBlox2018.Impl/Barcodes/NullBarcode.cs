@@ -5,17 +5,13 @@
 
   public class NullBarcode : IBarcode
   {
+    public IPatchRow PatchRow { get; }
     public string Value => string.Empty;
-    public ISet<string> Usages { get; }
+    public string Coordinates => $"{PatchRow.PatchName}:{PatchRow.SourceRowIndex}";
 
-    public NullBarcode()
+    public NullBarcode(IPatchRow patchRow)
     {
-      Usages = new HashSet<string>();
-    }
-
-    public void AddUsage(string bookName)
-    {
-      Usages.Add(bookName);
+      PatchRow = patchRow;
     }
 
     public string Candidate => string.Empty;

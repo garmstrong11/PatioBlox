@@ -1,6 +1,5 @@
 ﻿namespace PatioBlox2018.Impl.Barcodes {
   using System;
-  using System.Collections.Generic;
   using PatioBlox2018.Core;
 
   public abstract class BarcodeBase : IBarcode
@@ -19,14 +18,10 @@
 
       Candidate = string.IsNullOrEmpty(PatchRow.Upc) ? "Missing" : PatchRow.Upc;
       ErrorFormatString = $"The upc value {Candidate} for item {ItemNumber} {{0}}.";
-
-      Usages = new HashSet<string>(StringComparer.CurrentCultureIgnoreCase);
     }
 
     public virtual string Value => Candidate;
-    public ISet<string> Usages { get; }
-
-    public void AddUsage(string bookName) => Usages.Add(bookName);
+    public string Coordinates => $"{PatchName}:{SourceRowIndex}";
 
     protected bool Equals(BarcodeBase other)
     {

@@ -9,16 +9,7 @@
     /// </summary>
     string Value { get; }
 
-    /// <summary>
-    /// A set of names of the books that use this instance.
-    /// </summary>
-    ISet<string> Usages { get; }
-
-    /// <summary>
-    /// Add a book name to the usage set
-    /// </summary>
-    /// <param name="bookName"></param>
-    void AddUsage(string bookName);
+    string Coordinates { get; }
 
     /// <summary>
     /// The string submitted during the construction of this instance.

@@ -16,7 +16,11 @@
 
     public IBarcode Create(IPatchRow row)
     {
-      var itemNumber = row.ItemNumber.GetValueOrDefault();
+      if (row == null) throw new ArgumentNullException(nameof(row));
+
+      if (!row.ItemNumber.HasValue)
+        return new NullBarcode(row);
+
       var length = row.Upc.Length;
 
       if (string.IsNullOrWhiteSpace(row.Upc))

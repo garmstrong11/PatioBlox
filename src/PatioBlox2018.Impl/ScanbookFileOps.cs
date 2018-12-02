@@ -15,6 +15,7 @@
     public static string FlexCelReportTemplatePath { get; }
     public static string FlexCelReportOutputPath { get; }
     public static string FactoryPath { get; }
+    public static string ReportPath { get; }
 
     static ScanbookFileOps()
     {
@@ -33,6 +34,8 @@
       JsxPath = ConfigurationManager.AppSettings["JsxBlockDataPath"];
 
       FactoryPath = ConfigurationManager.AppSettings["PatioBloxFactoryPath"];
+
+      ReportPath = ConfigurationManager.AppSettings["ReportPath"];
     }
 
     public void StringToFile(string content, string path)
@@ -43,7 +46,7 @@
     public static IEnumerable<string> PhotoFilenames =>
       Directory
         .EnumerateFiles(Path.Combine(FactoryPath, "support"), "*.psd")
-        .Select(Path.GetFileName);
+        .Select(Path.GetFileNameWithoutExtension);
 
 
     private static string VerifyFilePath(string path)

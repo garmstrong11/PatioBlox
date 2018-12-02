@@ -4,6 +4,7 @@
   using System.Collections.Generic;
   using System.Configuration;
   using System.Linq;
+  using System.Text;
   using Newtonsoft.Json;
   using Newtonsoft.Json.Serialization;
   using PatioBlox2018.Core;
@@ -16,7 +17,7 @@
 
     private IEnumerable<IAdvertisingPatch> Stores { get; }
 
-    public IDictionary<string, IBarcode> BarcodeMap { get; }
+    public ILookup<IBarcode, string> Barcodes { get; }
 
     public ScanbookJob(
       IExtractor<IPatchRow> patchExtractor, 
@@ -35,12 +36,10 @@
 
       BookList = new List<ScanbookBook>();
 
-      BarcodeMap = PatchRows
+      Barcodes = PatchRows
         .Select(barcodeFactory.Create)
-        .Distinct(new BarcodeCandidateEqualityComparer())
-        .ToDictionary(k => k.Candidate, StringComparer.CurrentCulture);
+        .ToLookup(bc => bc, v => v.Coordinates);
     }
-
 
     public string Name => ConfigurationManager.AppSettings["JobName"];
 
@@ -91,6 +90,24 @@
       return $"{json}) ();";
     }
 
+    public string CreatePunchList()
+    {
+      var sb = new StringBuilder();
+      sb.AppendFormat("Errors for job {0}\n", Name)
+        .AppendLine("Missing photos:")
+        .AppendFormat("\t{0}\n", string.Join("\n\t", MissingPhotos))
+        .AppendLine("Patches with duplicate items:")
+        .AppendFormat("\t{0}\n", string.Join("\n\t", DuplicateItems))
+        .AppendLine("Barcode errors:")
+        .AppendFormat("\t{0}\n", string.Join("\n\t", BarcodesBadCheckDigit))
+        .AppendFormat("\t{0}\n", string.Join("\n\t", BarcodesMissing))
+        .AppendFormat("\t{0}\n", string.Join("\n\t", BarcodesNonNumeric))
+        .AppendFormat("\t{0}\n", string.Join("\n\t", BarcodesTooLong))
+        .AppendFormat("\t{0}\n", string.Join("\n\t", BarcodesTooShort));
+
+      return sb.ToString();
+    }
+
     [JsonProperty(PropertyName = "patches")]
     public IDictionary<string, ScanbookBook> Books =>
       BookList.OrderBy(b => b.Name).ToDictionary(k => k.Name);
@@ -99,24 +116,40 @@
 
     public IEnumerable<string> MissingPhotos =>
       PatchRows
-        .Select(p => $"{p.ItemNumber}.psd")
+        .Select(p => p.ItemNumber.ToString())
+        .Distinct()
         .Except(ScanbookFileOps.PhotoFilenames)
         .Select(p => $"A photo for item {p} could not be found")
         .ToList();
 
-    public List<string> BarcodeErrors =>
-      BarcodeMap
-        .Values
-        .Where(b => b.GetType() == typeof(NonNumericBarcode))
-        .Select(b => $"{b.Value} used in patches {string.Join(", ", b.Usages)}")
+    public List<string> BarcodesNonNumeric =>
+      Barcodes
+        .Where(b => b.Key.GetType() == typeof(NonNumericBarcode))
+        .Select(b => $"{b.Key.Value} It is used in patches {string.Join(", ", b)}")
         .ToList();
 
-    public List<string> MissingUpcs => 
-      PatchRows
-        .Where(pr => pr.ItemNumber.HasValue && string.IsNullOrEmpty(pr.Upc))
-        .Select(pr => new {ItemId = pr.ItemNumber.Value, pr.PatchName})
-        .GroupBy(b => b.ItemId)
-        .Select(b => $"Item {b.Key} has no barcode in patch(es) {string.Join(", ", b.Select(a => a.PatchName))}")
+    public List<string> BarcodesTooLong =>
+      Barcodes
+        .Where(b => b.Key.GetType() == typeof(TooLongBarcode))
+        .Select(b => $"{b.Key.Value} It is used in patches {string.Join(", ", b)}")
+        .ToList();
+
+    public List<string> BarcodesTooShort =>
+      Barcodes
+        .Where(b => b.Key.GetType() == typeof(TooShortBarcode))
+        .Select(b => $"{b.Key.Value} It is used in patches {string.Join(", ", b)}")
+        .ToList();
+
+    public List<string> BarcodesMissing =>
+      Barcodes
+        .Where(b => b.Key.GetType() == typeof(MissingBarcode))
+        .Select(b => $"{b.Key.Value} It is used in patches {string.Join(", ", b)}")
+        .ToList();
+
+    public List<string> BarcodesBadCheckDigit =>
+      Barcodes
+        .Where(b => b.Key.GetType() == typeof(BadCheckDigitBarcode))
+        .Select(b => $"{b.Key.Value} It is used in patches {string.Join(", ", b)}")
         .ToList();
 
     public List<string> DuplicateItems =>
