@@ -1,28 +1,33 @@
 ﻿namespace PatioBlox2018.Impl
 {
-  using System;
   using System.Collections.Generic;
+  using System.Globalization;
   using System.Linq;
+  using System.Threading;
   using Newtonsoft.Json;
-  using PatioBlox2018.Core;
 
+  [JsonObject(MemberSerialization.OptIn)]
   public class ScanbookPage
   {
-    private IEnumerable<IPatchRow> BlockRows { get; }
+    private static TextInfo TextInfo { get; }
 
-    public ScanbookPage(IEnumerable<IPatchRow> blockRows, string header)
+    static ScanbookPage()
     {
-      BlockRows = blockRows;
-      Header = header;
+      TextInfo = Thread.CurrentThread.CurrentCulture.TextInfo;
     }
 
-    [JsonProperty]
+    public ScanbookPage(IEnumerable<ScanbookPatioBlock> patioBlocks, string header)
+    {
+      PatioBlocks = patioBlocks;
+      Header = TextInfo.ToTitleCase(header.ToLower());
+    }
+
+    [JsonProperty(PropertyName = "header", Order = 0)]
     public string Header { get; }
 
-    [JsonProperty(PropertyName = "blocks")]
-    public IEnumerable<ScanbookPatioBlock> PatioBlox =>
-      BlockRows.Select(b => new ScanbookPatioBlock(b));
+    [JsonProperty(PropertyName = "blocks", Order = 1)]
+    public IEnumerable<ScanbookPatioBlock> PatioBlocks { get; }
 
-    public int BlockCount => BlockRows.Count();
+    public int BlockCount => PatioBlocks.Count();
   }
 }

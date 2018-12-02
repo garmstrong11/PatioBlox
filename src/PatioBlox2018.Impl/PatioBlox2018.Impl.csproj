@@ -75,6 +75,7 @@
     <Compile Include="ScanbookFileOps.cs" />
     <Compile Include="ScanbookJob.cs" />
     <Compile Include="ScanbookPage.cs" />
+    <Compile Include="ScanbookPatioBlock.cs" />
     <Compile Include="ScanbookSection.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>

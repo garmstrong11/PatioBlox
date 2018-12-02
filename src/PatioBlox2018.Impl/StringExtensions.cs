@@ -2,6 +2,7 @@
 {
   using System;
   using System.Linq;
+  using System.Threading;
 
   public static class StringExtensions
   {
@@ -13,5 +14,8 @@
 
       return result;
     }
+
+    public static string ToTitle(this string source) => 
+      Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(source.ToLower());
   }
 }

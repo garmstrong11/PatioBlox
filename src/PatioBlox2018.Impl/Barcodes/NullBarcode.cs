@@ -1,6 +1,5 @@
 ﻿namespace PatioBlox2018.Impl.Barcodes
 {
-  using System;
   using System.Collections.Generic;
   using PatioBlox2018.Core;
 

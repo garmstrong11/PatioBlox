@@ -12,9 +12,10 @@
   [JsonObject(MemberSerialization.OptIn)]
   public class ScanbookJob 
   {
-    public List<ScanbookBook> BookList { get; }
     private IEnumerable<IPatchRow> PatchRows { get; }
+
     private IEnumerable<IAdvertisingPatch> Stores { get; }
+
     public IDictionary<string, IBarcode> BarcodeMap { get; }
 
     public ScanbookJob(
@@ -41,7 +42,10 @@
       BarcodeMap.Add(string.Empty, new NullBarcode());
     }
 
+
     public string Name => ConfigurationManager.AppSettings["JobName"];
+
+    public List<ScanbookBook> BookList { get; }
 
     public void BuildBooks(string blockPath, string storePath, IBarcodeFactory factory)
     {
@@ -54,10 +58,13 @@
         throw new InvalidOperationException(
           $"Some patches have no store data ({string.Join(", ", missingStores)}).");
 
-      BookList.AddRange(blocks.Select(b => new ScanbookBook(b, FindParentJobForBook)));
-    }
+      var books =
+        from store in stores
+        join block in blocks on store.Key equals block.Key
+        select new ScanbookBook(block, store.Value);
 
-    private ScanbookJob FindParentJobForBook(int doNotCare) => this;
+      BookList.AddRange(books);
+    }
 
     private string GetJson()
     {
