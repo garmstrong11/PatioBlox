@@ -7,6 +7,12 @@
 	public interface IColumnIndexService
 	{
     /// <summary>
+    /// The spreadsheet column index at which the Patch name data can be found
+    /// in the Patio Blocks Patches spreadsheet.
+    /// </summary>
+    int PatchIndex { get; }
+
+    /// <summary>
     /// The spreadsheet column index at which the Section data can be found
     /// in the Patio Blocks Patches spreadsheet.
     /// </summary>

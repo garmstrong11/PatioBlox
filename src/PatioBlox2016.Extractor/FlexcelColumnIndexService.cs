@@ -5,6 +5,9 @@
 
   public class FlexcelColumnIndexService : IColumnIndexService
   {
+    public int PatchIndex =>
+      int.Parse((ConfigurationManager.AppSettings["PatchIndex"]));
+
     public int SectionIndex => 
       int.Parse(ConfigurationManager.AppSettings["SectionIndex"]);
 
