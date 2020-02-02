@@ -89,9 +89,7 @@
 				throw exception;
 			}
 
-			DateTime date;
-
-			if (FlxDateTime.TryFromOADate((double) v, false, out date)) {
+      if (FlxDateTime.TryFromOADate((double) v, false, out var date)) {
 				return date.ToString("M/d/yyyy");
 			}
 
