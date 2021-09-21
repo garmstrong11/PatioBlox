@@ -5,6 +5,7 @@
   using PatioBlox2018.Impl;
   using SimpleInjector;
   using System;
+  using System.Configuration;
   using System.IO;
   using PatioBlox2016.Reporter;
   using PatioBlox2018.Impl.AbstractReporter;
@@ -15,6 +16,7 @@
   {
     public static void Main()
     {
+      Environment.CurrentDirectory = ConfigurationManager.AppSettings["JobRoot"];
       ConfigureLogger();
       Log.Information("Working directory: {WorkDir}", Environment.CurrentDirectory);
       var container = ConfigureContainer();
@@ -33,8 +35,10 @@
           barcodeFactory);
 
         var proj = job.GetJsxBlocks();
+        var products = job.GetProductList();
 
-        fileOps.StringToFile(proj, ScanbookFileOps.JsxPath);
+        fileOps.StringToFile(proj, ScanbookFileOps.JsxBlockDataPath);
+        fileOps.StringToFile(products, ScanbookFileOps.JsxProductPath);
         IReporter reporter = new FlexCelReporter(job);
         reporter.BuildReport();
 

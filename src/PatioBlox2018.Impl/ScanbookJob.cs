@@ -64,6 +64,18 @@
       BookList.AddRange(books);
     }
 
+    public string GetProductList()
+    {
+      var products = PatchRows
+        .Select(pr => new ScanbookProduct(pr.ItemNumber.GetValueOrDefault(), pr.Upc))
+        .Distinct()
+        .OrderBy(pr => pr.Sku);
+
+      var json = $"var products = {JsonConvert.SerializeObject(products, Formatting.Indented)}";
+
+      return json;
+    }
+
     private string GetJson()
     {
       var resolver = new DefaultContractResolver

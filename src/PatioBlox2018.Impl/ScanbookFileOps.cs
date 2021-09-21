@@ -5,11 +5,13 @@
   using System.Configuration;
   using System.IO;
   using System.Linq;
+  using System.Text;
   using PatioBlox2018.Core;
 
   public class ScanbookFileOps : IFileOps
   {
-    public static string JsxPath { get; }
+    public static string JsxBlockDataPath { get; }
+    public static string JsxProductPath { get; }
     public static string PatioBloxExcelFilePath { get; }
     public static string StoreListExcelFilePath { get; }
     public static string FlexCelReportTemplatePath { get; }
@@ -31,7 +33,8 @@
       FlexCelReportOutputPath =
         ConfigurationManager.AppSettings["FlexCelOutputName"];
 
-      JsxPath = ConfigurationManager.AppSettings["JsxBlockDataPath"];
+      JsxBlockDataPath = ConfigurationManager.AppSettings["JsxBlockDataPath"];
+      JsxProductPath = ConfigurationManager.AppSettings["JsxProductPath"];
 
       FactoryPath = ConfigurationManager.AppSettings["PatioBloxFactoryPath"];
 
@@ -40,7 +43,7 @@
 
     public void StringToFile(string content, string path)
     {
-      File.WriteAllText(path, content);
+      File.WriteAllText(path, content, Encoding.UTF8);
     }
 
     public static IEnumerable<string> PhotoFilenames =>
