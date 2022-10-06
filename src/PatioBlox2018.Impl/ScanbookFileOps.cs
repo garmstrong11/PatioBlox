@@ -6,7 +6,7 @@
   using System.IO;
   using System.Linq;
   using System.Text;
-  using PatioBlox2018.Core;
+  using Core;
 
   public class ScanbookFileOps : IFileOps
   {

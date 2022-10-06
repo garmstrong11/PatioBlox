@@ -1,22 +1,23 @@
 ﻿namespace PatioBlox2018.Blox
 {
   using PatioBlox2016.Extractor;
-  using PatioBlox2018.Core;
-  using PatioBlox2018.Impl;
+  using Core;
+  using Impl;
   using SimpleInjector;
   using System;
   using System.Configuration;
   using System.IO;
   using PatioBlox2016.Reporter;
-  using PatioBlox2018.Impl.AbstractReporter;
-  using PatioBlox2018.Impl.Barcodes;
+  using Impl.AbstractReporter;
+  using Impl.Barcodes;
   using Serilog;
 
   internal class Program
   {
     public static void Main()
     {
-      Environment.CurrentDirectory = ConfigurationManager.AppSettings["JobRoot"];
+      var root = ConfigurationManager.AppSettings["JobRoot"];
+      Environment.CurrentDirectory = root;
       ConfigureLogger();
       Log.Information("Working directory: {WorkDir}", Environment.CurrentDirectory);
       var container = ConfigureContainer();

@@ -7,8 +7,8 @@
   using System.Text;
   using Newtonsoft.Json;
   using Newtonsoft.Json.Serialization;
-  using PatioBlox2018.Core;
-  using PatioBlox2018.Impl.Barcodes;
+  using Core;
+  using Barcodes;
 
   [JsonObject(MemberSerialization.OptIn)]
   public class ScanbookJob 
